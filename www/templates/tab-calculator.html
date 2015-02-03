@@ -1,0 +1,46 @@
+<ion-view view-title="Calculator">
+  <ion-content class="padding calculator">
+
+    <div class="row">
+      <span class="expression">{{ expression }} <i>{{display}}</i><span class="blink">|</span>  </span>
+    </div>
+
+    <div class="row">
+      <div class="col"><button class="button button-block button-positive">(</button></div>
+      <div class="col"><button class="button button-block button-positive">)</button></div>
+      <div class="col"><button class="button button-block button-positive">±</button></div>
+      <div class="col"><button class="button button-block button-positive">/</button></div>
+    </div>
+
+
+    <div class="row">
+      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(7)">7</button></div>
+      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(8)">8</button></div>
+      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(9)">9</button></div>
+      <div class="col"><button class="button button-block button-positive">*</button></div>
+    </div>
+
+
+    <div class="row">
+      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(4)">4</button></div>
+      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(5)">5</button></div>
+      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(6)">6</button></div>
+      <div class="col"><button class="button button-block button-positive">-</button></div>
+    </div>
+
+
+    <div class="row">
+      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(1)">1</button></div>
+      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(2)">2</button></div>
+      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(3)">3</button></div>
+      <div class="col"><button class="button button-block button-positive">+</button></div>
+    </div>
+
+    <div class="row">
+      <div class="col col-50"><button class="button button-block button-positive">0</button></div>
+      <div class="col"><button class="button button-block button-positive">.</button></div>
+      <div class="col"><button class="button button-block button-positive">=</button></div>
+    </div>
+
+  </ion-content>
+</ion-view>

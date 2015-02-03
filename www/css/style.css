@@ -1,0 +1,17 @@
+/* Empty. Add your own CSS if you like */
+
+.expression {
+    font-size: 50px;
+    text-align: right;
+    width: 100%;
+    display:inline-block;
+    background-color: lightgrey;
+    padding-bottom: 3%;
+    padding-top: 3%;
+    margin-bottom: 5%;
+}
+
+
+.calculator .row .button {
+    border-radius: 2%;
+}

@@ -1,0 +1,10 @@
+<ion-view view-title="Sheets">
+  <ion-content>
+    <ion-list>
+      <ion-item class="card" ng-repeat="sheet in sheets" type="item-text-wrap" href="#/tab/sheet/{{sheet.id}}">
+        <h2>{{sheet.name}}</h2>
+        <p>{{sheet.content}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
