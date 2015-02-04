@@ -31,3 +31,8 @@ npm install karma-chrome-launcher --save-dev
 Karma vanaf de cmd line runnen (handig omdat dit meer info geeft dan via gulp)
 vanuit de test folder:
 $ karma start --single-run
+
+
+Op specifiek device runnen:
+$ /Users/admin/projects/calcworks/platforms/ios/cordova/lib/list-emulator-images
+$ cordova emulate ios --target="iPhone-5s

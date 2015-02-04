@@ -16,11 +16,13 @@ var testFiles = [
   'test/spec/*.js'
 ];
 
+// dit werkt niet goed, waarschijnlijk vanwege basepath
 gulp.task('test', function() {
   // Be sure to return the stream
   return gulp.src(testFiles)
       .pipe(karma({
         configFile: 'test/karma.conf.js',
+        basePath: '',
         action: 'run'
       }))
       .on('error', function(err) {
@@ -28,6 +30,14 @@ gulp.task('test', function() {
         throw err;
       });
 });
+
+
+//gulp.task('test', function (done) {
+//    karma.start({
+//        configFile: __dirname + '/karma.conf.js',
+//        singleRun: true
+//    }, done);
+//});
 
 // ik weet niet goed wat ik met onderstaande task moet doen
 // ik vermoed dat deze is om in de achtergrond asynchroon testen te runnen
