@@ -15,6 +15,7 @@ module.exports = function(config) {
     files: [
       'www/lib/angular/angular.js',
       'www/lib/angular-animate/angular-animate.js',
+      'www/lib/angular-ui-router/release/angular-ui-router.js',
       //'www/lib/angular-cookies/angular-cookies.js',
       //'www/lib/angular-resource/angular-resource.js',
       'www/lib/angular-sanitize/angular-sanitize.js',

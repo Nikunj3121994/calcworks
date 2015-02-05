@@ -1,11 +1,11 @@
 
 angular.module('calcworks.controllers')
 
-.controller('CalculatorCtrl', function($scope) {
+.controller('CalculatorCtrl', function($scope, calcService) {
 
     var decimalSeparator = getDecimalSeparator();
     var lastVarName = '';  // ik weet niet of deze in reboot gereset wordt of zou moeten worden
-
+    $scope.calculations = [];  // array of Calculation      idem
 
     $scope.reset = function() {
         $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
@@ -97,4 +97,31 @@ angular.module('calcworks.controllers')
         }
     }
 
-    });
+    function createNewCalculation(expression) {
+        var varName = generateVarName(lastVarName);
+        lastVarName = varName;
+        //var id = calcService.generateUUID();
+        var calc = new Calculation(1234, varName, expression);
+        return calc;
+    }
+
+
+    $scope.touchEqualsOperator = function() {
+        $scope.expression = appendDisplayToExpression();
+        try {
+            $scope.operatorStr = '';
+            var calc = createNewCalculation($scope.expression);
+            $scope.calculations.push(calc);
+            calcService.calculate($scope.calculations);
+            $scope.display = calc.result.toString();
+        } catch (e) {
+            if (e instanceof SyntaxError) {
+                $scope.display = 'error';
+            }
+        }
+        $scope.expression = '';
+        $scope.newNumber = true;
+    };
+
+
+});

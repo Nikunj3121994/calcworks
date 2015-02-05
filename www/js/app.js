@@ -1,6 +1,7 @@
 
 
-//var controllerModule =
+// ik snap dit niet goed; vanuit de service files moeten we naar de 1 keer gedefinieerde module kunnen verwijzen
+angular.module('calcworks.services', []);
 angular.module('calcworks.controllers', []);
 
 angular.module('calcworks', ['ionic', 'calcworks.controllers', 'calcworks.services'])

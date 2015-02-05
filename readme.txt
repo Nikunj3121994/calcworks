@@ -31,6 +31,7 @@ npm install karma-chrome-launcher --save-dev
 Karma vanaf de cmd line runnen (handig omdat dit meer info geeft dan via gulp)
 vanuit de test folder:
 $ karma start --single-run
+$ karma start --auto-watch
 
 
 Op specifiek device runnen:

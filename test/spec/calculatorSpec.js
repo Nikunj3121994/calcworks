@@ -9,7 +9,7 @@ describe('Controller: CalculatorCtrl', function () {
         scope;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope) {
+    beforeEach(inject(function ($controller, $rootScope, calcService) {
         scope = $rootScope.$new();
             //// override the UUID method to always return the same result
             //calcService.generateUUID = function() {
@@ -23,7 +23,7 @@ describe('Controller: CalculatorCtrl', function () {
 
     //// needed for deep equal comparison of objects
     //function replacer(k, v) {
-    //    if (typeof v === 'function') {
+    //    if (touchof v === 'function') {
     //        v = v.toString();
     //    } else if (window['File'] && v instanceof File) {
     //        v = '[File]';
@@ -73,7 +73,7 @@ describe('Controller: CalculatorCtrl', function () {
     });
 
 
-    it('verify typeDelete', function() {
+    it('verify touchDelete', function() {
         expect(scope.display).toBe('0');
 
         scope.touchDigit(3);
@@ -93,13 +93,13 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.display).toBe('0');
 
         //scope.reset();
-        //scope.typeDigit(2);
-        //scope.typeOperator('+');
-        //scope.typeDigit(6);
-        //scope.typeDelete();
-        //scope.typeDigit(4);
+        //scope.touchDigit(2);
+        //scope.touchOperator('+');
+        //scope.touchDigit(6);
+        //scope.touchDelete();
+        //scope.touchDigit(4);
         //expect(scope.expression).toBe('2 +');
-        //scope.typeIsOperator();
+        //scope.touchIsOperator();
         //expect(scope.calculations[0]).toBeJsonEqual({ id: 'xxxx', varName : 'calc1', expression : '2 + 4', result: 6 });
         //expect(scope.display).toBe('6');
 
@@ -154,41 +154,86 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.display).toBe('0');
 
         // plus operation
-        scope.typeDigit(5);
+        scope.touchDigit(5);
         expect(scope.display).toBe('5');
 
-        scope.typeDigit(0);
+        scope.touchDigit(0);
         expect(scope.display).toBe('50');
 
         expect(scope.newNumber).toBe(false);
-        scope.typeOperator('+');
+        scope.touchOperator('+');
         expect(scope.display).toBe('0');  // still under discussion
         //expect(scope.display).toBe('50');
         expect(scope.expression).toBe('50 +');
         expect(scope.operatorStr).toBe('+');
 
-        scope.typeDigit(9);
+        scope.touchDigit(9);
         expect(scope.display).toBe('9');
         expect(scope.expression).toBe('50 +');
 
-        scope.typeIsOperator();
+        scope.touchEqualsOperator();
         expect(scope.display).toBe('59');
         expect(scope.operatorStr).toBe('');
 
         scope.reset();
 
         // min operation
-        scope.typeDigit(9);
-        scope.typeDigit(1);
-        scope.typeOperator('-');
+        scope.touchDigit(9);
+        scope.touchDigit(1);
+        scope.touchOperator('-');
         expect(scope.operatorStr).toBe('-');
-        scope.typeDigit(9);
-        scope.typeDigit(3);
-        scope.typeIsOperator();
+        scope.touchDigit(9);
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
         expect(scope.display).toBe('-2');
         expect(scope.operatorStr).toBe('');
     });
 
+
+    it('verify display; multiply', function () {
+
+        expect(scope.display).toBe('0');
+
+        scope.touchDigit(0);
+        expect(scope.display).toBe('0');
+
+        scope.touchDigit(5);
+        expect(scope.display).toBe('5');
+
+        scope.touchOperator('*');
+        //expect(scope.display).toBe('5');
+        expect(scope.operatorStr).toBe('*');
+
+        scope.touchDigit(9);
+        expect(scope.display).toBe('9');
+
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('45');
+        expect(scope.operatorStr).toBe('');
+    });
+
+
+    it('verify display; divide', function () {
+        expect(scope.display).toBe('0');
+
+        scope.touchDigit(1);
+        expect(scope.display).toBe('1');
+
+        scope.touchDigit(5);
+        expect(scope.display).toBe('15');
+
+        scope.touchOperator('/');
+        expect(scope.display).toBe('0');
+        //        expect(scope.display).toBe('15'); still under discussion
+        expect(scope.operatorStr).toBe('/');
+
+        scope.touchDigit(3);
+        expect(scope.display).toBe('3');
+
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('5');
+        expect(scope.operatorStr).toBe('');
+    });
 
 
 
