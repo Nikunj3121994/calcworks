@@ -34,6 +34,10 @@ $ karma start --single-run
 $ karma start --auto-watch
 
 
-Op specifiek device runnen:
+Ionic op specifiek device runnen:
 $ /Users/admin/projects/calcworks/platforms/ios/cordova/lib/list-emulator-images
 $ cordova emulate ios --target="iPhone-5s
+
+
+Github
+$ git push origin master

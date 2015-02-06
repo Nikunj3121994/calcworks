@@ -2,8 +2,9 @@
 
 describe('Controller: CalculatorCtrl', function () {
 
-    // load the controller's module
-    beforeEach(module('calcworks.controllers'));
+    // load the app - included services
+    beforeEach(module('calcworks'));
+
 
     var CalculatorCtrl,
         scope;
