@@ -71,6 +71,15 @@ describe('Controller: CalculatorCtrl', function () {
 
         scope.touchDigit(0);
         expect(scope.display).toBe('3.0');
+
+        // ignore multiple decimal separators
+        scope.reset();
+        scope.touchDigit(3);
+        scope.touchDecimalSeparator();
+        expect(scope.display).toBe('3.');
+        scope.touchDecimalSeparator();
+        expect(scope.display).toBe('3.');
+
     });
 
 

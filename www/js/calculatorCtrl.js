@@ -40,7 +40,10 @@ angular.module('calcworks.controllers')
 
     $scope.touchDecimalSeparator = function() {
         $scope.newNumber = false; // needed if someone starts with period char
-        $scope.display = ($scope.display) + decimalSeparator;
+        // make sure you can only add decimal separator once
+        if ($scope.display.indexOf(decimalSeparator) < 0) {
+            $scope.display = ($scope.display) + decimalSeparator;
+        } // consider: else show/give error signal - however not sure if we can do this in every error situation
     };
 
     $scope.touchDelete = function() {
