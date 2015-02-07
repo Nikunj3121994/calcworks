@@ -6,50 +6,50 @@
           <span class="expression"> {{expression}} </span>
       <!--</div>-->
 
-        <div class="row">
-          <span class="display"> {{display}} </span>
-          <span class="operatorStr">  {{ operatorStr}} </span>
-        </div>
+    <div class="row">
+      <span class="display"> {{display}} </span>
+      <span class="operatorStr">  {{ operatorStr}} </span>
+    </div>
 
 
     <div class="row">
-      <div class="col col-50"><button class="button button-block button-positive" ng-click="reset()">Clear</button></div>
-      <div class="col"><button class="button button-block button-positive">?</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchDelete()">⌫</button></div>
+      <div class="col col-50"><div class="calculator-btn" ng-click="reset()">Clear</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchOperator('%')">%</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchDelete()">⌫</div></div>
     </div>
 
     <div class="row">
-      <div class="col"><button class="button button-block button-positive">(</button></div>
-      <div class="col"><button class="button button-block button-positive">)</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchPlusMinOperator()">±</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchOperator('/')">/</button></div>
+      <div class="col"><div class="calculator-btn">(</div></div>
+      <div class="col"><div class="calculator-btn">)</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchPlusMinOperator()">±</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchOperator('/')">/</div></div>
     </div>
 
     <div class="row">
-      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(7)">7</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(8)">8</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(9)">9</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchOperator('*')">*</button></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchDigit(7)">7</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchDigit(8)">8</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchDigit(9)">9</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchOperator('*')">*</div></div>
     </div>
 
     <div class="row">
-      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(4)">4</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(5)">5</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(6)">6</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchOperator('-')">-</button></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchDigit(4)">4</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchDigit(5)">5</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchDigit(6)">6</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchOperator('-')">-</div></div>
     </div>
 
     <div class="row">
-      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(1)">1</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(2)">2</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchDigit(3)">3</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchOperator('+')">+</button></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchDigit(1)">1</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchDigit(2)">2</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchDigit(3)">3</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchOperator('+')">+</div></div>
     </div>
 
     <div class="row">
-      <div class="col col-50"><button class="button button-block button-positive" ng-click="touchDigit(0)">0</button></div>
-      <div class="col"><button class="button button-block button-positive"  ng-click="touchDecimalSeparator()">.</button></div>
-      <div class="col"><button class="button button-block button-positive" ng-click="touchEqualsOperator()">=</button></div>
+      <div class="col col-50"><div class="calculator-btn" ng-click="touchDigit(0)">0</div></div>
+      <div class="col"><div class="calculator-btn"  ng-click="touchDecimalSeparator()">.</div></div>
+      <div class="col"><div class="calculator-btn" ng-click="touchEqualsOperator()">=</div></div>
     </div>
 
   </ion-content>

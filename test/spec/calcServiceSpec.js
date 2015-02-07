@@ -24,6 +24,13 @@ describe('Test calcService', function () {
         expect(calculations[1].result).toBe(9);
     });
 
+    it('verify calculate percentage', function() {
+        var calc1 = new Calculation('xxxx', 'var1', '600 % 3');
+        var calculations = [ calc1 ];
+        calcService.calculate(calculations);
+        expect(calculations[0].result).toBe(18);
+    });
+
     it('verify calculate with 1 var', function () {
         var calc1 = new Calculation('xxxx', 'var1', '2 + 3');
         var calculations = [ calc1 ];
@@ -131,7 +138,7 @@ describe('Test calcService', function () {
     });
 
 
-    it('verify replaceAll', function () {
+    it('verify replaceAllVars', function () {
         expect('2 + debt').toEqual(calcService.replaceAllVars('var2', 'debt', '2 + var2'));
         // multiple occurrences
         expect('2 + debt + debt').toEqual(calcService.replaceAllVars('var2', 'debt', '2 + var2 + var2'));

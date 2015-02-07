@@ -102,16 +102,15 @@ describe('Controller: CalculatorCtrl', function () {
         scope.touchDelete();
         expect(scope.display).toBe('0');
 
-        //scope.reset();
-        //scope.touchDigit(2);
-        //scope.touchOperator('+');
-        //scope.touchDigit(6);
-        //scope.touchDelete();
-        //scope.touchDigit(4);
-        //expect(scope.expression).toBe('2 +');
-        //scope.touchIsOperator();
-        //expect(scope.calculations[0]).toBeJsonEqual({ id: 'xxxx', varName : 'calc1', expression : '2 + 4', result: 6 });
-        //expect(scope.display).toBe('6');
+        scope.reset();
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchDigit(6);
+        scope.touchDelete();
+        scope.touchDigit(4);
+        expect(scope.expression).toBe('2 +');
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('6');
 
     });
 
@@ -140,23 +139,23 @@ describe('Controller: CalculatorCtrl', function () {
         scope.touchPlusMinOperator();
         expect(scope.display).toBe('-0.4');
 
-        //scope.reset();
-        //scope.touchDigit(4);
-        //scope.touchOperator('*');
-        //scope.touchDigit(2);
-        //scope.touchPlusMinOperator();
-        //expect(scope.display).toBe('-2');
-        //scope.touchIsOperator();
-        //expect(scope.display).toBe('-8');
-        //
-        //scope.reset();
-        //scope.touchDigit(4);
-        //scope.touchOperator('*');
-        //scope.touchPlusMinOperator();
-        //scope.touchDigit(2);
-        //expect(scope.display).toBe('-2');
-        //scope.touchIsOperator();
-        //expect(scope.display).toBe('-8');
+        scope.reset();
+        scope.touchDigit(4);
+        scope.touchOperator('*');
+        scope.touchDigit(2);
+        scope.touchPlusMinOperator();
+        expect(scope.display).toBe('-2');
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-8');
+
+        scope.reset();
+        scope.touchDigit(4);
+        scope.touchOperator('*');
+        scope.touchPlusMinOperator();
+        scope.touchDigit(2);
+        expect(scope.display).toBe('-2');
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-8');
     });
 
     it('verify plus, min, reset', function () {
@@ -242,6 +241,27 @@ describe('Controller: CalculatorCtrl', function () {
 
         scope.touchEqualsOperator();
         expect(scope.display).toBe('5');
+        expect(scope.operatorStr).toBe('');
+    });
+
+
+    it('verify display; percentage', function () {
+        expect(scope.display).toBe('0');
+
+        scope.touchDigit(8);
+        scope.touchDigit(0);
+        scope.touchDigit(0);
+        expect(scope.display).toBe('800');
+
+        scope.touchOperator('%');
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('%');
+
+        scope.touchDigit(4);
+        expect(scope.display).toBe('4');
+
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('32');
         expect(scope.operatorStr).toBe('');
     });
 
