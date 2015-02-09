@@ -85,6 +85,22 @@ angular.module('calcworks.controllers')
         $scope.newNumber = true;
     };
 
+    $scope.touchOpenBracket = function() {
+        $scope.operatorStr = '(';
+        $scope.expression = addSpaceIfNeeded($scope.expression) + '(';
+    };
+
+    $scope.touchCloseBracket = function() {
+        // todo: dit is alleen toegestaan als nu een getal ingetikt wordt - anders een error geven en ignoren
+        $scope.expression = appendDisplayToExpression();
+        $scope.expression = $scope.expression + ')';
+        // we closed an intermediate expression, now we start 'fresh', sort of mini reset
+        $scope.display = '0';
+        $scope.newNumber = true;
+        $scope.plusMinusTyped = false;
+        $scope.operatorStr = '';
+    };
+
     // operator, close bracket, isOperator  call this function
     function appendDisplayToExpression() {
         // only if display contains something we should add it to the expression

@@ -265,6 +265,53 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.operatorStr).toBe('');
     });
 
+    it('verify brackets', function() {
+        // (4+5)=
+        expect(scope.display).toBe('0');
+        scope.touchOpenBracket();
+        expect(scope.expression).toBe('(');
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('(');
+        scope.touchDigit(4);
+        expect(scope.display).toBe('4');
+        expect(scope.expression).toBe('(');
+        scope.touchOperator('+');
+        expect(scope.operatorStr).toBe('+');
+        expect(scope.expression).toBe('(4 +');
+        expect(scope.display).toBe('0');
+//        expect(scope.display).toBe('4');  under discussion
+        scope.touchDigit(5);
+        scope.touchCloseBracket();
+        expect(scope.expression).toBe('(4 + 5)');
+        expect(scope.operatorStr).toBe('');
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('9');
+        expect(scope.expression).toBe('');
+        expect(scope.operatorStr).toBe('');
+
+        // (4) + 5
+        scope.reset();
+        scope.calculations = [];
+        scope.touchOpenBracket();
+        expect(scope.expression).toBe('(');
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('(');
+        scope.touchDigit(4);
+        scope.touchCloseBracket();
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toBe('(4)');
+        scope.touchOperator('+');
+        expect(scope.operatorStr).toBe('+');
+        expect(scope.expression).toBe('(4) +');
+        scope.touchDigit(5);
+        expect(scope.expression).toBe('(4) +');
+        expect(scope.operatorStr).toBe('+');
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('9');
+        expect(scope.expression).toBe('');
+        expect(scope.operatorStr).toBe('');
+
+    });
 
 
 });
