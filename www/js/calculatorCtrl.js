@@ -10,9 +10,10 @@ angular.module('calcworks.controllers')
     $scope.reset = function() {
         $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
         $scope.operatorStr = '';
+        $scope.expression = '';
+        // misschien kan $scope wel weg
         $scope.newNumber = true;
         $scope.plusMinusTyped = false; // flag to remember if plusMinus was typed while still 0 in display
-        $scope.expression = '';
         //$scope.invalidCalcVarName = null;
         //$scope.invalidExpression = null;   // perhaps rename to invalidCalcExpression
         //$scope.calculationError = null; // this is the error message for global errors like circular reference
@@ -138,7 +139,7 @@ angular.module('calcworks.controllers')
                 $scope.display = 'error';
             }
         }
-        $scope.expression = '';
+        $scope.expression = '';  // dit moet een uitgestelde operatie worden
         $scope.newNumber = true;
     };
 
