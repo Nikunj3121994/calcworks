@@ -80,7 +80,7 @@ angular.module('calcworks.controllers')
     }
 
     $scope.touchOperator = function(operator) {
-        $scope.expression = appendDisplayToExpression();
+        updateDisplayAndExpression();
         $scope.expression = addSpaceIfNeeded($scope.expression) + operator;
         $scope.operatorStr = operator;
         $scope.newNumber = true;
@@ -93,7 +93,7 @@ angular.module('calcworks.controllers')
 
     $scope.touchCloseBracket = function() {
         // todo: dit is alleen toegestaan als nu een getal ingetikt wordt - anders een error geven en ignoren
-        $scope.expression = appendDisplayToExpression();
+        updateDisplayAndExpression();
         $scope.expression = $scope.expression + ')';
         // we closed an intermediate expression, now we start 'fresh', sort of mini reset
         $scope.display = '0';
@@ -102,18 +102,17 @@ angular.module('calcworks.controllers')
         $scope.operatorStr = '';
     };
 
-    // operator, close bracket, isOperator  call this function
-    function appendDisplayToExpression() {
+    // operator, close bracket, equalsOperator  call this function
+    function updateDisplayAndExpression() {
         // only if display contains something we should add it to the expression
         if ($scope.newNumber === false) {
-            var result = addSpaceIfNeeded($scope.expression) + $scope.display;
+            $scope.expression = addSpaceIfNeeded($scope.expression) + $scope.display;
             $scope.display = '0';
-            return result;
         } else if ($scope.expression.trim()) {
-            return $scope.expression;
+            // do nothing (close bracket can trigger this path)
         } else {
             $scope.display = '0';
-            return lastVarName; // previous result identifier, so you get eventually something like 'calc1 + ... '
+            $scope.expression = lastVarName; // previous result identifier, so you get eventually something like 'calc1 + ... '
         }
     }
 
@@ -127,7 +126,7 @@ angular.module('calcworks.controllers')
 
 
     $scope.touchEqualsOperator = function() {
-        $scope.expression = appendDisplayToExpression();
+        updateDisplayAndExpression();
         try {
             $scope.operatorStr = '';
             var calc = createNewCalculation($scope.expression);
