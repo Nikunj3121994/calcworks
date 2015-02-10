@@ -13,6 +13,7 @@ angular.module('calcworks.controllers')
         $scope.expression = '';
         // misschien kan $scope wel weg
         $scope.newNumber = true;
+        $scope.newExpression = true;
         $scope.plusMinusTyped = false; // flag to remember if plusMinus was typed while still 0 in display
         //$scope.invalidCalcVarName = null;
         //$scope.invalidExpression = null;   // perhaps rename to invalidCalcExpression
@@ -89,6 +90,7 @@ angular.module('calcworks.controllers')
     $scope.touchOpenBracket = function() {
         $scope.operatorStr = '(';
         $scope.expression = addSpaceIfNeeded($scope.expression) + '(';
+        $scope.newExpression = false;
     };
 
     $scope.touchCloseBracket = function() {
@@ -104,6 +106,10 @@ angular.module('calcworks.controllers')
 
     // operator, close bracket, equalsOperator  call this function
     function updateDisplayAndExpression() {
+        if ($scope.newExpression) {
+            $scope.newExpression = false;
+            $scope.expression = '';
+        }
         // only if display contains something we should add it to the expression
         if ($scope.newNumber === false) {
             $scope.expression = addSpaceIfNeeded($scope.expression) + $scope.display;
@@ -138,8 +144,9 @@ angular.module('calcworks.controllers')
                 $scope.display = 'error';
             }
         }
-        $scope.expression = '';  // dit moet een uitgestelde operatie worden
+        $scope.expression = $scope.expression + ' = ' + $scope.display;
         $scope.newNumber = true;
+        $scope.newExpression = true;
     };
 
 

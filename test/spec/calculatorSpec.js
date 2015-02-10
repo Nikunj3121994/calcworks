@@ -286,7 +286,7 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.operatorStr).toBe('');
         scope.touchEqualsOperator();
         expect(scope.display).toBe('9');
-        expect(scope.expression).toBe('');
+        expect(scope.expression).toBe('(4 + 5) = 9');
         expect(scope.operatorStr).toBe('');
 
         // (4) + 5
@@ -308,7 +308,7 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.operatorStr).toBe('+');
         scope.touchEqualsOperator();
         expect(scope.display).toBe('9');
-        expect(scope.expression).toBe('');
+        expect(scope.expression).toBe('(4) + 5 = 9');
         expect(scope.operatorStr).toBe('');
 
     });
