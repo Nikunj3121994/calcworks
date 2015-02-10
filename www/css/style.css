@@ -12,6 +12,7 @@
 
 .operatorStr {
     text-align: right;
+    color: #5d5d5d;
     font-size: 30px;
     width: 5%;
     display:inline-block;
@@ -23,6 +24,8 @@
 
 
 .expression {
+    display:inline-block;
+    padding: 1%;
     height: 30px;
     font-size: 20px;
     text-align: left;
