@@ -28,26 +28,32 @@ angular.module('calcworks.services')
         };
 
         // private
+        this.resolveExpression = function(calculation, calculations, state) {
+            var expression = calculation.expression;
+            var varnames = calculation.parseVarsExpression();
+            if (varnames && varnames.length > 0) {
+                var varnamesLength = varnames.length;
+                for (var i = 0; i < varnamesLength; i++) {
+                    if (!state.outcomes[varnames[i]]) {
+                        this.calcVarname(calculations, varnames[i], state);
+                        if (!state.outcomes[varnames[i]]) {
+                            calculations.errorlog.undefinedVariables.push('"' + varnames[i] + '" is undefined');
+                            //consider: add varname to outcomes as NaN or null to avoid re-calculation
+                        }
+                    }
+                    expression = this.replaceAllVars(varnames[i], state.outcomes[varnames[i]], expression);
+                }
+            }
+            return expression;
+        };
+
         this.calcCalculation = function(calculations, calculation, state) {
             if (state.outcomes[calculation.varName]) {
                 //console.log('calcCalculation, already known ' + calculation.varName + ' : ' + calculation.expression + ' = ' + calculation.result);
             } else {
                 //console.log('calcCalculation: ' + calculation.varName + ' : ' + calculation.expression);
-                var expression = calculation.expression;
-                var varnames = calculation.parseVarsExpression();
-                if (varnames && varnames.length > 0) {
-                    var varnamesLength = varnames.length;
-                    for (var i = 0; i < varnamesLength; i++) {
-                        if (!state.outcomes[varnames[i]]) {
-                            this.calcVarname(calculations, varnames[i], state);
-                            if (!state.outcomes[varnames[i]]) {
-                                calculations.errorlog.undefinedVariables.push('"' + varnames[i] + '" is undefined');
-                                //consider: add varname to outcomes as NaN or null to avoid re-calculation
-                            }
-                        }
-                        expression = this.replaceAllVars(varnames[i], state.outcomes[varnames[i]], expression);
-                    }
-                }
+                var expression = this.resolveExpression(calculation, calculations, state);
+                calculation.resolvedExpression = expression;
                 var outcome;
                 try {
                     // replace percentage operator with divide by 100 and multiply
@@ -85,7 +91,6 @@ angular.module('calcworks.services')
                 calculations.errorlog.circularReference = error.message;
             }
         };
-
 
 
         // private

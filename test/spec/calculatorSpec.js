@@ -171,8 +171,7 @@ describe('Controller: CalculatorCtrl', function () {
 
         expect(scope.newNumber).toBe(false);
         scope.touchOperator('+');
-        expect(scope.display).toBe('0');  // still under discussion
-        //expect(scope.display).toBe('50');
+        expect(scope.display).toBe('0');
         expect(scope.expression).toBe('50 +');
         expect(scope.operatorStr).toBe('+');
 
@@ -314,5 +313,21 @@ describe('Controller: CalculatorCtrl', function () {
 
     });
 
+
+    it('verify resolved expression', function () {
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        scope.touchDigit(9);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('14');
+        expect(scope.expression).toBe('5 + 9 = 14');
+
+        scope.touchOperator('-');
+        scope.touchDigit(9);
+        expect(scope.expression).toBe('calc1 -');  // directive should show '14 -'
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('5');
+        expect(scope.expression).toBe('14 - 9 = 5');
+    });
 
 });

@@ -144,7 +144,8 @@ angular.module('calcworks.controllers')
                 $scope.display = 'error';
             }
         }
-        $scope.expression = $scope.expression + ' = ' + $scope.display;
+        $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
+        //$scope.expression = $scope.expression + ' = ' + $scope.display;
         $scope.newNumber = true;
         $scope.newExpression = true;
     };

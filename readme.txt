@@ -41,3 +41,6 @@ $ cordova emulate ios --target="iPhone-5s"
 
 Github
 $ git push origin master
+
+om intelliJ files niet meer te tracken:
+$ git update-index --assume-unchanged .idea/workspace.xml

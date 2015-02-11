@@ -8,6 +8,7 @@ var Calculation = function(id, varName, expression) {
     this.id = id;   // we not use generateUUID() here because this makes the tests harder to write
     this.varName = varName;
     this.expression = expression;
+    this.resolvedExpression = '';
     this.result = null;    // can be a number or a string in case of error
 
 };
