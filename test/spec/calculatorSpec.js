@@ -158,8 +158,8 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.display).toBe('-8');
     });
 
-    it('verify plus, min, reset', function () {
 
+    it('verify plus, min, reset', function () {
         expect(scope.display).toBe('0');
 
         // plus operation
@@ -183,6 +183,7 @@ describe('Controller: CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('59');
         expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toBe('50 + 9 = 59');
 
         scope.reset();
 
@@ -196,11 +197,11 @@ describe('Controller: CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('-2');
         expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toBe('91 - 93 = -2');
     });
 
 
     it('verify display; multiply', function () {
-
         expect(scope.display).toBe('0');
 
         scope.touchDigit(0);
@@ -210,7 +211,6 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.display).toBe('5');
 
         scope.touchOperator('*');
-        //expect(scope.display).toBe('5');
         expect(scope.operatorStr).toBe('*');
 
         scope.touchDigit(9);
@@ -219,6 +219,7 @@ describe('Controller: CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('45');
         expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toBe('5 * 9 = 45');
     });
 
 

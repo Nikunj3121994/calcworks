@@ -1,60 +1,10 @@
 
-.display {
-    font-size: 40px;
-    text-align: right;
-    width: 95%;
-    display:inline-block;
-    background-color: lightgrey;
-    padding-bottom: 3%;
-    padding-top: 3%;
-    margin-bottom: 5%;
-}
-
-.operatorStr {
-    text-align: right;
-    color: #5d5d5d;
-    font-size: 30px;
-    width: 5%;
-    display:inline-block;
-    background-color: lightgrey;
-    padding-bottom: 3%;
-    padding-top: 3%;
-    margin-bottom: 5%;
-}
-
-
-.expression {
-    display:inline-block;
-    padding: 1%;
-    height: 30px;
-    font-size: 20px;
-    text-align: left;
-}
-
-/*
- de verticale alignment is door de line-height gedaan. dit zou eigenlijk toch via flexbox moeten kunnen
- of de transition toegevoegde waarde heeft op iphone weet ik niet
+/*het niet kunnen scrollen willen we alleen in calculator tabje
+onderstaande css is misschien onnodig ivm scroll=false in html
 */
-.calculator-btn {
-    transition: background-color 0.2s ease;
-    color: #fff;
-    background-color: #333;
-    border: 1px solid #333;
-    border-radius: 5px;
-    box-shadow: inset 0 1px 0 #666, 0 1px 0 #bbb;
-    font-size: 20px;
-    text-align: center;
-    line-height: 40px;
-}
-
-.calculator-btn:active {
-    background-color: #9d9d9d;
-}
-
-/*het niet kunnen scrollen willen we alleen in calculator tabje */
 .scroll{
     height: 100% !important;
-    background:lightblue;
+    background: #feba51;
     display: -webkit-box !important;
     display: -moz-box !important;
     display: -ms-flexbox !important;
@@ -67,14 +17,71 @@
     -webkit-flex-direction: column !important;
     -ms-flex-direction: column !important;
     flex-direction: column !important;
-
 }
 
 .row{
     -webkit-box-flex: 0 !important;
     -moz-box-flex: 0 !important;
-    -webkit-flex: 0 1 14% !important;
-    -ms-flex: 0 1 14% !important;
-    flex: 0 1 14% !important;
-    background-color: #eeeeee;
+    -webkit-flex: 0 1 12% !important;
+    -ms-flex: 0 1 12% !important;
+    flex: 0 1 12% !important;
+    background-color: #feba51;
+}
+
+.expression {
+    display:inline-block;
+    width: 100%;
+    background-color: lightgrey;
+    /*padding-bottom: 1%;*/
+    padding-top: 1%;
+    padding-left: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    height: 30px;
+    font-size: 20px;
+    text-align: left;
+}
+
+.display {
+    font-size: 40px;
+    text-align: right;
+    width: 95%;
+    display:inline-block;
+    background-color: lightgrey;
+    padding-bottom: 3%;
+    padding-top: 3%;
+    margin-bottom: 2%;
+}
+
+.operatorStr {
+    text-align: right;
+    color: #5d5d5d;
+    font-size: 30px;
+    width: 5%;
+    display:inline-block;
+    background-color: lightgrey;
+    padding-bottom: 3%;
+    padding-top: 3%;
+    margin-bottom: 2%;
+}
+
+
+/*
+ de verticale alignment is door de line-height gedaan. dit zou eigenlijk toch via flexbox moeten kunnen
+ of de transition toegevoegde waarde heeft op iphone weet ik niet
+*/
+.calculator-btn {
+    transition: background-color 0.2s ease;
+    color: #868686;
+    background-color: #ffffff;
+    border: 1px solid #333;
+    border-radius: 5px;
+    /*box-shadow: inset 0 1px 0 #666, 0 1px 0 #bbb;*/
+    font-size: 20px;
+    text-align: center;
+    line-height: 40px;
+}
+
+.calculator-btn:active {
+    background-color: #9d9d9d;
 }

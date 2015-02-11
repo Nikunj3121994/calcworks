@@ -36,7 +36,7 @@ $ karma start --auto-watch
 
 Ionic op specifiek device runnen:
 $ /Users/admin/projects/calcworks/platforms/ios/cordova/lib/list-emulator-images
-$ cordova emulate ios --target="iPhone-5s
+$ cordova emulate ios --target="iPhone-5s"
 
 
 Github
