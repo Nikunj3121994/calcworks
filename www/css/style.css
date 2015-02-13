@@ -31,7 +31,7 @@ onderstaande css is misschien onnodig ivm scroll=false in html
 .expression {
     display:inline-block;
     width: 100%;
-    background-color: lightgrey;
+    background-color: #e4e4e4;
     /*padding-bottom: 1%;*/
     padding-top: 1%;
     padding-left: 1%;
@@ -40,6 +40,7 @@ onderstaande css is misschien onnodig ivm scroll=false in html
     height: 30px;
     font-size: 20px;
     text-align: left;
+    box-shadow: inset 1px 1px 3px #999;
 }
 
 .display {
@@ -47,10 +48,12 @@ onderstaande css is misschien onnodig ivm scroll=false in html
     text-align: right;
     width: 95%;
     display:inline-block;
-    background-color: lightgrey;
+    background-color: #e4e4e4;
     padding-bottom: 3%;
     padding-top: 3%;
+    padding-right: 1%;
     margin-bottom: 2%;
+    box-shadow: inset 1px 1px 3px #999;
 }
 
 .operatorStr {
@@ -63,6 +66,7 @@ onderstaande css is misschien onnodig ivm scroll=false in html
     padding-bottom: 3%;
     padding-top: 3%;
     margin-bottom: 2%;
+    box-shadow: inset 0px 1px 3px #999;
 }
 
 
