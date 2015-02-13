@@ -4,7 +4,7 @@
 angular.module('calcworks.services', []);
 angular.module('calcworks.controllers', []);
 
-angular.module('calcworks', ['ionic', 'calcworks.controllers', 'calcworks.services'])
+angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
