@@ -1,5 +1,8 @@
 'use strict';
 
+
+//todo: rename this file to calculatorCtrlSpec
+
 describe('Controller: CalculatorCtrl', function () {
 
     // load the app - included services

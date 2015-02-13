@@ -1,11 +1,11 @@
 
 angular.module('calcworks.controllers')
 
-.controller('CalculatorCtrl', function($scope, calcService) {
+.controller('CalculatorCtrl', function($scope, calcService, sheetService) {
 
     var decimalSeparator = getDecimalSeparator();
     var lastVarName = '';  // ik weet niet of deze in reboot gereset wordt of zou moeten worden
-    $scope.calculations = [];  // array of Calculation      idem
+
 
     $scope.reset = function() {
         $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
@@ -94,7 +94,7 @@ angular.module('calcworks.controllers')
     };
 
     $scope.touchCloseBracket = function() {
-        // todo: dit is alleen toegestaan als nu een getal ingetikt wordt - anders een error geven en ignoren
+        // todo: dit is alleen toegestaan als een getal ingetikt was - anders een error geven en ignoren
         updateDisplayAndExpression();
         $scope.expression = $scope.expression + ')';
         // we closed an intermediate expression, now we start 'fresh', sort of mini reset
@@ -136,8 +136,8 @@ angular.module('calcworks.controllers')
         try {
             $scope.operatorStr = '';
             var calc = createNewCalculation($scope.expression);
-            $scope.calculations.push(calc);
-            calcService.calculate($scope.calculations);
+            sheetService.currentSheet().push(calc);
+            calcService.calculate(sheetService.currentSheet());
             $scope.display = calc.result.toString();
         } catch (e) {
             if (e instanceof SyntaxError) {
@@ -145,10 +145,28 @@ angular.module('calcworks.controllers')
             }
         }
         $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
-        //$scope.expression = $scope.expression + ' = ' + $scope.display;
         $scope.newNumber = true;
         $scope.newExpression = true;
     };
 
 
+})
+.filter('resolve', function(calcService, sheetService) {
+    return function(input) {
+        // als input een variabele naam bevat dan deze vervangen door de uitkomst = vorige calculation
+        // we doen dit met een hack voor nu.
+        var tempCalc = new Calculation('', '', input);
+        var varnames = tempCalc.parseVarsExpression();
+        if (varnames.length > 1) {
+            return "internal error, varnames length larger than 1"; // kan wel. maar hoe?
+        } else if (varnames.length === 1) {
+            // replace var with value
+            var calcs = sheetService.currentSheet();
+            var value = calcs[calcs.length-1].result;
+            var result = calcService.replaceAllVars(varnames[0], value, input);
+            return result;
+        } else {
+            return input;
+        }
+    };
 });
