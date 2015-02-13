@@ -136,8 +136,8 @@ angular.module('calcworks.controllers')
         try {
             $scope.operatorStr = '';
             var calc = createNewCalculation($scope.expression);
-            sheetService.currentSheet().push(calc);
-            calcService.calculate(sheetService.currentSheet());
+            sheetService.getCurrentSheet().push(calc);
+            calcService.calculate(sheetService.getCurrentSheet());
             $scope.display = calc.result.toString();
         } catch (e) {
             if (e instanceof SyntaxError) {
@@ -161,7 +161,7 @@ angular.module('calcworks.controllers')
             return "internal error, varnames length larger than 1"; // kan wel. maar hoe?
         } else if (varnames.length === 1) {
             // replace var with value
-            var calcs = sheetService.currentSheet();
+            var calcs = sheetService.getCurrentSheet();
             var value = calcs[calcs.length-1].result;
             var result = calcService.replaceAllVars(varnames[0], value, input);
             return result;

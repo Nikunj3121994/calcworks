@@ -41,7 +41,7 @@ angular.module('calcworks.services')
                 return sheets[sheetId];
             },
             //todo: rename to getCurrentSheet()
-            currentSheet: function() {
+            getCurrentSheet: function() {
                 return calculations;
             }
         }
