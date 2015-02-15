@@ -1,3 +1,4 @@
+"use strict";
 
 angular.module('calcworks.controllers')
 
@@ -80,6 +81,7 @@ angular.module('calcworks.controllers')
         $scope.display = '-' + $scope.display;
     }
 
+    //todo: ignore multiple operators in sequence
     $scope.touchOperator = function(operator) {
         updateDisplayAndExpression();
         $scope.expression = addSpaceIfNeeded($scope.expression) + operator;
@@ -151,6 +153,7 @@ angular.module('calcworks.controllers')
 
 
 })
+    //todo: write test for this filter
 .filter('resolve', function(calcService, sheetService) {
     return function(input) {
         // als input een variabele naam bevat dan deze vervangen door de uitkomst = vorige calculation

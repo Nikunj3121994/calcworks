@@ -1,9 +1,39 @@
 <ion-view view-title="Sheets">
   <ion-content>
     <ion-list>
-      <ion-item class="card" ng-repeat="calc in sheet" type="item-text-wrap" >
-        <h2>{{calc.result}}</h2>
-        <p>{{calc.expression}}</p>
+      <ion-item class="card">
+          <div class="item item-divider">
+             Name of the sheet, timestamp, location
+              <label class="toggle" style="float: right;">
+                  <input type="checkbox" ng-model="showResolvedExpression" ng-change="changeResolvedExpression()">
+                  <div class="track">
+                      <div class="handle"></div>
+                  </div>
+              </label>
+          </div>
+          <div class="row"  ng-repeat="calc in sheet" style="background-color: white">
+              <div class="col">{{calc.varName}}</div>
+              <div class="col col-50">
+                  <span class="check-element animate-show" ng-hide="showResolvedExpression">{{calc.expression}}</span>
+                  <span class="check-element animate-show" ng-show="showResolvedExpression">{{calc.resolvedExpression}}</span>
+              </div>
+              <div class="col">= {{calc.result}}</div>
+          </div>
+
+          <div class="item tabs tabs-secondary tabs-icon-left">
+              <a class="tab-item" href="#">
+                  <i class="icon ion-star"></i>
+                  Favorite
+              </a>
+              <a class="tab-item" href="#">
+                  <i class="icon ion-chatbox"></i>
+                  Comment
+              </a>
+              <a class="tab-item" href="#">
+                  <i class="icon ion-share"></i>
+                  Share
+              </a>
+          </div>
       </ion-item>
     </ion-list>
   </ion-content>

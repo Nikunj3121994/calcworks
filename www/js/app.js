@@ -1,4 +1,4 @@
-
+"use strict";
 
 // ik snap dit niet goed; vanuit de service files moeten we naar de 1 keer gedefinieerde module kunnen verwijzen
 angular.module('calcworks.services', []);

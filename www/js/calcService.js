@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 angular.module('calcworks.services')
     .service('calcService', function () {

@@ -10,7 +10,6 @@ var Calculation = function(id, varName, expression) {
     this.expression = expression;
     this.resolvedExpression = '';
     this.result = null;    // can be a number or a string in case of error
-
 };
 
 Calculation.prototype.validName  = function(varName) {
@@ -18,7 +17,7 @@ Calculation.prototype.validName  = function(varName) {
     // we can optimize this by putting the regExp in constant
     // ^ and $ are zero-word boundaries
     return new RegExp('^[A-Za-z_]+[0-9]*$').test(varName);
-}
+};
 
 
 // returns array of unique variable names in expression, can be empty array (not null)

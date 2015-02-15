@@ -40,7 +40,6 @@ angular.module('calcworks.services')
                 // Simple index lookup
                 return sheets[sheetId];
             },
-            //todo: rename to getCurrentSheet()
             getCurrentSheet: function() {
                 return calculations;
             }
