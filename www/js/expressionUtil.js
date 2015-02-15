@@ -37,3 +37,10 @@ function generateVarName(varName) {
     return 'calc1';
 }
 
+function startsWith(str, prefix) {
+    return str.lastIndexOf(prefix, 0) === 0;
+}
+
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}

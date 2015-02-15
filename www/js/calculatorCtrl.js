@@ -14,7 +14,7 @@ angular.module('calcworks.controllers')
         $scope.expression = '';
         // misschien kan $scope wel weg
         $scope.newNumber = true;
-        $scope.newExpression = true;
+        $scope.newExpression = true;   // indicates that a complete new, empty expression is started  (so occurs after reset or after equals)
         $scope.plusMinusTyped = false; // flag to remember if plusMinus was typed while still 0 in display
         //$scope.invalidCalcVarName = null;
         //$scope.invalidExpression = null;   // perhaps rename to invalidCalcExpression
@@ -22,6 +22,15 @@ angular.module('calcworks.controllers')
     };
 
     $scope.reset();
+
+    // use this function as a reset when bracket open or closed is entered
+    var miniReset = function() {
+        $scope.display = '0';
+        $scope.newNumber = true;
+        $scope.plusMinusTyped = false;
+        $scope.operatorStr = '';
+
+    };
 
 
     $scope.touchDigit = function(n) {
@@ -81,18 +90,33 @@ angular.module('calcworks.controllers')
         $scope.display = '-' + $scope.display;
     }
 
-    //todo: ignore multiple operators in sequence
+    // binary operator
     $scope.touchOperator = function(operator) {
-        updateDisplayAndExpression();
-        $scope.expression = addSpaceIfNeeded($scope.expression) + operator;
-        $scope.operatorStr = operator;
-        $scope.newNumber = true;
+        // we should detect if an intermediate expression has been entered, situations:
+        // 1)  d
+        // 2)  ... (d * d)
+        // 3)  0   but there is a previous answer
+        if (!$scope.newNumber || endsWith($scope.expression, ')') || ($scope.newExpression && sheetService.getCurrentSheet().length > 0)) {
+            updateDisplayAndExpression();
+            $scope.expression = addSpaceIfNeeded($scope.expression) + operator;
+            $scope.operatorStr = operator;
+            $scope.newNumber = true;
+        } else {
+            // ignore because this is a binary operator, so an operand must have been entered
+            // consider: error signal
+        }
     };
 
     $scope.touchOpenBracket = function() {
-        $scope.operatorStr = '(';
-        $scope.expression = addSpaceIfNeeded($scope.expression) + '(';
-        $scope.newExpression = false;
+        // we do not change $scope.operatorStr to bracket open, bracket is not an operator.
+        // also expression already shows the bracket
+        if ($scope.newExpression) {
+            miniReset();
+            $scope.expression = '(';
+            $scope.newExpression = false;
+        } else {
+            $scope.expression = addSpaceIfNeeded($scope.expression) + '(';
+        }
     };
 
     $scope.touchCloseBracket = function() {
@@ -100,10 +124,7 @@ angular.module('calcworks.controllers')
         updateDisplayAndExpression();
         $scope.expression = $scope.expression + ')';
         // we closed an intermediate expression, now we start 'fresh', sort of mini reset
-        $scope.display = '0';
-        $scope.newNumber = true;
-        $scope.plusMinusTyped = false;
-        $scope.operatorStr = '';
+        miniReset();
     };
 
     // operator, close bracket, equalsOperator  call this function

@@ -188,6 +188,7 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.expression).toBe('50 + 9 = 59');
 
         scope.reset();
+        expect(scope.display).toBe('0');
 
         // min operation
         scope.touchDigit(9);
@@ -200,6 +201,34 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.display).toBe('-2');
         expect(scope.operatorStr).toBe('');
         expect(scope.expression).toBe('91 - 93 = -2');
+    });
+
+    it('verify operator touched multiple times', function () {
+        expect(scope.display).toBe('0');
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('+');
+        expect(scope.expression).toBe('5 +');
+        // repeat, should not have effect on display
+        scope.touchOperator('+');
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('+');
+        expect(scope.expression).toBe('5 +');
+        // continue with normal sequence
+        scope.touchDigit(3);
+        scope.touchOperator('*');
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('*');
+        expect(scope.expression).toBe('5 + 3 *');
+    });
+
+
+    it('verify start meteen met een operator', function() {
+        expect(scope.display).toBe('0');
+        scope.touchOperator('*');
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('');
     });
 
 
@@ -274,7 +303,7 @@ describe('Controller: CalculatorCtrl', function () {
         scope.touchOpenBracket();
         expect(scope.expression).toBe('(');
         expect(scope.display).toBe('0');
-        expect(scope.operatorStr).toBe('(');
+        expect(scope.operatorStr).toBe('');
         scope.touchDigit(4);
         expect(scope.display).toBe('4');
         expect(scope.expression).toBe('(');
@@ -282,7 +311,6 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.operatorStr).toBe('+');
         expect(scope.expression).toBe('(4 +');
         expect(scope.display).toBe('0');
-//        expect(scope.display).toBe('4');  under discussion
         scope.touchDigit(5);
         scope.touchCloseBracket();
         expect(scope.expression).toBe('(4 + 5)');
@@ -298,7 +326,7 @@ describe('Controller: CalculatorCtrl', function () {
         scope.touchOpenBracket();
         expect(scope.expression).toBe('(');
         expect(scope.display).toBe('0');
-        expect(scope.operatorStr).toBe('(');
+        expect(scope.operatorStr).toBe('');
         scope.touchDigit(4);
         scope.touchCloseBracket();
         expect(scope.display).toBe('0');
@@ -314,6 +342,20 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.expression).toBe('(4) + 5 = 9');
         expect(scope.operatorStr).toBe('');
 
+    });
+
+    it('verify open bracket after expression entered', function() {
+        // enter a dummy expression
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        scope.touchDigit(9);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('14');
+        // start with open bracket, this should reset the expression
+        scope.touchOpenBracket();
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toBe('(');
+        expect(scope.operatorStr).toBe('');
     });
 
 
@@ -332,5 +374,6 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.display).toBe('5');
         expect(scope.expression).toBe('14 - 9 = 5');
     });
+
 
 });
