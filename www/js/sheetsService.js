@@ -3,8 +3,8 @@
 angular.module('calcworks.services')
     .factory('sheetService', function() {
 
-        //var calculations = [];  // array of Calculation
-        var currentSheet = new Sheet('new sheet', []);
+        //var currentSheet = new Sheet('new sheet', []);
+        var sheets = [];
 
         //// Some fake testing data
         //var sheets = [{
@@ -43,8 +43,15 @@ angular.module('calcworks.services')
             //    // Simple index lookup
             //    return sheets[sheetId];
             //},
+            newSheet: function() {
+                var sheet = new Sheet('new sheet', []);
+                sheets.push(sheet);
+            },
+            getSheets: function() {
+                return sheets;
+            },
             getCurrentSheet: function() {
-                return currentSheet;
+                return sheets[sheets.length-1];
             }
         };
     });

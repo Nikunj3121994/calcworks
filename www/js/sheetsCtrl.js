@@ -3,7 +3,8 @@
 angular.module('calcworks.controllers')
 
     .controller('SheetsCtrl', function($scope, sheetService) {
-        $scope.sheet = sheetService.getCurrentSheet();
+        //$scope.sheet = sheetService.getCurrentSheet();
+        $scope.sheets = sheetService.getSheets();
         $scope.showResolvedExpression = true;
 
         $scope.changeResolvedExpression = function() {

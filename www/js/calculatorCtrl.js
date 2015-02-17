@@ -5,7 +5,7 @@ angular.module('calcworks.controllers')
 .controller('CalculatorCtrl', function($scope, calcService, sheetService) {
 
     var decimalSeparator = getDecimalSeparator();
-    var lastVarName = '';  // ik weet niet of deze in reboot gereset wordt of zou moeten worden
+    var lastVarName = '';
 
 
     $scope.reset = function() {
@@ -21,8 +21,6 @@ angular.module('calcworks.controllers')
         //$scope.calculationError = null; // this is the error message for global errors like circular reference
     };
 
-    $scope.reset();
-
     // use this function as a reset when bracket open or closed is entered
     var miniReset = function() {
         $scope.display = '0';
@@ -31,6 +29,14 @@ angular.module('calcworks.controllers')
         $scope.operatorStr = '';
 
     };
+
+    $scope.newSheet = function() {
+        $scope.reset();
+        lastVarName = '';
+        sheetService.newSheet();
+    };
+
+    $scope.newSheet();  // misschien moet deze naar app.js als ie device ready is
 
 
     $scope.touchDigit = function(n) {

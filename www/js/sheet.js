@@ -4,6 +4,7 @@
 var Sheet = function(name, calculations) {
     this.name = name;
     this.calculations = calculations;
+    this.createdTimestamp = new Date();
 };
 
 Sheet.prototype.nrOfCalcs = function() {

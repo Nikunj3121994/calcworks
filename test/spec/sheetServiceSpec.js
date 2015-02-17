@@ -12,10 +12,15 @@ describe('Test sheetService', function () {
     }));
 
     it('verify sheet', function() {
+        sheetService.newSheet();
         expect(sheetService.getCurrentSheet().calculations.length).toBe(0);
         var calc = new Calculation();
         sheetService.getCurrentSheet().add(calc);
         expect(sheetService.getCurrentSheet().calculations.length).toBe(1);
+
+        sheetService.newSheet();
+        expect(sheetService.getCurrentSheet().calculations.length).toBe(0);
+
     });
 
 
