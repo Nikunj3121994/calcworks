@@ -96,7 +96,7 @@ angular.module('calcworks.controllers')
         // 1)  d
         // 2)  ... (d * d)
         // 3)  0   but there is a previous answer
-        if (!$scope.newNumber || endsWith($scope.expression, ')') || ($scope.newExpression && sheetService.getCurrentSheet().length > 0)) {
+        if (!$scope.newNumber || endsWith($scope.expression, ')') || ($scope.newExpression && sheetService.getCurrentSheet().nrOfCalcs() > 0)) {
             updateDisplayAndExpression();
             $scope.expression = addSpaceIfNeeded($scope.expression) + operator;
             $scope.operatorStr = operator;
@@ -159,15 +159,18 @@ angular.module('calcworks.controllers')
         try {
             $scope.operatorStr = '';
             var calc = createNewCalculation($scope.expression);
-            sheetService.getCurrentSheet().push(calc);
-            calcService.calculate(sheetService.getCurrentSheet());
+            sheetService.getCurrentSheet().add(calc);
+            calcService.calculate(sheetService.getCurrentSheet().calculations);
             $scope.display = calc.result.toString();
+            $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
         } catch (e) {
             if (e instanceof SyntaxError) {
                 $scope.display = 'error';
+            } else {
+                console.log('internal error: ' + e);
+                $scope.display = 'internal error: ' + e;
             }
         }
-        $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
         $scope.newNumber = true;
         $scope.newExpression = true;
     };
@@ -185,7 +188,7 @@ angular.module('calcworks.controllers')
             return "internal error, varnames length larger than 1"; // kan wel. maar hoe?
         } else if (varnames.length === 1) {
             // replace var with value
-            var calcs = sheetService.getCurrentSheet();
+            var calcs = sheetService.getCurrentSheet().calculations;
             var value = calcs[calcs.length-1].result;
             var result = calcService.replaceAllVars(varnames[0], value, input);
             return result;

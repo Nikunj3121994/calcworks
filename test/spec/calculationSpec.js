@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Calculation object', function () {
+describe('Test Calculation object', function () {
 
 
     it('verify result', function () {

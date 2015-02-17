@@ -3,7 +3,7 @@
 
 //todo: rename this file to calculatorCtrlSpec
 
-describe('Controller: CalculatorCtrl', function () {
+describe('Test controller CalculatorCtrl', function () {
 
     // load the app - included services
     beforeEach(module('calcworks'));
@@ -86,6 +86,48 @@ describe('Controller: CalculatorCtrl', function () {
     });
 
 
+    it('verify plus, min, reset', function () {
+        expect(scope.display).toBe('0');
+
+        // plus operation
+        scope.touchDigit(5);
+        expect(scope.display).toBe('5');
+
+        scope.touchDigit(0);
+        expect(scope.display).toBe('50');
+
+        expect(scope.newNumber).toBe(false);
+        scope.touchOperator('+');
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toBe('50 +');
+        expect(scope.operatorStr).toBe('+');
+
+        scope.touchDigit(9);
+        expect(scope.display).toBe('9');
+        expect(scope.expression).toBe('50 +');
+
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('59');
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toBe('50 + 9 = 59');
+
+        scope.reset();
+        expect(scope.display).toBe('0');
+
+        // min operation
+        scope.touchDigit(9);
+        scope.touchDigit(1);
+        scope.touchOperator('-');
+        expect(scope.operatorStr).toBe('-');
+        scope.touchDigit(9);
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-2');
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toBe('91 - 93 = -2');
+    });
+
+
     it('verify touchDelete', function() {
         expect(scope.display).toBe('0');
 
@@ -161,47 +203,6 @@ describe('Controller: CalculatorCtrl', function () {
         expect(scope.display).toBe('-8');
     });
 
-
-    it('verify plus, min, reset', function () {
-        expect(scope.display).toBe('0');
-
-        // plus operation
-        scope.touchDigit(5);
-        expect(scope.display).toBe('5');
-
-        scope.touchDigit(0);
-        expect(scope.display).toBe('50');
-
-        expect(scope.newNumber).toBe(false);
-        scope.touchOperator('+');
-        expect(scope.display).toBe('0');
-        expect(scope.expression).toBe('50 +');
-        expect(scope.operatorStr).toBe('+');
-
-        scope.touchDigit(9);
-        expect(scope.display).toBe('9');
-        expect(scope.expression).toBe('50 +');
-
-        scope.touchEqualsOperator();
-        expect(scope.display).toBe('59');
-        expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toBe('50 + 9 = 59');
-
-        scope.reset();
-        expect(scope.display).toBe('0');
-
-        // min operation
-        scope.touchDigit(9);
-        scope.touchDigit(1);
-        scope.touchOperator('-');
-        expect(scope.operatorStr).toBe('-');
-        scope.touchDigit(9);
-        scope.touchDigit(3);
-        scope.touchEqualsOperator();
-        expect(scope.display).toBe('-2');
-        expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toBe('91 - 93 = -2');
-    });
 
     it('verify operator touched multiple times', function () {
         expect(scope.display).toBe('0');

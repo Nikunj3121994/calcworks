@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Expression Utilities', function () {
+describe('Test Expression Utilities', function () {
 
 
     it('verify addSpaceIfNeeded', function () {
