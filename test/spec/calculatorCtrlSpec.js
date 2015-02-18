@@ -234,11 +234,6 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     it('verify display; multiply', function () {
-        expect(scope.display).toBe('0');
-
-        scope.touchDigit(0);
-        expect(scope.display).toBe('0');
-
         scope.touchDigit(5);
         expect(scope.display).toBe('5');
 
@@ -375,6 +370,32 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('5');
         expect(scope.expression).toBe('14 - 9 = 5');
     });
+
+
+    it('verify behavior with zero - basic', function () {
+        expect(scope.display).toBe('0');
+
+        scope.touchDigit(0);
+        expect(scope.display).toBe('0');
+
+        scope.touchDigit(5);
+        expect(scope.display).toBe('5');
+    });
+
+    it('verify behavior with zero - advanced', function () {
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        scope.touchDigit(9);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('14');
+        expect(scope.expression).toBe('5 + 9 = 14');
+
+        scope.touchDigit(0);
+        expect(scope.display).toBe('0');
+        scope.touchDecimalSeparator();
+        expect(scope.display).toBe('0.');
+    });
+
 
 
 });

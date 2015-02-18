@@ -41,7 +41,10 @@ angular.module('calcworks.controllers')
 
     $scope.touchDigit = function(n) {
         if ($scope.newNumber === true) {
-            if (n !==0) {
+            if (n === 0 && $scope.display === '0') {
+                // ignore
+                console.log('ignore 0');
+            } else {
                 $scope.display = '' + n;
                 $scope.newNumber = false;
                 if ($scope.plusMinusTyped) {
@@ -49,7 +52,7 @@ angular.module('calcworks.controllers')
                     $scope.operatorStr = '';
                     addMinusSymbolToDisplay();
                 }
-            } // else ignore
+            }
         } else {
             $scope.display = ($scope.display) + n;
         }
