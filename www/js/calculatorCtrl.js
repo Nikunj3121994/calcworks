@@ -179,6 +179,7 @@ angular.module('calcworks.controllers')
             calcService.calculate(sheetService.getCurrentSheet().calculations);
             $scope.display = calc.result.toString();
             $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
+            sheetService.saveSheets();
         } catch (e) {
             if (e instanceof SyntaxError) {
                 $scope.display = 'error';

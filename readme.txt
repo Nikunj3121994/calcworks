@@ -47,3 +47,10 @@ $ git update-index --assume-unchanged .idea/workspace.xml
 
 
 wachtwoord: <straat><huisnr>a
+
+
+Issues
+-----
+new button moet in de header of zo
+plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
+decimal separator wordt niet getoond

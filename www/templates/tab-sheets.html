@@ -1,7 +1,7 @@
 <ion-view view-title="Sheets">
   <ion-content>
     <ion-list>
-      <ion-item class="card"   ng-repeat="sheet in sheets">
+      <ion-item class="card"   ng-repeat="sheet in sheets  track by $index"">
           <div class="item item-divider">
              {{sheet.name}}
               <label class="toggle" style="float: right;">
@@ -14,7 +14,7 @@
               <span style="font-weight: lighter">created {{sheet.createdTimestamp | date : 'd MMM yyyy HH:mm' }}</span>
           </div>
           <div class="row"  ng-repeat="calc in sheet.calculations" style="background-color: white">
-              <div class="col">{{calc.varName}}</div>
+              <div class="col">{{calc.varName}}:</div>
               <div class="col col-50">
                   <span class="check-element animate-show" ng-hide="showResolvedExpression">{{calc.expression}}</span>
                   <span class="check-element animate-show" ng-show="showResolvedExpression">{{calc.resolvedExpression}}</span>
