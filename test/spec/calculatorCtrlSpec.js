@@ -397,5 +397,43 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
+    it('verify behavior with brackets', function () {
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toBe('');
+        expect(scope.operatorStr).toBe('');
+        scope.touchCloseBracket();
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toBe('');
+        expect(scope.operatorStr).toBe('');
+
+        scope.reset();
+        scope.touchOpenBracket();
+        scope.touchDigit(5);
+        scope.touchCloseBracket();
+        scope.touchCloseBracket();
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toBe('(5)');
+
+        scope.reset();
+        scope.touchOpenBracket();
+        scope.touchOpenBracket();
+        scope.touchDigit(5);
+        scope.touchCloseBracket();
+        scope.touchCloseBracket();
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toBe('((5))');
+
+        scope.reset();
+        scope.touchOpenBracket();
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        expect(scope.operatorStr).toBe('+');
+        scope.touchCloseBracket();
+        // expect error signal
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toBe('(5 +');
+    });
+
+
 
 });

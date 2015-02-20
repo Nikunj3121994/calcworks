@@ -129,11 +129,18 @@ angular.module('calcworks.controllers')
     };
 
     $scope.touchCloseBracket = function() {
-        // todo: dit is alleen toegestaan als een getal ingetikt was - anders een error geven en ignoren
-        updateDisplayAndExpression();
-        $scope.expression = $scope.expression + ')';
-        // we closed an intermediate expression, now we start 'fresh', sort of mini reset
-        miniReset();
+        var countOpenBrackets = ($scope.expression.match(/\(/g) || []).length;
+        var countCloseBrackets = ($scope.expression.match(/\)/g) || []).length;
+        if (countOpenBrackets - countCloseBrackets >= 1  &&
+                // detect whether an operand has been entered: a number or expression closed with bracket
+            ($scope.newNumber === false || $scope.operatorStr === '')) {
+            updateDisplayAndExpression();
+            $scope.expression = $scope.expression + ')';
+            // we closed an intermediate expression, now we start 'fresh', sort of mini reset
+            miniReset();
+        } else {
+            // todo: error signal
+        }
     };
 
     // operator, close bracket, equalsOperator  call this function
