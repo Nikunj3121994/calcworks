@@ -17,6 +17,7 @@ var testFiles = [
 ];
 
 // dit werkt niet goed, waarschijnlijk vanwege basepath
+// ik run de karma testen direct vanuit cmd line of intellij
 gulp.task('test', function() {
   // Be sure to return the stream
   return gulp.src(testFiles)

@@ -11,7 +11,10 @@ module.exports = function(config) {
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['jasmine'],
 
-    // list of files / patterns to load in the browser
+    // list of files / patterns to load in the browse
+    // pas later vond ik uit dat ionic.bundle.js ook angular libs heeft, deze js zou misschien al alleen voldoende
+    // dus een keer proberen:  'www/lib/ionic/js/ionic.js'  ->  'www/lib/ionic/js/ionic.bundle.js',
+    // en de angular libs verwijderen  - niet alleen dependency maar ook inclusief de files
     files: [
       'www/lib/angular/angular.js',
       'www/lib/angular-animate/angular-animate.js',
