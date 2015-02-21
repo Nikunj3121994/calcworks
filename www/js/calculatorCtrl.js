@@ -202,7 +202,7 @@ angular.module('calcworks.controllers')
         var tempCalc = new Calculation('', '', input);
         var varnames = tempCalc.parseVarsExpression();
         if (varnames.length > 1) {
-            return "internal error, varnames length larger than 1"; // kan wel. maar hoe?
+            return "internal error, varnames length larger than 1: " + varnames; // kan wel. maar hoe?
         } else if (varnames.length === 1) {
             // replace var with value
             var calcs = sheetService.getCurrentSheet().calculations;

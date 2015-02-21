@@ -51,6 +51,11 @@ wachtwoord: <straat><huisnr>a
 
 Issues
 -----
-new button moet in de header of zo
+new button moet in de header of zo, kan evt via een side-menu. New, help, contact,about e.d. http://ionicframework.com/docs/api/directive/ionSideMenus/
+nadeel van side-menu is dat t meer een navigatie menu is ipv een actie menu. Misschien is actionSheet wel beter.
+
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
+
 decimal separator wordt niet getoond
+
+voor de sheet details kan je heel goed de list gebruiken, http://ionicframework.com/docs/api/directive/ionList/
