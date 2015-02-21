@@ -43,7 +43,6 @@ angular.module('calcworks.controllers')
         if ($scope.newNumber === true) {
             if (n === 0 && $scope.display === '0') {
                 // ignore
-                console.log('ignore 0');
             } else {
                 $scope.display = '' + n;
                 $scope.newNumber = false;
@@ -128,12 +127,16 @@ angular.module('calcworks.controllers')
         }
     };
 
+
+    // detect whether an operand has been entered: a number or expression closed with bracket
+    function operandEntered() {
+        return $scope.newNumber === false || $scope.operatorStr === '';
+    }
+
     $scope.touchCloseBracket = function() {
         var countOpenBrackets = ($scope.expression.match(/\(/g) || []).length;
         var countCloseBrackets = ($scope.expression.match(/\)/g) || []).length;
-        if (countOpenBrackets - countCloseBrackets >= 1  &&
-                // detect whether an operand has been entered: a number or expression closed with bracket
-            ($scope.newNumber === false || $scope.operatorStr === '')) {
+        if (countOpenBrackets - countCloseBrackets >= 1  && operandEntered()) {
             updateDisplayAndExpression();
             $scope.expression = $scope.expression + ')';
             // we closed an intermediate expression, now we start 'fresh', sort of mini reset
@@ -171,25 +174,29 @@ angular.module('calcworks.controllers')
 
 
     $scope.touchEqualsOperator = function() {
-        updateDisplayAndExpression();
-        try {
-            $scope.operatorStr = '';
-            var calc = createNewCalculation($scope.expression);
-            sheetService.getCurrentSheet().add(calc);
-            calcService.calculate(sheetService.getCurrentSheet().calculations);
-            $scope.display = calc.result.toString();
-            $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
-            sheetService.saveSheets();
-        } catch (e) {
-            if (e instanceof SyntaxError) {
-                $scope.display = 'error';
-            } else {
-                console.log('internal error: ' + e);
-                $scope.display = 'internal error: ' + e;
+        if (operandEntered()) {
+            updateDisplayAndExpression();
+            try {
+                $scope.operatorStr = '';
+                var calc = createNewCalculation($scope.expression);
+                sheetService.getCurrentSheet().add(calc);
+                calcService.calculate(sheetService.getCurrentSheet().calculations);
+                $scope.display = calc.result.toString();
+                $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
+                sheetService.saveSheets();
+            } catch (e) {
+                if (e instanceof SyntaxError) {
+                    $scope.display = 'error';
+                } else {
+                    console.log('internal error: ' + e);
+                    $scope.display = 'internal error: ' + e;
+                }
             }
+            $scope.newNumber = true;
+            $scope.newExpression = true;
+        } else {
+            // ignore, consider error signal
         }
-        $scope.newNumber = true;
-        $scope.newExpression = true;
     };
 
 

@@ -59,3 +59,13 @@ plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 decimal separator wordt niet getoond
 
 voor de sheet details kan je heel goed de list gebruiken, http://ionicframework.com/docs/api/directive/ionList/
+
+achtergrond kleur bij sheet list loopt niet door
+
+beep of vibrate bij fout in calculator
+
+test schrijven voor filter bij calculator
+
+hoogte van de rows - moet dynamisch. Ik snap t alleen niet, t staat nu op 12% - dat is relatief...
+
+het file heet sheetsService, maar de service heet sheetService (de 's')

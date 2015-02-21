@@ -14,6 +14,9 @@ angular.module('calcworks.services')
             },
             getObject: function(key) {
                 return JSON.parse($window.localStorage[key] || '{}');
+            },
+            deleteObject: function(key) {
+                $window.localStorage.removeItem(key);
             }
         };
     }]);

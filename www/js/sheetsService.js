@@ -3,7 +3,7 @@
 angular.module('calcworks.services')
     .factory('sheetService', function(storageService) {
 
-        //var currentSheet = new Sheet('new sheet', []);
+        // init
         var sheets = null;
         sheets = storageService.getObject('sheets');
         if (angular.equals({}, sheets)) {
@@ -24,6 +24,13 @@ angular.module('calcworks.services')
             saveSheets: function() {
                 storageService.setObject('sheets', sheets);
             },
+            getSheet: function(id) {
+                for (var i in sheets) {
+                    if (sheets[i].id === id) {
+                        return sheets[i];
+                    }
+                }
+            },
             deleteSheet: function(id) {
                 for (var i in sheets) {
                     if (sheets[i].id === id) {
@@ -36,6 +43,10 @@ angular.module('calcworks.services')
                 // in the future:
                 //storageService.removeItem(key);
 
+            },
+            deleteAllSheets: function() {
+                storageService.deleteObject('sheets');
+                sheets = [];
             }
         };
     });

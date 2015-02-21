@@ -435,5 +435,25 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
+    it('verify behavior with equals', function () {
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        scope.touchEqualsOperator();
+        // expect error signal
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toBe('5 +');
+
+        scope.reset();
+        scope.touchOpenBracket();
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        scope.touchDigit(1);
+        scope.touchCloseBracket();
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('6');
+        expect(scope.expression).toBe('(5 + 1) = 6');
+
+    });
+
 
 });

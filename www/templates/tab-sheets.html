@@ -1,15 +1,9 @@
 <ion-view view-title="Sheets">
   <ion-content>
     <ion-list>
-      <ion-item class="card"   ng-repeat="sheet in sheets  track by $index"">
+      <ion-item class="card"   ng-repeat="sheet in sheets  track by $index" href="#/tab/sheets/{{sheet.id}}">
           <div class="item item-divider">
              {{sheet.name}}
-              <label class="toggle" style="float: right;">
-                  <input type="checkbox" ng-model="showResolvedExpression" ng-change="changeResolvedExpression()">
-                  <div class="track">
-                      <div class="handle"></div>
-                  </div>
-              </label>
               <br>
               <span style="font-weight: lighter">created {{sheet.createdTimestamp | date : 'd MMM yyyy HH:mm' }}</span>
           </div>
@@ -22,20 +16,20 @@
               <div class="col">= {{calc.result}}</div>
           </div>
 
-          <div class="item tabs tabs-secondary tabs-icon-left">
-              <a class="tab-item" href="#">
-                  <i class="icon ion-star"></i>
-                  Favorite
-              </a>
-              <a class="tab-item" href="#">
-                  <i class="icon ion-chatbox"></i>
-                  Comment
-              </a>
-              <a class="tab-item" href="#">
-                  <i class="icon ion-share"></i>
-                  Share
-              </a>
-          </div>
+          <!--<div class="item tabs tabs-secondary tabs-icon-left">-->
+              <!--<a class="tab-item" href="#">-->
+                  <!--<i class="icon ion-star"></i>-->
+                  <!--Favorite-->
+              <!--</a>-->
+              <!--<a class="tab-item" href="#">-->
+                  <!--<i class="icon ion-chatbox"></i>-->
+                  <!--Comment-->
+              <!--</a>-->
+              <!--<a class="tab-item" href="#">-->
+                  <!--<i class="icon ion-share"></i>-->
+                  <!--Share-->
+              <!--</a>-->
+          <!--</div>-->
       </ion-item>
     </ion-list>
   </ion-content>

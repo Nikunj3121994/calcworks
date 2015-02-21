@@ -6,11 +6,22 @@ The Sheets service returns an array of sheet data
 -->
 <ion-view view-title="{{sheet.name}}">
   <ion-content class="padding">
-    yep!!
-    <img ng-src="{{sheet.face}}" style="width: 64px; height: 64px">
-    <h3>Notes</h3>
-    <p>
-      {{sheet.notes}}
-    </p>
+      <div class="">
+          <span style="font-weight: lighter">created {{sheet.createdTimestamp | date : 'd MMM yyyy HH:mm' }}</span>
+          <label class="toggle" style="float: right;">
+          <input type="checkbox" ng-model="showResolvedExpression" ng-change="changeResolvedExpression()">
+          <div class="track">
+          <div class="handle"></div>
+          </div>
+          </label>
+      </div>
+      <div class="row"  ng-repeat="calc in sheet.calculations  track by $index"  style="background-color: white">
+          <div class="col">{{calc.varName}}:</div>
+          <div class="col col-50">
+              <span class="check-element animate-show" ng-show="showResolvedExpression">{{calc.resolvedExpression}}</span>
+              <span class="check-element animate-show" ng-hide="showResolvedExpression">{{calc.expression}}</span>
+          </div>
+          <div class="col">= {{calc.result}}</div>
+      </div>
   </ion-content>
 </ion-view>
