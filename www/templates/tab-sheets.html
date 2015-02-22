@@ -3,33 +3,34 @@
     <ion-list>
       <ion-item class="card"   ng-repeat="sheet in sheets  track by $index" href="#/tab/sheets/{{sheet.id}}">
           <div class="item item-divider">
-             {{sheet.name}}
+              <a ng-click="showRenamePopup(sheet)">{{sheet.name}}</a>
               <br>
               <span style="font-weight: lighter">created {{sheet.createdTimestamp | date : 'd MMM yyyy HH:mm' }}</span>
           </div>
           <div class="row"  ng-repeat="calc in sheet.calculations" style="background-color: white">
               <div class="col">{{calc.varName}}:</div>
-              <div class="col col-50">
+              <div class="col col-50" style="text-align: right">
                   <span class="check-element animate-show" ng-hide="showResolvedExpression">{{calc.expression}}</span>
                   <span class="check-element animate-show" ng-show="showResolvedExpression">{{calc.resolvedExpression}}</span>
+                  =
               </div>
-              <div class="col">= {{calc.result}}</div>
+              <div class="col" style="text-align: right">{{calc.result}}</div>
           </div>
 
-          <!--<div class="item tabs tabs-secondary tabs-icon-left">-->
-              <!--<a class="tab-item" href="#">-->
-                  <!--<i class="icon ion-star"></i>-->
-                  <!--Favorite-->
-              <!--</a>-->
-              <!--<a class="tab-item" href="#">-->
-                  <!--<i class="icon ion-chatbox"></i>-->
-                  <!--Comment-->
-              <!--</a>-->
-              <!--<a class="tab-item" href="#">-->
-                  <!--<i class="icon ion-share"></i>-->
-                  <!--Share-->
-              <!--</a>-->
-          <!--</div>-->
+          <div class="item tabs tabs-secondary tabs-icon-left">
+              <a class="tab-item" href="#">
+                  <i class="icon ion-star"></i>
+                  Favorite
+              </a>
+              <a class="tab-item" href="#" ng-click="confirmDeleteSheet(sheet)">
+                  <i class="icon ion-trash-b"></i>
+                  Delete
+              </a>
+              <a class="tab-item" href="#">
+                  <i class="icon ion-share"></i>
+                  Share
+              </a>
+          </div>
       </ion-item>
     </ion-list>
   </ion-content>

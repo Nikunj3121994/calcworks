@@ -78,3 +78,8 @@ rechts align van de results, maar liefst zodat de dec sep wel op een vaste plek 
 
 settings dialog moet nog op de schop, bij deleten van alle sheets, moet er nog een broadcast
 
+na het deleten van een calculatie moet je nog persisten
+
+icon
+
+bij aanzetten of activeren een nieuwe sheet starten
