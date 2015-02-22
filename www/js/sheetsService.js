@@ -47,6 +47,7 @@ angular.module('calcworks.services')
             deleteAllSheets: function() {
                 storageService.deleteObject('sheets');
                 sheets = [];
+                //todo: broadcast to controllers like sheetsController
             }
         };
     });

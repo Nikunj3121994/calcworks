@@ -5,23 +5,63 @@ The SheetsCtrl pulls data from the Sheets service (service.js)
 The Sheets service returns an array of sheet data
 -->
 <ion-view view-title="{{sheet.name}}">
+
+
   <ion-content class="padding">
-      <div class="">
-          <span style="font-weight: lighter">created {{sheet.createdTimestamp | date : 'd MMM yyyy HH:mm' }}</span>
-          <label class="toggle" style="float: right;">
-          <input type="checkbox" ng-model="showResolvedExpression" ng-change="changeResolvedExpression()">
-          <div class="track">
-          <div class="handle"></div>
+      <div style="display:inline-block;width: 100%;overflow: hidden;position: relative; background-color: #b7b7b7">
+          <div class="buttons" style="display:inline-block">
+              <button class="button"
+                      ng-click="showDelete = !showDelete; showReorder = false">
+                  Delete
+              </button>
           </div>
-          </label>
-      </div>
-      <div class="row"  ng-repeat="calc in sheet.calculations  track by $index"  style="background-color: white">
-          <div class="col">{{calc.varName}}:</div>
-          <div class="col col-50">
-              <span class="check-element animate-show" ng-show="showResolvedExpression">{{calc.resolvedExpression}}</span>
-              <span class="check-element animate-show" ng-hide="showResolvedExpression">{{calc.expression}}</span>
+          <div style="display:inline-block; font-size: 25px;height: 100%;position: absolute;top:25% ;left: 40%">Calculations</div>
+          <div style="display:inline-block;height: 100%;position: absolute;top:20%; left: 70%">
+              <label class="toggle toggle-energized" style="float: right;">
+                  <input type="checkbox" ng-model="showResolvedExpression" >
+                  <div class="track">
+                      <div class="handle"></div>
+                  </div>
+              </label>
           </div>
-          <div class="col">= {{calc.result}}</div>
+          <div class="buttons"  style="display:inline-block;float: right;">
+              <button class="button" ng-click="showDelete = false; showReorder = !showReorder">
+                  Reorder
+              </button>
+          </div>
       </div>
+      <!--<div class="row"  ng-repeat="calc in sheet.calculations  track by $index"  style="background-color: white">-->
+          <!--<div class="col">{{calc.varName}}:</div>-->
+          <!--<div class="col col-50">-->
+              <!--<span class="check-element animate-show" ng-show="showResolvedExpression">{{calc.resolvedExpression}}</span>-->
+              <!--<span class="check-element animate-show" ng-hide="showResolvedExpression">{{calc.expression}}</span>-->
+          <!--</div>-->
+          <!--<div class="col">= {{calc.result}}</div>-->
+      <!--</div>-->
+
+      <ion-list
+                show-delete="showDelete"
+                show-reorder="showReorder"
+                can-swipe="true">
+          <ion-item class="item-remove-animate item-icon-right" ng-repeat="calc in sheet.calculations  track by $index" >
+              <!--class="item-thumbnail-left"-->
+              <div >
+                  <span style="display:inline-block;width: 30%;padding-left: 4%">{{calc.varName}}: </span>
+                  <span ng-show="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.resolvedExpression}} </span>
+                  <span ng-hide="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.expression}} </span>
+                  <span style="display:inline-block;width: 20%"> = {{calc.result}} </span>
+                  <ion-option-button class="button-info" ng-click="edit(item)">
+                      Edit
+                  </ion-option-button>
+                  <ion-delete-button class="ion-minus-circled" ng-click="sheet.calculations.splice($index, 1)">
+                  </ion-delete-button>
+                  <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
+                  </ion-reorder-button>
+              </div>
+
+          </ion-item>
+      </ion-list>
+
+
   </ion-content>
 </ion-view>
