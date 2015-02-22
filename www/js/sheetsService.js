@@ -4,7 +4,7 @@ angular.module('calcworks.services')
     .factory('sheetService', function(storageService) {
 
         // init
-        var sheets = null;
+        var sheets = [];
         sheets = storageService.getObject('sheets');
         if (angular.equals({}, sheets)) {
             sheets = [];
@@ -19,6 +19,7 @@ angular.module('calcworks.services')
                 return sheets;
             },
             getCurrentSheet: function() {
+                // if sheets=[] throw exception
                 return sheets[sheets.length-1];
             },
             saveSheets: function() {
@@ -47,7 +48,6 @@ angular.module('calcworks.services')
             deleteAllSheets: function() {
                 storageService.deleteObject('sheets');
                 sheets = [];
-                //todo: broadcast to controllers like sheetsController
             }
         };
     });

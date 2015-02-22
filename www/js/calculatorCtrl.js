@@ -38,6 +38,10 @@ angular.module('calcworks.controllers')
 
     $scope.newSheet();  // misschien moet deze naar app.js als ie device ready is
 
+    $scope.$on('allSheetsDeletedEvent', function(e, value) {
+        $scope.newSheet();
+    });
+
 
     $scope.touchDigit = function(n) {
         if ($scope.newNumber === true) {
