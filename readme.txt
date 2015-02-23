@@ -83,3 +83,8 @@ na het deleten van een calculatie moet je nog persisten
 icon
 
 bij aanzetten of activeren een nieuwe sheet starten
+
+favorite support.
+
+toon 'today' of 'yesterday' ipv de datum
+misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
