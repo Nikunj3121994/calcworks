@@ -1,17 +1,31 @@
-angular.module('calcworks.controllers')
+"use strict";
 
+angular.module('calcworks.controllers')
 
 .controller('SettingsCtrl', function($scope, $ionicPopup, $rootScope, sheetService) {
 
+    $scope.includeFavoriteSheets = false;
+
+    // without this explicit function you get all kinds of checkbox/angularjs issues
+    $scope.toggleIncludeFavoriteSheets = function() {
+        $scope.includeFavoriteSheets = !$scope.includeFavoriteSheets;
+    };
 
     $scope.deleteAllSheets = function() {
+        var templ;
+        console.log($scope.includeFavoriteSheets);
+        if ($scope.includeFavoriteSheets) {
+            templ = 'Are you sure you want to delete all sheets - including favorites?';
+        } else {
+            templ = 'Are you sure you want to delete all sheets excluding favorites?';
+        }
         var confirmPopup = $ionicPopup.confirm({
-            title: 'Delete all sheets',
-            template: 'Are you sure you want to delete all sheets?'
+            title: 'Delete sheets',
+            template: templ
         });
         confirmPopup.then(function(res) {
             if (res) {
-                sheetService.deleteAllSheets();
+                sheetService.deleteAllSheets($scope.includeFavoriteSheets);
                 $rootScope.$broadcast("allSheetsDeletedEvent", null);
             }
         });

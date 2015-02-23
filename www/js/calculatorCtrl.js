@@ -39,6 +39,7 @@ angular.module('calcworks.controllers')
     $scope.newSheet();  // misschien moet deze naar app.js als ie device ready is
 
     $scope.$on('allSheetsDeletedEvent', function(e, value) {
+        // consider: eigenlijk zou je alleen een nieuwe sheet moeten aanmaken als de current verwijderd is
         $scope.newSheet();
     });
 

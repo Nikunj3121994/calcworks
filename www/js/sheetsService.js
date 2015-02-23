@@ -53,9 +53,16 @@ angular.module('calcworks.services')
                 //storageService.removeItem(key);
 
             },
-            deleteAllSheets: function() {
-                storageService.deleteObject('sheets');
-                sheets = [];
+            deleteAllSheets: function(includeFavoriteSheets) {
+                if (includeFavoriteSheets) {
+                    storageService.deleteObject('sheets');
+                    sheets = [];
+                } else {
+                    sheets = sheets.filter(function(sheet) {
+                        return sheet.favorite;
+                    });
+                }
+                storageService.setObject('sheets', sheets);
             }
         };
     });

@@ -87,3 +87,7 @@ toon 'today' of 'yesterday' ipv de datum
 misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
 
 aan settings tab een 'send feedback' toevoegen
+
+alle sheets verwijderen kan ook de huidige (current) verwijderen, kan ellende geven.
+ook nog testen met en zonder favorite sheet.
+

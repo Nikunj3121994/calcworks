@@ -10,9 +10,12 @@
             <!--</div>-->
       <!--</ion-item>-->
       <ion-item >
-          <button class="button button-assertive" ng-click="deleteAllSheets()">
-              Delete all sheets
+          <button class="button button-assertive" ng-click="deleteAllSheets()" style="display:inline-block">
+              Delete sheets
           </button>
+          <ion-toggle ng-model="includeFavoriteSheets" ng-change="toggleIncludeFavoriteSheets()" toggle-class="toggle-assertive" style="display:inline-block;float: right">
+              Include favorite sheets
+          </ion-toggle>
       </ion-item>
     </ion-list>
   </ion-content>
