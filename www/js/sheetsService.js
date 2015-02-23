@@ -1,5 +1,13 @@
 'use strict';
 
+// dit gebruikt een hele simpel storage model waarbij alle sheets in 1 json object (key) worden opgeslagen
+// het is beter om elke sheet zijn eigen json object te geven. Hierdoor worden saves efficienter.
+// nadeel is wel dat het lastig kan worden om bijvoorbeeld alle sheets te deleten.
+// misschien moet je de keys prefixen met een token zodat je snel kan zien wat voor soort object het is
+
+// ook nog iets om over na te denken is: geven we een id als parameter mee of het object zelf?
+// als we de sheets los opslaan is het makkelijk, dan moet je de id meegeven.
+
 angular.module('calcworks.services')
     .factory('sheetService', function(storageService) {
 
@@ -13,14 +21,14 @@ angular.module('calcworks.services')
         return {
             newSheet: function() {
                 var sheet = new Sheet('new sheet', []);
-                sheets.push(sheet);
+                sheets.splice(0, 0, sheet);
             },
             getSheets: function() {
                 return sheets;
             },
             getCurrentSheet: function() {
-                // if sheets=[] throw exception
-                return sheets[sheets.length-1];
+                // consider: if sheets=[] throw exception
+                return sheets[0];
             },
             saveSheets: function() {
                 storageService.setObject('sheets', sheets);

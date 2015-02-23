@@ -1,7 +1,7 @@
 <ion-view view-title="Sheets">
   <ion-content>
     <ion-list>
-      <ion-item class="card"   ng-repeat="sheet in sheets  track by $index" href="#/tab/sheets/{{sheet.id}}">
+      <ion-item class="card"   ng-repeat="sheet in sheets " href="#/tab/sheets/{{sheet.id}}">
           <div class="item item-divider">
               <a ng-click="showRenamePopup(sheet)">{{sheet.name}}</a>
               <br>
