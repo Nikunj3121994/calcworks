@@ -69,18 +69,15 @@ test schrijven voor filter bij calculator
 hoogte van de rows - moet dynamisch. Ik snap t alleen niet, t staat nu op 12% - dat is relatief...
 
 het file heet sheetsService, maar de service heet sheetService (de 's')
-
-de volgorde van de sheets, op createdDate?
-
-aanpassen van de naam van de sheet - hoe?
+plaats files mbt feature bij elkaar
 
 rechts align van de results, maar liefst zodat de dec sep wel op een vaste plek zit
 
-settings dialog moet nog op de schop, bij deleten van alle sheets, moet er nog een broadcast
+settings dialog moet nog op de schop, bij deleten van alleen niet favorite sheets
 
 na het deleten van een calculatie moet je nog persisten
 
-icon
+icon v/d app
 
 bij aanzetten of activeren een nieuwe sheet starten
 
@@ -88,3 +85,5 @@ favorite support.
 
 toon 'today' of 'yesterday' ipv de datum
 misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
+
+aan settings tab een 'send feedback' toevoegen

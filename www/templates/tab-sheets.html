@@ -18,8 +18,8 @@
           </div>
 
           <div class="item tabs tabs-secondary tabs-icon-left">
-              <a class="tab-item" href="#">
-                  <i class="icon ion-star"></i>
+              <a class="tab-item" href="#" ng-click="toggleSheetFavorite(sheet)">
+                  <i class="icon ion-star ng-class:{'favoriteOn': sheet.favorite}"></i>
                   Favorite
               </a>
               <a class="tab-item" href="#" ng-click="confirmDeleteSheet(sheet)">

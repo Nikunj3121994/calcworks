@@ -6,6 +6,7 @@ var Sheet = function(name, calculations) {
     this.name = name;
     this.calculations = calculations;
     this.createdTimestamp = new Date();
+    this.favorite = false;
 };
 
 Sheet.prototype.nrOfCalcs = function() {

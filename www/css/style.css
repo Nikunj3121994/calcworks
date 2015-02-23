@@ -89,3 +89,8 @@ onderstaande css is misschien onnodig ivm scroll=false in html
 .calculator-btn:active {
     background-color: #9d9d9d;
 }
+
+
+.favoriteOn {
+    color: #eed508
+}

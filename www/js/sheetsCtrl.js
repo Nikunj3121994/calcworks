@@ -39,7 +39,6 @@ angular.module('calcworks.controllers')
                 if (res) {
                     sheet.name = res;
                     sheetService.saveSheets();
-                    //console.log('Tapped!', res);
                 }
             });
             $timeout(function() {
@@ -57,7 +56,15 @@ angular.module('calcworks.controllers')
                     // we kunnen ook de functie aanpassen en de sheet zelf meegeven
                     sheetService.deleteSheet(sheet.id);
                     $scope.sheets= sheetService.getSheets();
+                    //todo: als current sheet delete is, dan een nieuwe aanmaken
+                    // misschien moet er altijd een current sheet zijn op sheetService nivo
                 }
             });
         };
+
+        $scope.toggleSheetFavorite = function(sheet) {
+            sheet.favorite = !sheet.favorite;
+            sheetService.saveSheets();
+        };
+
     });

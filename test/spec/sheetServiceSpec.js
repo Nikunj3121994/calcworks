@@ -26,6 +26,7 @@ describe('Test sheetService', function () {
 
         sheetService.newSheet();
         expect(sheetService.getCurrentSheet().calculations.length).toBe(0);
+        // mock storage en dan:
         //expect(sheetService.getSheets().length).toBe(2);
 
     });
