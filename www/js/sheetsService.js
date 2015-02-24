@@ -27,7 +27,9 @@ angular.module('calcworks.services')
                 return sheets;
             },
             getCurrentSheet: function() {
-                // consider: if sheets=[] throw exception
+                if (sheets.length === 0) {
+                    return null;
+                }
                 return sheets[0];
             },
             saveSheets: function() {

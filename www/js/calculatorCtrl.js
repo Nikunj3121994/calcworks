@@ -36,6 +36,8 @@ angular.module('calcworks.controllers')
         sheetService.newSheet();
     };
 
+        // de calculator controller heeft altijd een sheet nodig om zijn rekenwerk in te doen
+        // (de filter gaat variabelen resolven)
     $scope.newSheet();  // misschien moet deze naar app.js als ie device ready is
 
     //$scope.$on('sheetsUpdated', function(e, value) {
@@ -172,8 +174,8 @@ angular.module('calcworks.controllers')
     function createNewCalculation(expression) {
         var varName = generateVarName(lastVarName);
         lastVarName = varName;
-        //var id = calcService.generateUUID();
-        var calc = new Calculation(1234, varName, expression);
+        var id = ionic.Utils.nextUid(); // ionic util
+        var calc = new Calculation(id, varName, expression);
         return calc;
     }
 
