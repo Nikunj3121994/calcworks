@@ -14,18 +14,19 @@ describe('Test sheetService', function () {
     //todo: use a mock persistence
 
     it('verify sheet', function() {
-        sheetService.newSheet();
-        expect(sheetService.getCurrentSheet().name).toBe('new sheet');
-        expect(sheetService.getCurrentSheet().calculations.length).toBe(0);
+        var sheet = sheetService.createSheet();
+        expect(sheet.id).toBeUndefined();
+        expect(sheet.name).toBe('new sheet');
+        expect(sheet.calculations.length).toBe(0);
         var calc = new Calculation();
-        sheetService.getCurrentSheet().add(calc);
-        expect(sheetService.getCurrentSheet().calculations.length).toBe(1);
+        sheet.add(calc);
 
-        sheetService.getCurrentSheet().name = 'foo';
-        expect(sheetService.getCurrentSheet().name).toBe('foo');
+        sheetService.addSheet(sheet);
+        expect(sheet.id).toBeDefined();
 
-        sheetService.newSheet();
-        expect(sheetService.getCurrentSheet().calculations.length).toBe(0);
+        sheet = sheetService.getSheet(sheet.id);
+        expect(sheet.calculations.length).toBe(1);
+
         // mock storage en dan:
         //expect(sheetService.getSheets().length).toBe(2);
 

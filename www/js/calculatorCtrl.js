@@ -6,6 +6,7 @@ angular.module('calcworks.controllers')
 
     var decimalSeparator = getDecimalSeparator();
     var lastVarName = '';
+    var sheet;
 
 
     $scope.reset = function() {
@@ -33,11 +34,11 @@ angular.module('calcworks.controllers')
     $scope.newSheet = function() {
         $scope.reset();
         lastVarName = '';
-        sheetService.newSheet();
+        sheet = sheetService.createSheet();
     };
 
-        // de calculator controller heeft altijd een sheet nodig om zijn rekenwerk in te doen
-        // (de filter gaat variabelen resolven)
+    // de calculator controller heeft altijd een sheet nodig om zijn rekenwerk in te doen
+    // (de filter gaat variabelen resolven)
     $scope.newSheet();  // misschien moet deze naar app.js als ie device ready is
 
     //$scope.$on('sheetsUpdated', function(e, value) {
@@ -111,7 +112,7 @@ angular.module('calcworks.controllers')
         // 1)  d
         // 2)  ... (d * d)
         // 3)  0   but there is a previous answer
-        if (!$scope.newNumber || endsWith($scope.expression, ')') || ($scope.newExpression && sheetService.getCurrentSheet().nrOfCalcs() > 0)) {
+        if (!$scope.newNumber || endsWith($scope.expression, ')') || ($scope.newExpression && sheet.nrOfCalcs() > 0)) {
             updateDisplayAndExpression();
             $scope.expression = addSpaceIfNeeded($scope.expression) + operator;
             $scope.operatorStr = operator;
@@ -186,11 +187,15 @@ angular.module('calcworks.controllers')
             try {
                 $scope.operatorStr = '';
                 var calc = createNewCalculation($scope.expression);
-                sheetService.getCurrentSheet().add(calc);
-                calcService.calculate(sheetService.getCurrentSheet().calculations);
+                sheet.add(calc);
+                calcService.calculate(sheet.calculations);
                 $scope.display = calc.result.toString();
                 $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
-                sheetService.saveSheets();
+                if (!sheet.id) {
+                    sheetService.addSheet(sheet);
+                } else {
+                    sheetService.saveSheets();
+                }
             } catch (e) {
                 if (e instanceof SyntaxError) {
                     $scope.display = 'error';
@@ -219,7 +224,7 @@ angular.module('calcworks.controllers')
             return "internal error, varnames length larger than 1: " + varnames; // kan wel. maar hoe?
         } else if (varnames.length === 1) {
             // replace var with value
-            var calcs = sheetService.getCurrentSheet().calculations;
+            var calcs = sheet.calculations;
             var value = calcs[calcs.length-1].result;
             var result = calcService.replaceAllVars(varnames[0], value, input);
             return result;

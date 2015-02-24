@@ -51,14 +51,15 @@ wachtwoord: <straat><huisnr>a
 
 Issues
 -----
+
+lijst van sheets update niet als je alle sheets verwijderd.
+
 new button moet in de header of zo, kan evt via een side-menu. New, help, contact,about e.d. http://ionicframework.com/docs/api/directive/ionSideMenus/
 nadeel van side-menu is dat t meer een navigatie menu is ipv een actie menu. Misschien is actionSheet wel beter.
 
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 
 decimal separator wordt niet getoond
-
-voor de sheet details kan je heel goed de list gebruiken, http://ionicframework.com/docs/api/directive/ionList/
 
 achtergrond kleur bij sheet list loopt niet door
 
@@ -71,26 +72,25 @@ hoogte van de rows - moet dynamisch. Ik snap t alleen niet, t staat nu op 12% - 
 het file heet sheetsService, maar de service heet sheetService (de 's')
 plaats files mbt feature bij elkaar
 
-rechts align van de results, maar liefst zodat de dec sep wel op een vaste plek zit
-
-settings dialog moet nog op de schop, bij deleten van alleen niet favorite sheets
-
-na het deleten van een calculatie moet je nog persisten
+reorder van de calcs
 
 icon v/d app
 
 bij aanzetten of activeren een nieuwe sheet starten
-
-favorite support.
 
 toon 'today' of 'yesterday' ipv de datum
 misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
 
 aan settings tab een 'send feedback' toevoegen
 
-alle sheets verwijderen kan ook de huidige (current) verwijderen, kan ellende geven.
-ook nog testen met en zonder favorite sheet.
-
-als de vorige sheet leeg was dan kan je 'm meteen deleten of niet saven. M.a.w. pas saven als er 1 calculatie in zit.
-Het zou mooier zijn als je pas aanmaakt bij de eerste calculatie.
-
+alle sheets verwijderen kan ook de huidige (current) verwijderen, die blijft dan echter bestaan in de ctrl.
+Zelfde als je de huidige sheet delete dan komt weer ie terug na calculatie toevoegen.
+CalculatorCtrl zou in de gaten moeten hebben dat de huidige sheet verwijderd is en een nieuwe moeten aanmaken.
+Je zou een broadcast updateSheet kunnen doen en dan in de ctrl kijken of zijn id nog in de lijst voorkomt.
+zo niet dan een nieuwe sheet aanmaken.
+OF
+ bij een delete in de service de id op undefined zetten
+ in de ctrl kijken of id undefined is en dan een nieuwe sheet aanmaken
+Maar
+ ik dend dat het mooiste is als de service bij een delete een updateSheets event verstuurt
+ de calcCtrl zet dan sheet = createNewSheet

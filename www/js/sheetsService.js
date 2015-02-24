@@ -19,18 +19,18 @@ angular.module('calcworks.services')
         }
 
         return {
-            newSheet: function() {
+            createSheet: function() {
+                // we do not set id, id used as flag if sheet is persisted
                 var sheet = new Sheet('new sheet', []);
+                return sheet;
+            },
+            addSheet: function(sheet) {
+                sheet.id = ionic.Utils.nextUid(); // ionic util
                 sheets.splice(0, 0, sheet);
+                storageService.setObject('sheets', sheets);
             },
             getSheets: function() {
                 return sheets;
-            },
-            getCurrentSheet: function() {
-                if (sheets.length === 0) {
-                    return null;
-                }
-                return sheets[0];
             },
             saveSheets: function() {
                 storageService.setObject('sheets', sheets);

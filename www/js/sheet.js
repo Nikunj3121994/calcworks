@@ -2,7 +2,6 @@
 
 
 var Sheet = function(name, calculations) {
-    this.id = ionic.Utils.nextUid(); // ionic util
     this.name = name;
     this.calculations = calculations;
     this.createdTimestamp = new Date();
