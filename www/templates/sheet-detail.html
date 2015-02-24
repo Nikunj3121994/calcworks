@@ -43,7 +43,7 @@ The Sheets service returns an array of sheet data
                   <ion-option-button class="button-info" ng-click="edit(item)">
                       Edit
                   </ion-option-button>
-                  <ion-delete-button class="ion-minus-circled" ng-click="sheet.calculations.splice($index, 1)">
+                  <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
                   </ion-delete-button>
                   <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
                   </ion-reorder-button>

@@ -9,7 +9,7 @@
 // als we de sheets los opslaan is het makkelijk, dan moet je de id meegeven.
 
 angular.module('calcworks.services')
-    .factory('sheetService', function(storageService) {
+    .factory('sheetService', function($rootScope, storageService) {
 
         // init
         var sheets = [];
@@ -63,6 +63,9 @@ angular.module('calcworks.services')
                     });
                 }
                 storageService.setObject('sheets', sheets);
+                // we zouden in de tweede parameter meer info kunnen stoppen, bijvoorbeeld 'all' of de index van
+                // welke sheet is aangepast.
+                $rootScope.$broadcast("sheetsUpdated", null);
             }
         };
     });

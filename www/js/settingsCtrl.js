@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-.controller('SettingsCtrl', function($scope, $ionicPopup, $rootScope, sheetService) {
+.controller('SettingsCtrl', function($scope, $ionicPopup, sheetService) {
 
     $scope.includeFavoriteSheets = false;
 
@@ -25,7 +25,6 @@ angular.module('calcworks.controllers')
         confirmPopup.then(function(res) {
             if (res) {
                 sheetService.deleteAllSheets($scope.includeFavoriteSheets);
-                $rootScope.$broadcast("allSheetsDeletedEvent", null);
             }
         });
     };

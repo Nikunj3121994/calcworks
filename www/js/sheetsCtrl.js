@@ -6,9 +6,9 @@ angular.module('calcworks.controllers')
         $scope.sheets = sheetService.getSheets();
         $scope.showResolvedExpression = true;
 
-        $scope.$on('allSheetsDeletedEvent', function(e, value) {
-            $scope.sheets = sheetService.getSheets();
-        });
+        //$scope.$on('sheetsUpdated', function(e, value) {
+        //    $scope.sheets = sheetService.getSheets();
+        //});
 
         $scope.showRenamePopup = function(sheet) {
             $scope.data = {};
