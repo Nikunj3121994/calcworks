@@ -13,7 +13,6 @@ angular.module('calcworks.controllers')
 
     $scope.deleteAllSheets = function() {
         var templ;
-        console.log($scope.includeFavoriteSheets);
         if ($scope.includeFavoriteSheets) {
             templ = 'Are you sure you want to delete all sheets - including favorites?';
         } else {

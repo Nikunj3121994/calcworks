@@ -91,3 +91,6 @@ aan settings tab een 'send feedback' toevoegen
 alle sheets verwijderen kan ook de huidige (current) verwijderen, kan ellende geven.
 ook nog testen met en zonder favorite sheet.
 
+als de vorige sheet leeg was dan kan je 'm meteen deleten of niet saven. M.a.w. pas saven als er 1 calculatie in zit.
+Het zou mooier zijn als je pas aanmaakt bij de eerste calculatie.
+
