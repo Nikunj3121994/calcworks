@@ -86,11 +86,9 @@ aan settings tab een 'send feedback' toevoegen
 alle sheets verwijderen kan ook de huidige (current) verwijderen, die blijft dan echter bestaan in de ctrl.
 Zelfde als je de huidige sheet delete dan komt weer ie terug na calculatie toevoegen.
 CalculatorCtrl zou in de gaten moeten hebben dat de huidige sheet verwijderd is en een nieuwe moeten aanmaken.
-Je zou een broadcast updateSheet kunnen doen en dan in de ctrl kijken of zijn id nog in de lijst voorkomt.
-zo niet dan een nieuwe sheet aanmaken.
-OF
- bij een delete in de service de id op undefined zetten
- in de ctrl kijken of id undefined is en dan een nieuwe sheet aanmaken
-Maar
- ik dend dat het mooiste is als de service bij een delete een updateSheets event verstuurt
- de calcCtrl zet dan sheet = createNewSheet
+Opl:
+ ik denk dat het mooiste is als de service bij een delete een deleteSheets event verstuurt met de id van
+ de sheet die verwijderd is. null als meerdere sheets verwijderd zijn
+ de calcCtrl zet dan bij zelfde id sheet = createNewSheet
+
+ als je een nieuwe sheet aanmaakt, heeft ie nog geen id. Je kan dan niet zijn details editen...
