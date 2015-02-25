@@ -36,8 +36,7 @@ The Sheets service returns an array of sheet data
                 can-swipe="true">
           <ion-item class="item-remove-animate item-icon-right" ng-repeat="calc in sheet.calculations  track by $index" >
               <div>
-                  <!--<span style="display:inline-block;width: 30%;padding-left: 4%">{{calc.varName}}: </span>-->
-                  <a style="display:inline-block;width: 30%;padding-left: 4%" ng-click="showRenamePopup(calc)">{{calc.varName}}:</a>
+                  <a style="display:inline-block;width: 30%;padding-left: 4%; cursor: pointer" ng-click="showRenamePopup(calc)">{{calc.varName}}:</a>
                   <span ng-show="showResolvedExpression" style="display:inline-block;width: 50%; text-align: right">{{calc.resolvedExpression}} = </span>
                   <span ng-hide="showResolvedExpression" style="display:inline-block;width: 50%; text-align: right">{{calc.expression}} = </span>
                   <span style="display:inline-block;width: 20%; text-align: right"> {{calc.result}} </span>
