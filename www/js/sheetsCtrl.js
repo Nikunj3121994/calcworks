@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-    .controller('SheetsCtrl', function($scope, $ionicPopup, $timeout, sheetService) {
+    .controller('SheetsCtrl', function($scope, $ionicPopup, sheetService) {
         $scope.sheets = sheetService.getSheets();
         $scope.showResolvedExpression = true;
 
@@ -41,9 +41,6 @@ angular.module('calcworks.controllers')
                     sheetService.saveSheets();
                 }
             });
-            $timeout(function() {
-                renamePopup.close(); //close the popup after 30 seconds for some reason
-            }, 30000);
         };
 
         $scope.confirmDeleteSheet = function(sheet) {

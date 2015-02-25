@@ -47,6 +47,7 @@ angular.module('calcworks.services')
             return expression;
         };
 
+        // private
         this.calcCalculation = function(calculations, calculation, state) {
             if (state.outcomes[calculation.varName]) {
                 //console.log('calcCalculation, already known ' + calculation.varName + ' : ' + calculation.expression + ' = ' + calculation.result);
@@ -73,7 +74,7 @@ angular.module('calcworks.services')
         };
 
 
-        // public
+        // public, we change/improve the signature by passing in sheet
         this.calculate = function(calculations) {
             //console.log('---------- calculate ------------');
             var state = {}; // container for data during the calculation
@@ -100,12 +101,19 @@ angular.module('calcworks.services')
         };
 
 
-        // public
+        // private
         this.renameVarInExpressions = function(oldName, newName, calculations) {
             var arrayLength = calculations.length;
             for (var i = 0; i < arrayLength; i++) {
                 calculations[i].expression = this.replaceAllVars(oldName, newName, calculations[i].expression);
             }
+        };
+
+        // public
+        this.renameVar = function(calculation, newName, sheet) {
+            var oldName = calculation.varName;
+            calculation.varName = newName;
+            this.renameVarInExpressions(oldName, newName, sheet.calculations);
         };
 
         // obsolet with ionic.Utils.nextUid();

@@ -171,6 +171,24 @@ describe('Test calcService', function () {
         expect(calculations[1].expression).toEqual('2 + debt + debt');
     });
 
+
+    it('verify renameVar ', function () {
+        var calc1 = new Calculation('id1', 'var1', '2 + 3');
+        var calculations = [ calc1 ];
+        var sheet = new Sheet('sheet', calculations);
+
+        calcService.renameVar(calc1, 'foo', sheet);
+        expect(sheet.calculations[0].varName).toEqual('foo');
+
+        // reset
+        calc1 = new Calculation('id1', 'var1', '2 + 3');
+        var calc2 = new Calculation('id2', 'var2', 'var1 + 5');
+        sheet.calculations.push(calc2);
+        calcService.renameVar(calc1, 'foo', sheet);
+        expect(sheet.calculations[0].expression).toEqual('2 + 3');
+        expect(sheet.calculations[1].expression).toEqual('foo + 5');
+    });
+
     it('verify countVarNames', function () {
         var calc1 = new Calculation('id1', 'var1', '2 + var1');
         var calculations = [ calc1 ];

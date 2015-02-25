@@ -36,13 +36,15 @@ The Sheets service returns an array of sheet data
                 can-swipe="true">
           <ion-item class="item-remove-animate item-icon-right" ng-repeat="calc in sheet.calculations  track by $index" >
               <div>
-                  <span style="display:inline-block;width: 30%;padding-left: 4%">{{calc.varName}}: </span>
+                  <!--<span style="display:inline-block;width: 30%;padding-left: 4%">{{calc.varName}}: </span>-->
+                  <a style="display:inline-block;width: 30%;padding-left: 4%" ng-click="showRenamePopup(calc)">{{calc.varName}}:</a>
                   <span ng-show="showResolvedExpression" style="display:inline-block;width: 50%; text-align: right">{{calc.resolvedExpression}} = </span>
                   <span ng-hide="showResolvedExpression" style="display:inline-block;width: 50%; text-align: right">{{calc.expression}} = </span>
                   <span style="display:inline-block;width: 20%; text-align: right"> {{calc.result}} </span>
-                  <ion-option-button class="button-info" ng-click="edit(item)">
-                      Edit
-                  </ion-option-button>
+                  <!--editen door te swipen lijkt me niet intuitief-->
+                  <!--<ion-option-button class="button-info" ng-click="edit(item)">-->
+                      <!--Edit-->
+                  <!--</ion-option-button>-->
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
                   </ion-delete-button>
                   <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
