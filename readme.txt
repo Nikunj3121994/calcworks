@@ -45,7 +45,8 @@ $ git push origin master
 om intelliJ files niet meer te tracken:
 $ git update-index --assume-unchanged .idea/workspace.xml
 
-
+Ionic View
+stephanwesten@gmail.com
 wachtwoord: <straat><huisnr>a
 
 
@@ -53,6 +54,11 @@ Issues
 -----
 
 lijst van sheets update niet als je alle sheets verwijderd.
+
+persisteren moet per sheet
+
+limiet op aantal calculaties en aantal sheets (met name belangrijk als we gratis verspreiden)
+
 
 new button moet in de header of zo, kan evt via een side-menu. New, help, contact,about e.d. http://ionicframework.com/docs/api/directive/ionSideMenus/
 nadeel van side-menu is dat t meer een navigatie menu is ipv een actie menu. Misschien is actionSheet wel beter.
@@ -70,16 +76,8 @@ test schrijven voor filter bij calculator
 hoogte van de rows - moet dynamisch. Ik snap t alleen niet, t staat nu op 12% - dat is relatief...
 
 het file heet sheetsService, maar de service heet sheetService (de 's')
-plaats files mbt feature bij elkaar
 
-reorder van de calcs
-
-icon v/d app
-
-bij aanzetten of activeren een nieuwe sheet starten
-
-toon 'today' of 'yesterday' ipv de datum
-misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
+bij aanzetten of activeren kunnen of een bepaalde tijdsperiode is verstreken en zo ja een nieuwe sheet maken.
 
 aan settings tab een 'send feedback' toevoegen
 
@@ -92,3 +90,27 @@ Opl:
  de calcCtrl zet dan bij zelfde id sheet = createNewSheet
 
  als je een nieuwe sheet aanmaakt, heeft ie nog geen id. Je kan dan niet zijn details editen...
+
+killer-feature: maak t mogelijk om 1 var als input aan te wijzen (evt meerdere tzt) en 1 var als result/output.
+Voeg dan een run icon toe aan een sheet. Dit toont popup met de input var(s)
+
+
+voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
+http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution
+
+nice-to-have
+------------
+toon 'today' of 'yesterday' ipv de datum
+misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
+
+plaats files mbt feature bij elkaar
+
+
+
+Distribute
+-----------
+icon v/d app
+minimize/ulgify js
+controleer persistence rules Apple
+screenshots maken (goede use-cases)
+website nodig?

@@ -1,30 +1,11 @@
 
-/*het niet kunnen scrollen willen we alleen in calculator tabje
-onderstaande css is misschien onnodig ivm scroll=false in html
-*/
-.scroll{
-    height: 100% !important;
-    background: #feba51;
-    display: -webkit-box !important;
-    display: -moz-box !important;
-    display: -ms-flexbox !important;
-    display: -webkit-flex !important;
-    display: flex !important;
-    -webkit-box-direction: normal !important;
-    -moz-box-direction: normal !important;
-    -webkit-box-orient: vertical !important;
-    -moz-box-orient: vertical !important;
-    -webkit-flex-direction: column !important;
-    -ms-flex-direction: column !important;
-    flex-direction: column !important;
+.calculator {
+    background-color: #a5fe08;
+
 }
 
-.row{
-    -webkit-box-flex: 0 !important;
-    -moz-box-flex: 0 !important;
-    -webkit-flex: 0 1 12% !important;
-    -ms-flex: 0 1 12% !important;
-    flex: 0 1 12% !important;
+.row {
+    height: 13%;
     background-color: #feba51;
 }
 
@@ -71,8 +52,7 @@ onderstaande css is misschien onnodig ivm scroll=false in html
 
 
 /*
- de verticale alignment is door de line-height gedaan. dit zou eigenlijk toch via flexbox moeten kunnen
- of de transition toegevoegde waarde heeft op iphone weet ik niet
+ de verticale alignment is door de line-height gedaan.
 */
 .calculator-btn {
     transition: background-color 0.2s ease;
@@ -81,16 +61,17 @@ onderstaande css is misschien onnodig ivm scroll=false in html
     border: 1px solid #333;
     border-radius: 5px;
     /*box-shadow: inset 0 1px 0 #666, 0 1px 0 #bbb;*/
-    font-size: 20px;
+    font-size: xx-large;
     text-align: center;
-    line-height: 40px;
+    line-height: 120%;
+    /*  has no effect: height: 200%;*/
 }
 
 .calculator-btn:active {
     background-color: #9d9d9d;
 }
 
-
+/* favorite icon color when selected */
 .favoriteOn {
     color: #eed508
 }
