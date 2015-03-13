@@ -11,23 +11,31 @@
 angular.module('calcworks.services')
     .factory('sheetService', function($rootScope, storageService) {
 
+        function createSheet() {
+            // we do not set id, id used as flag if sheet is persisted
+            var sheet = new Sheet('new sheet', []);
+            sheet.id = ionic.Utils.nextUid(); // ionic util
+            return sheet;
+        }
+
         // init
         var sheets = [];
+        var activeSheetIndex = 0;  // is a const, always 0.
         sheets = storageService.getObject('sheets');
         if (angular.equals({}, sheets)) {
             sheets = [];
+            sheets.push(createSheet());
         }
 
         return {
-            createSheet: function() {
-                // we do not set id, id used as flag if sheet is persisted
-                var sheet = new Sheet('new sheet', []);
-                return sheet;
-            },
-            addSheet: function(sheet) {
-                sheet.id = ionic.Utils.nextUid(); // ionic util
-                sheets.splice(0, 0, sheet);
+            createNewActiveSheet: function() {
+                sheets.splice(0, 0, createSheet());
                 storageService.setObject('sheets', sheets);
+            },
+            getActiveSheet: function() {
+                var sheet = sheets[activeSheetIndex];
+                if (! (sheet instanceof Sheet)) throw 'internal error, sheet is wrong type!';
+                return sheet;
             },
             getSheets: function() {
                 return sheets;
@@ -45,6 +53,7 @@ angular.module('calcworks.services')
             deleteSheet: function(id) {
                 for (var i in sheets) {
                     if (sheets[i].id === id) {
+                        // todo:  throw exception if activeSheet is deleted
                         sheets.splice(i,1);
                         break;
                     }
@@ -64,6 +73,7 @@ angular.module('calcworks.services')
                         return sheet.favorite;
                     });
                 }
+                this.createNewActiveSheet();
                 storageService.setObject('sheets', sheets);
                 // we zouden in de tweede parameter meer info kunnen stoppen, bijvoorbeeld 'all' of de index van
                 // welke sheet is aangepast.

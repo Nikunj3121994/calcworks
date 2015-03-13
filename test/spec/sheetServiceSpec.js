@@ -14,15 +14,16 @@ describe('Test sheetService', function () {
     //todo: use a mock persistence
 
     it('verify sheet', function() {
-        var sheet = sheetService.createSheet();
-        expect(sheet.id).toBeUndefined();
+        // we need to mock the storage service - for all tests (!)
+        // for now delete all previous data
+        sheetService.deleteAllSheets(true);
+
+        var sheet = sheetService.getActiveSheet();
+        expect(sheet.id).toBeDefined();
         expect(sheet.name).toBe('new sheet');
         expect(sheet.calculations.length).toBe(0);
         var calc = new Calculation();
         sheet.add(calc);
-
-        sheetService.addSheet(sheet);
-        expect(sheet.id).toBeDefined();
 
         sheet = sheetService.getSheet(sheet.id);
         expect(sheet.calculations.length).toBe(1);

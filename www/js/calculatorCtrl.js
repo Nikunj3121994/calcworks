@@ -31,15 +31,15 @@ angular.module('calcworks.controllers')
 
     };
 
-    $scope.newSheet = function() {
+    function init() {
         $scope.reset();
         lastVarName = '';
-        sheet = sheetService.createSheet();
-    };
+        sheet = sheetService.getActiveSheet();
+    }
 
-    // de calculator controller heeft altijd een sheet nodig om zijn rekenwerk in te doen
+    // de calculator controller heeft altijd een active sheet nodig om zijn rekenwerk in te doen
     // (de filter gaat variabelen resolven)
-    $scope.newSheet();  // misschien moet deze naar app.js als ie device ready is
+    init();  // misschien moet deze naar app.js als ie device ready is
 
     //$scope.$on('sheetsUpdated', function(e, value) {
     //    // consider: eigenlijk zou je alleen een nieuwe sheet moeten aanmaken als het nodig is
@@ -182,6 +182,10 @@ angular.module('calcworks.controllers')
 
 
     $scope.touchEqualsOperator = function() {
+        if (!sheet) throw 'internal error, sheet is undefined';
+        if (! (sheet instanceof Sheet)) throw 'internal error, sheet is wrong type';
+
+        if (!sheet.add()) throw 'internal error, sheet.add is undefined';
         if (operandEntered()) {
             updateDisplayAndExpression();
             try {
@@ -191,11 +195,7 @@ angular.module('calcworks.controllers')
                 calcService.calculate(sheet.calculations);
                 $scope.display = calc.result.toString();
                 $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
-                if (!sheet.id) {
-                    sheetService.addSheet(sheet);
-                } else {
-                    sheetService.saveSheets();
-                }
+                sheetService.saveSheets();
             } catch (e) {
                 if (e instanceof SyntaxError) {
                     $scope.display = 'error';

@@ -46,6 +46,15 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
       }
     }
   })
+  .state('tab.active-sheet', {
+      url: '/activesheet',
+      views: {
+          'tab-active-sheet': {
+              templateUrl: 'templates/sheet-detail.html',
+              controller: 'SheetDetailCtrl'
+          }
+      }
+  })
   .state('tab.sheets', {
       url: '/sheets',
       views: {
@@ -64,7 +73,6 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
         }
       }
     })
-
   .state('tab.settings', {
     url: '/settings',
     views: {
