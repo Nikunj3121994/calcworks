@@ -13,14 +13,19 @@ describe('Test controller CalculatorCtrl', function () {
         scope;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope, calcService) {
+    beforeEach(inject(function ($controller, $rootScope, calcService, sheetService) {
         scope = $rootScope.$new();
-            //// override the UUID method to always return the same result
-            //calcService.generateUUID = function() {
-            //    return 'xxxx';
-            //}
+        // we need to supply an empty sheet for each test otherwise the activeSheet is not in sync with
+        // lastVarname. The (new) test resets lastVarname, but loads results from the previous test.
+        // If one day we want to add calculations from a details pane we will have the same problem
+        // and need to look up the last handed out var name.
+        sheetService.getActiveSheet = function() {
+            return new Sheet('foo', []);
+        };
         CalculatorCtrl = $controller('CalculatorCtrl', {
-          $scope: scope
+          $scope: scope,
+          calcService: calcService,
+          sheetService: sheetService
         });
     }));
 
@@ -356,6 +361,8 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     it('verify resolved expression', function () {
+        expect(scope.display).toBe('0');
+
         scope.touchDigit(5);
         scope.touchOperator('+');
         scope.touchDigit(9);

@@ -13,7 +13,19 @@ angular.module('calcworks.services')
                 $window.localStorage[key] = JSON.stringify(value);
             },
             getObject: function(key) {
-                return JSON.parse($window.localStorage[key] || '{}');
+                return JSON.parse($window.localStorage[key] || '{}',
+                    // http://stackoverflow.com/questions/12975430/custom-object-to-json-then-back-to-a-custom-object
+                    function(key, val) {
+                        console.log('deserialize: ' + val);
+                        if (val && typeof(val) === 'object' && val.__type === 'Sheet') {
+                            return new Sheet(val);
+                        }
+                        if (val && typeof(val) === 'object' && val.__type === 'Calculation') {
+                            return new Calculation(val);
+                        }
+                        return val;
+                    }
+                    );
             },
             deleteObject: function(key) {
                 $window.localStorage.removeItem(key);

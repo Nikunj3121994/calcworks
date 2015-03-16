@@ -33,6 +33,7 @@ angular.module('calcworks.services')
                 storageService.setObject('sheets', sheets);
             },
             getActiveSheet: function() {
+                console.log('info: getActiveSheet called');
                 var sheet = sheets[activeSheetIndex];
                 if (! (sheet instanceof Sheet)) throw 'internal error, sheet is wrong type!';
                 return sheet;

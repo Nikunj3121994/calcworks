@@ -22,7 +22,7 @@ describe('Test sheetService', function () {
         expect(sheet.id).toBeDefined();
         expect(sheet.name).toBe('new sheet');
         expect(sheet.calculations.length).toBe(0);
-        var calc = new Calculation();
+        var calc = new Calculation('id', 'varname', 'dummy expression');
         sheet.add(calc);
 
         sheet = sheetService.getSheet(sheet.id);

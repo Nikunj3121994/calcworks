@@ -41,10 +41,10 @@ angular.module('calcworks.controllers')
     // (de filter gaat variabelen resolven)
     init();  // misschien moet deze naar app.js als ie device ready is
 
-    //$scope.$on('sheetsUpdated', function(e, value) {
-    //    // consider: eigenlijk zou je alleen een nieuwe sheet moeten aanmaken als het nodig is
-    //    $scope.newSheet();
-    //);
+    // nu kan sheetsUpdated zich alleen voordoen door deleteAllSheets
+    $scope.$on('sheetsUpdated', function(e, value) {
+        init();
+    });
 
 
     $scope.touchDigit = function(n) {
@@ -173,6 +173,7 @@ angular.module('calcworks.controllers')
     }
 
     function createNewCalculation(expression) {
+        console.log('info: lastVarName: ' + lastVarName);
         var varName = generateVarName(lastVarName);
         lastVarName = varName;
         var id = ionic.Utils.nextUid(); // ionic util
@@ -184,8 +185,6 @@ angular.module('calcworks.controllers')
     $scope.touchEqualsOperator = function() {
         if (!sheet) throw 'internal error, sheet is undefined';
         if (! (sheet instanceof Sheet)) throw 'internal error, sheet is wrong type';
-
-        if (!sheet.add()) throw 'internal error, sheet.add is undefined';
         if (operandEntered()) {
             updateDisplayAndExpression();
             try {
@@ -193,6 +192,7 @@ angular.module('calcworks.controllers')
                 var calc = createNewCalculation($scope.expression);
                 sheet.add(calc);
                 calcService.calculate(sheet.calculations);
+                if (calc.result === null) console.log("warning: null result for " + calc.expression);
                 $scope.display = calc.result.toString();
                 $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
                 sheetService.saveSheets();
@@ -224,7 +224,7 @@ angular.module('calcworks.controllers')
             return "internal error, varnames length larger than 1: " + varnames; // kan wel. maar hoe?
         } else if (varnames.length === 1) {
             // replace var with value
-            var calcs = sheet.calculations;
+            var calcs = sheetService.getActiveSheet().calculations;
             var value = calcs[calcs.length-1].result;
             var result = calcService.replaceAllVars(varnames[0], value, input);
             return result;
