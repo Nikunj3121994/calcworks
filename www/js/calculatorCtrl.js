@@ -33,8 +33,9 @@ angular.module('calcworks.controllers')
 
     function init() {
         $scope.reset();
-        lastVarName = '';
         sheet = sheetService.getActiveSheet();
+        // we should not use varName, but last number, would be a lot easier. Perhaps store this in Sheet
+        lastVarName = 'calc' + sheet.getLastNumberFromVarName();
     }
 
     // de calculator controller heeft altijd een active sheet nodig om zijn rekenwerk in te doen
@@ -172,6 +173,7 @@ angular.module('calcworks.controllers')
         }
     }
 
+    // we could move this function to Sheet
     function createNewCalculation(expression) {
         console.log('info: lastVarName: ' + lastVarName);
         var varName = generateVarName(lastVarName);

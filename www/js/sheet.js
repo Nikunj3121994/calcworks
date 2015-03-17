@@ -22,8 +22,20 @@ var Sheet = function(par, calculations) {
 
 Sheet.prototype.nrOfCalcs = function() {
     return this.calculations.length;
-}
+};
 
 Sheet.prototype.add = function(calculation) {
     this.calculations.push(calculation);
-}
+};
+
+
+Sheet.prototype.getLastNumberFromVarName = function() {
+    var result = 0;
+    for (var i in this.calculations) {
+        var num = getNumberFromVarname(this.calculations[i].varName);
+        if (num > result) {
+            result = num;
+        }
+    }
+    return result;
+};

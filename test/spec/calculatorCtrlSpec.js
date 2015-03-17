@@ -15,10 +15,9 @@ describe('Test controller CalculatorCtrl', function () {
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope, calcService, sheetService) {
         scope = $rootScope.$new();
-        // we need to supply an empty sheet for each test otherwise the activeSheet is not in sync with
-        // lastVarname. The (new) test resets lastVarname, but loads results from the previous test.
-        // If one day we want to add calculations from a details pane we will have the same problem
-        // and need to look up the last handed out var name.
+        // we need to supply an empty sheet for each test to make sure everything is 'clean'
+        // however, strictly speaking this should not be necessary, I suspect that one failing test is a bug
+        // on the other hand some tests require that the first variable is 'calc1'
         sheetService.getActiveSheet = function() {
             return new Sheet('foo', []);
         };

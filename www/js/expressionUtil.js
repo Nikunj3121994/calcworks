@@ -25,12 +25,22 @@ function getDecimalSeparator() {
     return n;
 }
 
+// returns null if varName does not contain a number
+function getNumberFromVarname(varName) {
+    var numbers = varName.match(/\d+$/);
+    if (numbers && numbers.length > 0) {
+        return Number(numbers[0]);
+    } else {
+        return null;
+    }
+}
+
 // parameter varName is the (previous) generated varName that is the basis for the next varName
 function generateVarName(varName) {
     if (varName) {
-        var thenum = varName.match(/\d+$/)[0];
+        var thenum = getNumberFromVarname(varName);
         if (thenum) {
-            var number = Number(thenum) + 1;
+            var number = thenum + 1;
             return varName.replace(thenum, number);
         }
     }
