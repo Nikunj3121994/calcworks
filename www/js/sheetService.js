@@ -9,7 +9,7 @@
 // als we de sheets los opslaan is het makkelijk, dan moet je de id meegeven.
 
 angular.module('calcworks.services')
-    .factory('sheetService', function($rootScope, storageService) {
+    .factory('sheetService', function($rootScope, $log, storageService) {
 
         function createSheet() {
             // we do not set id, id used as flag if sheet is persisted
@@ -33,7 +33,7 @@ angular.module('calcworks.services')
                 storageService.setObject('sheets', sheets);
             },
             getActiveSheet: function() {
-                console.log('info: getActiveSheet called');
+                $log.log('info: getActiveSheet called');
                 var sheet = sheets[activeSheetIndex];
                 if (! (sheet instanceof Sheet)) throw 'internal error, sheet is wrong type!';
                 return sheet;

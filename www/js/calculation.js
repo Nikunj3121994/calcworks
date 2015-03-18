@@ -7,14 +7,14 @@
 var Calculation = function(param, varName, expression) {
     if (param === null) throw 'undefined parameter for Calculation constructor';
     if (typeof(param) === 'string') {
-        console.log('info: build calc from parameters: ' + param + ', ' + varName + ', ' + expression);
+        //console.log('info: build calc from parameters: ' + param + ', ' + varName + ', ' + expression);
         this.id = param;   // we not use generateUUID() here because this makes the tests harder to write
         this.varName = varName;
         this.expression = expression;
         this.resolvedExpression = '';
         this.result = null;    // can be a number or a string in case of error
     } else {
-        console.log('build calc from obj');
+        //console.log('build calc from obj');
         this.id = param.id;
         this.varName = param.varName;
         this.expression = param.expression;

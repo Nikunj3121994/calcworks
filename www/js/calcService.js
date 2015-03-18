@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('calcworks.services')
-    .service('calcService', function () {
+    .service('calcService', function ($log) {
 
         function CalculationError(message) {
             this.name = 'CalculationError';
@@ -15,7 +15,7 @@ angular.module('calcworks.services')
             if (varname in state.varNamesInCalculation) {
                 throw new CalculationError('Circular reference; variable "' + varname + '" refers to a variable that refers back to "' + varname + '"');
             }
-            //console.log('calcVarname: ' + varname);
+            //$log.log('calcVarname: ' + varname);
             var arrayLength = calculations.length;
             for (var i = 0; i < arrayLength; i++) {
                 if (calculations[i].varName === varname) {
@@ -50,9 +50,9 @@ angular.module('calcworks.services')
         // private
         this.calcCalculation = function(calculations, calculation, state) {
             if (state.outcomes[calculation.varName]) {
-                console.log('calcCalculation, already known ' + calculation.varName + ' : ' + calculation.expression + ' = ' + calculation.result);
+                $log.log('calcCalculation, already known ' + calculation.varName + ' : ' + calculation.expression + ' = ' + calculation.result);
             } else {
-                console.log('calcCalculation: ' + calculation.varName + ' : ' + calculation.expression);
+                $log.log('calcCalculation: ' + calculation.varName + ' : ' + calculation.expression);
                 var expression = this.resolveExpression(calculation, calculations, state);
                 calculation.resolvedExpression = expression;
                 var outcome;
@@ -60,7 +60,7 @@ angular.module('calcworks.services')
                     // replace percentage operator with divide by 100 and multiply
                     expression = expression.replace(/%/g, ' / 100 *');
                     outcome = eval(expression);
-                    console.log('  calcCalculation, eval ' + calculation.varName  + ' : ' + expression + ' = ' + outcome);
+                    $log.log('  calcCalculation, eval ' + calculation.varName  + ' : ' + expression + ' = ' + outcome);
                 } catch (e) {
                     if (e instanceof SyntaxError) {
                         outcome = 'syntax error';
@@ -76,7 +76,7 @@ angular.module('calcworks.services')
 
         // public, we should change/improve the signature by passing in sheet
         this.calculate = function(calculations) {
-            console.log('---------- calculate ------------');
+            $log.log('---------- calculate ------------');
             var state = {}; // container for data during the calculation
             state.outcomes = Object.create(null);  // list of key-value pairs <varname, value>
             state.varNamesInCalculation = Object.create(null);  // list varnames that are being calculated

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('calcworks.services')
-    .factory('storageService', ['$window', function($window) {
+    .factory('storageService', ['$window', '$log', function($window, $log) {
         return {
             set: function(key, value) {
                 $window.localStorage[key] = value;
@@ -16,7 +16,7 @@ angular.module('calcworks.services')
                 return JSON.parse($window.localStorage[key] || '{}',
                     // http://stackoverflow.com/questions/12975430/custom-object-to-json-then-back-to-a-custom-object
                     function(key, val) {
-                        console.log('deserialize: ' + val);
+                        $log.log('deserialize: ' + val);
                         if (val && typeof(val) === 'object' && val.__type === 'Sheet') {
                             return new Sheet(val);
                         }

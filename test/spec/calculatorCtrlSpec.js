@@ -136,11 +136,11 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('0');
 
         scope.touchDigit(3);
-        scope.touchDelete('');
+        scope.touchDelete();
         expect(scope.display).toBe('0');
 
         scope.reset();
-        scope.touchDelete('');
+        scope.touchDelete();
         expect(scope.display).toBe('0');
 
         scope.reset();
@@ -160,7 +160,22 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.expression).toBe('2 +');
         scope.touchEqualsOperator();
         expect(scope.display).toBe('6');
+    });
 
+
+    it('verify touchDelete extended', function() {
+        expect(scope.display).toBe('0');
+        scope.touchDigit(1);
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchDigit(6);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('18');
+
+        scope.touchDelete();
+        expect(scope.display).toBe('1');
+        scope.touchDigit(4);
+        expect(scope.display).toBe('14');
     });
 
 

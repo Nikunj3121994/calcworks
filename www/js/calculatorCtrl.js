@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-.controller('CalculatorCtrl', function($scope, calcService, sheetService) {
+.controller('CalculatorCtrl', function($scope, $log, calcService, sheetService) {
 
     var decimalSeparator = getDecimalSeparator();
     var lastVarName = '';
@@ -81,6 +81,7 @@ angular.module('calcworks.controllers')
             $scope.newNumber = true;
         } else {
             $scope.display = $scope.display.substring(0, $scope.display.length - 1);
+            $scope.newNumber = false;
         }
     };
 
@@ -175,7 +176,7 @@ angular.module('calcworks.controllers')
 
     // we could move this function to Sheet
     function createNewCalculation(expression) {
-        console.log('info: lastVarName: ' + lastVarName);
+        $log.log('info: lastVarName: ' + lastVarName);
         var varName = generateVarName(lastVarName);
         lastVarName = varName;
         var id = ionic.Utils.nextUid(); // ionic util
@@ -194,7 +195,7 @@ angular.module('calcworks.controllers')
                 var calc = createNewCalculation($scope.expression);
                 sheet.add(calc);
                 calcService.calculate(sheet.calculations);
-                if (calc.result === null) console.log("warning: null result for " + calc.expression);
+                if (calc.result === null) $log.warning("warning: null result for " + calc.expression);
                 $scope.display = calc.result.toString();
                 $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
                 sheetService.saveSheets();
@@ -202,7 +203,7 @@ angular.module('calcworks.controllers')
                 if (e instanceof SyntaxError) {
                     $scope.display = 'error';
                 } else {
-                    console.log('internal error: ' + e);
+                    $log.error('internal error: ' + e);
                     $scope.display = 'internal error: ' + e;
                 }
             }
