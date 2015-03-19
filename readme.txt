@@ -59,9 +59,7 @@ persisteren moet per sheet
 
 limiet op aantal calculaties en aantal sheets (met name belangrijk als we gratis verspreiden)
 
-
-new button moet in de header of zo, kan evt via een side-menu. New, help, contact,about e.d. http://ionicframework.com/docs/api/directive/ionSideMenus/
-nadeel van side-menu is dat t meer een navigatie menu is ipv een actie menu. Misschien is actionSheet wel beter.
+lastVarName zou lastVarNumber moeten worden, veel simpeler
 
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 
@@ -73,23 +71,9 @@ beep of vibrate bij fout in calculator
 
 test schrijven voor filter bij calculator
 
-hoogte van de rows - moet dynamisch. Ik snap t alleen niet, t staat nu op 12% - dat is relatief...
-
-het file heet sheetsService, maar de service heet sheetService (de 's')
-
 bij aanzetten of activeren kunnen of een bepaalde tijdsperiode is verstreken en zo ja een nieuwe sheet maken.
 
 aan settings tab een 'send feedback' toevoegen
-
-alle sheets verwijderen kan ook de huidige (current) verwijderen, die blijft dan echter bestaan in de ctrl.
-Zelfde als je de huidige sheet delete dan komt weer ie terug na calculatie toevoegen.
-CalculatorCtrl zou in de gaten moeten hebben dat de huidige sheet verwijderd is en een nieuwe moeten aanmaken.
-Opl:
- ik denk dat het mooiste is als de service bij een delete een deleteSheets event verstuurt met de id van
- de sheet die verwijderd is. null als meerdere sheets verwijderd zijn
- de calcCtrl zet dan bij zelfde id sheet = createNewSheet
-
- als je een nieuwe sheet aanmaakt, heeft ie nog geen id. Je kan dan niet zijn details editen...
 
 killer-feature: maak t mogelijk om 1 var als input aan te wijzen (evt meerdere tzt) en 1 var als result/output.
 Voeg dan een run icon toe aan een sheet. Dit toont popup met de input var(s)
