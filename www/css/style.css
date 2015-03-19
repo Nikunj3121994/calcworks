@@ -11,7 +11,7 @@
 
 .expression {
     display:inline-block;
-    width: 85%;
+    width: 100%;
     background-color: #e4e4e4;
     /*padding-bottom: 1%;*/
     padding-top: 1%;
@@ -25,10 +25,10 @@
 }
 
 .display {
+    display:inline-block;
     font-size: 35px;
     text-align: right;
-    width: 95%;
-    display:inline-block;
+    width: 90%;
     background-color: #e4e4e4;
     padding-bottom: 3%;
     padding-top: 3%;
@@ -38,11 +38,12 @@
 }
 
 .operatorStr {
+    display:inline-block;
+    height: 100%;
     text-align: right;
     color: #5d5d5d;
     font-size: 30px;
-    width: 5%;
-    display:inline-block;
+    width: 7%;
     background-color: lightgrey;
     padding-bottom: 3%;
     padding-top: 3%;

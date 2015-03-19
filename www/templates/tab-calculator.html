@@ -4,12 +4,19 @@
 
 
          <div class="row">
-              <span class="expression"> {{expression|resolve}} </span><button class="button button-small  button-clear  button-positive">Remember</button>
+             <div class="col col-80">
+                <span class="expression"> {{expression|resolve}} </span>
+             </div>
+             <div class="col col-20">
+                 <button class="calculator-btn" style="margin-top:10%;font-size: small">Remember</button>
+             </div>
          </div>
 
         <div class="row">
-          <span class="display"> {{display}} </span>
-          <span class="operatorStr">  {{ operatorStr}} </span>
+            <div class="col col-100">
+                  <span class="display"> {{display}} </span>
+                  <span class="operatorStr">  {{ operatorStr}} </span>
+            </div>
         </div>
 
 

@@ -53,6 +53,8 @@ wachtwoord: <straat><huisnr>a
 Issues
 -----
 
+als je een operator hebt ingetikt moet je een andere kunnen intikken die ahw een override doet, delete zou ook moeten werken
+
 lijst van sheets update niet als je alle sheets verwijderd.
 
 persisteren moet per sheet
