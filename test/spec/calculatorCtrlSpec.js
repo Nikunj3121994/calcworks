@@ -132,6 +132,17 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
+    it('verify override touchOperator', function () {
+        expect(scope.display).toBe('0');
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        scope.touchOperator('-');
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('3');
+    });
+
+
     it('verify touchDelete', function() {
         expect(scope.display).toBe('0');
 
