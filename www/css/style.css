@@ -9,6 +9,12 @@
     background-color: #feba51;
 }
 
+.displayContainer {
+    height: 50px;
+    /*height: 100%*/
+}
+
+
 .expression {
     display:inline-block;
     width: 100%;
@@ -26,6 +32,7 @@
 
 .display {
     display:inline-block;
+    height: 100%;
     font-size: 35px;
     text-align: right;
     width: 90%;
@@ -38,7 +45,7 @@
 }
 
 .operatorStr {
-    display:inline-block;
+    display: inline-block;
     height: 100%;
     text-align: right;
     color: #5d5d5d;
