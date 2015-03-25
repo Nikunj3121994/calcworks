@@ -79,6 +79,7 @@ angular.module('calcworks.controllers')
     };
 
     $scope.touchDelete = function() {
+        //todo:  if $scope.newNumber && operatorStr then operatorStr = null
         if ($scope.display.length===1) {
             $scope.display = '0';
             $scope.newNumber = true;

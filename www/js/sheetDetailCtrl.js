@@ -2,12 +2,17 @@
 
 angular.module('calcworks.controllers')
 
-    .controller('SheetDetailCtrl', function($scope, $stateParams, $ionicPopup, sheetService, calcService) {
+    .controller('SheetDetailCtrl', function($scope, $log, $stateParams, $ionicPopup, sheetService, calcService) {
         $scope.showDelete = false;
         $scope.showReorder = false;
         $scope.listCanSwipe = true;
         $scope.showResolvedExpression = true;
-        $scope.sheet = sheetService.getSheet($stateParams.sheetId);
+        if ($stateParams.sheetId) {
+            $scope.sheet = sheetService.getSheet($stateParams.sheetId);
+            $log.log('SheetDetailCtrl, sheet id:' + $scope.sheet.id);
+        } else {
+            $scope.sheet = sheetService.getActiveSheet();
+        }
 
         //$scope.$on('sheetsUpdated', function(e, value) {
         //    $scope.sheet = sheetService.getSheet($stateParams.sheetId);

@@ -1,17 +1,19 @@
 'use strict';
 
 
-var Sheet = function(par, calculations) {
+var Sheet = function(par, name, calculations) {
     if (par === null) throw 'undefined parameter for Sheet constructor';
     if (typeof(par) === 'string') {
         //console.log('build from params');
-        this.name = par;
+        this.id = par;
+        this.name = name;
         this.calculations = calculations;
         this.createdTimestamp = new Date();
         this.favorite = false;
     } else {
         // build from object
         // console.log('build from object');
+        this.id = par.id;
         this.name = par.name;
         this.calculations = par.calculations;
         this.createdTimestamp = par.createdTimestamp;

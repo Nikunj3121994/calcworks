@@ -175,7 +175,7 @@ describe('Test calcService', function () {
     it('verify renameVar ', function () {
         var calc1 = new Calculation('id1', 'var1', '2 + 3');
         var calculations = [ calc1 ];
-        var sheet = new Sheet('sheet', calculations);
+        var sheet = new Sheet('id','sheet', calculations);
 
         calcService.renameVar(calc1, 'foo', sheet);
         expect(sheet.calculations[0].varName).toEqual('foo');

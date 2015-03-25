@@ -12,9 +12,7 @@ angular.module('calcworks.services')
     .factory('sheetService', function($rootScope, $log, storageService) {
 
         function createSheet() {
-            // we do not set id, id used as flag if sheet is persisted
-            var sheet = new Sheet('new sheet', []);
-            sheet.id = ionic.Utils.nextUid(); // ionic util
+            var sheet = new Sheet(ionic.Utils.nextUid(), 'new sheet', []);
             return sheet;
         }
 
