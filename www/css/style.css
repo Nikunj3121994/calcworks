@@ -57,7 +57,7 @@
 */
 .calculator-btn {
     transition: background-color 0.2s ease;
-    color: #868686;
+    color: #575757;
     background-color: #ffffff;
     border: 1px solid #333;
     border-radius: 5px;
@@ -70,6 +70,10 @@
 
 .calculator-btn:active {
     background-color: #9d9d9d;
+}
+
+.calculator-btn:disabled {
+    color: #d3d3d3;
 }
 
 /* favorite icon color when selected */

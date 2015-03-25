@@ -8,7 +8,8 @@
                 <span class="expression"> {{expression|resolve}} </span>
              </div>
              <div class="col col-20">
-                 <button class="calculator-btn" style="margin-top:10%;font-size: small">Remember</button>
+                 <!--de indexOf is bit of a hack-->
+                 <button class="calculator-btn" ng-disabled="expression.indexOf('=') < 0 " style="margin-top:6%;font-size: medium" ng-click="touchRemember()">Remember</button>
              </div>
          </div>
 

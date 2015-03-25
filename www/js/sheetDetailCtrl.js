@@ -26,6 +26,11 @@ angular.module('calcworks.controllers')
             sheetService.saveSheets();
         };
 
+        $scope.newSheet = function() {
+            sheetService.createNewActiveSheet();
+            $scope.sheet = sheetService.getActiveSheet();
+        };
+
         $scope.showRenamePopup = function(calc) {
             $scope.data = {};
 

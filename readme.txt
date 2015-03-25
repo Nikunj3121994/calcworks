@@ -46,12 +46,15 @@ om intelliJ files niet meer te tracken:
 $ git update-index --assume-unchanged .idea/workspace.xml
 
 Ionic View
+$ ionic upload
 stephanwesten@gmail.com
 wachtwoord: <straat><huisnr>a
 
 
 Issues
 -----
+je kan een nieuwe active sheet maken en dan mag je niet in de calculator de laatste var gebruiken.
+(door lastCalc te resetten en deze te gebruiken voor de last var name los je dit op)
 
 als je een operator hebt ingetikt moet je een andere kunnen intikken die ahw een override doet, delete zou ook moeten werken
 

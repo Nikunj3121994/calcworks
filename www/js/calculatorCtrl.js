@@ -2,11 +2,12 @@
 
 angular.module('calcworks.controllers')
 
-.controller('CalculatorCtrl', function($scope, $log, calcService, sheetService) {
+.controller('CalculatorCtrl', function($scope, $log, $ionicPopup, calcService, sheetService) {
 
     var decimalSeparator = getDecimalSeparator();
     var lastVarName = '';
     var sheet;
+    var lastCalc;
 
 
     $scope.reset = function() {
@@ -35,6 +36,7 @@ angular.module('calcworks.controllers')
         $scope.reset();
         sheet = sheetService.getActiveSheet();
         // we should not use varName, but last number, would be a lot easier. Perhaps store this in Sheet
+        // je kan nu ook lastCalc gebruiken...
         lastVarName = 'calc' + sheet.getLastNumberFromVarName();
     }
 
@@ -83,6 +85,38 @@ angular.module('calcworks.controllers')
             $scope.display = $scope.display.substring(0, $scope.display.length - 1);
             $scope.newNumber = false;
         }
+    };
+
+    $scope.touchRemember = function() {
+        $scope.data = {};
+
+        var renamePopup = $ionicPopup.show({
+            template: '<input type="text" ng-model="data.name">',
+            title: 'Enter a name for this expression',
+            subTitle: '(Please use normal characters)',
+            scope: $scope,
+            buttons: [
+                { text: 'Cancel' },
+                {
+                    text: '<b>Save</b>',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        if (!$scope.data.name) {
+                            //don't allow the user to close unless he enters something
+                            e.preventDefault();
+                        } else {
+                            return $scope.data.name;
+                        }
+                    }
+                }
+            ]
+        });
+        renamePopup.then(function(newName) {
+            if (newName) {
+                calcService.renameVar(lastCalc, newName, sheet);
+                sheetService.saveSheets();
+            }
+        });
     };
 
     $scope.touchPlusMinOperator = function() {
@@ -189,7 +223,7 @@ angular.module('calcworks.controllers')
         if (!sheet) throw 'internal error, sheet is undefined';
         if (! (sheet instanceof Sheet)) throw 'internal error, sheet is wrong type';
         if (operandEntered()) {
-            updateDisplayAndExpression();
+            updateDisplayAndExpression(); // toch een beetje raar als we hieronder de display en expression bijwerken
             try {
                 $scope.operatorStr = '';
                 var calc = createNewCalculation($scope.expression);
@@ -199,6 +233,7 @@ angular.module('calcworks.controllers')
                 $scope.display = calc.result.toString();
                 $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
                 sheetService.saveSheets();
+                lastCalc = calc;
             } catch (e) {
                 if (e instanceof SyntaxError) {
                     $scope.display = 'error';
