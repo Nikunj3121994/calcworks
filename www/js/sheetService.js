@@ -31,6 +31,7 @@ angular.module('calcworks.services')
             createNewActiveSheet: function() {
                 sheets.splice(0, 0, createSheet());
                 storageService.setObject('sheets', sheets);
+                $rootScope.$broadcast("sheetsUpdated", null);
             },
             getActiveSheet: function() {
                 $log.log('info: getActiveSheet called');

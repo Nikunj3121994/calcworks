@@ -484,7 +484,6 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('6');
         expect(scope.expression).toBe('(5 + 1) = 6');
-
     });
 
 

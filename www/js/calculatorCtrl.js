@@ -38,6 +38,7 @@ angular.module('calcworks.controllers')
         // we should not use varName, but last number, would be a lot easier. Perhaps store this in Sheet
         // je kan nu ook lastCalc gebruiken...
         lastVarName = 'calc' + sheet.getLastNumberFromVarName();
+        lastCalc = null;
     }
 
     // de calculator controller heeft altijd een active sheet nodig om zijn rekenwerk in te doen
