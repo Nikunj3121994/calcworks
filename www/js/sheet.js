@@ -25,8 +25,8 @@ Sheet.prototype.nrOfCalcs = function() {
 };
 
 Sheet.prototype.add = function(calculation) {
-    this.calculations.push(calculation);
-    //this.calculations.splice(0, 0, calculation);
+    //this.calculations.push(calculation);
+    this.calculations.splice(0, 0, calculation);
 };
 
 
