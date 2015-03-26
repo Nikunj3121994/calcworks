@@ -20,7 +20,7 @@ describe('Test sheetService', function () {
 
         var sheet = sheetService.getActiveSheet();
         expect(sheet.id).toBeDefined();
-        expect(sheet.name).toBe('new sheet');
+        expect(sheet.name).toBe('Untitled Sheet');
         expect(sheet.calculations.length).toBe(0);
         var calc = new Calculation('id', 'varname', 'dummy expression');
         sheet.add(calc);
