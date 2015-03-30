@@ -35,6 +35,7 @@ The Sheets service returns an array of sheet data
                 show-delete="showDelete"
                 show-reorder="showReorder"
                 can-swipe="true">
+          <!--moet can-swipe niet op false staan? -->
           <!--consider ionic's collection-repeat-->
           <ion-item class="item-remove-animate item-icon-right" ng-repeat="calc in sheet.calculations  track by $index" >
               <div>

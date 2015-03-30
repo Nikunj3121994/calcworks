@@ -54,6 +54,8 @@ wachtwoord: <straat><huisnr>a
 Issues
 -----
 
+overloop van grote getallen regelen
+
 active sheet deleten vanuit lijst van sheets
 
 je kan een nieuwe active sheet maken en dan mag je niet in de calculator de laatste var gebruiken.
@@ -71,7 +73,7 @@ lastVarName zou lastVarNumber moeten worden, veel simpeler
 
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 
-decimal separator wordt niet getoond
+decimal separator tonen en aantal decimalen instelbaar maken
 
 achtergrond kleur bij sheet list loopt niet door
 

@@ -2,7 +2,10 @@
 
 angular.module('calcworks.controllers')
 
-.controller('CalculatorCtrl', function($scope, $log, $ionicPopup, calcService, sheetService) {
+.controller('CalculatorCtrl', function($scope, $log, $ionicPopup, $stateParams, calcService, sheetService) {
+
+    //consider: ipv sheetService zou je ook via de resolve: in app.js de activeSheet kunnen injecteren.
+    // op deze manier heb je een betere decoupling
 
     var decimalSeparator = getDecimalSeparator();
     var lastVarName = '';
@@ -51,6 +54,18 @@ angular.module('calcworks.controllers')
     });
 
 
+    // see http://ionicframework.com/docs/api/directive/ionView/ for states
+    $scope.$on('$ionicView.beforeEnter', function() {
+        if ($stateParams.calculationName) {
+            $log.log('received selected calculation: ' + $stateParams.calculationName);
+            $scope.display = '0';
+            $scope.expression = $stateParams.calculationName;
+        } else {
+            $log.log('no calculation has been been selected' + angular.toJson($stateParams, true));
+        }
+    });
+
+
     $scope.touchDigit = function(n) {
         if ($scope.newNumber === true) {
             if (n === 0 && $scope.display === '0') {
@@ -79,7 +94,7 @@ angular.module('calcworks.controllers')
     };
 
     $scope.touchDelete = function() {
-        //todo:  if $scope.newNumber && operatorStr then operatorStr = null
+        //todo:  if $scope.newNumber && operatorStr then operatorStr = null    so you can overwrite operator
         if ($scope.display.length===1) {
             $scope.display = '0';
             $scope.newNumber = true;
@@ -87,6 +102,11 @@ angular.module('calcworks.controllers')
             $scope.display = $scope.display.substring(0, $scope.display.length - 1);
             $scope.newNumber = false;
         }
+    };
+
+    $scope.recall = function() {
+        // evt zouden we ook kunnen doen: $state.go(...);
+        location.href = '#/tab/selectcalculation';
     };
 
     $scope.touchRemember = function() {

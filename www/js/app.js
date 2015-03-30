@@ -25,7 +25,6 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
-  // Each state's controller can be found in sheetsCtrl.js
   $stateProvider
 
   // setup an abstract state for the tabs directive
@@ -35,14 +34,29 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
     templateUrl: "templates/tabs.html"
   })
 
+
+      // todo: use the using the controllerAs syntax
+      // controllerAs: 'contact'
+      // https://github.com/angular-ui/ui-router/wiki#onenter-and-onexit-callbacks
+
   // Each tab has its own nav history stack:
 
   .state('tab.calculator', {
     url: '/calculator',
+    params: { calculationName: null },
     views: {
       'tab-calculator': {
         templateUrl: 'templates/tab-calculator.html',
         controller: 'CalculatorCtrl'
+      }
+    }
+  })
+  .state('tab.select-calculation', {
+    url: '/selectcalculation',
+    views: {
+      'tab-calculator': {
+        templateUrl: 'templates/select-calculation.html',
+        controller: 'SelectCalculationCtrl'
       }
     }
   })
@@ -64,7 +78,7 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
         }
       }
     })
-    .state('tab.sheet-detail', {
+  .state('tab.sheet-detail', {
       url: '/sheets/:sheetId',
       views: {
         'tab-sheets': {

@@ -1,0 +1,14 @@
+<ion-view view-title="Select a calculation">
+  <ion-content class="padding">
+      <ion-list>
+          <ion-item ng-repeat="calc in sheet.calculations  track by $index" ng-click="clickCalculation(calc)">
+              <div>
+                  <span style="display:inline-block;width: 30%; text-align: right"> {{calc.varName}} </span>
+                  <span ng-show="showResolvedExpression" style="display:inline-block;width: 50%; text-align: right">{{calc.resolvedExpression}} = </span>
+                  <span ng-hide="showResolvedExpression" style="display:inline-block;width: 50%; text-align: right">{{calc.expression}} = </span>
+                  <span style="display:inline-block;width: 20%; text-align: right"> {{calc.result}} </span>
+              </div>
+          </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>

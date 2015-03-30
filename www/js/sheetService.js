@@ -32,7 +32,6 @@ angular.module('calcworks.services')
                 $rootScope.$broadcast("sheetsUpdated", null);
             },
             getActiveSheet: function() {
-                $log.log('info: getActiveSheet called');
                 var sheet = sheets[activeSheetIndex];
                 if (! (sheet instanceof Sheet)) throw 'internal error, sheet is wrong type!';
                 return sheet;

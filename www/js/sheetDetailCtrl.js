@@ -7,6 +7,8 @@ angular.module('calcworks.controllers')
         $scope.showReorder = false;
         $scope.listCanSwipe = true;
         $scope.showResolvedExpression = true;
+        // dit kan je ook via resolve: kunnen doen
+        // zie http://learn.ionicframework.com/formulas/sharing-data-between-views/
         if ($stateParams.sheetId) {
             $scope.sheet = sheetService.getSheet($stateParams.sheetId);
             $log.log('SheetDetailCtrl, sheet id:' + $scope.sheet.id);
