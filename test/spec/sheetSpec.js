@@ -31,8 +31,8 @@ describe('Test sheet', function () {
 
         expect( function(){ sheet.getValueFor('calc5'); } ).toThrow(new Error('Calculation name "calc5" not found'));
 
-        //var sheet = new Sheet('id', 'foo', []);
-        //expect(0).toEqual(sheet.getValueFor('test'));
+        var sheet = new Sheet('id', 'foo', []);
+        expect( function(){ sheet.getValueFor('foo'); } ).toThrow(new Error('Calculation name "foo" not found'));
 
     });
 
