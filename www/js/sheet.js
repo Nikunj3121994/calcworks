@@ -27,7 +27,6 @@ Sheet.prototype.nrOfCalcs = function() {
 };
 
 Sheet.prototype.add = function(calculation) {
-    //this.calculations.push(calculation);
     this.calculations.splice(0, 0, calculation);
 };
 
@@ -41,4 +40,14 @@ Sheet.prototype.getLastNumberFromVarName = function() {
         }
     }
     return result;
+};
+
+Sheet.prototype.getValueFor = function(calcName) {
+    var arrayLength = this.calculations.length;
+    for (var i = 0; i < arrayLength; i++) {
+        if (this.calculations[i].varName === calcName) {
+            return this.calculations[i].result;
+        }
+    }
+    throw new Error('Calculation name "' + calcName + '" not found');
 };
