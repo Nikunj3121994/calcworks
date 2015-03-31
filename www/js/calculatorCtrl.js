@@ -61,7 +61,7 @@ angular.module('calcworks.controllers')
             $scope.display = '0';
             $scope.expression = $stateParams.calculationName;
         } else {
-            $log.log('no calculation has been been selected' + angular.toJson($stateParams, true));
+            $log.log('no calculation has been been selected');
         }
     });
 
@@ -273,19 +273,18 @@ angular.module('calcworks.controllers')
 
 
 })
-    //todo: write test for this filter
-.filter('resolve', function(calcService, sheetService) {
+// filter that resolves the varnames into values in the latest calculation from the active sheet
+.filter('resolve', function($log, calcService, sheetService) {
     return function(input) {
         // als input een variabele naam bevat dan deze vervangen door de uitkomst = vorige calculation
         // we doen dit met een hack voor nu.
         var tempCalc = new Calculation('', '', input);
         var varnames = tempCalc.parseVarsExpression();
+        $log.log("resolve filter; varname: " + varnames);
         if (varnames.length > 1) {
             return "internal error, varnames length larger than 1: " + varnames; // kan wel. maar hoe?
         } else if (varnames.length === 1) {
-            // replace var with value
-            var calcs = sheetService.getActiveSheet().calculations;
-            var value = calcs[calcs.length-1].result;
+            var value = sheetService.getActiveSheet().getValueFor(varnames[0]);
             var result = calcService.replaceAllVars(varnames[0], value, input);
             return result;
         } else {
