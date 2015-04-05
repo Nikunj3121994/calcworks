@@ -139,26 +139,10 @@ angular.module('calcworks.controllers')
     $scope.touchRemember = function() {
         $scope.data = {};
 
-        var renamePopup = $ionicPopup.show({
-            template: '<input type="text" ng-model="data.name">',
-            title: 'Enter a name for this expression',
-            subTitle: '(Please use normal characters)',
-            scope: $scope,
-            buttons: [
-                { text: 'Cancel' },
-                {
-                    text: '<b>Save</b>',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        if (!$scope.data.name) {
-                            //don't allow the user to close unless he enters something
-                            e.preventDefault();
-                        } else {
-                            return $scope.data.name;
-                        }
-                    }
-                }
-            ]
+        var renamePopup = $ionicPopup.prompt({
+            title: 'Enter a name for the calculation',
+            template: 'Give this calculation a name so you can easily recall it later.',
+            inputPlaceholder: 'new name'
         });
         renamePopup.then(function(newName) {
             if (newName) {
