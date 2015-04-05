@@ -10,11 +10,10 @@ describe('Integration test', function () {
         scope;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope, calcService, sheetService) {
+    beforeEach(inject(function ($controller, $rootScope, sheetService) {
         scope = $rootScope.$new();
         calcltrCtrl = $controller('CalculatorCtrl', {
             $scope: scope,
-            calcService: calcService,
             sheetService: sheetService
         });
         sheetSrvc = sheetService;

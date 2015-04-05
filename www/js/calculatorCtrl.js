@@ -54,6 +54,18 @@ angular.module('calcworks.controllers')
         init();
     });
 
+    var selectCalculationModalClicked = function(calc) {
+        if (calc) {
+            // not cancel clicked
+            $log.log('selected calc: ' + calc.varName + ' (' + calc.result +')');
+            lastCalc = calc;
+            $scope.display = calc.result;
+            $scope.operatorStr = '';
+            $scope.newNumber = false;
+        }
+        $scope.closeModal();
+    };
+
     // als we nog ooit met een eigen controller willen werken: http://www.dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/
     $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
         scope: null,
@@ -61,14 +73,7 @@ angular.module('calcworks.controllers')
     }).then(function(modal) {
         $scope.selectCalculationModal = modal;
         modal.scope.sheet = sheet;
-        modal.scope.clickCalculation = function(calc) {
-            $log.log('selected calc: ' + calc.varName + ' (' + calc.result +')');
-            if (calc) {  // not cancel clicked
-                lastCalc = calc;
-                $scope.display = calc.result;
-            }
-            $scope.closeModal();
-        };
+        modal.scope.clickCalculation = selectCalculationModalClicked;
     });
     $scope.openModal = function() {
         $scope.selectCalculationModal.show();
@@ -127,7 +132,7 @@ angular.module('calcworks.controllers')
         }
     };
 
-    $scope.recall = function() {
+    $scope.touchRecall = function() {
         $scope.openModal();
     };
 
@@ -264,8 +269,6 @@ angular.module('calcworks.controllers')
 
 
     $scope.touchEqualsOperator = function() {
-        if (!sheet) throw 'internal error, sheet is undefined';
-        if (! (sheet instanceof Sheet)) throw 'internal error, sheet is wrong type';
         if (operandEntered()) {
             updateDisplayAndExpression(); // toch een beetje raar als we hieronder de display en expression bijwerken
             try {
