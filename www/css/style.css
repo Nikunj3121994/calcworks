@@ -17,6 +17,9 @@
 
 .expression {
     display:inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     width: 100%;
     background-color: #e4e4e4;
     /*padding-bottom: 1%;*/
@@ -32,6 +35,9 @@
 
 .display {
     display:inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     height: 100%;
     font-size: 35px;
     text-align: right;
