@@ -33,7 +33,8 @@ Sheet.prototype.add = function(calculation) {
 
 Sheet.prototype.getLastNumberFromVarName = function() {
     var result = 0;
-    for (var i in this.calculations) {
+    var arrayLength = this.calculations.length;
+    for (var i = 0; i < arrayLength; i++) {
         var num = getNumberFromVarname(this.calculations[i].varName);
         if (num > result) {
             result = num;

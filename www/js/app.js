@@ -51,15 +51,6 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
       }
     }
   })
-  .state('tab.select-calculation', {
-    url: '/selectcalculation',
-    views: {
-      'tab-calculator': {
-        templateUrl: 'templates/select-calculation.html',
-        controller: 'SelectCalculationCtrl'
-      }
-    }
-  })
   .state('tab.active-sheet', {
       url: '/activesheet',
       views: {

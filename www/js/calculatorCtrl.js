@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-.controller('CalculatorCtrl', function($scope, $log, $ionicPopup, $stateParams, calcService, sheetService) {
+.controller('CalculatorCtrl', function($scope, $log, $ionicPopup, $ionicModal, calcService, sheetService) {
 
     //consider: ipv sheetService zou je ook via de resolve: in app.js de activeSheet kunnen injecteren.
     // op deze manier heb je een betere decoupling
@@ -46,6 +46,7 @@ angular.module('calcworks.controllers')
 
     // de calculator controller heeft altijd een active sheet nodig om zijn rekenwerk in te doen
     // (de filter gaat variabelen resolven)
+    // evt in de toekomst  $scope.$on('$ionicView.beforeEnter', function() {
     init();  // misschien moet deze naar app.js als ie device ready is
 
     // nu kan sheetsUpdated zich alleen voordoen door deleteAllSheets
@@ -53,18 +54,40 @@ angular.module('calcworks.controllers')
         init();
     });
 
-
-    // see http://ionicframework.com/docs/api/directive/ionView/ for states
-    $scope.$on('$ionicView.beforeEnter', function() {
-        if ($stateParams.calculationName) {
-            $log.log('received selected calculation: ' + $stateParams.calculationName);
-            $scope.display = '0';
-            $scope.expression = $stateParams.calculationName;
-        } else {
-            $log.log('no calculation has been been selected');
-        }
+    // als we nog ooit met een eigen controller willen werken: http://www.dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/
+    $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
+        scope: null,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.selectCalculationModal = modal;
+        modal.scope.sheet = sheet;
+        modal.scope.clickCalculation = function(calc) {
+            $log.log('selected calc: ' + calc.varName + ' (' + calc.result +')');
+            if (calc) {  // not cancel clicked
+                lastCalc = calc;
+                $scope.display = calc.result;
+            }
+            $scope.closeModal();
+        };
     });
-
+    $scope.openModal = function() {
+        $scope.selectCalculationModal.show();
+    };
+    $scope.closeModal = function() {
+        $scope.selectCalculationModal.hide();
+    };
+    //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+        $scope.selectCalculationModal.remove();
+    });
+    // Execute action on hide modal
+    $scope.$on('modal.hidden', function() {
+        // Execute action
+    });
+    // Execute action on remove modal
+    $scope.$on('modal.removed', function() {
+        // Execute action
+    });
 
     $scope.touchDigit = function(n) {
         if ($scope.newNumber === true) {
@@ -105,8 +128,7 @@ angular.module('calcworks.controllers')
     };
 
     $scope.recall = function() {
-        // evt zouden we ook kunnen doen: $state.go(...);
-        location.href = '#/tab/selectcalculation';
+        $scope.openModal();
     };
 
     $scope.touchRemember = function() {
@@ -226,7 +248,7 @@ angular.module('calcworks.controllers')
             // do nothing (close bracket can trigger this path)
         } else {
             $scope.display = '0';
-            $scope.expression = lastVarName; // previous result identifier, so you get eventually something like 'calc1 + ... '
+            $scope.expression = lastCalc.varName; //lastVarName; // previous result identifier, so you get eventually something like 'calc1 + ... '
         }
     }
 

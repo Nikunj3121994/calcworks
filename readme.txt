@@ -58,6 +58,8 @@ overloop van grote getallen regelen
 
 active sheet deleten vanuit lijst van sheets
 
+je moet een calculation niet kunnen deleten als ie gebruikt wordt (ref integrity)
+
 je kan een nieuwe active sheet maken en dan mag je niet in de calculator de laatste var gebruiken.
 (door lastCalc te resetten en deze te gebruiken voor de last var name los je dit op)
 
