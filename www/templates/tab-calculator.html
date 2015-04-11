@@ -9,21 +9,23 @@
              </div>
              <div class="col col-20">
                  <!--de indexOf is bit of a hack-->
-                 <button class="calculator-btn" ng-disabled="expression.indexOf('=') < 0 " style="margin-top:6%;font-size: medium" ng-click="touchRemember()">Remember</button>
+                 <button class="calculator-btn" ng-disabled="expression.indexOf('=') < 0 " style="font-size: small" ng-click="touchRemember()">Remember</button>
              </div>
          </div>
 
         <div class="row">
-            <div class="col col-100 displayContainer">
-                  <div class="display"> {{display}} </div>
-                  <div class="operatorStr">  {{ operatorStr}} </div>
+            <div class="col col-90">
+                <div class="display"> {{display}} </div>
+            </div>
+            <div class="col col-10">
+                <div class="operatorStr"> {{ operatorStr}} </div>
             </div>
         </div>
 
 
         <div class="row">
-          <div class="col"><div class="calculator-btn small-btn" ng-click="touchRecall()">Recall</div></div>
-          <div class="col"><div class="calculator-btn" ng-click="reset()">Clear</div></div>
+          <div class="col"><div class="calculator-btn small-calculator-btn" ng-click="touchRecall()">Recall</div></div>
+          <div class="col"><div class="calculator-btn small-calculator-btn" ng-click="reset()">Clear</div></div>
           <div class="col"><div class="calculator-btn" ng-click="touchOperator('%')">%</div></div>
           <div class="col"><div class="calculator-btn" ng-click="touchDelete()">⌫</div></div>
         </div>
@@ -57,7 +59,8 @@
         </div>
 
         <div class="row">
-          <div class="col col-50"><div class="calculator-btn" ng-click="touchDigit(0)">0</div></div>
+            <!--de col-50 heeft een side-effect dat de tekst zakt-->
+          <div class="col col-50"><div class="calculator-btn" style="padding-top: 5%;" ng-click="touchDigit(0)">0</div></div>
           <div class="col"><div class="calculator-btn"  ng-click="touchDecimalSeparator()">.</div></div>
           <div class="col"><div class="calculator-btn" ng-click="touchEqualsOperator()">=</div></div>
         </div>
