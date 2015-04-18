@@ -1,7 +1,8 @@
 <ion-view view-title="History">
   <ion-content>
     <ion-list>
-      <ion-item class="card"   ng-repeat="sheet in sheets track by $index" href="#/tab/sheets/{{sheet.id}}">
+        <!--een href gebruiken maakt de lay-out niet goed, vandaar een ng-click-->
+      <ion-item class="card"   ng-repeat="sheet in sheets track by $index" ng-click="gotoSheet(sheet)">
           <div class="item item-divider">
               <a ng-click="showRenamePopup(sheet)">{{sheet.name}}</a>
               <br>

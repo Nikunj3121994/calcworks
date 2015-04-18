@@ -71,6 +71,7 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
     })
   .state('tab.sheet-detail', {
       url: '/sheets/:sheetId',
+      params: { sheetId: null },
       views: {
         'tab-sheets': {
           templateUrl: 'templates/sheet-detail.html',

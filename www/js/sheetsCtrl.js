@@ -2,13 +2,17 @@
 
 angular.module('calcworks.controllers')
 
-    .controller('SheetsCtrl', function($scope, $ionicPopup, sheetService) {
+    .controller('SheetsCtrl', function($scope, $ionicPopup, $state, sheetService) {
         $scope.sheets = sheetService.getSheets();
         $scope.showResolvedExpression = true;
 
         //$scope.$on('sheetsUpdated', function(e, value) {
         //    $scope.sheets = sheetService.getSheets();
         //});
+
+        $scope.gotoSheet = function(sheet) {
+            $state.go('tab.sheet-detail', { sheetId: sheet.id});
+        };
 
         $scope.showRenamePopup = function(sheet) {
             $scope.data = {};
