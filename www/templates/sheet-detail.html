@@ -13,17 +13,6 @@ The Sheets service returns an array of sheet data
               <button class="button" ng-click="showDelete = !showDelete; showReorder = false">
                   Delete
               </button>
-              <button class="button" ng-click="showDelete = false; showReorder = false; newSheet()">
-                  New Sheet
-              </button>
-          </div>
-          <div style="display:inline-block;height: 100%;position: absolute;top:20%; left: 70%">
-              <label class="toggle toggle-energized" style="float: right;">
-                  <input type="checkbox" ng-model="showResolvedExpression" >
-                  <div class="track">
-                      <div class="handle"></div>
-                  </div>
-              </label>
           </div>
           <div class="buttons"  style="display:inline-block;float: right;">
               <button class="button" ng-click="showDelete = false; showReorder = !showReorder">
@@ -39,14 +28,10 @@ The Sheets service returns an array of sheet data
           <!--consider ionic's collection-repeat-->
           <ion-item class="item-remove-animate item-icon-right" ng-repeat="calc in sheet.calculations  track by $index" >
               <div>
-                  <a style="display:inline-block;width: 30%;padding-left: 4%; cursor: pointer" ng-click="showRenamePopup(calc)">{{calc.varName}}:</a>
-                  <span ng-show="showResolvedExpression" style="display:inline-block;width: 50%; text-align: right">{{calc.resolvedExpression}} = </span>
-                  <span ng-hide="showResolvedExpression" style="display:inline-block;width: 50%; text-align: right">{{calc.expression}} = </span>
-                  <span style="display:inline-block;width: 20%; text-align: right"> {{calc.result}} </span>
-                  <!--editen door te swipen lijkt me niet intuitief-->
-                  <!--<ion-option-button class="button-info" ng-click="edit(item)">-->
-                      <!--Edit-->
-                  <!--</ion-option-button>-->
+                  <a class="sheetsCol" style="display:inline-block;width: 30%;padding-left: 4%; cursor: pointer" ng-click="showRenamePopup(calc)">{{calc.varName}}:</a>
+                  <span class="sheetsCol" ng-show="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.resolvedExpression}} = </span>
+                  <span class="sheetsCol" ng-hide="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.expression}} = </span>
+                  <span class="sheetsCol" style="display:inline-block;width: 20%"> {{calc.result}} </span>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
                   </ion-delete-button>
                   <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
@@ -55,6 +40,21 @@ The Sheets service returns an array of sheet data
 
           </ion-item>
       </ion-list>
+      <div style="display:inline-block;width: 100%;overflow: hidden;position: relative; background-color: #b7b7b7">
+          <div class="buttons" style="display:inline-block">
+              <button class="button" ng-click="showDelete = false; showReorder = false; newSheet()">
+                  New Sheet
+              </button>
+          </div>
+          <div style="display:inline-block;height: 100%;position: absolute;top:20%; left: 70%">
+              <label class="toggle toggle-energized" style="float: right;">
+                  <input type="checkbox" ng-model="showResolvedExpression" >
+                  <div class="track">
+                      <div class="handle"></div>
+                  </div>
+              </label>
+          </div>
+      </div>
 
 
   </ion-content>
