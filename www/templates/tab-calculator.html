@@ -4,17 +4,17 @@
 
 
          <div class="row">
-             <div class="col col-80">
+             <div class="col col-90">
                 <div class="expression">
                     <span class="text text_expression">
                     {{expression|resolve}}
                 </span>
                 </div>
              </div>
-             <div class="col col-20">
+             <div class="col col-10">
                  <!--de indexOf is bit of a hack-->
-                 <button class="calculator-btn" ng-disabled="expression.indexOf('=') < 0 " style="font-size: x-small" ng-click="touchRemember()">
-                     <span class="text">Name</span></button>
+                 <button class="calculator-btn ion-pin" ng-disabled="expression.indexOf('=') < 0 " ng-click="touchRemember()">
+                 </button>
              </div>
          </div>
 

@@ -140,9 +140,10 @@ angular.module('calcworks.controllers')
         $scope.data = {};
 
         var renamePopup = $ionicPopup.prompt({
-            title: 'Enter a name for the calculation',
+            title: 'Enter a name for this calculation',
             template: 'Give this calculation a name so you can easily recall it later.',
-            inputPlaceholder: 'new name'
+            inputPlaceholder: 'new name',
+            autofocus: true
         });
         renamePopup.then(function(newName) {
             if (newName) {

@@ -8,7 +8,7 @@ The Sheets service returns an array of sheet data
 
 
   <ion-content class="padding">
-      <div style="display:inline-block;width: 100%;overflow: hidden;position: relative; background-color: #b7b7b7">
+      <div style="display:inline-block;width: 100%;overflow: hidden;position: relative; background-color: #feba51">
           <div class="buttons" style="display:inline-block">
               <button class="button" ng-click="showDelete = !showDelete; showReorder = false">
                   Delete
@@ -40,22 +40,20 @@ The Sheets service returns an array of sheet data
 
           </ion-item>
       </ion-list>
-      <div style="display:inline-block;width: 100%;overflow: hidden;position: relative; background-color: #b7b7b7">
-          <div class="buttons" style="display:inline-block">
-              <button class="button" ng-click="showDelete = false; showReorder = false; newSheet()">
-                  New Sheet
-              </button>
-          </div>
-          <div style="display:inline-block;height: 100%;position: absolute;top:20%; left: 70%">
-              <label class="toggle toggle-energized" style="float: right;">
-                  <input type="checkbox" ng-model="showResolvedExpression" >
-                  <div class="track">
-                      <div class="handle"></div>
-                  </div>
-              </label>
-          </div>
-      </div>
-
-
   </ion-content>
+
+    <ion-footer-bar align-title="left" class="bar-light">
+        <div class="buttons">
+            <button class="button" ng-click="showDelete = false; showReorder = false; newSheet()">New</button>
+        </div>
+        <h1 class="title">-</h1>
+        <div class="buttons">
+            <label class="toggle toggle-energized" style="float: right;">
+                <input type="checkbox" ng-model="showResolvedExpression" >
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </div>
+    </ion-footer-bar>
 </ion-view>

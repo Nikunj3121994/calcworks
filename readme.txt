@@ -71,6 +71,12 @@ persisteren moet per sheet
 
 limiet op aantal calculaties en aantal sheets (met name belangrijk als we gratis verspreiden)
 
+om autofocus voor elkaar te krijgen:
+For it to work with cordova you need to add this in your config.xml
+<preference name="KeyboardDisplayRequiresUserAction" value="false" />
+
+als je plus hebt gedrukt, moet je nog steeds op = kunnen klikken
+
 lastVarName zou lastVarNumber moeten worden, veel simpeler
 
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
@@ -90,6 +96,7 @@ aan settings tab een 'send feedback' toevoegen
 killer-feature: maak t mogelijk om 1 var als input aan te wijzen (evt meerdere tzt) en 1 var als result/output.
 Voeg dan een run icon toe aan een sheet. Dit toont popup met de input var(s)
 
+de remember/pin zou niet mogen reageren als ie disabled is
 
 voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
 http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution
