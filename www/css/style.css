@@ -134,7 +134,7 @@
 .listVarName {
     display:inline-block;
     width: 30%;
-    text-align: right
+    text-align: left
 }
 
 .listResolvedExpression {

@@ -27,8 +27,8 @@ The Sheets service returns an array of sheet data
           <!--moet can-swipe niet op false staan? -->
           <!--consider ionic's collection-repeat-->
           <ion-item class="item-remove-animate item-icon-right" ng-repeat="calc in sheet.calculations  track by $index" >
-              <div>
-                  <a class="sheetsCol" style="display:inline-block;width: 30%;padding-left: 4%; cursor: pointer" ng-click="showRenamePopup(calc)">{{calc.varName}}:</a>
+              <div ng-click="navigateToCalculator(calc)">
+                  <a class="sheetsCol" style="display:inline-block;text-align: left;width: 30%; cursor: pointer" ng-click="showRenamePopup(calc)">{{calc.varName}}:</a>
                   <span class="sheetsCol" ng-show="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.resolvedExpression}} = </span>
                   <span class="sheetsCol" ng-hide="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.expression}} = </span>
                   <span class="sheetsCol" style="display:inline-block;width: 20%"> {{calc.result}} </span>

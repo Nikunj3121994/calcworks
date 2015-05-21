@@ -3,6 +3,7 @@
 // todo: namespace
 
 // calculation object, should be serializable
+// varName field had gewoon name moeten heten
 
 var Calculation = function(param, varName, expression) {
     if (param === null) throw 'undefined parameter for Calculation constructor';

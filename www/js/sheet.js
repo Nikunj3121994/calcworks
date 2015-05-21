@@ -43,6 +43,18 @@ Sheet.prototype.getLastNumberFromVarName = function() {
     return result;
 };
 
+//todo: write test
+Sheet.prototype.getCalculationFor = function(calcName) {
+    var arrayLength = this.calculations.length;
+    for (var i = 0; i < arrayLength; i++) {
+        if (this.calculations[i].varName === calcName) {
+            return this.calculations[i];
+        }
+    }
+    throw new Error('Calculation name "' + calcName + '" not found');
+};
+
+//todo: use getCalculationFor
 Sheet.prototype.getValueFor = function(calcName) {
     var arrayLength = this.calculations.length;
     for (var i = 0; i < arrayLength; i++) {

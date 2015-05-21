@@ -43,7 +43,6 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
 
   .state('tab.calculator', {
     url: '/calculator',
-    params: { calculationName: null },
     views: {
       'tab-calculator': {
         templateUrl: 'templates/tab-calculator.html',

@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-    .controller('SheetDetailCtrl', function($scope, $log, $stateParams, $ionicPopup, sheetService, calcService) {
+    .controller('SheetDetailCtrl', function($scope, $rootScope, $state, $log, $stateParams, $ionicPopup, sheetService, calcService) {
         $scope.showDelete = false;
         $scope.showReorder = false;
         $scope.listCanSwipe = true;
@@ -36,6 +36,14 @@ angular.module('calcworks.controllers')
         $scope.newSheet = function() {
             sheetService.createNewActiveSheet();
             $scope.sheet = sheetService.getActiveSheet();
+        };
+
+        $scope.navigateToCalculator = function(calculation) {
+            // het zit me niet helemaal lekker dat we een 'nieuwe state' introduceren. Deze navigatie zou ook
+            // stateless kunnen zijn - vermoed ik
+            $rootScope.hackSelectedCalc = calculation.varName;
+            //$state.go('tab.calculator', { calculationName: calculation.varName});
+            $state.go('tab.calculator');
         };
 
         $scope.showRenamePopup = function(calc) {

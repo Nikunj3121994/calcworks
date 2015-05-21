@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-.controller('CalculatorCtrl', function($scope, $log, $ionicPopup, $ionicModal, calcService, sheetService) {
+.controller('CalculatorCtrl', function($scope, $rootScope, $stateParams, $log, $ionicPopup, $ionicModal, calcService, sheetService) {
 
     //consider: ipv sheetService zou je ook via de resolve: in app.js de activeSheet kunnen injecteren.
     // op deze manier heb je een betere decoupling
@@ -11,7 +11,6 @@ angular.module('calcworks.controllers')
     var lastVarName = '';
     var sheet;
     var lastCalc;
-
 
     $scope.reset = function() {
         $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
@@ -36,13 +35,26 @@ angular.module('calcworks.controllers')
     };
 
     function init() {
-        $scope.reset();
+        $log.log('calculatorCtrl: init');
         sheet = sheetService.getActiveSheet();
-        // we should not use varName, but last number, would be a lot easier. Perhaps store this in Sheet
+        // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
         // je kan nu ook lastCalc gebruiken...
+        $log.log('calculatorCtrl: calculationName empty');
         lastVarName = 'calc' + sheet.getLastNumberFromVarName();
         lastCalc = null;
+        $scope.reset();
     }
+
+    $rootScope.$watch('hackSelectedCalc', function(newVal, oldVal) {
+        if(newVal === oldVal) {
+            return false;
+        }
+        $log.log('calculatorCtrl: calculationName= ' + newVal);
+        // we moeten er rekening mee houden dat de geselecteerde calc wel eens een andere sheet kan zijn
+        //$scope.sheet = sheetService.getSheet($stateParams.sheetId);
+        var calc = sheetService.getActiveSheet().getCalculationFor(newVal);
+        processSelectedCalculation(calc);
+    }, true);
 
     // de calculator controller heeft altijd een active sheet nodig om zijn rekenwerk in te doen
     // (de filter gaat variabelen resolven)
@@ -54,19 +66,24 @@ angular.module('calcworks.controllers')
         init();
     });
 
+    function processSelectedCalculation(calc) {
+        lastCalc = calc;
+        $scope.display = calc.result;
+        $scope.operatorStr = '';
+        $scope.newNumber = false;
+    }
+
     var selectCalculationModalClicked = function(calc) {
         if (calc) {
             // not cancel clicked
-            $log.log('selected calc: ' + calc.varName + ' (' + calc.result +')');
-            lastCalc = calc;
-            $scope.display = calc.result;
-            $scope.operatorStr = '';
-            $scope.newNumber = false;
+            $log.log('selected calc= ' + calc.varName + ' (' + calc.result +')');
+            processSelectedCalculation(calc);
         }
         $scope.closeModal();
     };
 
-    // als we nog ooit met een eigen controller willen werken: http://www.dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/
+    // als we nog ooit met een eigen controller willen werken voor deze popup,
+    // zie dan http://www.dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/
     $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
         scope: null,
         animation: 'slide-in-up'
@@ -286,11 +303,10 @@ angular.module('calcworks.controllers')
 // filter that resolves the varnames into values in the latest calculation from the active sheet
 .filter('resolve', function($log, calcService, sheetService) {
     return function(input) {
-        // als input een variabele naam bevat dan deze vervangen door de uitkomst = vorige calculation
-        // we doen dit met een hack voor nu.
+        // als input een variabele naam bevat dan deze vervangen door diens result
         var tempCalc = new Calculation('', '', input);
         var varnames = tempCalc.parseVarsExpression();
-        $log.log("resolve filter; varname: " + varnames);
+        $log.log('resolve filter: input= ' + input + ', varname= ' + varnames);
         if (varnames.length > 1) {
             return "internal error, varnames length larger than 1: " + varnames; // kan wel. maar hoe?
         } else if (varnames.length === 1) {

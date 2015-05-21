@@ -33,6 +33,10 @@ vanuit de test folder:
 $ karma start --single-run
 $ karma start --auto-watch
 
+Ionic runnen
+--------------
+$ ionic serve
+(gebruik 'c' om de logs te zien)
 
 Ionic op specifiek device runnen:
 $ /Users/admin/projects/calcworks/platforms/ios/cordova/lib/list-emulator-images
@@ -50,6 +54,12 @@ $ ionic upload
 stephanwesten@gmail.com
 wachtwoord: <straat><huisnr>a
 
+UI-Router
+=========
+UI-Router heeft deze eigenschap:
+.. with ui-router, every time a query arg is changed, it is a state change, the controller is executed again, and the template is re-rendered.
+(http://www.jeremyzerr.com/using-angularjs-ui-router-query-parameters-and-complex-directives-together-without-killing-app)
+Dit is wat we niet willen voor de calculator-tab. Daarom nesten we de child page
 
 Issues
 -----
