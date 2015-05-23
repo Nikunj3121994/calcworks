@@ -8,19 +8,25 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     var CalculatorCtrl,
-        scope;
+        rootScope,
+        scope,
+        sheet = new Sheet('id', 'foo', []);
+
+    var getActiveSheet = function() {
+        return sheet;
+    }
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope, calcService, sheetService) {
         scope = $rootScope.$new();
+        rootScope = $rootScope;
         // we need to supply an empty sheet for each test to make sure everything is 'clean'
         // however, strictly speaking this should not be necessary, I suspect that one failing test is a bug
         // on the other hand some tests require that the first variable is 'calc1'
-        sheetService.getActiveSheet = function() {
-            return new Sheet('id', 'foo', []);
-        };
+        sheetService.getActiveSheet = getActiveSheet;
         CalculatorCtrl = $controller('CalculatorCtrl', {
           $scope: scope,
+          $rootScope : $rootScope,
           calcService: calcService,
           sheetService: sheetService
         });
@@ -255,9 +261,9 @@ describe('Test controller CalculatorCtrl', function () {
 
     it('verify start meteen met een operator', function() {
         expect(scope.display).toBe('0');
-        scope.touchOperator('*');
+        scope.touchOperator('+');
         expect(scope.display).toBe('0');
-        expect(scope.operatorStr).toBe('');
+        expect(scope.operatorStr).toBe('+');
     });
 
 
@@ -392,10 +398,13 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('14');
         expect(scope.expression).toBe('5 + 9 = 14');
+        //console.log(">> " + angular.toJson(sheet.nrOfCalcs(), true));
+        //console.log(">> " + angular.toJson(sheet.calculations, true));
+        var varName = sheet.calculations[0].varName;
 
         scope.touchOperator('-');
         scope.touchDigit(9);
-        expect(scope.expression).toBe('calc1 -');  // directive should show '14 -'
+        expect(scope.expression).toBe(varName + ' -');  // directive should show '14 -'
         scope.touchEqualsOperator();
         expect(scope.display).toBe('5');
         expect(scope.expression).toBe('14 - 9 = 5');
@@ -482,6 +491,22 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('6');
         expect(scope.expression).toBe('(5 + 1) = 6');
+    });
+
+
+    it('verify behavior watching hackSelectedCalc', function () {
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.expression).toBe('2 + 3 = 5');
+
+        scope.touchDigit(1);
+        scope.touchOperator('+');
+        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('6');
+        expect(scope.expression).toBe('1 + 5 = 6');
     });
 
 

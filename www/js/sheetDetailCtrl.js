@@ -39,10 +39,9 @@ angular.module('calcworks.controllers')
         };
 
         $scope.navigateToCalculator = function(calculation) {
-            // het zit me niet helemaal lekker dat we een 'nieuwe state' introduceren. Deze navigatie zou ook
-            // stateless kunnen zijn - vermoed ik
-            $rootScope.hackSelectedCalc = calculation.varName;
-            //$state.go('tab.calculator', { calculationName: calculation.varName});
+            // hack nodig om een nieuwe state te vermijden
+            // je zou ook kunnen onderzoeken of je de activeSheet kan bewerken. Dan heb je een netter mvc model
+            $rootScope.hackSelectedCalcName = calculation.varName;
             $state.go('tab.calculator');
         };
 

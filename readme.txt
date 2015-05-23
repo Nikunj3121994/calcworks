@@ -59,7 +59,7 @@ UI-Router
 UI-Router heeft deze eigenschap:
 .. with ui-router, every time a query arg is changed, it is a state change, the controller is executed again, and the template is re-rendered.
 (http://www.jeremyzerr.com/using-angularjs-ui-router-query-parameters-and-complex-directives-together-without-killing-app)
-Dit is wat we niet willen voor de calculator-tab. Daarom nesten we de child page
+Dit is wat we niet willen voor de calculator-tab.
 
 Issues
 -----
@@ -127,3 +127,56 @@ minimize/ulgify js
 controleer persistence rules Apple
 screenshots maken (goede use-cases)
 website nodig?
+
+
+
+2500 =   werkt niet. Je zou dan hierna altijd geef n naam dlg kunnen tonen. Twee keer = achter elkaar is altijd naam geven
+2500 + 0 kan ook niet
+Nieuwe operator moet override vd huidige doen
+
+Bij nieuwe var naam geven wordt de oude niet getoond
+
+Links en rechts uitlijnen in de lijst
+
+Delete van een item , de waarde invullen in andere items
+
+Totaal v. e.  Sheet aan/uitzetten
+
+Twee cijfers achter de komma. (Pro instelbaar)
+
+Nieuw sheet actie scrolled met de lijst - is niet goed.
+
+Naam geven v d actieve sheet
+
+Als je vanuit history naar een oude sheet gaat dan zijn er 2 problemen:
+Deze sheet zou de actieve moeten worden
+Je kan op de hele sheet klikken, dit werkt niet lekker
+
+PRO VERSIE
+In app purchase zodat je later de limiet van max 10 sheets kan overschrijven
+aantal decimalen instelbaar
+Aantal sheets limiet ophogen tot 50 of zo, evt archive functie toevoegen
+Twee sheets naast elkaar waarbij je waarden of items van de ene naar de andere kan slepen. Op deze manier kan je makkelijk, een nieuwe, schone sheet maken. Die je dan kan delen.
+Kopieer sheet
+Sharen via email (pdf / excel) of sms. Contact selecteren uit adresboek.
+Meer meta data bij een sheet:
+Locatie bij aanmaken v e sheet opslaan
+Omschrijving bij een sheet opslaan
+Clipboard functionaliteit zodat je de waarde kan kopieren of pasten in de calculator
+
+PRO II VERSIE
+Koers opvragen web service
+Meta data per item, bijvoorbeeld een datum, periode, tekst len/of waarde
+
+
+OVERWEGING
+Je zou (soms) willen dat ie bij elke nieuwe waarde om n var naam vraagt. Met t pinnetje kan je dit aan of uitzetten. Voor tussenliggende waarden moet je de vraag makkelijk kunnen overslaan.
+Je zou ipv een pinnetje een M kunnen tonen. Twee keer op M pint m vast.  Analoog shift toets ipad.
+
+Alternatief kleuren schema: wit , grijs en oranje
+
+USE CASES
+uitgaven bijhouden op vakantie
+Offerte maken
+Koers conversie
+Historische gegevens bijhouden, bijv #km gefietst of gelopen. Dan wil je per dag 2 waarden invoeren; tijd en aantal. Door (meta) data mogelijk te maken per item kan je n spreadsheet simuleren. Bij de sheet geef je je extra vars op. Die kan je dan per item invullen. Bij n export krijg je een spreadsheet.

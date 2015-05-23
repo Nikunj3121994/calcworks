@@ -45,7 +45,9 @@ angular.module('calcworks.controllers')
         $scope.reset();
     }
 
-    $rootScope.$watch('hackSelectedCalc', function(newVal, oldVal) {
+    // de activeSheet tab kan een calculatie selecteren en geeft dit door via een globale variabele
+    // deze hack was nodig omdat anders via een state.go() een nieuwe state geintroduceerd werd
+    $rootScope.$watch('hackSelectedCalcName', function(newVal, oldVal) {
         if(newVal === oldVal) {
             return false;
         }
@@ -53,7 +55,7 @@ angular.module('calcworks.controllers')
         // we moeten er rekening mee houden dat de geselecteerde calc wel eens een andere sheet kan zijn
         //$scope.sheet = sheetService.getSheet($stateParams.sheetId);
         var calc = sheetService.getActiveSheet().getCalculationFor(newVal);
-        processSelectedCalculation(calc);
+        $scope.processSelectedCalculation(calc);
     }, true);
 
     // de calculator controller heeft altijd een active sheet nodig om zijn rekenwerk in te doen
@@ -66,18 +68,20 @@ angular.module('calcworks.controllers')
         init();
     });
 
-    function processSelectedCalculation(calc) {
+
+    // hier een scope functie van gemaakt om te kunnen testen
+    $scope.processSelectedCalculation = function (calc) {
         lastCalc = calc;
         $scope.display = calc.result;
         $scope.operatorStr = '';
         $scope.newNumber = false;
-    }
+    };
 
     var selectCalculationModalClicked = function(calc) {
         if (calc) {
             // not cancel clicked
             $log.log('selected calc= ' + calc.varName + ' (' + calc.result +')');
-            processSelectedCalculation(calc);
+            $scope.processSelectedCalculation(calc);
         }
         $scope.closeModal();
     };
@@ -89,7 +93,7 @@ angular.module('calcworks.controllers')
         animation: 'slide-in-up'
     }).then(function(modal) {
         $scope.selectCalculationModal = modal;
-        modal.scope.sheet = sheet;
+        modal.scope.sheet = sheetService.getActiveSheet();
         modal.scope.clickCalculation = selectCalculationModalClicked;
     });
     $scope.openModal = function() {
@@ -242,20 +246,29 @@ angular.module('calcworks.controllers')
     };
 
     // operator, close bracket, equalsOperator  call this function
+    // deze functie is brittle, er is een volgorde afhankelijkheid die niet goed is
+    // het probleem is dat we niet goed weten wat er gebeurt is en indirect dit bepalen / veronderstellen
+    // Misschien dat we de vlag/state newExpression kunnen gebruiken om dit beter te maken
     function updateDisplayAndExpression() {
         if ($scope.newExpression) {
             $scope.newExpression = false;
             $scope.expression = '';
         }
-        // only if display contains something we should add it to the expression
+        // only if a number is added to the display then we should add it to the expression
         if ($scope.newNumber === false) {
             $scope.expression = addSpaceIfNeeded($scope.expression) + $scope.display;
             $scope.display = '0';
         } else if ($scope.expression.trim()) {
-            // do nothing (close bracket can trigger this path)
-        } else {
+            // er is geen getal ingetikt maar er staat al wel wat in de expression
+            // we hoeven dan niets te doen.
+            // (close bracket can trigger this path)
+        } else if (lastCalc) {
+            // er is niet een getal ingetikt, de expression is leeg, maar er is wel een variabele gekozen
             $scope.display = '0';
             $scope.expression = lastCalc.varName; //lastVarName; // previous result identifier, so you get eventually something like 'calc1 + ... '
+        } else {
+            // er is niets gebeurt, behalve (indirect) deze update trigger door bijv een operator die ingetikt is
+            // we hoeven niets te doen
         }
     }
 
@@ -308,7 +321,7 @@ angular.module('calcworks.controllers')
         var varnames = tempCalc.parseVarsExpression();
         $log.log('resolve filter: input= ' + input + ', varname= ' + varnames);
         if (varnames.length > 1) {
-            return "internal error, varnames length larger than 1: " + varnames; // kan wel. maar hoe?
+            return "internal error, varnames length larger than 1: " + varnames; // gebeurde vroeger wel eens
         } else if (varnames.length === 1) {
             var value = sheetService.getActiveSheet().getValueFor(varnames[0]);
             var result = calcService.replaceAllVars(varnames[0], value, input);
