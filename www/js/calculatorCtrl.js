@@ -17,8 +17,8 @@ angular.module('calcworks.controllers')
         $scope.operatorStr = '';
         $scope.expression = '';
         // misschien kan $scope wel weg
-        $scope.newNumber = true;
-        $scope.newExpression = true;   // indicates that a complete new, empty expression is started  (so occurs after reset or after equals)
+        $scope.newNumber = true;       // betere naam: numberEntered
+        $scope.newExpression = true;   // indicates that a complete new, empty expression is started  (so occurs after reset or after equals) betere naam: expressionEntered
         $scope.plusMinusTyped = false; // flag to remember if plusMinus was typed while still 0 in display
     };
 
@@ -211,12 +211,13 @@ angular.module('calcworks.controllers')
         // 1)  d
         // 2)  ... (d * d)
         // 3)  0   but there is a previous answer
-        if (!$scope.newNumber || endsWith($scope.expression, ')') || ($scope.newExpression && sheet.nrOfCalcs() > 0)) {
+        if (!$scope.newNumber || selectedCalc || endsWith($scope.expression, ')') || ($scope.newExpression && sheet.nrOfCalcs() > 0)) {
             updateDisplayAndExpression();
             $scope.expression = addSpaceIfNeeded($scope.expression) + operator;
             $scope.operatorStr = operator;
             $scope.newNumber = true;
         } else {
+            console.log('touchOperator error condition');
             // ignore because this is a binary operator, so an operand must have been entered
             // consider: error signal
         }
@@ -263,15 +264,15 @@ angular.module('calcworks.controllers')
             $scope.newExpression = false;
             $scope.expression = '';
         }
-        // only if a number is added to the display then we should add it to the expression
+        // if a number is added to the display then we should add it to the expression
         if ($scope.newNumber === false) {
             $scope.expression = addSpaceIfNeeded($scope.expression) + $scope.display;
             $scope.display = '0';
             selectedCalc = null;
         } else if (selectedCalc) {
             // er is niet een getal ingetikt, maar er is wel een variabele gekozen
+            $scope.expression = addSpaceIfNeeded($scope.expression) + selectedCalc.varName;
             $scope.display = '0';
-            $scope.expression = addSpaceIfNeeded($scope.expression) + selectedCalc.varName; //lastVarName; // previous result identifier, so you get eventually something like 'calc1 + ... '
             selectedCalc = null;
         } // else if ($scope.expression.trim()) {
             // er is geen getal ingetikt maar er staat al wel wat in de expression

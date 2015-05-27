@@ -527,5 +527,33 @@ describe('Test controller CalculatorCtrl', function () {
         expect(sheet.calculations[0].expression).toBe('calc1 + 4');
     });
 
+    it('verify behavior processSelectedCalculation 3', function () {
+        scope._test_reset();
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.expression).toBe('2 + 3 = 5');
+
+        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.touchOperator('+');
+        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('10');
+        expect(sheet.calculations[0].expression).toBe('calc1 + calc1');
+        expect(scope.expression).toBe('calc1 + calc1 = 10');
+
+        scope.processSelectedCalculation(getActiveSheet().calculations[1]);
+        scope.touchOperator('+');
+        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.touchOperator('+');
+        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.touchEqualsOperator();
+        expect(sheet.calculations[0].expression).toBe('calc1 + calc2 + calc2');
+        expect(scope.expression).toBe('calc1 + calc2 + calc2 = 25');
+        expect(scope.display).toBe('25');
+
+    });
+
 
 });
