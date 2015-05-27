@@ -352,7 +352,7 @@ describe('Test controller CalculatorCtrl', function () {
 
         // (4) + 5
         scope.reset();
-        scope.calculations = [];
+        //scope.calculations = []; left over?
         scope.touchOpenBracket();
         expect(scope.expression).toBe('(');
         expect(scope.display).toBe('0');
@@ -398,8 +398,6 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('14');
         expect(scope.expression).toBe('5 + 9 = 14');
-        //console.log(">> " + angular.toJson(sheet.nrOfCalcs(), true));
-        //console.log(">> " + angular.toJson(sheet.calculations, true));
         var varName = sheet.calculations[0].varName;
 
         scope.touchOperator('-');
@@ -407,7 +405,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.expression).toBe(varName + ' -');  // directive should show '14 -'
         scope.touchEqualsOperator();
         expect(scope.display).toBe('5');
-        expect(scope.expression).toBe('14 - 9 = 5');
+        expect(scope.expression).toBe(varName + ' - 9 = 5');
     });
 
 
@@ -494,6 +492,24 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
+    it('verify behavior processSelectedCalculation', function () {
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.expression).toBe('2 + 3 = 5');
+
+        scope.touchOperator('+');
+        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('10');
+        // als we meer testen toevoegen zal calc17 niet meer kloppen en moeten we de varname ophalen
+        // var varName = sheet.calculations[0].varName;
+        expect(scope.expression).toBe('calc17 + calc17 = 10');
+        expect(sheet.calculations[0].expression).toBe('calc17 + calc17');
+    });
+
+
     it('verify behavior watching hackSelectedCalc', function () {
         scope.touchDigit(2);
         scope.touchOperator('+');
@@ -501,12 +517,13 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.expression).toBe('2 + 3 = 5');
 
-        scope.touchDigit(1);
-        scope.touchOperator('+');
         scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.touchOperator('+');
+        scope.touchDigit(4);
         scope.touchEqualsOperator();
-        expect(scope.display).toBe('6');
-        expect(scope.expression).toBe('1 + 5 = 6');
+        expect(scope.display).toBe('9');
+        expect(scope.expression).toBe('calc19 + 4 = 9');
+        expect(sheet.calculations[0].expression).toBe('calc19 + 4');
     });
 
 

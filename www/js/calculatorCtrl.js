@@ -10,7 +10,7 @@ angular.module('calcworks.controllers')
     var decimalSeparator = getDecimalSeparator();
     var lastVarName = '';
     var sheet;
-    var lastCalc;
+    var selectedCalc;
 
     $scope.reset = function() {
         $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
@@ -20,9 +20,6 @@ angular.module('calcworks.controllers')
         $scope.newNumber = true;
         $scope.newExpression = true;   // indicates that a complete new, empty expression is started  (so occurs after reset or after equals)
         $scope.plusMinusTyped = false; // flag to remember if plusMinus was typed while still 0 in display
-        //$scope.invalidCalcVarName = null;
-        //$scope.invalidExpression = null;   // perhaps rename to invalidCalcExpression
-        //$scope.calculationError = null; // this is the error message for global errors like circular reference
     };
 
     // use this function as a reset when bracket open or closed is entered
@@ -38,24 +35,28 @@ angular.module('calcworks.controllers')
         $log.log('calculatorCtrl: init');
         sheet = sheetService.getActiveSheet();
         // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
-        // je kan nu ook lastCalc gebruiken...
+        // je kan nu ook selectedCalc gebruiken...
         $log.log('calculatorCtrl: calculationName empty');
         lastVarName = 'calc' + sheet.getLastNumberFromVarName();
-        lastCalc = null;
+        selectedCalc = null;
         $scope.reset();
     }
 
     // de activeSheet tab kan een calculatie selecteren en geeft dit door via een globale variabele
     // deze hack was nodig omdat anders via een state.go() een nieuwe state geintroduceerd werd
+    // echter deze oplossing is ook fout omdat je een verandering nodig hebt, en dat is er niet per se t geval
+    // nu dwingen we deze af via een gore hack
     $rootScope.$watch('hackSelectedCalcName', function(newVal, oldVal) {
-        if(newVal === oldVal) {
+        $log.log('calculatorCtrl: calculationName= ' + newVal);
+        if (!newVal) {
+            $log.log('calculatorCtrl: null');
             return false;
         }
-        $log.log('calculatorCtrl: calculationName= ' + newVal);
         // we moeten er rekening mee houden dat de geselecteerde calc wel eens een andere sheet kan zijn
         //$scope.sheet = sheetService.getSheet($stateParams.sheetId);
         var calc = sheetService.getActiveSheet().getCalculationFor(newVal);
         $scope.processSelectedCalculation(calc);
+        $rootScope.hackSelectedCalcName = null; // dit triggered weer een watch....
     }, true);
 
     // de calculator controller heeft altijd een active sheet nodig om zijn rekenwerk in te doen
@@ -71,10 +72,10 @@ angular.module('calcworks.controllers')
 
     // hier een scope functie van gemaakt om te kunnen testen
     $scope.processSelectedCalculation = function (calc) {
-        lastCalc = calc;
+        selectedCalc = calc;
         $scope.display = calc.result;
         $scope.operatorStr = '';
-        $scope.newNumber = false;
+        $scope.newNumber = true;  // er is niet een getal ingetikt
     };
 
     var selectCalculationModalClicked = function(calc) {
@@ -168,7 +169,7 @@ angular.module('calcworks.controllers')
         });
         renamePopup.then(function(newName) {
             if (newName) {
-                calcService.renameVar(lastCalc, newName, sheet);
+                calcService.renameVar(selectedCalc, newName, sheet);
                 sheetService.saveSheets();
             }
         });
@@ -245,6 +246,7 @@ angular.module('calcworks.controllers')
         }
     };
 
+    // na elke 'actie' moet expression en display bijgewerkt worden
     // operator, close bracket, equalsOperator  call this function
     // deze functie is brittle, er is een volgorde afhankelijkheid die niet goed is
     // het probleem is dat we niet goed weten wat er gebeurt is en indirect dit bepalen / veronderstellen
@@ -258,18 +260,16 @@ angular.module('calcworks.controllers')
         if ($scope.newNumber === false) {
             $scope.expression = addSpaceIfNeeded($scope.expression) + $scope.display;
             $scope.display = '0';
-        } else if ($scope.expression.trim()) {
+            selectedCalc = null;
+        } else if (selectedCalc) {
+            // er is niet een getal ingetikt, maar er is wel een variabele gekozen
+            $scope.display = '0';
+            $scope.expression = addSpaceIfNeeded($scope.expression) + selectedCalc.varName; //lastVarName; // previous result identifier, so you get eventually something like 'calc1 + ... '
+            selectedCalc = null;
+        } // else if ($scope.expression.trim()) {
             // er is geen getal ingetikt maar er staat al wel wat in de expression
             // we hoeven dan niets te doen.
             // (close bracket can trigger this path)
-        } else if (lastCalc) {
-            // er is niet een getal ingetikt, de expression is leeg, maar er is wel een variabele gekozen
-            $scope.display = '0';
-            $scope.expression = lastCalc.varName; //lastVarName; // previous result identifier, so you get eventually something like 'calc1 + ... '
-        } else {
-            // er is niets gebeurt, behalve (indirect) deze update trigger door bijv een operator die ingetikt is
-            // we hoeven niets te doen
-        }
     }
 
     // we could move this function to Sheet
@@ -283,19 +283,24 @@ angular.module('calcworks.controllers')
     }
 
 
+    // in tegenstelling tot andere 'touches' bestaat de equals uit 2 zaken:
+    // verwerkerking van de input tot aan de '=' en daarna het resultaat uitrekenen/tonen
     $scope.touchEqualsOperator = function() {
         if (operandEntered()) {
-            updateDisplayAndExpression(); // toch een beetje raar als we hieronder de display en expression bijwerken
+            updateDisplayAndExpression();
             try {
+                // nu moeten we nog het resultaat verwerken:
                 $scope.operatorStr = '';
                 var calc = createNewCalculation($scope.expression);
                 sheet.add(calc);
                 calcService.calculate(sheet.calculations);
                 if (calc.result === null) $log.warning("warning: null result for " + calc.expression);
                 $scope.display = calc.result.toString();
-                $scope.expression = calc.resolvedExpression + ' = ' + $scope.display;
+                // let op: het filter resolved de expression
+                // als optimalisatie zou je hier ook direct de resolvedExpression kunnen invullen
+                $scope.expression = calc.expression + ' = ' + $scope.display;
                 sheetService.saveSheets();
-                lastCalc = calc;
+                selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
             } catch (e) {
                 if (e instanceof SyntaxError) {
                     $scope.display = 'error';
@@ -319,15 +324,13 @@ angular.module('calcworks.controllers')
         // als input een variabele naam bevat dan deze vervangen door diens result
         var tempCalc = new Calculation('', '', input);
         var varnames = tempCalc.parseVarsExpression();
-        $log.log('resolve filter: input= ' + input + ', varname= ' + varnames);
-        if (varnames.length > 1) {
-            return "internal error, varnames length larger than 1: " + varnames; // gebeurde vroeger wel eens
-        } else if (varnames.length === 1) {
-            var value = sheetService.getActiveSheet().getValueFor(varnames[0]);
-            var result = calcService.replaceAllVars(varnames[0], value, input);
-            return result;
-        } else {
-            return input;
+        $log.log('resolve filter: input= ' + input + ', varnames= ' + varnames);
+        var result = input;
+        var varnamesLength = varnames.length;
+        for (var i = 0; i < varnamesLength; i++) {
+            var value = sheetService.getActiveSheet().getValueFor(varnames[i]);
+            result = calcService.replaceAllVars(varnames[i], value, result);
         }
+        return result;
     };
 });

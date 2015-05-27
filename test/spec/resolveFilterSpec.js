@@ -35,6 +35,9 @@ describe('Test filter resolve in CalculatorCtrl', function () {
 
         result = resolveFilter('5 * calc2');
         expect(result).toBe('5 * 8');
+
+        result = resolveFilter('calc1 * calc2');
+        expect(result).toBe('15 * 8');
     });
 
 
