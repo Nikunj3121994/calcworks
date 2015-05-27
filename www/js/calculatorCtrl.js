@@ -17,7 +17,7 @@ angular.module('calcworks.controllers')
         $scope.operatorStr = '';
         $scope.expression = '';
         // misschien kan $scope wel weg
-        $scope.newNumber = true;       // betere naam: numberEntered
+        $scope.numberEnteringState = false;
         $scope.newExpression = true;   // indicates that a complete new, empty expression is started  (so occurs after reset or after equals) betere naam: expressionEntered
         $scope.plusMinusTyped = false; // flag to remember if plusMinus was typed while still 0 in display
     };
@@ -25,7 +25,7 @@ angular.module('calcworks.controllers')
     // use this function as a reset when bracket open or closed is entered
     var miniReset = function() {
         $scope.display = '0';
-        $scope.newNumber = true;
+        $scope.numberEnteringState = false;
         $scope.plusMinusTyped = false;
         $scope.operatorStr = '';
 
@@ -82,7 +82,7 @@ angular.module('calcworks.controllers')
         selectedCalc = calc;
         $scope.display = calc.result;
         $scope.operatorStr = '';
-        $scope.newNumber = true;  // er is niet een getal ingetikt
+        $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // wis de expressie als we nu een nieuwe gaan beginnen met een variabele
         if ($scope.newExpression) {
             $scope.expression = '';
@@ -128,12 +128,12 @@ angular.module('calcworks.controllers')
     });
 
     $scope.touchDigit = function(n) {
-        if ($scope.newNumber === true) {
+        if ($scope.numberEnteringState === false) {
             if (n === 0 && $scope.display === '0') {
                 // ignore
             } else {
                 $scope.display = '' + n;
-                $scope.newNumber = false;
+                $scope.numberEnteringState = true;
                 if ($scope.plusMinusTyped) {
                     $scope.plusMinusTyped = false;
                     $scope.operatorStr = '';
@@ -147,7 +147,7 @@ angular.module('calcworks.controllers')
 
 
     $scope.touchDecimalSeparator = function() {
-        $scope.newNumber = false; // needed if someone starts with period char
+        $scope.numberEnteringState = true; // needed if someone starts with period char
         // make sure you can only add decimal separator once
         if ($scope.display.indexOf(decimalSeparator) < 0) {
             $scope.display = ($scope.display) + decimalSeparator;
@@ -155,13 +155,13 @@ angular.module('calcworks.controllers')
     };
 
     $scope.touchDelete = function() {
-        //todo:  if $scope.newNumber && operatorStr then operatorStr = null    so you can overwrite operator
+        //todo:  if $scope.numberEnteringState && operatorStr then operatorStr = null    so you can overwrite operator
         if ($scope.display.length===1) {
             $scope.display = '0';
-            $scope.newNumber = true;
+            $scope.numberEnteringState = false;
         } else {
             $scope.display = $scope.display.substring(0, $scope.display.length - 1);
-            $scope.newNumber = false;
+            $scope.numberEnteringState = true;
         }
     };
 
@@ -187,7 +187,7 @@ angular.module('calcworks.controllers')
     };
 
     $scope.touchPlusMinOperator = function() {
-        if ($scope.newNumber === true) {
+        if ($scope.numberEnteringState === false) {
             if ($scope.plusMinusTyped) {
                 $scope.plusMinusTyped = false;
                 $scope.operatorStr = '';
@@ -215,11 +215,11 @@ angular.module('calcworks.controllers')
         // 1)  d
         // 2)  ... (d * d)
         // 3)  0   but there is a previous answer
-        if (!$scope.newNumber || selectedCalc || endsWith($scope.expression, ')') || ($scope.newExpression && sheet.nrOfCalcs() > 0)) {
+        if ($scope.numberEnteringState || selectedCalc || endsWith($scope.expression, ')') || ($scope.newExpression && sheet.nrOfCalcs() > 0)) {
             updateDisplayAndExpression();
             $scope.expression = addSpaceIfNeeded($scope.expression) + operator;
             $scope.operatorStr = operator;
-            $scope.newNumber = true;
+            $scope.numberEnteringState = false;
         } else {
             console.log('touchOperator error condition');
             // ignore because this is a binary operator, so an operand must have been entered
@@ -242,7 +242,7 @@ angular.module('calcworks.controllers')
 
     // detect whether an operand has been entered: a number or expression closed with bracket
     function operandEntered() {
-        return $scope.newNumber === false || $scope.operatorStr === '';
+        return $scope.numberEnteringState === true || $scope.operatorStr === '';
     }
 
     $scope.touchCloseBracket = function() {
@@ -269,7 +269,7 @@ angular.module('calcworks.controllers')
             $scope.expression = '';
         }
         // if a number is added to the display then we should add it to the expression
-        if ($scope.newNumber === false) {
+        if ($scope.numberEnteringState === true) {
             $scope.expression = addSpaceIfNeeded($scope.expression) + $scope.display;
             $scope.display = '0';
             selectedCalc = null;
@@ -321,7 +321,7 @@ angular.module('calcworks.controllers')
                     $scope.display = 'internal error: ' + e;
                 }
             }
-            $scope.newNumber = true;
+            $scope.numberEnteringState = false;
             $scope.newExpression = true;
         } else {
             // ignore, consider error signal

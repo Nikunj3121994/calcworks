@@ -104,7 +104,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(0);
         expect(scope.display).toBe('50');
 
-        expect(scope.newNumber).toBe(false);
+        expect(scope.numberEnteringState).toBe(true);
         scope.touchOperator('+');
         expect(scope.display).toBe('0');
         expect(scope.expression).toBe('50 +');
