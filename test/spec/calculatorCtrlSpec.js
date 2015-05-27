@@ -493,6 +493,7 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     it('verify behavior processSelectedCalculation', function () {
+        scope._test_reset();
         scope.touchDigit(2);
         scope.touchOperator('+');
         scope.touchDigit(3);
@@ -504,13 +505,15 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('10');
         // als we meer testen toevoegen zal calc17 niet meer kloppen en moeten we de varname ophalen
-        // var varName = sheet.calculations[0].varName;
-        expect(scope.expression).toBe('calc17 + calc17 = 10');
-        expect(sheet.calculations[0].expression).toBe('calc17 + calc17');
+        var varName = sheet.calculations[0].varName;
+        expect(scope.expression).toBe('calc1 + calc1 = 10');
+        expect(sheet.calculations[0].expression).toBe('calc1 + calc1');
     });
 
 
-    it('verify behavior watching hackSelectedCalc', function () {
+    it('verify behavior processSelectedCalculation 2', function () {
+        scope._test_reset();
+        sheet.calculations = [];
         scope.touchDigit(2);
         scope.touchOperator('+');
         scope.touchDigit(3);
@@ -522,8 +525,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(4);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('9');
-        expect(scope.expression).toBe('calc19 + 4 = 9');
-        expect(sheet.calculations[0].expression).toBe('calc19 + 4');
+        expect(scope.expression).toBe('calc1 + 4 = 9');
+        expect(sheet.calculations[0].expression).toBe('calc1 + 4');
     });
 
 

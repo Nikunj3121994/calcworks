@@ -35,12 +35,19 @@ angular.module('calcworks.controllers')
         $log.log('calculatorCtrl: init');
         sheet = sheetService.getActiveSheet();
         // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
-        // je kan nu ook selectedCalc gebruiken...
         $log.log('calculatorCtrl: calculationName empty');
         lastVarName = 'calc' + sheet.getLastNumberFromVarName();
         selectedCalc = null;
         $scope.reset();
     }
+
+    // test utility method to reset the var names
+    $scope._test_reset = function() {
+        sheet.calculations = [];
+        lastVarName = '';
+        selectedCalc = null;
+        $scope.reset();
+    };
 
     // de activeSheet tab kan een calculatie selecteren en geeft dit door via een globale variabele
     // deze hack was nodig omdat anders via een state.go() een nieuwe state geintroduceerd werd
