@@ -17,8 +17,8 @@ angular.module('calcworks.controllers')
         $scope.operatorStr = '';
         $scope.expression = '';
         // misschien kan $scope wel weg
-        $scope.numberEnteringState = false;
-        $scope.newExpression = true;   // indicates that a complete new, empty expression is started  (so occurs after reset or after equals) betere naam: expressionEntered
+        $scope.numberEnteringState = false;  // na de eerste digit zit je in deze state totdat een operator, bracket of equals komt
+        $scope.expressionEnteringState = false;   // geeft aan dat een nieuwe expression is gestart  (direct na equals is deze false)
         $scope.plusMinusTyped = false; // flag to remember if plusMinus was typed while still 0 in display
     };
 
@@ -84,8 +84,11 @@ angular.module('calcworks.controllers')
         $scope.operatorStr = '';
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // wis de expressie als we nu een nieuwe gaan beginnen met een variabele
-        if ($scope.newExpression) {
+        if (!$scope.expressionEnteringState) {
             $scope.expression = '';
+            // consider: expressionEnteringState = true,  je bent nu een expressie aan t invoeren
+            // deze logica zit ook in UpdateDisplayExpression - misschien dat t handiger kan
+            // merk op dat bij een nieuw getal we de expression niet wissen, inconsequent....
         }
     };
 
@@ -213,9 +216,10 @@ angular.module('calcworks.controllers')
     $scope.touchOperator = function(operator) {
         // we should detect if an intermediate expression has been entered, situations:
         // 1)  d
-        // 2)  ... (d * d)
-        // 3)  0   but there is a previous answer
-        if ($scope.numberEnteringState || selectedCalc || endsWith($scope.expression, ')') || ($scope.newExpression && sheet.nrOfCalcs() > 0)) {
+        // 2)  variable
+        // 3)  ... (d * d)
+        // 4)  0   but there is a previous answer
+        if ($scope.numberEnteringState || selectedCalc || endsWith($scope.expression, ')') || (!$scope.expressionEnteringState && sheet.nrOfCalcs() > 0)) {
             updateDisplayAndExpression();
             $scope.expression = addSpaceIfNeeded($scope.expression) + operator;
             $scope.operatorStr = operator;
@@ -230,10 +234,10 @@ angular.module('calcworks.controllers')
     $scope.touchOpenBracket = function() {
         // we do not change $scope.operatorStr to bracket open, bracket is not an operator.
         // also expression already shows the bracket
-        if ($scope.newExpression) {
+        if (!$scope.expressionEnteringState) {
             miniReset();
             $scope.expression = '(';
-            $scope.newExpression = false;
+            $scope.expressionEnteringState = true;
         } else {
             $scope.expression = addSpaceIfNeeded($scope.expression) + '(';
         }
@@ -262,10 +266,10 @@ angular.module('calcworks.controllers')
     // operator, close bracket, equalsOperator  call this function
     // deze functie is brittle, er is een volgorde afhankelijkheid die niet goed is
     // het probleem is dat we niet goed weten wat er gebeurt is en indirect dit bepalen / veronderstellen
-    // Misschien dat we de vlag/state newExpression kunnen gebruiken om dit beter te maken
+    // Misschien dat we de vlag/state expressionEnteringState kunnen gebruiken om dit beter te maken
     function updateDisplayAndExpression() {
-        if ($scope.newExpression) {
-            $scope.newExpression = false;
+        if (!$scope.expressionEnteringState) {
+            $scope.expressionEnteringState = true;
             $scope.expression = '';
         }
         // if a number is added to the display then we should add it to the expression
@@ -322,7 +326,7 @@ angular.module('calcworks.controllers')
                 }
             }
             $scope.numberEnteringState = false;
-            $scope.newExpression = true;
+            $scope.expressionEnteringState = false;
         } else {
             // ignore, consider error signal
         }
