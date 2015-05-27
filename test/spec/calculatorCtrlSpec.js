@@ -519,6 +519,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.expression).toBe('2 + 3 = 5');
 
         scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        expect(scope.expression).toBe(''); // een nieuwe expressie is door een variabele gestart
         scope.touchOperator('+');
         scope.touchDigit(4);
         scope.touchEqualsOperator();

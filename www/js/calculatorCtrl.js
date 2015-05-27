@@ -59,7 +59,7 @@ angular.module('calcworks.controllers')
             $log.log('calculatorCtrl: null');
             return false;
         }
-        // we moeten er rekening mee houden dat de geselecteerde calc wel eens een andere sheet kan zijn
+        // todo: we moeten er rekening mee houden dat de geselecteerde calc wel eens een andere sheet kan zijn
         //$scope.sheet = sheetService.getSheet($stateParams.sheetId);
         var calc = sheetService.getActiveSheet().getCalculationFor(newVal);
         $scope.processSelectedCalculation(calc);
@@ -83,6 +83,10 @@ angular.module('calcworks.controllers')
         $scope.display = calc.result;
         $scope.operatorStr = '';
         $scope.newNumber = true;  // er is niet een getal ingetikt
+        // wis de expressie als we nu een nieuwe gaan beginnen met een variabele
+        if ($scope.newExpression) {
+            $scope.expression = '';
+        }
     };
 
     var selectCalculationModalClicked = function(calc) {
