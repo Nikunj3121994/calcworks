@@ -129,6 +129,14 @@ screenshots maken (goede use-cases)
 website nodig?
 
 
+Issues
+-------
+
+Twee cijfers achter de komma. (Pro instelbaar)
+
+de getallen moeten in display en expression een pixel hoger
+
+een getal selecteren uit de active werkt op de tel niet goed
 
 2500 =   werkt niet. Je zou dan hierna altijd geef n naam dlg kunnen tonen. Twee keer = achter elkaar is altijd naam geven
 2500 + 0 kan ook niet
@@ -141,8 +149,6 @@ Links en rechts uitlijnen in de lijst
 Delete van een item , de waarde invullen in andere items
 
 Totaal v. e.  Sheet aan/uitzetten
-
-Twee cijfers achter de komma. (Pro instelbaar)
 
 Nieuw sheet actie scrolled met de lijst - is niet goed.
 

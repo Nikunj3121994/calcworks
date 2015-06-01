@@ -87,7 +87,7 @@ angular.module('calcworks.controllers')
         if (!$scope.expressionEnteringState) {
             $scope.expression = '';
             // consider: expressionEnteringState = true,  je bent nu een expressie aan t invoeren
-            // deze logica zit ook in UpdateDisplayExpression - misschien dat t handiger kan
+            // deze logica zit ook in UpdateDisplayExpression - misschien dat t handiger kan door deze aan te roepen..
             // merk op dat bij een nieuw getal we de expression niet wissen, inconsequent....
         }
     };
@@ -312,6 +312,7 @@ angular.module('calcworks.controllers')
                 calcService.calculate(sheet.calculations);
                 if (calc.result === null) $log.warning("warning: null result for " + calc.expression);
                 $scope.display = calc.result.toString();
+                //$scope.display = +calc.result.toFixed(2).toString();
                 // let op: het filter resolved de expression
                 // als optimalisatie zou je hier ook direct de resolvedExpression kunnen invullen
                 $scope.expression = calc.expression + ' = ' + $scope.display;

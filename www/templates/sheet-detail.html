@@ -28,10 +28,14 @@ The Sheets service returns an array of sheet data
           <!--consider ionic's collection-repeat-->
           <ion-item class="item-remove-animate item-icon-right" ng-repeat="calc in sheet.calculations  track by $index" >
               <div ng-click="navigateToCalculator(calc)">
-                  <a class="sheetsCol" style="display:inline-block;text-align: left;width: 30%; cursor: pointer" ng-click="showRenamePopup(calc)">{{calc.varName}}:</a>
+                  <a class="sheetsCol" style="display:inline-block;text-align: left;width: 30%; cursor: pointer">{{calc.varName}}:</a>
                   <span class="sheetsCol" ng-show="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.resolvedExpression}} = </span>
                   <span class="sheetsCol" ng-hide="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.expression}} = </span>
                   <span class="sheetsCol" style="display:inline-block;width: 20%"> {{calc.result}} </span>
+                  <ion-option-button class="button-info"
+                                     ng-click="showRenamePopup(calc)">
+                      Edit
+                  </ion-option-button>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
                   </ion-delete-button>
                   <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
@@ -46,7 +50,8 @@ The Sheets service returns an array of sheet data
         <div class="buttons">
             <button class="button" ng-click="showDelete = false; showReorder = false; newSheet()">New</button>
         </div>
-        <h1 class="title">-</h1>
+        <!--dummy element ivm uitlijning-->
+        <h1 class="title"></h1>
         <div class="buttons">
             <label class="toggle toggle-energized" style="float: right;">
                 <input type="checkbox" ng-model="showResolvedExpression" >
