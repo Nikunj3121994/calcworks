@@ -312,7 +312,8 @@ angular.module('calcworks.controllers')
                 calcService.calculate(sheet.calculations);
                 if (calc.result === null) $log.warning("warning: null result for " + calc.expression);
                 $scope.display = calc.result.toString();
-                //$scope.display = +calc.result.toFixed(2).toString();
+                // voor later als we decimalen willen afkappen
+                //$scope.display = $rootScope.convertNumberToDisplay(calc.result);
                 // let op: het filter resolved de expression
                 // als optimalisatie zou je hier ook direct de resolvedExpression kunnen invullen
                 $scope.expression = calc.expression + ' = ' + $scope.display;
@@ -336,7 +337,7 @@ angular.module('calcworks.controllers')
 
 })
 // filter that resolves the varnames into values in the latest calculation from the active sheet
-.filter('resolve', function($log, calcService, sheetService) {
+.filter('resolve', function($log, $rootScope, calcService, sheetService) {
     return function(input) {
         // als input een variabele naam bevat dan deze vervangen door diens result
         var tempCalc = new Calculation('', '', input);
@@ -346,7 +347,8 @@ angular.module('calcworks.controllers')
         var varnamesLength = varnames.length;
         for (var i = 0; i < varnamesLength; i++) {
             var value = sheetService.getActiveSheet().getValueFor(varnames[i]);
-            result = calcService.replaceAllVars(varnames[i], value, result);
+            var valAsStr = $rootScope.convertNumberToDisplay(value);
+            result = calcService.replaceAllVars(varnames[i], valAsStr, result);
         }
         return result;
     };

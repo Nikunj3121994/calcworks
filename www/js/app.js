@@ -6,7 +6,7 @@ angular.module('calcworks.controllers', []);
 
 angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controllers'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -17,6 +17,11 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    // voor later als we decimalen willen afkappen
+    //  //todo: store 2 in rootScope and make it configurable
+    //$rootScope.convertNumberToDisplay = function(number) {
+    //    return (+number.toFixed(2)).toString();
+    //};
   });
 })
 
