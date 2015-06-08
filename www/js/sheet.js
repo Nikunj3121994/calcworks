@@ -30,8 +30,7 @@ Sheet.prototype.add = function(calculation) {
     this.calculations.splice(0, 0, calculation);
 };
 
-
-Sheet.prototype.getLastNumberFromVarName = function() {
+Sheet.prototype.getLastNumberFromCalcName = function() {
     var result = 0;
     var arrayLength = this.calculations.length;
     for (var i = 0; i < arrayLength; i++) {

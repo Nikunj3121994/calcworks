@@ -36,7 +36,7 @@ angular.module('calcworks.controllers')
         sheet = sheetService.getActiveSheet();
         // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
         $log.log('calculatorCtrl: calculationName empty');
-        lastVarName = 'calc' + sheet.getLastNumberFromVarName();
+        lastVarName = 'calc' + sheet.getLastNumberFromCalcName();
         selectedCalc = null;
         $scope.reset();
     }
@@ -347,8 +347,9 @@ angular.module('calcworks.controllers')
         var varnamesLength = varnames.length;
         for (var i = 0; i < varnamesLength; i++) {
             var value = sheetService.getActiveSheet().getValueFor(varnames[i]);
-            var valAsStr = $rootScope.convertNumberToDisplay(value);
-            result = calcService.replaceAllVars(varnames[i], valAsStr, result);
+            // later als we met decimalen gaan werken
+            //var valAsStr = $rootScope.convertNumberToDisplay(value);
+            result = calcService.replaceAllVars(varnames[i], value, result);
         }
         return result;
     };

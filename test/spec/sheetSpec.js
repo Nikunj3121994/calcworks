@@ -2,18 +2,18 @@
 
 describe('Test sheet', function () {
 
-    it('verify getLastNumberFromVarName', function () {
+    it('verify getLastNumberFromCalcName', function () {
         var sheet = new Sheet('id', 'foo', []);
-        expect(0).toEqual(sheet.getLastNumberFromVarName());
+        expect(0).toEqual(sheet.getLastNumberFromCalcName());
 
         sheet = new Sheet('id', 'foo', [ new Calculation('foo-id', 'bar', 'expr')]);
-        expect(0).toEqual(sheet.getLastNumberFromVarName());
+        expect(0).toEqual(sheet.getLastNumberFromCalcName());
 
         sheet = new Sheet('id', 'foo', [ new Calculation('foo-id', 'bar2', 'expr')]);
-        expect(2).toBe(sheet.getLastNumberFromVarName());
+        expect(2).toBe(sheet.getLastNumberFromCalcName());
 
         sheet.add(new Calculation('foobie', 'bar5', 'expre'));
-        expect(5).toBe(sheet.getLastNumberFromVarName());
+        expect(5).toBe(sheet.getLastNumberFromCalcName());
 
     });
 
