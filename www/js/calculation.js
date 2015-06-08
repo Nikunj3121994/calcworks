@@ -5,12 +5,13 @@
 // calculation object, should be serializable
 // varName field had gewoon name moeten heten
 
-var Calculation = function(param, varName, expression) {
+var Calculation = function(param, calcName, expression) {
     if (param === null) throw 'undefined parameter for Calculation constructor';
+    // bepaal of de aanroep een json deserialize is of niet
     if (typeof(param) === 'string') {
         //console.log('info: build calc from parameters: ' + param + ', ' + varName + ', ' + expression);
         this.id = param;   // we not use generateUUID() here because this makes the tests harder to write
-        this.varName = varName;
+        this.varName = calcName;
         this.expression = expression;
         this.resolvedExpression = '';
         this.result = null;    // can be a number or a string in case of error
@@ -25,15 +26,16 @@ var Calculation = function(param, varName, expression) {
     this.__type = 'Calculation';
 };
 
-Calculation.prototype.validName  = function(varName) {
+Calculation.prototype.validName  = function(calcName) {
     //todo: identical/similar to reg exp in parseVars  -> unify
     // we can optimize this by putting the regExp in constant
     // ^ and $ are zero-word boundaries
-    return new RegExp('^[A-Za-z_]+[0-9]*$').test(varName);
+    return new RegExp('^[A-Za-z_]+[0-9]*$').test(calcName);
 };
 
 
 // returns array of unique variable names in expression, can be empty array (not null)
+//todo: we hebben deze routine zelfstandig nodig in bijv expressionUtil.js, en gebruik calcNames ipv varNames
 Calculation.prototype.parseVarsExpression = function() {
     // reg expression: one or more characters followed by zero or more digits
     // g stands for globale (multiple matches)

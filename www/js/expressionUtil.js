@@ -36,12 +36,12 @@ function getNumberFromVarname(varName) {
 }
 
 // parameter varName is the (previous) generated varName that is the basis for the next varName
-function generateVarName(varName) {
-    if (varName) {
-        var thenum = getNumberFromVarname(varName);
+function generateCalcName(calcName) {
+    if (calcName) {
+        var thenum = getNumberFromVarname(calcName);
         if (thenum) {
             var number = thenum + 1;
-            return varName.replace(thenum, number);
+            return calcName.replace(thenum, number);
         }
     }
     return 'calc1';

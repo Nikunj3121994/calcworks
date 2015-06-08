@@ -291,7 +291,7 @@ angular.module('calcworks.controllers')
     // we could move this function to Sheet
     function createNewCalculation(expression) {
         $log.log('info: lastVarName: ' + lastVarName);
-        var varName = generateVarName(lastVarName);
+        var varName = generateCalcName(lastVarName);
         lastVarName = varName;
         var id = ionic.Utils.nextUid(); // ionic util
         var calc = new Calculation(id, varName, expression);
@@ -341,15 +341,15 @@ angular.module('calcworks.controllers')
     return function(input) {
         // als input een variabele naam bevat dan deze vervangen door diens result
         var tempCalc = new Calculation('', '', input);
-        var varnames = tempCalc.parseVarsExpression();
-        $log.log('resolve filter: input= ' + input + ', varnames= ' + varnames);
+        var calcNames = tempCalc.parseVarsExpression();
+        $log.log('resolve filter: input= ' + input + ', varnames= ' + calcNames);
         var result = input;
-        var varnamesLength = varnames.length;
-        for (var i = 0; i < varnamesLength; i++) {
-            var value = sheetService.getActiveSheet().getValueFor(varnames[i]);
+        var calcNamesLength = calcNames.length;
+        for (var i = 0; i < calcNamesLength; i++) {
+            var value = sheetService.getActiveSheet().getValueFor(calcNames[i]);
             // later als we met decimalen gaan werken
             //var valAsStr = $rootScope.convertNumberToDisplay(value);
-            result = calcService.replaceAllVars(varnames[i], value, result);
+            result = calcService.replaceAllVars(calcNames[i], value, result);
         }
         return result;
     };
