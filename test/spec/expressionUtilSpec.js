@@ -28,5 +28,25 @@ describe('Test Expression Utilities', function () {
         expect(generateCalcName('12sd9')).toBe('12sd10');
     });
 
+    it('verify isCalcName', function () {
+        expect(isCalcName('abc')).toBe(true);
+        expect(isCalcName('5')).toBe(false);
+        expect(isCalcName(5)).toBe(false);
+        expect(isCalcName('1bc')).toBe(false);
+        expect(isCalcName('=')).toBe(false);
+        expect( function(){ isCalcName('')  } ).toThrow(new Error("empty calcName argument"));
+        expect( function(){ isCalcName(' ')  } ).toThrow(new Error("empty calcName argument"));
+    });
+
+    //
+    it('verify countOccurencesInExpression', function () {
+        expect(countOccurencesInExpression('abc', ['abc'])).toEqual(1);
+        expect(countOccurencesInExpression('abc', ['123'])).toEqual(0);
+        expect(countOccurencesInExpression('abc', [])).toEqual(0);
+        expect(countOccurencesInExpression('abc', ['abc', 'def'])).toEqual(1);
+        expect(countOccurencesInExpression('abc', ['abc', 'abc'])).toEqual(2);
+        expect(countOccurencesInExpression('abc', ['ac', 'abc'])).toEqual(1);
+    });
+
 });
 

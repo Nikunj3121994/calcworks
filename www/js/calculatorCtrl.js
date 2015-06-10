@@ -15,7 +15,8 @@ angular.module('calcworks.controllers')
     $scope.reset = function() {
         $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
         $scope.operatorStr = '';
-        $scope.expression = '';
+        $scope.expression = []; // array of calcNames, operators as char and numbers
+        $scope.result = null;
         // misschien kan $scope wel weg
         $scope.numberEnteringState = false;  // na de eerste digit zit je in deze state totdat een operator, bracket of equals komt
         $scope.expressionEnteringState = false;   // geeft aan dat een nieuwe expression is gestart  (direct na equals is deze false)
@@ -85,7 +86,7 @@ angular.module('calcworks.controllers')
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // wis de expressie als we nu een nieuwe gaan beginnen met een variabele
         if (!$scope.expressionEnteringState) {
-            $scope.expression = '';
+            $scope.expression = [];
             // consider: expressionEnteringState = true,  je bent nu een expressie aan t invoeren
             // deze logica zit ook in UpdateDisplayExpression - misschien dat t handiger kan door deze aan te roepen..
             // merk op dat bij een nieuw getal we de expression niet wissen, inconsequent....
@@ -219,9 +220,9 @@ angular.module('calcworks.controllers')
         // 2)  variable
         // 3)  ... (d * d)
         // 4)  0   but there is a previous answer
-        if ($scope.numberEnteringState || selectedCalc || endsWith($scope.expression, ')') || (!$scope.expressionEnteringState && sheet.nrOfCalcs() > 0)) {
+        if ($scope.numberEnteringState || selectedCalc || $scope.expression[$scope.expression.length-1]=== ')' || (!$scope.expressionEnteringState && sheet.nrOfCalcs() > 0)) {
             updateDisplayAndExpression();
-            $scope.expression = addSpaceIfNeeded($scope.expression) + operator;
+            $scope.expression.push(operator);
             $scope.operatorStr = operator;
             $scope.numberEnteringState = false;
         } else {
@@ -236,11 +237,9 @@ angular.module('calcworks.controllers')
         // also expression already shows the bracket
         if (!$scope.expressionEnteringState) {
             miniReset();
-            $scope.expression = '(';
             $scope.expressionEnteringState = true;
-        } else {
-            $scope.expression = addSpaceIfNeeded($scope.expression) + '(';
         }
+        $scope.expression.push('(');
     };
 
 
@@ -250,11 +249,11 @@ angular.module('calcworks.controllers')
     }
 
     $scope.touchCloseBracket = function() {
-        var countOpenBrackets = ($scope.expression.match(/\(/g) || []).length;
-        var countCloseBrackets = ($scope.expression.match(/\)/g) || []).length;
+        var countOpenBrackets = countOccurencesInExpression('(', $scope.expression);
+        var countCloseBrackets = countOccurencesInExpression(')', $scope.expression);
         if (countOpenBrackets - countCloseBrackets >= 1  && operandEntered()) {
             updateDisplayAndExpression();
-            $scope.expression = $scope.expression + ')';
+            $scope.expression.push(')');
             // we closed an intermediate expression, now we start 'fresh', sort of mini reset
             miniReset();
         } else {
@@ -270,19 +269,19 @@ angular.module('calcworks.controllers')
     function updateDisplayAndExpression() {
         if (!$scope.expressionEnteringState) {
             $scope.expressionEnteringState = true;
-            $scope.expression = '';
+            $scope.expression = [];
         }
         // if a number is added to the display then we should add it to the expression
         if ($scope.numberEnteringState === true) {
-            $scope.expression = addSpaceIfNeeded($scope.expression) + $scope.display;
+            $scope.expression.push(+$scope.display);
             $scope.display = '0';
             selectedCalc = null;
         } else if (selectedCalc) {
             // er is niet een getal ingetikt, maar er is wel een variabele gekozen
-            $scope.expression = addSpaceIfNeeded($scope.expression) + selectedCalc.varName;
+            $scope.expression.push(selectedCalc.varName);
             $scope.display = '0';
             selectedCalc = null;
-        } // else if ($scope.expression.trim()) {
+        } // else
             // er is geen getal ingetikt maar er staat al wel wat in de expression
             // we hoeven dan niets te doen.
             // (close bracket can trigger this path)
@@ -311,12 +310,8 @@ angular.module('calcworks.controllers')
                 sheet.add(calc);
                 calcService.calculate(sheet.calculations);
                 if (calc.result === null) $log.warning("warning: null result for " + calc.expression);
+                $scope.result = calc.result;
                 $scope.display = calc.result.toString();
-                // voor later als we decimalen willen afkappen
-                //$scope.display = $rootScope.convertNumberToDisplay(calc.result);
-                // let op: het filter resolved de expression
-                // als optimalisatie zou je hier ook direct de resolvedExpression kunnen invullen
-                $scope.expression = calc.expression + ' = ' + $scope.display;
                 sheetService.saveSheets();
                 selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
             } catch (e) {
@@ -339,18 +334,15 @@ angular.module('calcworks.controllers')
 // filter that resolves the varnames into values in the latest calculation from the active sheet
 .filter('resolve', function($log, $rootScope, calcService, sheetService) {
     return function(input) {
-        // als input een variabele naam bevat dan deze vervangen door diens result
-        var tempCalc = new Calculation('', '', input);
-        var calcNames = tempCalc.parseVarsExpression();
-        $log.log('resolve filter: input= ' + input + ', varnames= ' + calcNames);
-        var result = input;
-        var calcNamesLength = calcNames.length;
-        for (var i = 0; i < calcNamesLength; i++) {
-            var value = sheetService.getActiveSheet().getValueFor(calcNames[i]);
-            // later als we met decimalen gaan werken
-            //var valAsStr = $rootScope.convertNumberToDisplay(value);
-            result = calcService.replaceAllVars(calcNames[i], value, result);
+        var result = '';
+        for (var i = 0; i < input.length; i++) {
+            if (isCalcName(input[i])) {
+                var value = sheetService.getActiveSheet().getValueFor(input[i]);
+                result = result + ' ' + value;
+            } else {
+                result = result + ' ' + input[i];
+            }
         }
-        return result;
+        return result.trim();
     };
 });

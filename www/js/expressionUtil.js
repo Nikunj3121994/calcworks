@@ -54,3 +54,25 @@ function startsWith(str, prefix) {
 function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
+
+// als het eerste karakter een letter is dan beschouwen het een calcname
+// cijfers en operators vallen buiten de boot
+// leeg argument geeft een error
+function isCalcName(calcName) {
+    if (!calcName || !calcName.toString().trim()) throw new EvalError('empty calcName argument');
+    // consider: optimize to store the pattern
+    var patt = new RegExp(/^[A-Za-z]/);
+    return patt.test(calcName);
+}
+
+// expression is an array
+function countOccurencesInExpression(string, expression) {
+    var count = 0;
+    var calculationLength = expression.length;
+    for (var i = 0; i < calculationLength; i++) {
+        if (string === expression[i]) {
+            count++
+        }
+    }
+    return count;
+}

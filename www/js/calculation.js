@@ -12,8 +12,8 @@ var Calculation = function(param, calcName, expression) {
         //console.log('info: build calc from parameters: ' + param + ', ' + varName + ', ' + expression);
         this.id = param;   // we not use generateUUID() here because this makes the tests harder to write
         this.varName = calcName;
-        this.expression = expression;
-        this.resolvedExpression = '';
+        this.expression = expression;   // this is an array of numbers, calcNames and operators
+        this.resolvedExpression = '';   // ik weet niet of deze wel nuttig is ivm decimalen afkappen
         this.result = null;    // can be a number or a string in case of error
     } else {
         //console.log('build calc from obj');
@@ -36,6 +36,7 @@ Calculation.prototype.validName  = function(calcName) {
 
 // returns array of unique variable names in expression, can be empty array (not null)
 //todo: we hebben deze routine zelfstandig nodig in bijv expressionUtil.js, en gebruik calcNames ipv varNames
+// verwijder deze routine maar
 Calculation.prototype.parseVarsExpression = function() {
     // reg expression: one or more characters followed by zero or more digits
     // g stands for globale (multiple matches)

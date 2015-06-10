@@ -11,17 +11,16 @@ angular.module('calcworks.services')
         CalculationError.prototype.constructor = CalculationError;
 
         // private
-        this.calcVarname = function(calculations, varname, state) {
-            if (varname in state.varNamesInCalculation) {
-                throw new CalculationError('Circular reference; variable "' + varname + '" refers to a variable that refers back to "' + varname + '"');
+        this.calcVarname = function(calculations, calcName, state) {
+            if (calcName in state.varNamesInCalculation) {
+                throw new CalculationError('Circular reference; "' + calcName + '" refers to a calculation that refers back to "' + calcName + '"');
             }
-            //$log.log('calcVarname: ' + varname);
             var arrayLength = calculations.length;
             for (var i = 0; i < arrayLength; i++) {
-                if (calculations[i].varName === varname) {
-                    state.varNamesInCalculation[varname] = true;
+                if (calculations[i].varName === calcName) {
+                    state.varNamesInCalculation[calcName] = true;
                     this.calcCalculation(calculations, calculations[i], state);
-                    delete state.varNamesInCalculation[varname];
+                    delete state.varNamesInCalculation[calcName];
                     //nice-to-have: optimize - with return since varname is unique and no need for further processing
                 }
             }
@@ -29,22 +28,40 @@ angular.module('calcworks.services')
 
         // private
         this.resolveExpression = function(calculation, calculations, state) {
-            var expression = calculation.expression;
-            var varnames = calculation.parseVarsExpression();
-            if (varnames && varnames.length > 0) {
-                var varnamesLength = varnames.length;
-                for (var i = 0; i < varnamesLength; i++) {
-                    if (!state.outcomes[varnames[i]]) {
-                        this.calcVarname(calculations, varnames[i], state);
-                        if (!state.outcomes[varnames[i]]) {
-                            calculations.errorlog.undefinedVariables.push('"' + varnames[i] + '" is undefined');
+            //var expression = calculation.expression;
+            //var varnames = calculation.parseVarsExpression();
+            //if (varnames && varnames.length > 0) {
+            //    var varnamesLength = varnames.length;
+            //    for (var i = 0; i < varnamesLength; i++) {
+            //        if (!state.outcomes[varnames[i]]) {
+            //            this.calcVarname(calculations, varnames[i], state);
+            //            if (!state.outcomes[varnames[i]]) {
+            //                calculations.errorlog.undefinedVariables.push('"' + varnames[i] + '" is undefined');
+            //                //consider: add varname to outcomes as NaN or null to avoid re-calculation
+            //            }
+            //        }
+            //        expression = this.replaceAllVars(varnames[i], state.outcomes[varnames[i]], expression);
+            //    }
+            //}
+            var resolvedExpression = '';
+            var calculationLength = calculation.expression.length;
+            for (var i = 0; i < calculationLength; i++) {
+                if (isCalcName(calculation.expression[i])) {
+                    var calcName = calculation.expression[i];
+                    if (!state.outcomes[calcName]) {
+                        this.calcVarname(calculations, calcName, state);
+                        // double check if calculated
+                        if (!state.outcomes[calcName]) {
+                            calculations.errorlog.undefinedVariables.push('"' + calcName + '" is undefined');
                             //consider: add varname to outcomes as NaN or null to avoid re-calculation
                         }
                     }
-                    expression = this.replaceAllVars(varnames[i], state.outcomes[varnames[i]], expression);
+                    resolvedExpression = resolvedExpression + ' ' + state.outcomes[calcName];
+                } else {
+                    resolvedExpression = resolvedExpression + ' ' + calculation.expression[i];
                 }
             }
-            return expression;
+            return resolvedExpression;
         };
 
         // private
@@ -52,8 +69,9 @@ angular.module('calcworks.services')
             if (state.outcomes[calculation.varName]) {
                 $log.log('calcCalculation, already known ' + calculation.varName + ' : ' + calculation.expression + ' = ' + calculation.result);
             } else {
-                $log.log('calcCalculation: ' + calculation.varName + ' : ' + calculation.expression);
+                $log.log('calcCalculation: about to process: ' + calculation.varName + ' : ' + calculation.expression);
                 var expression = this.resolveExpression(calculation, calculations, state);
+                $log.log('calcCalculation: and ' + calculation.varName + ' resolved into: ' + expression);
                 calculation.resolvedExpression = expression;
                 var outcome;
                 try {
@@ -94,20 +112,20 @@ angular.module('calcworks.services')
         };
 
 
-        // private
-        // note parameters find and replace need to be safe, otherwise escape them first
-        this.replaceAllVars = function(find, replace, str) {
-            return str.replace(new RegExp('\\b' + find + '\\b', 'g'), replace);
-        };
+        //// private
+        //// note parameters find and replace need to be safe, otherwise escape them first
+        //this.replaceAllVars = function(find, replace, str) {
+        //    return str.replace(new RegExp('\\b' + find + '\\b', 'g'), replace);
+        //};
 
 
-        // private
-        this.renameVarInExpressions = function(oldName, newName, calculations) {
-            var arrayLength = calculations.length;
-            for (var i = 0; i < arrayLength; i++) {
-                calculations[i].expression = this.replaceAllVars(oldName, newName, calculations[i].expression);
-            }
-        };
+        //// private
+        //this.renameVarInExpressions = function(oldName, newName, calculations) {
+        //    var arrayLength = calculations.length;
+        //    for (var i = 0; i < arrayLength; i++) {
+        //        calculations[i].expression = this.replaceAllVars(oldName, newName, calculations[i].expression);
+        //    }
+        //};
 
         // public
         this.renameVar = function(calculation, newName, sheet) {
