@@ -310,6 +310,7 @@ angular.module('calcworks.controllers')
                 sheet.add(calc);
                 calcService.calculate(sheet.calculations);
                 if (calc.result === null) $log.warning("warning: null result for " + calc.expression);
+                // afhandelen van decimalen met een filter doen
                 $scope.result = calc.result;
                 $scope.display = calc.result.toString();
                 sheetService.saveSheets();
@@ -338,6 +339,7 @@ angular.module('calcworks.controllers')
         for (var i = 0; i < input.length; i++) {
             if (isCalcName(input[i])) {
                 var value = sheetService.getActiveSheet().getValueFor(input[i]);
+                // hier kunnen we de decimalen afhandeling doen
                 result = result + ' ' + value;
             } else {
                 result = result + ' ' + input[i];
