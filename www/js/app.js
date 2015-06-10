@@ -17,11 +17,10 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    // voor later als we decimalen willen afkappen
-    //  //todo: store 2 in rootScope and make it configurable
-    //$rootScope.convertNumberToDisplay = function(number) {
-    //    return (+number.toFixed(2)).toString();
-    //};
+      //todo: store 2 in rootScope and make it configurable
+    $rootScope.convertNumberToDisplay = function(number) {
+        return (+number.toFixed(2)).toString();
+    };
   });
 })
 

@@ -134,9 +134,13 @@ Issues
 
 Twee cijfers achter de komma. (Pro instelbaar)
 
+verwijderen van een sheet ging niet goed, ik denk dat er geen event gestuurd werd om de display bij te werken
+
+hernoemen van een variable gaat waarschijnlijk nu niet meer goed
+
 de getallen moeten in display en expression een pixel hoger
 
-een getal selecteren uit de active werkt op de tel niet goed
+een getal selecteren uit de active werkt op de telefoon niet goed
 
 2500 =   werkt niet. Je zou dan hierna altijd geef n naam dlg kunnen tonen. Twee keer = achter elkaar is altijd naam geven
 2500 + 0 kan ook niet

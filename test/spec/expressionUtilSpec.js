@@ -31,11 +31,12 @@ describe('Test Expression Utilities', function () {
     it('verify isCalcName', function () {
         expect(isCalcName('abc')).toBe(true);
         expect(isCalcName('5')).toBe(false);
+        expect(isCalcName(0)).toBe(false);
         expect(isCalcName(5)).toBe(false);
         expect(isCalcName('1bc')).toBe(false);
         expect(isCalcName('=')).toBe(false);
-        expect( function(){ isCalcName('')  } ).toThrow(new Error("empty calcName argument"));
-        expect( function(){ isCalcName(' ')  } ).toThrow(new Error("empty calcName argument"));
+        expect( function(){ isCalcName('')  } ).toThrow(new Error("empty argument"));
+        expect( function(){ isCalcName(' ')  } ).toThrow(new Error("empty argument"));
     });
 
     //

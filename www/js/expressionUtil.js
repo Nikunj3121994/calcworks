@@ -58,11 +58,12 @@ function endsWith(str, suffix) {
 // als het eerste karakter een letter is dan beschouwen het een calcname
 // cijfers en operators vallen buiten de boot
 // leeg argument geeft een error
-function isCalcName(calcName) {
-    if (!calcName || !calcName.toString().trim()) throw new EvalError('empty calcName argument');
+function isCalcName(variable) {
+    // merk op dat de shortcut  !variable  niet werkt ivm het cijfer 0.
+    if (variable === undefined || variable === null || variable.toString().trim()==='') throw new EvalError('empty argument');
     // consider: optimize to store the pattern
     var patt = new RegExp(/^[A-Za-z]/);
-    return patt.test(calcName);
+    return patt.test(variable);
 }
 
 // expression is an array

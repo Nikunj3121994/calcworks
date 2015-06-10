@@ -310,9 +310,8 @@ angular.module('calcworks.controllers')
                 sheet.add(calc);
                 calcService.calculate(sheet.calculations);
                 if (calc.result === null) $log.warning("warning: null result for " + calc.expression);
-                // afhandelen van decimalen met een filter doen
-                $scope.result = calc.result;
-                $scope.display = calc.result.toString();
+                $scope.result = calc.result;                 // type is number
+                $scope.display = calc.result.toString();     // type is string
                 sheetService.saveSheets();
                 selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
             } catch (e) {
@@ -332,6 +331,7 @@ angular.module('calcworks.controllers')
 
 
 })
+// filter that expects an expression array (calc names, numbers and operators)
 // filter that resolves the varnames into values in the latest calculation from the active sheet
 .filter('resolve', function($log, $rootScope, calcService, sheetService) {
     return function(input) {
@@ -339,12 +339,21 @@ angular.module('calcworks.controllers')
         for (var i = 0; i < input.length; i++) {
             if (isCalcName(input[i])) {
                 var value = sheetService.getActiveSheet().getValueFor(input[i]);
-                // hier kunnen we de decimalen afhandeling doen
-                result = result + ' ' + value;
+                result = result + ' ' + $rootScope.convertNumberToDisplay(value);
             } else {
                 result = result + ' ' + input[i];
             }
         }
         return result.trim();
     };
+})
+// filter that expects a number (not a string!) and converts it to a string with the right decimals
+.filter('toFixedDecimals', function($log, $rootScope) {
+        return function (input) {
+            if (input === undefined || input === null) {
+                return null;
+            } else {
+                return $rootScope.convertNumberToDisplay(input);
+            }
+        };
 });
