@@ -86,7 +86,8 @@ angular.module('calcworks.controllers')
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // wis de expressie als we nu een nieuwe gaan beginnen met een variabele
         if (!$scope.expressionEnteringState) {
-            $scope.expression = [];
+            expressionEnteringStart();
+            //$scope.expression = [];
             // consider: expressionEnteringState = true,  je bent nu een expressie aan t invoeren
             // deze logica zit ook in UpdateDisplayExpression - misschien dat t handiger kan door deze aan te roepen..
             // merk op dat bij een nieuw getal we de expression niet wissen, inconsequent....
@@ -261,6 +262,12 @@ angular.module('calcworks.controllers')
         }
     };
 
+    function expressionEnteringStart() {
+        $scope.expressionEnteringState = true;
+        $scope.expression = [];
+        $scope.result = null;
+    };
+
     // na elke 'actie' moet expression en display bijgewerkt worden
     // operator, close bracket, equalsOperator  call this function
     // deze functie is brittle, er is een volgorde afhankelijkheid die niet goed is
@@ -268,8 +275,7 @@ angular.module('calcworks.controllers')
     // Misschien dat we de vlag/state expressionEnteringState kunnen gebruiken om dit beter te maken
     function updateDisplayAndExpression() {
         if (!$scope.expressionEnteringState) {
-            $scope.expressionEnteringState = true;
-            $scope.expression = [];
+            expressionEnteringStart();
         }
         // if a number is added to the display then we should add it to the expression
         if ($scope.numberEnteringState === true) {

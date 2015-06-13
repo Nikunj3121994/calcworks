@@ -196,7 +196,6 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.result).toEqual(18);
     });
 
-
     it('verify touchPlusMin', function() {
         expect(scope.display).toBe('0');
         scope.touchPlusMinOperator();
@@ -262,6 +261,31 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.operatorStr).toBe('*');
         expect(scope.expression).toEqual([5, '+', 3, '*']);
     });
+
+
+    it('verify result', function() {
+        scope.touchDigit(4);
+        scope.touchOperator('+');
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('6');
+        expect(scope.result).toBe(6);
+
+        scope.touchDigit(3);
+        expect(scope.display).toBe('3');
+        expect(scope.result).toBe(6); // weet niet zeker of je dit ook echt wilt
+        scope.touchOperator('+');
+        expect(scope.display).toBe('0');
+        expect(scope.result).toBe(null);
+        scope.touchDigit(5);
+        expect(scope.display).toBe('5');
+        expect(scope.result).toBe(null);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('8');
+        expect(scope.result).toBe(8);
+    });
+
+
 
 
     it('verify start meteen met een operator', function() {
