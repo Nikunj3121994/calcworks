@@ -133,19 +133,19 @@ angular.module('calcworks.controllers')
 
     $scope.touchDigit = function(n) {
         if ($scope.numberEnteringState === false) {
-            if (n === 0 && $scope.display === '0') {
-                // ignore
-            } else {
-                $scope.display = '' + n;
-                $scope.numberEnteringState = true;
-                if ($scope.plusMinusTyped) {
-                    $scope.plusMinusTyped = false;
-                    $scope.operatorStr = '';
-                    addMinusSymbolToDisplay();
-                }
+            $scope.display = '' + n;
+            $scope.numberEnteringState = true;
+            if ($scope.plusMinusTyped) {
+                $scope.plusMinusTyped = false;
+                $scope.operatorStr = '';
+                addMinusSymbolToDisplay();
             }
         } else {
-            $scope.display = ($scope.display) + n;
+            if ($scope.display === '0') {
+                $scope.display = '' + n;
+            } else {
+                $scope.display = ($scope.display) + n;
+            }
         }
     };
 
@@ -309,9 +309,9 @@ angular.module('calcworks.controllers')
                 var calc = createNewCalculation($scope.expression);
                 sheet.add(calc);
                 calcService.calculate(sheet.calculations);
-                if (calc.result === null) $log.warning("warning: null result for " + calc.expression);
+                if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
                 $scope.result = calc.result;                 // type is number
-                $scope.display = calc.result.toString();     // type is string
+                $scope.display = $rootScope.convertNumberToDisplay(calc.result);     // type is string
                 sheetService.saveSheets();
                 selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
             } catch (e) {

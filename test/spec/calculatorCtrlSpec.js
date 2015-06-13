@@ -8,7 +8,7 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     var CalculatorCtrl,
-        rootScope,
+        //rootScope,
         scope,
         sheet = new Sheet('id', 'foo', []);
 
@@ -19,14 +19,14 @@ describe('Test controller CalculatorCtrl', function () {
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope, calcService, sheetService) {
         scope = $rootScope.$new();
-        rootScope = $rootScope;
+        //rootScope = $rootScope;
         // we need to supply an empty sheet for each test to make sure everything is 'clean'
         // however, strictly speaking this should not be necessary, I suspect that one failing test is a bug
         // on the other hand some tests require that the first variable is 'calc1'
         sheetService.getActiveSheet = getActiveSheet;
         CalculatorCtrl = $controller('CalculatorCtrl', {
           $scope: scope,
-          $rootScope : $rootScope,
+          //$rootScope : $rootScope,
           calcService: calcService,
           sheetService: sheetService
         });
@@ -100,7 +100,6 @@ describe('Test controller CalculatorCtrl', function () {
         // plus operation
         scope.touchDigit(5);
         expect(scope.display).toBe('5');
-
         scope.touchDigit(0);
         expect(scope.display).toBe('50');
 
@@ -118,6 +117,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('59');
         expect(scope.operatorStr).toBe('');
         expect(scope.expression).toEqual([ 50, '+' , 9]);
+        expect(scope.result).toEqual(59);
 
         scope.reset();
         expect(scope.display).toBe('0');
@@ -133,6 +133,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('-2');
         expect(scope.operatorStr).toBe('');
         expect(scope.expression).toEqual([91, '-', 93]);
+        expect(scope.result).toEqual(-2);
     });
 
     //  in de toekomst zou het mogelijk moeten zijn om de huidige operator te overschrijven
@@ -175,6 +176,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.expression).toEqual([2, '+']);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('6');
+        expect(scope.result).toEqual(6);
     });
 
 
@@ -191,6 +193,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('1');
         scope.touchDigit(4);
         expect(scope.display).toBe('14');
+        expect(scope.result).toEqual(18);
     });
 
 
@@ -226,6 +229,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('-2');
         scope.touchEqualsOperator();
         expect(scope.display).toBe('-8');
+        expect(scope.result).toEqual(-8);
 
         scope.reset();
         scope.touchDigit(4);
@@ -235,6 +239,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('-2');
         scope.touchEqualsOperator();
         expect(scope.display).toBe('-8');
+        expect(scope.result).toEqual(-8);
     });
 
 
@@ -281,6 +286,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('45');
         expect(scope.operatorStr).toBe('');
         expect(scope.expression).toEqual([5, '*', 9]);
+        expect(scope.result).toEqual(45);
     });
 
 
@@ -304,6 +310,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('5');
         expect(scope.operatorStr).toBe('');
+        expect(scope.result).toEqual(5);
     });
 
 
@@ -325,6 +332,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('32');
         expect(scope.operatorStr).toBe('');
+        expect(scope.result).toEqual(32);
     });
 
     it('verify brackets', function() {
@@ -349,6 +357,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('9');
         expect(scope.expression).toEqual(['(', 4, '+', 5, ')']);
         expect(scope.operatorStr).toBe('');
+        expect(scope.result).toEqual(9);
 
         // (4) + 5
         scope.reset();
@@ -371,7 +380,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('9');
         expect(scope.expression).toEqual(['(', 4, ')', '+', 5]);
         expect(scope.operatorStr).toBe('');
-
+        expect(scope.result).toEqual(9);
     });
 
     it('verify open bracket after expression entered', function() {
@@ -381,11 +390,13 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(9);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('14');
+        expect(scope.result).toEqual(14);
         // start with open bracket, this should reset the expression
         scope.touchOpenBracket();
         expect(scope.display).toBe('0');
         expect(scope.expression).toEqual([ 5, '+', 9, '(']);
         expect(scope.operatorStr).toBe('');
+        expect(scope.result).toEqual(14);
     });
 
 
@@ -398,6 +409,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('14');
         expect(scope.expression).toEqual([5, '+', 9]);
+        expect(scope.result).toEqual(14);
 
         scope.touchOperator('-');
         scope.touchDigit(9);
@@ -405,6 +417,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('5');
         expect(scope.expression).toEqual(['calc1', '-', 9]);
+        expect(scope.result).toEqual(5);
+
     });
 
 
@@ -425,6 +439,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('14');
         expect(scope.expression).toEqual([5, '+', 9]);
+        expect(scope.result).toEqual(14);
 
         scope.touchDigit(0);
         expect(scope.display).toBe('0');
@@ -478,6 +493,7 @@ describe('Test controller CalculatorCtrl', function () {
         // expect error signal
         expect(scope.display).toBe('0');
         expect(scope.expression).toEqual([5, '+']);
+        expect(scope.result).toEqual(null);
 
         scope.reset();
         scope.touchOpenBracket();
@@ -488,6 +504,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('6');
         expect(scope.expression).toEqual(['(', 5, '+', 1, ')']);
+        expect(scope.result).toEqual(6);
     });
 
 
@@ -498,6 +515,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(3);
         scope.touchEqualsOperator();
         expect(scope.expression).toEqual([2, '+', 3]);
+        expect(scope.result).toEqual(5);
 
         scope.touchOperator('+');
         scope.processSelectedCalculation(getActiveSheet().calculations[0]);
@@ -507,6 +525,7 @@ describe('Test controller CalculatorCtrl', function () {
         var varName = sheet.calculations[0].varName;
         expect(scope.expression).toEqual(['calc1', '+', 'calc1']);
         expect(sheet.calculations[0].expression).toEqual(['calc1', '+', 'calc1']);
+        expect(scope.result).toEqual(10);
     });
 
 
@@ -526,6 +545,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('9');
         expect(scope.expression).toEqual(['calc1', '+', 4]);
         expect(sheet.calculations[0].expression).toEqual(['calc1', '+', 4]);
+        expect(scope.result).toEqual(9);
     });
 
     it('verify behavior processSelectedCalculation 3', function () {
@@ -553,8 +573,35 @@ describe('Test controller CalculatorCtrl', function () {
         expect(sheet.calculations[0].expression).toEqual(['calc1', '+', 'calc2', '+', 'calc2']);
         expect(scope.expression).toEqual(['calc1', '+', 'calc2', '+', 'calc2']);
         expect(scope.display).toBe('25');
-
+        expect(scope.result).toEqual(25);
     });
 
+    it('verify behavior decimal rounding', function () {
+        scope._test_reset();
+        scope.touchDigit(3);
+        scope.touchOperator('/');
+        scope.touchDigit(1);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('3');
+        expect(scope.result).toEqual(3);
+
+        scope._test_reset();
+        scope.touchDigit(1);
+        scope.touchOperator('/');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('0.33');
+        expect(scope.result).toEqual(1 / 3);
+    });
+
+    it('verify division by zero', function () {
+        scope._test_reset();
+        scope.touchDigit(1);
+        scope.touchOperator('/');
+        scope.touchDigit(0);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('error');
+        expect(isFinite(scope.result)).toBeFalsy();
+    });
 
 });

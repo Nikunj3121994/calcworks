@@ -7,6 +7,11 @@ angular.module('calcworks.controllers', []);
 angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controllers'])
 
 .run(function($ionicPlatform, $rootScope) {
+    //maybe it is better to add this method to ExpressionUtil and make it a service
+    //todo: store 2 in rootScope and make it configurable
+    $rootScope.convertNumberToDisplay = function(number) {
+        return convertNumberToDisplay(number, 2);
+    };
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -17,10 +22,6 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-      //todo: store 2 in rootScope and make it configurable
-    $rootScope.convertNumberToDisplay = function(number) {
-        return (+number.toFixed(2)).toString();
-    };
   });
 })
 

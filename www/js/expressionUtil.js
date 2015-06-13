@@ -72,8 +72,19 @@ function countOccurencesInExpression(string, expression) {
     var calculationLength = expression.length;
     for (var i = 0; i < calculationLength; i++) {
         if (string === expression[i]) {
-            count++
+            count++;
         }
     }
     return count;
+}
+
+// ook aangeboden via $rootScope
+// converts number into a string with max nr of decimals
+// throws SyntaxError if the number is nan or infinite
+function convertNumberToDisplay(number, nrOfDecimals) {
+    if (isNaN(number) || !isFinite(number)) {
+        throw new SyntaxError('nan or infinite');
+    } else {
+        return (+number.toFixed(nrOfDecimals)).toString();
+    }
 }

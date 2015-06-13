@@ -132,6 +132,8 @@ website nodig?
 Issues
 -------
 
+de test controleert niet meer op resultaat!!!!
+
 Twee cijfers achter de komma. (Pro instelbaar)
 
 verwijderen van een sheet ging niet goed, ik denk dat er geen event gestuurd werd om de display bij te werken

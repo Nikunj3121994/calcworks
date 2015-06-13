@@ -35,8 +35,8 @@ describe('Test Expression Utilities', function () {
         expect(isCalcName(5)).toBe(false);
         expect(isCalcName('1bc')).toBe(false);
         expect(isCalcName('=')).toBe(false);
-        expect( function(){ isCalcName('')  } ).toThrow(new Error("empty argument"));
-        expect( function(){ isCalcName(' ')  } ).toThrow(new Error("empty argument"));
+        expect( function(){ isCalcName('');  } ).toThrow(new Error("empty argument"));
+        expect( function(){ isCalcName(' ');  } ).toThrow(new Error("empty argument"));
     });
 
     //
@@ -47,6 +47,18 @@ describe('Test Expression Utilities', function () {
         expect(countOccurencesInExpression('abc', ['abc', 'def'])).toEqual(1);
         expect(countOccurencesInExpression('abc', ['abc', 'abc'])).toEqual(2);
         expect(countOccurencesInExpression('abc', ['ac', 'abc'])).toEqual(1);
+    });
+
+    //
+    it('verify convertNumberToDisplay', function () {
+        expect(convertNumberToDisplay(123, 2)).toEqual('123');
+        expect(convertNumberToDisplay(123, 0)).toEqual('123');
+        expect(convertNumberToDisplay(1 / 3, 2)).toEqual('0.33');
+        expect(convertNumberToDisplay(1 / 3, 3)).toEqual('0.333');
+        // note there is a difference between NaN and Infinite
+        expect( function(){ convertNumberToDisplay(1 / 0, 3); } ).toThrow(new SyntaxError('nan or infinite'));
+        expect( function(){ convertNumberToDisplay(0 / 0, 3); } ).toThrow(new SyntaxError('nan or infinite'));
+
     });
 
 });
