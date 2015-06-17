@@ -162,3 +162,11 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+
+.calc-item {
+    background-color: #0a9ec7;
+    margin-left: 0px;
+    margin-right: 0px;
+    left: 0;
+    right: 0;
+}

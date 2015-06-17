@@ -9,7 +9,6 @@ angular.module('calcworks.controllers')
 
     var decimalSeparator = getDecimalSeparator();
     var lastVarName = '';
-    var sheet;
     var selectedCalc;
 
     $scope.reset = function() {
@@ -34,17 +33,17 @@ angular.module('calcworks.controllers')
 
     function init() {
         $log.log('calculatorCtrl: init');
-        sheet = sheetService.getActiveSheet();
+        $scope.sheet = sheetService.getActiveSheet();
         // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
         $log.log('calculatorCtrl: calculationName empty');
-        lastVarName = 'calc' + sheet.getLastNumberFromCalcName();
+        lastVarName = 'calc' + $scope.sheet.getLastNumberFromCalcName();
         selectedCalc = null;
         $scope.reset();
     }
 
     // test utility method to reset the var names
     $scope._test_reset = function() {
-        sheet.calculations = [];
+        $scope.sheet.calculations = [];
         lastVarName = '';
         selectedCalc = null;
         $scope.reset();
@@ -61,7 +60,6 @@ angular.module('calcworks.controllers')
             return false;
         }
         // todo: we moeten er rekening mee houden dat de geselecteerde calc wel eens een andere sheet kan zijn
-        //$scope.sheet = sheetService.getSheet($stateParams.sheetId);
         var calc = sheetService.getActiveSheet().getCalculationFor(newVal);
         $scope.processSelectedCalculation(calc);
         $rootScope.hackSelectedCalcName = null; // dit triggered weer een watch....
@@ -110,7 +108,7 @@ angular.module('calcworks.controllers')
         animation: 'slide-in-up'
     }).then(function(modal) {
         $scope.selectCalculationModal = modal;
-        modal.scope.sheet = sheetService.getActiveSheet();
+        modal.scope.sheet = sheetService.getActiveSheet();  // of $scope.sheet
         modal.scope.clickCalculation = selectCalculationModalClicked;
     });
     $scope.openModal = function() {
@@ -185,7 +183,7 @@ angular.module('calcworks.controllers')
         });
         renamePopup.then(function(newName) {
             if (newName) {
-                calcService.renameVar(selectedCalc, newName, sheet);
+                calcService.renameVar(selectedCalc, newName, $scope.sheet);
                 sheetService.saveSheets();
             }
         });
@@ -221,7 +219,7 @@ angular.module('calcworks.controllers')
         // 2)  variable
         // 3)  ... (d * d)
         // 4)  0   but there is a previous answer
-        if ($scope.numberEnteringState || selectedCalc || $scope.expression[$scope.expression.length-1]=== ')' || (!$scope.expressionEnteringState && sheet.nrOfCalcs() > 0)) {
+        if ($scope.numberEnteringState || selectedCalc || $scope.expression[$scope.expression.length-1]=== ')' || (!$scope.expressionEnteringState && $scope.sheet.nrOfCalcs() > 0)) {
             updateDisplayAndExpression();
             $scope.expression.push(operator);
             $scope.operatorStr = operator;
@@ -313,8 +311,8 @@ angular.module('calcworks.controllers')
                 // nu moeten we nog het resultaat verwerken:
                 $scope.operatorStr = '';
                 var calc = createNewCalculation($scope.expression);
-                sheet.add(calc);
-                calcService.calculate(sheet.calculations);
+                $scope.sheet.add(calc);
+                calcService.calculate($scope.sheet.calculations);
                 if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
                 $scope.result = calc.result;                 // type is number
                 $scope.display = $rootScope.convertNumberToDisplay(calc.result);     // type is string
@@ -337,22 +335,22 @@ angular.module('calcworks.controllers')
 
 
 })
-// filter that expects an expression array (calc names, numbers and operators)
-// filter that resolves the varnames into values in the latest calculation from the active sheet
-.filter('resolve', function($log, $rootScope, calcService, sheetService) {
-    return function(input) {
-        var result = '';
-        for (var i = 0; i < input.length; i++) {
-            if (isCalcName(input[i])) {
-                var value = sheetService.getActiveSheet().getValueFor(input[i]);
-                result = result + ' ' + $rootScope.convertNumberToDisplay(value);
-            } else {
-                result = result + ' ' + input[i];
-            }
-        }
-        return result.trim();
-    };
-})
+//// filter that expects an expression array (calc names, numbers and operators)
+//// filter that resolves the varnames into values in the latest calculation from the active sheet
+//.filter('resolve', function($log, $rootScope, calcService, sheetService) {
+//    return function(input) {
+//        var result = '';
+//        for (var i = 0; i < input.length; i++) {
+//            if (isCalcName(input[i])) {
+//                var value = sheetService.getActiveSheet().getValueFor(input[i]);
+//                result = result + ' ' + $rootScope.convertNumberToDisplay(value);
+//            } else {
+//                result = result + ' ' + input[i];
+//            }
+//        }
+//        return result.trim();
+//    };
+//})
 // filter that expects a number (not a string!) and converts it to a string with the right decimals
 .filter('toFixedDecimals', function($log, $rootScope) {
         return function (input) {

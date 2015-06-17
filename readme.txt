@@ -132,8 +132,7 @@ website nodig?
 Issues
 -------
 
-de test controleert niet meer op resultaat!!!!
-
+als je van de actieve sheet naar de calculator gaat dan toont ie alle decimalen
 Twee cijfers achter de komma. (Pro instelbaar)
 
 verwijderen van een sheet ging niet goed, ik denk dat er geen event gestuurd werd om de display bij te werken

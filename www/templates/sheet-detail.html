@@ -26,12 +26,15 @@ The Sheets service returns an array of sheet data
                 can-swipe="true">
           <!--moet can-swipe niet op false staan? -->
           <!--consider ionic's collection-repeat-->
-          <ion-item class="item-remove-animate item-icon-right" ng-repeat="calc in sheet.calculations  track by $index" >
-              <div ng-click="navigateToCalculator(calc)">
+          <ion-item class="item-remove-animate item-icon-right calc-item" ng-repeat="calc in sheet.calculations track by $index" >
+               <span ng-click="navigateToCalculator(calc)" >
                   <a class="sheetsCol" style="display:inline-block;text-align: left;width: 30%; cursor: pointer">{{calc.varName}}:</a>
-                  <span class="sheetsCol" ng-show="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.resolvedExpression}} = </span>
-                  <span class="sheetsCol" ng-hide="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.expression}} = </span>
-                  <span class="sheetsCol" style="display:inline-block;width: 20%"> {{calc.result}} </span>
+                  <!--<span class="sheetsCol" ng-show="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.resolvedExpression}} = </span>-->
+                  <!--<span class="sheetsCol" ng-hide="showResolvedExpression" style="display:inline-block;width: 50%">{{calc.expression}} = </span>-->
+                  <span style="display:inline-block;width: 50%">
+                          <resolve-expression expression="calc.expression" sheet="sheet"></resolve-expression>
+                  </span>
+                  <span class="sheetsCol" style="display:inline-block;width: 20%"> {{calc.result|toFixedDecimals}} </span>
                   <ion-option-button class="button-info"
                                      ng-click="showRenamePopup(calc)">
                       Edit
@@ -40,7 +43,7 @@ The Sheets service returns an array of sheet data
                   </ion-delete-button>
                   <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
                   </ion-reorder-button>
-              </div>
+              </span>
 
           </ion-item>
       </ion-list>

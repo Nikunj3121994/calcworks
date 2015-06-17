@@ -7,7 +7,8 @@
              <div class="col col-90">
                 <div class="expression">
                     <span class="text text_expression">
-                    {{expression|resolve}} <span ng-show="result">= {{result|toFixedDecimals}}</span>
+                        <resolve-expression expression="expression" sheet="sheet"></resolve-expression>
+                        <span ng-show="result">= {{result|toFixedDecimals}}</span>
                 </span>
                 </div>
              </div>
