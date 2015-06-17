@@ -65,22 +65,4 @@ Sheet.prototype.getValueFor = function(calcName) {
 };
 
 
-// MISSCHIEN MOET DIT NAAR DE link functie van het directief
-// het is nog totaal onduidelijk hoe we dit het beste kunnen oplossen
-// testen ontbreken
-// geeft de waarde voor een calcName en anders de literal zelf terug
-Sheet.prototype.getExprItemAsString = function(exprItem) {
-    if (isCalcName(exprItem)) {
-        return this.getValueFor(exprItem);
-    } else {
-        return exprItem;
-    }
-};
-Sheet.prototype.getExprItemIfCalcName = function(exprItem) {
-    if (isCalcName(exprItem)) {
-        return exprItem;
-    } else {
-        return null;
-    }
-};
 

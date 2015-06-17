@@ -135,6 +135,8 @@ Issues
 als je van de actieve sheet naar de calculator gaat dan toont ie alle decimalen
 Twee cijfers achter de komma. (Pro instelbaar)
 
+gebruik x ipv *
+
 verwijderen van een sheet ging niet goed, ik denk dat er geen event gestuurd werd om de display bij te werken
 
 hernoemen van een variable gaat waarschijnlijk nu niet meer goed

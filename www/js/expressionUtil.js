@@ -88,3 +88,23 @@ function convertNumberToDisplay(number, nrOfDecimals) {
         return (+number.toFixed(nrOfDecimals)).toString();
     }
 }
+
+// MISSCHIEN MOET DIT NAAR DE link functie van het directief
+// het is nog totaal onduidelijk hoe we dit het beste kunnen oplossen
+// testen ontbreken
+// geeft de waarde voor een calcName en anders de literal zelf terug
+function getExprItemAsString(exprItem, sheet) {
+    if (isCalcName(exprItem)) {
+        return sheet.getValueFor(exprItem);
+    } else {
+        return exprItem;
+    }
+}
+
+function getExprItemIfCalcName(exprItem) {
+    if (isCalcName(exprItem)) {
+        return exprItem;
+    } else {
+        return null;
+    }
+}

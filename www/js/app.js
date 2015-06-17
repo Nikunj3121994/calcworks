@@ -12,6 +12,8 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
     $rootScope.convertNumberToDisplay = function(number) {
         return convertNumberToDisplay(number, 2);
     };
+    $rootScope.getExprItemAsString = getExprItemAsString;
+    $rootScope.getExprItemIfCalcName = getExprItemIfCalcName;
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
