@@ -8,11 +8,13 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
 
 .run(function($ionicPlatform, $rootScope) {
     //maybe it is better to add this method to ExpressionUtil and make it a service
-    //todo: store 2 in rootScope and make it configurable
+    $rootScope.nrOfDecimals = 2;
     $rootScope.convertNumberToDisplay = function(number) {
-        return convertNumberToDisplay(number, 2);
+        return convertNumberToDisplay(number, $rootScope.nrOfDecimals);
     };
-    $rootScope.getExprItemAsString = getExprItemAsString;
+    $rootScope.getExprItemAsString = function(exprItem, sheet) {
+        return getExprItemAsString(exprItem, sheet, $rootScope.nrOfDecimals);
+    };
     $rootScope.getExprItemIfCalcName = getExprItemIfCalcName;
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

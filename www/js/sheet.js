@@ -30,6 +30,7 @@ Sheet.prototype.add = function(calculation) {
     this.calculations.splice(0, 0, calculation);
 };
 
+// return the last (highest) number part within calc names  (plural...)
 Sheet.prototype.getLastNumberFromCalcName = function() {
     var result = 0;
     var arrayLength = this.calculations.length;

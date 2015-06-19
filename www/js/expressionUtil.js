@@ -66,6 +66,19 @@ function isCalcName(variable) {
     return patt.test(variable);
 }
 
+function isString(str) {
+    return typeof str === 'string' || str instanceof String;
+}
+
+function isOperator(exprItem) {
+    if (isString(exprItem)) {
+        var char = exprItem.charAt(0);
+        return char === '+' || char === '-' || char === '*' || char === '/' || char === '%';
+    } else {
+        return false;
+    }
+}
+
 // expression is an array
 function countOccurencesInExpression(string, expression) {
     var count = 0;
@@ -93,11 +106,13 @@ function convertNumberToDisplay(number, nrOfDecimals) {
 // het is nog totaal onduidelijk hoe we dit het beste kunnen oplossen
 // testen ontbreken
 // geeft de waarde voor een calcName en anders de literal zelf terug
-function getExprItemAsString(exprItem, sheet) {
-    if (isCalcName(exprItem)) {
-        return sheet.getValueFor(exprItem);
-    } else {
+function getExprItemAsString(exprItem, sheet, nrOfDecimals) {
+    if (isOperator(exprItem)) {
         return exprItem;
+    } else if (isCalcName(exprItem)) {
+        return convertNumberToDisplay(sheet.getValueFor(exprItem), nrOfDecimals);
+    } else {
+        return convertNumberToDisplay(exprItem, nrOfDecimals);
     }
 }
 

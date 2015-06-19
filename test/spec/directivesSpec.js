@@ -47,7 +47,19 @@ describe('Test directives', function () {
         expect(span.length).toBe(3);
         expect(span.eq(0).text()).toBe('2 ');
         expect(span.eq(1).text()).toBe('+ ');
-        //expect(span.eq(2).text()).toBe('0.33 ');
+        expect(span.eq(2).text()).toBe('0.33 ');
+    });
+
+    it('verify directive', function () {
+        scope.expression = [2, "%", 1000];
+        compile(element)(scope);
+        mockBackEnd();
+        scope.$digest();
+        var span = element.find('span');
+        expect(span.length).toBe(3);
+        expect(span.eq(0).text()).toBe('2 ');
+        expect(span.eq(1).text()).toBe('% ');
+        expect(span.eq(2).text()).toBe('1000 ');
     });
 
 });

@@ -3,7 +3,9 @@
 // todo: namespace
 
 // calculation object, should be serializable
-// varName field had gewoon name moeten heten
+// varName field had gewoon name moeten heten of calcName
+// expression zou een array van ExprItem moeten zijn. Dan kunnen we in ExprItem een hoop methods kwijt
+// echter de conversie naar string (diplay zeg maar) blijft een probleem omdat het aantal decimalen in rootscope zit
 
 var Calculation = function(param, calcName, expression) {
     if (param === null) throw 'undefined parameter for Calculation constructor';
