@@ -9,13 +9,8 @@
               <span style="font-weight: lighter;font-size: small">created {{sheet.createdTimestamp | date : 'd MMM yyyy HH:mm' }}</span>
           </div>
           <div class="row"  ng-repeat="calc in sheet.calculations" style="background-color: white">
-              <div class="col sheetsCol">{{calc.varName}}:</div>
-              <div class="col col-50 sheetsCol" style="text-align: right">
-                  <span class="check-element animate-show" ng-hide="showResolvedExpression">{{calc.expression}}</span>
-                  <span class="check-element animate-show" ng-show="showResolvedExpression">{{calc.resolvedExpression}}</span>
-                  =
-              </div>
-              <div class="col sheetsCol" style="text-align: right">{{calc.result}}</div>
+              <div class="col sheetsCol" style="text-align: left">{{calc.varName}}:</div>
+              <div class="col sheetsCol" style="text-align: right">{{calc.result|toFixedDecimals}}</div>
           </div>
 
           <div class="item tabs tabs-secondary tabs-icon-left">
