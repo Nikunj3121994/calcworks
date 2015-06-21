@@ -35,17 +35,16 @@ $sudo npm update
 $bower list
 laat zien wat er bijgewerkt kan worden
 
-$bower update
-dit had  niet zoveel effect. Angular-mocks bleef op dezelfde versie zitten. Dit komt doordat ionic een oude versie van Angular specificeerd in zijn bower.json
-Wat wel effect had was:
-
-$bower install angular-mocks --save
-(ik moest wel met de hand de versie overriden)
-
 updaten van ionic:
 $ionic lib update
+(ik moest hiertoe wel eerst de twee bower files uit /lib/ionic verwijderen)
+
+daarna de rest bijwerken:
+$bower update
 
 
+Testen runnen
+-------------
 Karma vanaf de cmd line runnen (handig omdat dit meer info geeft dan via gulp)
 vanuit de test folder:
 $ karma start --single-run
