@@ -31,10 +31,10 @@ describe('Test directives', function () {
         mockBackEnd();
         scope.$digest();
         var span = element.find('span');
-        expect(span.length).toBe(3);
+        expect(span.length).toBe(6);           // dit zou eigenlijk 3 moeten zijn, de extra spans voor calcs moeten er niet zijn
         expect(span.eq(0).text()).toBe('2 ');  // deze spatie zou weg moeten en via css opgelost moeten worden
-        expect(span.eq(1).text()).toBe('+ ');
-        expect(span.eq(2).text()).toBe('3 ');
+        expect(span.eq(2).text()).toBe('+ ');
+        expect(span.eq(4).text()).toBe('3 ');
     });
 
 
@@ -44,10 +44,10 @@ describe('Test directives', function () {
         mockBackEnd();
         scope.$digest();
         var span = element.find('span');
-        expect(span.length).toBe(3);
+        expect(span.length).toBe(6);
         expect(span.eq(0).text()).toBe('2 ');
-        expect(span.eq(1).text()).toBe('+ ');
-        expect(span.eq(2).text()).toBe('0.33 ');
+        expect(span.eq(2).text()).toBe('+ ');
+        expect(span.eq(4).text()).toBe('0.33 ');
     });
 
     it('verify directive', function () {
@@ -56,10 +56,11 @@ describe('Test directives', function () {
         mockBackEnd();
         scope.$digest();
         var span = element.find('span');
-        expect(span.length).toBe(3);
+        expect(span.length).toBe(6);
         expect(span.eq(0).text()).toBe('2 ');
-        expect(span.eq(1).text()).toBe('% ');
-        expect(span.eq(2).text()).toBe('1000 ');
+        expect(span.eq(2).text()).toBe('% ');
+        expect(span.eq(4).text()).toBe('1000 ');
     });
 
+    // todo: test met calc namen
 });

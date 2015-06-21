@@ -27,6 +27,24 @@ npm install karma-jasmine --save-dev
 
 npm install karma-chrome-launcher --save-dev
 
+Update van libraries
+--------------------
+$sudo npm update
+(misschien moet de  -g  erachter, want bower ging niet mee)
+
+$bower list
+laat zien wat er bijgewerkt kan worden
+
+$bower update
+dit had  niet zoveel effect. Angular-mocks bleef op dezelfde versie zitten. Dit komt doordat ionic een oude versie van Angular specificeerd in zijn bower.json
+Wat wel effect had was:
+
+$bower install angular-mocks --save
+(ik moest wel met de hand de versie overriden)
+
+updaten van ionic:
+$ionic lib update
+
 
 Karma vanaf de cmd line runnen (handig omdat dit meer info geeft dan via gulp)
 vanuit de test folder:
@@ -131,6 +149,8 @@ website nodig?
 
 Issues
 -------
+
+update libraries. Angular en misschien ook Ionic. Documenteer dit
 
 als je van de actieve sheet naar de calculator gaat dan toont ie alle decimalen
 Twee cijfers achter de komma. (Pro instelbaar)

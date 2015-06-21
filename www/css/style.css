@@ -170,3 +170,11 @@
     left: 0;
     right: 0;
 }
+
+.overlay {
+    position: relative;
+    /*margin-right: -10px;*/
+    vertical-align: super;
+    z-index: 100;
+    opacity: 0.4;
+}

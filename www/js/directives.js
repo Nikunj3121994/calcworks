@@ -12,7 +12,6 @@ angular.module('calcworks.controllers')
             expression: '=',
             sheet: '='
         },
-        //dit heeft als nadeel dat er altijd een sup element is ook al is item leeg
-        template: '<span ng-repeat="item in expression track by $index">{{$root.getExprItemAsString(item, sheet)}}<sup>{{$root.getExprItemIfCalcName(item)}}</sup> </span>'
+        template: '<span ng-repeat="item in expression track by $index">{{$root.getExprItemAsString(item, sheet)}}<ng-if="isCalcName(item)"><span class="overlay">{{$root.getExprItemIfCalcName(item)}}</span></ng-if> </span>'
     };
 });
