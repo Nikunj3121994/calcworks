@@ -171,9 +171,15 @@
     right: 0;
 }
 
-.overlay {
+.itemExpr{
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.calcNameExpr {
+    font-size: small;
     position: relative;
-    /*margin-right: -10px;*/
+    margin-left: -3px;
     vertical-align: super;
     z-index: 100;
     opacity: 0.4;

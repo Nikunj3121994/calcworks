@@ -13,9 +13,11 @@ angular.module('calcworks.controllers')
             var template = '';
             var arrayLength = scope.expression.length;
             for (var i = 0; i < arrayLength; i++) {
-                template = template + '<span>{{$root.getExprItemAsString(expression[' + i + '], sheet)}}</span>';
+                // we keep line below if it comes in handy later. Notice $root instead of rootScope
+                // template = template + '<span>{{$root.getExprItemAsString(expression[' + i + '], sheet)}}</span>';
+                template = template + '<span  class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i], scope.sheet) + '</span>';
                 if (isCalcName(scope.expression[i])) {
-                    template = template + '<span class="overlay">{{$root.getExprItemIfCalcName(expression[' + i + '])}}</span>';
+                    template = template + '<span class="calcNameExpr">' + $rootScope.getExprItemIfCalcName(scope.expression[i]) + '</span>';
                 }
             }
             var linkFn = $compile(template);
