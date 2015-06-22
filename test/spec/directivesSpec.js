@@ -31,36 +31,52 @@ describe('Test directives', function () {
         mockBackEnd();
         scope.$digest();
         var span = element.find('span');
-        expect(span.length).toBe(6);           // dit zou eigenlijk 3 moeten zijn, de extra spans voor calcs moeten er niet zijn
-        expect(span.eq(0).text()).toBe('2 ');  // deze spatie zou weg moeten en via css opgelost moeten worden
-        expect(span.eq(2).text()).toBe('+ ');
-        expect(span.eq(4).text()).toBe('3 ');
+        expect(span.length).toBe(3);
+        expect(span.eq(0).text()).toBe('2');
+        expect(span.eq(1).text()).toBe('+');
+        expect(span.eq(2).text()).toBe('3');
     });
 
-
-    it('verify directive', function () {
+    it('verify directive with decimals', function () {
         scope.expression = [2, "+", 1/3];
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
         var span = element.find('span');
-        expect(span.length).toBe(6);
-        expect(span.eq(0).text()).toBe('2 ');
-        expect(span.eq(2).text()).toBe('+ ');
-        expect(span.eq(4).text()).toBe('0.33 ');
+        expect(span.length).toBe(3);
+        expect(span.eq(0).text()).toBe('2');
+        expect(span.eq(1).text()).toBe('+');
+        expect(span.eq(2).text()).toBe('0.33');
     });
 
-    it('verify directive', function () {
+    it('verify directive with percentage operator', function () {
         scope.expression = [2, "%", 1000];
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
         var span = element.find('span');
-        expect(span.length).toBe(6);
-        expect(span.eq(0).text()).toBe('2 ');
-        expect(span.eq(2).text()).toBe('% ');
-        expect(span.eq(4).text()).toBe('1000 ');
+        expect(span.length).toBe(3);
+        expect(span.eq(0).text()).toBe('2');
+        expect(span.eq(1).text()).toBe('%');
+        expect(span.eq(2).text()).toBe('1000');
     });
 
-    // todo: test met calc namen
+
+    it('verify directive with calc names', function () {
+        var calculation = new Calculation('id', 'calc1', '6 + 2');
+        calculation.result = 8;
+        scope.sheet.add(calculation);
+        scope.expression = [4, "-", "calc1"];
+        compile(element)(scope);
+        mockBackEnd();
+        scope.$digest();
+        var span = element.find('span');
+        expect(span.length).toBe(4);
+        expect(span.eq(0).text()).toBe('4');
+        expect(span.eq(1).text()).toBe('-');
+        expect(span.eq(2).text()).toBe('8');
+        expect(span.eq(3).text()).toBe('calc1');
+    });
+
+
 });

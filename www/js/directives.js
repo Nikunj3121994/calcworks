@@ -2,16 +2,25 @@
 
 angular.module('calcworks.controllers')
 
-    // merk op dat er al een filter resolve bestaat. Deze doet alleen de superscript niet, dat gaat ook lukken in een filter
-    // filter doet wel decimale afkappen
-    // $rootScope.convertNumberToDisplay(value);
-.directive('resolveExpression', function($rootScope) {
+.directive('resolveExpression', function($rootScope, $compile) {
     return {
         restrict: 'E',
         scope: {
             expression: '=',
             sheet: '='
         },
-        template: '<span ng-repeat="item in expression track by $index">{{$root.getExprItemAsString(item, sheet)}}<ng-if="isCalcName(item)"><span class="overlay">{{$root.getExprItemIfCalcName(item)}}</span></ng-if> </span>'
+        link: function(scope, element) {
+            var template = '';
+            var arrayLength = scope.expression.length;
+            for (var i = 0; i < arrayLength; i++) {
+                template = template + '<span>{{$root.getExprItemAsString(expression[' + i + '], sheet)}}</span>';
+                if (isCalcName(scope.expression[i])) {
+                    template = template + '<span class="overlay">{{$root.getExprItemIfCalcName(expression[' + i + '])}}</span>';
+                }
+            }
+            var linkFn = $compile(template);
+            var content = linkFn(scope);
+            element.append(content);
+        }
     };
 });

@@ -78,10 +78,20 @@ UI-Router heeft deze eigenschap:
 (http://www.jeremyzerr.com/using-angularjs-ui-router-query-parameters-and-complex-directives-together-without-killing-app)
 Dit is wat we niet willen voor de calculator-tab.
 
-Issues
------
 
-overloop van grote getallen regelen
+Distribute
+-----------
+icon v/d app
+minimize/ulgify js
+controleer persistence rules Apple
+screenshots maken (goede use-cases)
+website nodig?
+
+
+Issues
+-------
+
+= tekent verschijnt heel kort, gebruik ng-cloak
 
 active sheet deleten vanuit lijst van sheets
 
@@ -108,13 +118,9 @@ lastVarName zou lastVarNumber moeten worden, veel simpeler
 
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 
-decimal separator tonen en aantal decimalen instelbaar maken
-
-achtergrond kleur bij sheet list loopt niet door
+aantal decimalen instelbaar maken
 
 beep of vibrate bij fout in calculator
-
-test schrijven voor filter bij calculator
 
 bij aanzetten of activeren kunnen of een bepaalde tijdsperiode is verstreken en zo ja een nieuwe sheet maken.
 
@@ -134,22 +140,6 @@ toon 'today' of 'yesterday' ipv de datum
 misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
 
 plaats files mbt feature bij elkaar
-
-
-
-Distribute
------------
-icon v/d app
-minimize/ulgify js
-controleer persistence rules Apple
-screenshots maken (goede use-cases)
-website nodig?
-
-
-Issues
--------
-
-update libraries. Angular en misschien ook Ionic. Documenteer dit
 
 als je van de actieve sheet naar de calculator gaat dan toont ie alle decimalen
 Twee cijfers achter de komma. (Pro instelbaar)
