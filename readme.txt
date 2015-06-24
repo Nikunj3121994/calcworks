@@ -91,7 +91,6 @@ website nodig?
 Issues
 -------
 
-de toggle in sheet-detail doet niets meer
 
 active sheet deleten vanuit lijst van sheets
 
