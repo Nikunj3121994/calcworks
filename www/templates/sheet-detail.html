@@ -6,20 +6,24 @@ The Sheets service returns an array of sheet data
 -->
 <ion-view view-title="{{sheet.name}}">
 
-
-  <ion-content class="padding-top">
-      <div style="display:inline-block;width: 100%;overflow: hidden;position: relative; background-color: #feba51">
-          <div class="buttons" style="display:inline-block">
-              <button class="button" ng-click="showDelete = !showDelete; showReorder = false">
-                  Delete
-              </button>
-          </div>
-          <div class="buttons"  style="display:inline-block;float: right;">
-              <button class="button" ng-click="showDelete = false; showReorder = !showReorder">
-                  Reorder
-              </button>
-          </div>
-      </div>
+    <!--class bar-subheader is nodig om ervoor te zorgen dat ie onder de navbar komt van de ion-view-->
+    <ion-header-bar class="bar-positive bar-subheader" style="background-color: #feba51">
+        <!--<div style="display:inline-block;width: 100%;overflow: hidden;position: relative; background-color: #feba51">-->
+            <div class="buttons" >
+                <button class="button button-icon icon ion-ios-minus-outline" ng-click="showDelete = !showDelete; showReorder = false">
+                    Delete
+                </button>
+            </div>
+        <h1 class="title"></h1>
+            <div class="buttons">
+                <button class="button button-icon ion-ios-shuffle" ng-click="showDelete = false; showReorder = !showReorder">
+                    Reorder
+                </button>
+            </div>
+        <!--</div>-->
+    </ion-header-bar>
+gdffdgdf
+  <ion-content class="has-header">
       <ion-list
                 show-delete="showDelete"
                 show-reorder="showReorder"
@@ -28,14 +32,10 @@ The Sheets service returns an array of sheet data
           <!--consider ionic's collection-repeat-->
           <ion-item class="item-remove-animate item-icon-right calc-item" ng-repeat="calc in sheet.calculations track by $index" >
                <span ng-click="navigateToCalculator(calc)" >
-                  <a class="sheetsCol" style="display:inline-block;text-align: left;width: 30%; cursor: pointer">{{calc.varName}}:</a>
-                  <span style="display:inline-block;width: 50%">
-                          <resolve-expression expression="calc.expression" sheet="sheet" showcalcname="true"></resolve-expression>
-                  </span>
-                  <span class="sheetsCol" style="display:inline-block;width: 20%"> {{calc.result|toFixedDecimals}} </span>
+                  <resolve-expression calculation="calc" sheet="sheet" ></resolve-expression>
                   <ion-option-button class="button-info"
                                      ng-click="showRenamePopup(calc)">
-                      Edit
+                      Rename
                   </ion-option-button>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
                   </ion-delete-button>
@@ -53,13 +53,13 @@ The Sheets service returns an array of sheet data
         </div>
         <!--dummy element ivm uitlijning-->
         <h1 class="title"></h1>
-        <div class="buttons">
-            <label class="toggle toggle-energized" style="float: right;">
-                <input type="checkbox" ng-model="showResolvedExpression" >
-                <div class="track">
-                    <div class="handle"></div>
-                </div>
-            </label>
-        </div>
+        <!--<div class="buttons">-->
+            <!--<label class="toggle toggle-energized" style="float: right;">-->
+                <!--<input type="checkbox" ng-model="showResolvedExpression" >-->
+                <!--<div class="track">-->
+                    <!--<div class="handle"></div>-->
+                <!--</div>-->
+            <!--</label>-->
+        <!--</div>-->
     </ion-footer-bar>
 </ion-view>

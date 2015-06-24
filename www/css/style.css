@@ -172,8 +172,8 @@
 }
 
 .itemExpr{
-    margin-left: 2px;
-    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 .calcNameExpr {
@@ -182,5 +182,9 @@
     margin-left: -3px;
     vertical-align: super;
     z-index: 100;
-    opacity: 0.4;
+}
+
+.expressionTable tr {
+    padding: 0px;
+    margin: 0px;
 }

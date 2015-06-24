@@ -6,9 +6,52 @@ angular.module('calcworks.controllers')
     return {
         restrict: 'E',
         scope: {
+            calculation: '=',
+            sheet: '=',
+        },
+        link: function(scope, element) {
+            if (!scope.calculation) throw new Error('illegal argument calculation');
+            if (!scope.sheet) throw new Error('illegal argument sheet');
+            var template = '';
+
+            //    <a class="sheetsCol" style="display:inline-block;text-align: left;width: 30%">{{calc.varName}}:</a>
+            //<span style="display:inline-block;width: 50%">
+            //    </span>
+            //    <span class="sheetsCol" style="display:inline-block;width: 20%"> {{calc.result|toFixedDecimals}} </span>
+
+
+            template = '<table class="expressionTable">';
+            template = template + '<tr>';
+            template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberToDisplay(scope.calculation.result) + '</td>';
+            template = template + '<td class="itemExpr">  &nbsp;=&nbsp;  </td>';
+            var expression = scope.calculation.expression;
+            var arrayLength = expression.length;
+            for (var i = 0; i < arrayLength; i++) {
+                template = template + '<td class="itemExpr">' + $rootScope.getExprItemAsString(expression[i], scope.sheet) + '</td>';
+            }
+            template = template + '</tr><tr>';
+            template = template + '<td class="calcNameExpr">' + scope.calculation.varName + '</td>';
+            template = template + '<td></td>';
+            for (var i = 0; i < arrayLength; i++) {
+                if (isCalcName(expression[i])) {
+                    template = template + '<td class="calcNameExpr">' + $rootScope.getExprItemIfCalcName(expression[i]) + '</td>';
+                } else {
+                    template = template + '<td></td>';
+                }
+            }
+            template = template + '</tr>';
+            template = template + '</table>';
+            // since we resolve the parameters above there is no need to compile
+            element.html(template);
+        }
+    };
+})
+.directive('resolveExpressionWatch', function($rootScope) {
+    return {
+        restrict: 'E',
+        scope: {
             expression: '=',
             sheet: '=',
-            showcalcname: '=',  //optional  (notice the lowercase chars to avoid issues)
             result: '='  //optional
         },
         link: function(scope, element) {
@@ -18,16 +61,16 @@ angular.module('calcworks.controllers')
                     var arrayLength = scope.expression.length;
                     for (var i = 0; i < arrayLength; i++) {
                         template = template + '<span  class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i], scope.sheet) + '</span>';
-                        if (scope.showcalcname && isCalcName(scope.expression[i])) {
+                        if (isCalcName(scope.expression[i])) {
                             template = template + '<span class="calcNameExpr">' + $rootScope.getExprItemIfCalcName(scope.expression[i]) + '</span>';
                         }
                     }
                     if (scope.result) {
                         template = template + '<span  class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';
                     }
-                    // since we resolve the parameters above there is no need to compile
-                    element.html(template);
                 }
+                // since we resolve the parameters above there is no need to compile
+                element.html(template);
             }, true); // true is deep dirty checking
         }
     };
