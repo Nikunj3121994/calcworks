@@ -67,6 +67,9 @@ describe('Test directives', function () {
         calculation.result = 8;
         scope.sheet.add(calculation);
         scope.expression = [4, "-", "calc1"];
+        scope.showcalcname = true;
+        element = angular.element(
+            '<resolve-expression expression="expression" sheet="sheet" showcalcname="showcalcname"></resolve-expression>');
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
@@ -77,6 +80,8 @@ describe('Test directives', function () {
         expect(span.eq(2).text()).toBe('8');
         expect(span.eq(3).text()).toBe('calc1');
     });
+
+    //todo: test result
 
 
 });

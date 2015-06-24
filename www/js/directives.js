@@ -8,6 +8,7 @@ angular.module('calcworks.controllers')
         scope: {
             expression: '=',
             sheet: '=',
+            showcalcname: '=',  //optional  (notice the lowercase chars to avoid issues)
             result: '='  //optional
         },
         link: function(scope, element) {
@@ -17,7 +18,7 @@ angular.module('calcworks.controllers')
                     var arrayLength = scope.expression.length;
                     for (var i = 0; i < arrayLength; i++) {
                         template = template + '<span  class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i], scope.sheet) + '</span>';
-                        if (isCalcName(scope.expression[i])) {
+                        if (scope.showcalcname && isCalcName(scope.expression[i])) {
                             template = template + '<span class="calcNameExpr">' + $rootScope.getExprItemIfCalcName(scope.expression[i]) + '</span>';
                         }
                     }

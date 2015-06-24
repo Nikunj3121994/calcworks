@@ -91,6 +91,8 @@ website nodig?
 Issues
 -------
 
+de toggle in sheet-detail doet niets meer
+
 active sheet deleten vanuit lijst van sheets
 
 je moet een calculation niet kunnen deleten als ie gebruikt wordt (ref integrity)
