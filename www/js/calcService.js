@@ -28,21 +28,6 @@ angular.module('calcworks.services')
 
         // private
         this.resolveExpression = function(calculation, calculations, state) {
-            //var expression = calculation.expression;
-            //var varnames = calculation.parseVarsExpression();
-            //if (varnames && varnames.length > 0) {
-            //    var varnamesLength = varnames.length;
-            //    for (var i = 0; i < varnamesLength; i++) {
-            //        if (!state.outcomes[varnames[i]]) {
-            //            this.calcVarname(calculations, varnames[i], state);
-            //            if (!state.outcomes[varnames[i]]) {
-            //                calculations.errorlog.undefinedVariables.push('"' + varnames[i] + '" is undefined');
-            //                //consider: add varname to outcomes as NaN or null to avoid re-calculation
-            //            }
-            //        }
-            //        expression = this.replaceAllVars(varnames[i], state.outcomes[varnames[i]], expression);
-            //    }
-            //}
             var resolvedExpression = '';
             var calculationLength = calculation.expression.length;
             for (var i = 0; i < calculationLength; i++) {
@@ -67,18 +52,18 @@ angular.module('calcworks.services')
         // private
         this.calcCalculation = function(calculations, calculation, state) {
             if (state.outcomes[calculation.varName]) {
-                $log.log('calcCalculation, already known ' + calculation.varName + ' : ' + calculation.expression + ' = ' + calculation.result);
+                //$log.log('calcCalculation, already known ' + calculation.varName + ' : ' + calculation.expression + ' = ' + calculation.result);
             } else {
-                $log.log('calcCalculation: about to process: ' + calculation.varName + ' : ' + calculation.expression);
+                //$log.log('calcCalculation: about to process: ' + calculation.varName + ' : ' + calculation.expression);
                 var expression = this.resolveExpression(calculation, calculations, state);
-                $log.log('calcCalculation: and ' + calculation.varName + ' resolved into: ' + expression);
+                //$log.log('calcCalculation: and ' + calculation.varName + ' resolved into: ' + expression);
                 calculation.resolvedExpression = expression;
                 var outcome;
                 try {
                     // replace percentage operator with divide by 100 and multiply
                     expression = expression.replace(/%/g, ' / 100 *');
                     outcome = eval(expression);
-                    $log.log('  calcCalculation, eval ' + calculation.varName  + ' : ' + expression + ' = ' + outcome);
+                    //$log.log('  calcCalculation, eval ' + calculation.varName  + ' : ' + expression + ' = ' + outcome);
                 } catch (e) {
                     if (e instanceof SyntaxError) {
                         outcome = 'syntax error';
@@ -94,7 +79,7 @@ angular.module('calcworks.services')
 
         // public, we should change/improve the signature by passing in sheet
         this.calculate = function(calculations) {
-            $log.log('---------- calculate ------------');
+            //$log.log('---------- calculate ------------');
             var state = {}; // container for data during the calculation
             state.outcomes = Object.create(null);  // list of key-value pairs <varname, value>
             state.varNamesInCalculation = Object.create(null);  // list varnames that are being calculated
@@ -157,9 +142,5 @@ angular.module('calcworks.services')
             return count;
         };
 
-
-//        function escapeRegExp(string) {
-//            return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-//        }
 
 });
