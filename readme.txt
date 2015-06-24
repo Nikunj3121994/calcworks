@@ -91,8 +91,6 @@ website nodig?
 Issues
 -------
 
-= tekent verschijnt heel kort, gebruik ng-cloak
-
 active sheet deleten vanuit lijst van sheets
 
 je moet een calculation niet kunnen deleten als ie gebruikt wordt (ref integrity)
@@ -128,8 +126,6 @@ aan settings tab een 'send feedback' toevoegen
 
 killer-feature: maak t mogelijk om 1 var als input aan te wijzen (evt meerdere tzt) en 1 var als result/output.
 Voeg dan een run icon toe aan een sheet. Dit toont popup met de input var(s)
-
-de remember/pin zou niet mogen reageren als ie disabled is
 
 voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
 http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution

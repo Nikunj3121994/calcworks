@@ -7,7 +7,8 @@ angular.module('calcworks.controllers')
         restrict: 'E',
         scope: {
             expression: '=',
-            sheet: '='
+            sheet: '=',
+            result: '='  //optional
         },
         link: function(scope, element) {
             scope.$watch('expression', function(newValue, oldValue) {
@@ -19,6 +20,9 @@ angular.module('calcworks.controllers')
                         if (isCalcName(scope.expression[i])) {
                             template = template + '<span class="calcNameExpr">' + $rootScope.getExprItemIfCalcName(scope.expression[i]) + '</span>';
                         }
+                    }
+                    if (scope.result) {
+                        template = template + '<span  class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';
                     }
                     // since we resolve the parameters above there is no need to compile
                     element.html(template);
