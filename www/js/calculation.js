@@ -18,7 +18,7 @@ var Calculation = function(param, calcName, expression) {
         this.resolvedExpression = '';   // ik weet niet of deze wel nuttig is ivm decimalen afkappen
         this.result = null;    // can be a number or a string in case of error
     } else {
-        //console.log('build calc from obj');
+        //console.log('build calc from json');
         this.id = param.id;
         this.varName = param.varName;
         this.expression = param.expression;
