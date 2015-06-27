@@ -2,35 +2,36 @@
 
 angular.module('calcworks.controllers')
 
+
+    //    <a class="sheetsCol" style="display:inline-block;text-align: left;width: 30%">{{calc.varName}}:</a>
+    //<span style="display:inline-block;width: 50%">
+    //    </span>
+    //    <span class="sheetsCol" style="display:inline-block;width: 20%"> {{calc.result|toFixedDecimals}} </span>
+
+
 .directive('resolveExpression', function($rootScope) {
     return {
         restrict: 'E',
         scope: {
-            calculation: '=',
             sheet: '=',
+            index: '='
         },
         link: function(scope, element) {
-            if (!scope.calculation) throw new Error('illegal argument calculation');
             if (!scope.sheet) throw new Error('illegal argument sheet');
+            console.log('>>> start ' + scope.index +'  ' +  scope.sheet.calculations[scope.index].expression);
+            var calculation = scope.sheet.calculations[scope.index];
+            var expression = calculation.expression;
             var template = '';
-
-            //    <a class="sheetsCol" style="display:inline-block;text-align: left;width: 30%">{{calc.varName}}:</a>
-            //<span style="display:inline-block;width: 50%">
-            //    </span>
-            //    <span class="sheetsCol" style="display:inline-block;width: 20%"> {{calc.result|toFixedDecimals}} </span>
-
-
             template = '<table class="expressionTable">';
             template = template + '<tr>';
-            template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberToDisplay(scope.calculation.result) + '</td>';
+            template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberToDisplay(calculation.result) + '</td>';
             template = template + '<td class="itemExpr">  &nbsp;=&nbsp;  </td>';
-            var expression = scope.calculation.expression;
             var arrayLength = expression.length;
             for (var i = 0; i < arrayLength; i++) {
                 template = template + '<td class="itemExpr">' + $rootScope.getExprItemAsString(expression[i], scope.sheet) + '</td>';
             }
             template = template + '</tr><tr>';
-            template = template + '<td class="calcNameExpr">' + scope.calculation.varName + '</td>';
+            template = template + '<td class="calcNameExpr">' + calculation.varName + '</td>';
             template = template + '<td></td>';
             for (var i = 0; i < arrayLength; i++) {
                 if (isCalcName(expression[i])) {
@@ -41,6 +42,7 @@ angular.module('calcworks.controllers')
             }
             template = template + '</tr>';
             template = template + '</table>';
+            console.log('>>> einde ' + template);
             // since we resolve the parameters above there is no need to compile
             element.html(template);
         }
@@ -61,9 +63,6 @@ angular.module('calcworks.controllers')
                     var arrayLength = scope.expression.length;
                     for (var i = 0; i < arrayLength; i++) {
                         template = template + '<span  class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i], scope.sheet) + '</span>';
-                        if (isCalcName(scope.expression[i])) {
-                            template = template + '<span class="calcNameExpr">' + $rootScope.getExprItemIfCalcName(scope.expression[i]) + '</span>';
-                        }
                     }
                     if (scope.result) {
                         template = template + '<span  class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';
