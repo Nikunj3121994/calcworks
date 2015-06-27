@@ -107,8 +107,8 @@
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    /*padding top is nodig om de tekst te laten zakken*/
+    /* padding top is nodig om de tekst te laten zakken*/
+    /* echter: % Specifies the padding in percent of the width of the containing element - en dat is niet wat we bedoelen */
     padding-top: 10%;
     font-size: x-large;
     text-align: center;
