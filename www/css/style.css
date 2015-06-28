@@ -89,9 +89,6 @@
 }
 
 
-/*
- de verticale alignment is door de line-height gedaan.
-*/
 .calculator-btn {
     display: inline-block;
     margin:0;
@@ -103,15 +100,17 @@
     background-color: #ffffff;
     border: 1px solid #333;
     border-radius: 5px;
-    /*vertical center align*/
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    /* padding top is nodig om de tekst te laten zakken*/
-    /* echter: % Specifies the padding in percent of the width of the containing element - en dat is niet wat we bedoelen */
-    padding-top: 10%;
     font-size: x-large;
     text-align: center;
+}
+
+/* de tekst moet in het verticale midden van de btn zitten*/
+.calculator-btn-text {
+    position: relative;
+    top: 25%;
 }
 
 .calculator-btn:active {
