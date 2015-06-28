@@ -96,7 +96,7 @@ function countOccurencesInExpression(string, expression) {
 // throws SyntaxError if the number is nan or infinite
 function convertNumberToDisplay(number, nrOfDecimals) {
     if (isNaN(number) || !isFinite(number)) {
-        throw new SyntaxError('nan or infinite');
+        throw new SyntaxError('"' + number +'" is nan or infinite');
     } else {
         return (+number.toFixed(nrOfDecimals)).toString();
     }

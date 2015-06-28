@@ -10,9 +10,8 @@ describe('Test directives', function () {
         compile = $compile;
         httpBackend = $httpBackend;
         scope = $rootScope.$new();
-        scope.sheet = new Sheet('id', 'name', [scope.expression]);
         element = angular.element(
-            '<resolve-expression expression="expression" sheet="sheet"></resolve-expression>');
+            '<resolve-expression index="0" sheet="sheet"></resolve-expression>');
 
     }));
 
@@ -26,59 +25,74 @@ describe('Test directives', function () {
     }
 
     it('verify directive', function () {
-        scope.expression = [2, "+", 3];
+        var calculation = new Calculation('id', 'name', [2, "+", 3]);
+        calculation.result = 5;
+        scope.sheet = new Sheet('id', 'name', [calculation]);
+        scope.index = 0;
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
-        var span = element.find('span');
-        expect(span.length).toBe(3);
-        expect(span.eq(0).text()).toBe('2');
-        expect(span.eq(1).text()).toBe('+');
-        expect(span.eq(2).text()).toBe('3');
+        var td = element.find('td');
+        expect(td.length).toBe(10);
+        expect(td.eq(0).text()).toBe('5');
+        expect(td.eq(2).text()).toBe('2');
+        expect(td.eq(3).text()).toBe('+');
+        expect(td.eq(4).text()).toBe('3');
     });
 
     it('verify directive with decimals', function () {
-        scope.expression = [2, "+", 1/3];
+        var calculation = new Calculation('id', 'name', [2, "+", 1/3]);
+        calculation.result = 5;
+        scope.sheet = new Sheet('id', 'name', [calculation]);
+        scope.index = 0;
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
-        var span = element.find('span');
-        expect(span.length).toBe(3);
-        expect(span.eq(0).text()).toBe('2');
-        expect(span.eq(1).text()).toBe('+');
-        expect(span.eq(2).text()).toBe('0.33');
+        var td = element.find('td');
+        expect(td.length).toBe(10);
+        expect(td.eq(0).text()).toBe('5');
+        expect(td.eq(2).text()).toBe('2');
+        expect(td.eq(3).text()).toBe('+');
+        expect(td.eq(4).text()).toBe('0.33');
     });
 
     it('verify directive with percentage operator', function () {
-        scope.expression = [2, "%", 1000];
+        var calculation = new Calculation('id', 'name', [2, "%", 100]);
+        calculation.result = 5;
+        scope.sheet = new Sheet('id', 'name', [calculation]);
+        scope.index = 0;
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
-        var span = element.find('span');
-        expect(span.length).toBe(3);
-        expect(span.eq(0).text()).toBe('2');
-        expect(span.eq(1).text()).toBe('%');
-        expect(span.eq(2).text()).toBe('1000');
+        var td = element.find('td');
+        expect(td.length).toBe(10);
+        expect(td.eq(0).text()).toBe('5');
+        expect(td.eq(2).text()).toBe('2');
+        expect(td.eq(3).text()).toBe('%');
+        expect(td.eq(4).text()).toBe('100');
     });
 
 
     it('verify directive with calc names', function () {
-        var calculation = new Calculation('id', 'calc1', '6 + 2');
-        calculation.result = 8;
-        scope.sheet.add(calculation);
-        scope.expression = [4, "-", "calc1"];
-        scope.showcalcname = true;
+        var calculation1 = new Calculation('id', 'calc1', [6, '+', 2]);
+        calculation1.result = 8;
+        scope.sheet = new Sheet('id', 'name', [calculation1]);
+        var calculation2 = new Calculation('id', 'calc1', [10, "-", "calc1"]);
+        calculation2.result = 2;
+        scope.sheet.add(calculation2);
+        scope.index = 0;
         element = angular.element(
-            '<resolve-expression expression="expression" sheet="sheet" showcalcname="showcalcname"></resolve-expression>');
+            '<resolve-expression index="index" sheet="sheet" showcalcname="showcalcname"></resolve-expression>');
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
-        var span = element.find('span');
-        expect(span.length).toBe(4);
-        expect(span.eq(0).text()).toBe('4');
-        expect(span.eq(1).text()).toBe('-');
-        expect(span.eq(2).text()).toBe('8');
-        expect(span.eq(3).text()).toBe('calc1');
+        var td = element.find('td');
+        expect(td.length).toBe(10);
+        expect(td.eq(0).text()).toBe('2');
+        expect(td.eq(2).text()).toBe('10');
+        expect(td.eq(3).text()).toBe('-');
+        expect(td.eq(4).text()).toBe('2');
+        expect(td.eq(9).text()).toBe('calc1');
     });
 
     //todo: test result

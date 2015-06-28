@@ -18,7 +18,6 @@ angular.module('calcworks.controllers')
         },
         link: function(scope, element) {
             if (!scope.sheet) throw new Error('illegal argument sheet');
-            console.log('>>> start ' + scope.index +'  ' +  scope.sheet.calculations[scope.index].expression);
             var calculation = scope.sheet.calculations[scope.index];
             var expression = calculation.expression;
             var template = '';
@@ -42,7 +41,6 @@ angular.module('calcworks.controllers')
             }
             template = template + '</tr>';
             template = template + '</table>';
-            console.log('>>> einde ' + template);
             // since we resolve the parameters above there is no need to compile
             element.html(template);
         }
