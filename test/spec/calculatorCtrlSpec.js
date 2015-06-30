@@ -300,8 +300,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(5);
         expect(scope.display).toBe('5');
 
-        scope.touchOperator('*');
-        expect(scope.operatorStr).toBe('*');
+        scope.touchOperator('x');
+        expect(scope.operatorStr).toBe('x');
 
         scope.touchDigit(9);
         expect(scope.display).toBe('9');
@@ -309,7 +309,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('45');
         expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([5, '*', 9]);
+        expect(scope.expression).toEqual([5, 'x', 9]);
         expect(scope.result).toEqual(45);
     });
 

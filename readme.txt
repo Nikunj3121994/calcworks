@@ -91,6 +91,7 @@ website nodig?
 Issues
 -------
 
+sta 'x' niet toe als calc name
 
 active sheet deleten vanuit lijst van sheets
 
@@ -138,10 +139,7 @@ misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkel
 
 plaats files mbt feature bij elkaar
 
-als je van de actieve sheet naar de calculator gaat dan toont ie alle decimalen
 Twee cijfers achter de komma. (Pro instelbaar)
-
-gebruik x ipv *
 
 verwijderen van een sheet ging niet goed, ik denk dat er geen event gestuurd werd om de display bij te werken
 

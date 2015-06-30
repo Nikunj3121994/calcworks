@@ -335,22 +335,6 @@ angular.module('calcworks.controllers')
 
 
 })
-//// filter that expects an expression array (calc names, numbers and operators)
-//// filter that resolves the varnames into values in the latest calculation from the active sheet
-//.filter('resolve', function($log, $rootScope, calcService, sheetService) {
-//    return function(input) {
-//        var result = '';
-//        for (var i = 0; i < input.length; i++) {
-//            if (isCalcName(input[i])) {
-//                var value = sheetService.getActiveSheet().getValueFor(input[i]);
-//                result = result + ' ' + $rootScope.convertNumberToDisplay(value);
-//            } else {
-//                result = result + ' ' + input[i];
-//            }
-//        }
-//        return result.trim();
-//    };
-//})
 // filter that expects a number (not a string!) and converts it to a string with the right decimals
 .filter('toFixedDecimals', function($log, $rootScope) {
         return function (input) {

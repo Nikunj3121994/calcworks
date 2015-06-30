@@ -26,6 +26,7 @@ angular.module('calcworks.services')
             }
         };
 
+        // replaces
         // private
         this.resolveExpression = function(calculation, calculations, state) {
             var resolvedExpression = '';
@@ -60,12 +61,12 @@ angular.module('calcworks.services')
                 calculation.resolvedExpression = expression;
                 var outcome;
                 try {
-                    // replace percentage operator with divide by 100 and multiply
-                    expression = expression.replace(/%/g, ' / 100 *');
+                    expression = this.replaceMultiplyPercentageOperators(expression);
                     outcome = eval(expression);
-                    //$log.log('  calcCalculation, eval ' + calculation.varName  + ' : ' + expression + ' = ' + outcome);
+                    $log.log('  calcCalculation, eval ' + calculation.varName  + ' : ' + expression + ' = ' + outcome);
                 } catch (e) {
                     if (e instanceof SyntaxError) {
+                        $log.log('  calcCalculation; ' + calculation.varName  + ' : ' + expression);
                         outcome = 'syntax error';
                     } else {
                         outcome = 'error';
@@ -74,6 +75,14 @@ angular.module('calcworks.services')
                 calculation.result = outcome;
                 state.outcomes[calculation.varName] = outcome;
             }
+        };
+
+        //private, made this function a method to enable unit testing - maybe not needed
+        this.replaceMultiplyPercentageOperators= function(expression) {
+            // replace percentage operator with divide by 100 and multiply
+            expression = expression.replace(/x/g, '*');
+            expression = expression.replace(/%/g, '/ 100 *');
+            return expression;
         };
 
 
@@ -95,22 +104,6 @@ angular.module('calcworks.services')
                 calculations.errorlog.circularReference = error.message;
             }
         };
-
-
-        //// private
-        //// note parameters find and replace need to be safe, otherwise escape them first
-        //this.replaceAllVars = function(find, replace, str) {
-        //    return str.replace(new RegExp('\\b' + find + '\\b', 'g'), replace);
-        //};
-
-
-        //// private
-        //this.renameVarInExpressions = function(oldName, newName, calculations) {
-        //    var arrayLength = calculations.length;
-        //    for (var i = 0; i < arrayLength; i++) {
-        //        calculations[i].expression = this.replaceAllVars(oldName, newName, calculations[i].expression);
-        //    }
-        //};
 
         // public
         this.renameVar = function(calculation, newName, sheet) {

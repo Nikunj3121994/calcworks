@@ -20,6 +20,11 @@ describe('Test calcService', function () {
     });
 
 
+    it('verify replaceMultiplyPercentageOperators', function() {
+        expect(calcService.replaceMultiplyPercentageOperators('a % b')).toBe('a / 100 * b');
+        expect(calcService.replaceMultiplyPercentageOperators('a x b')).toBe('a * b');
+    });
+
     it('verify calculate without vars', function() {
         var calc1 = new Calculation('xxxx', 'var1', [2, '+', 3]);
         var calculations = [ calc1 ];
@@ -32,6 +37,14 @@ describe('Test calcService', function () {
         expect(calculations[0].result).toBe(5);
         expect(calculations[1].result).toBe(9);
     });
+
+    it('verify calculate multiply', function() {
+        var calc1 = new Calculation('xxxx', 'var1', [10, 'x', 3, 'x', 2]);
+        var calculations = [ calc1 ];
+        calcService.calculate(calculations);
+        expect(calculations[0].result).toBe(60);
+    });
+
 
     it('verify calculate percentage', function() {
         var calc1 = new Calculation('xxxx', 'var1', [600, '%', 3]);

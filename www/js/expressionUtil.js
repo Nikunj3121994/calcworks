@@ -55,12 +55,13 @@ function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-// als het eerste karakter een letter is dan beschouwen het een calcname
+// als het eerste karakter een letter is dan beschouwen het een calcname, tenzij het de 'x' is die mag niet als calc name
 // cijfers en operators vallen buiten de boot
 // leeg argument geeft een error
 function isCalcName(variable) {
     // merk op dat de shortcut  !variable  niet werkt ivm het cijfer 0.
     if (variable === undefined || variable === null || variable.toString().trim()==='') throw new EvalError('empty argument');
+    if (variable === 'x') return false; // x is multiply operator
     // consider: optimize to store the pattern
     var patt = new RegExp(/^[A-Za-z]/);
     return patt.test(variable);
@@ -73,7 +74,7 @@ function isString(str) {
 function isOperator(exprItem) {
     if (isString(exprItem)) {
         var char = exprItem.charAt(0);
-        return char === '+' || char === '-' || char === '*' || char === '/' || char === '%';
+        return char === '+' || char === '-' || char === 'x' || char === '/' || char === '%';
     } else {
         return false;
     }
