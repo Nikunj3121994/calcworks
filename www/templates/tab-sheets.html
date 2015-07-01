@@ -2,12 +2,14 @@
   <ion-content>
     <ion-list>
         <!--een href gebruiken maakt de lay-out niet goed, vandaar een ng-click-->
-      <ion-item class="card"   ng-repeat="sheet in sheets track by $index" ng-click="gotoSheet(sheet)">
-          <div class="item item-divider">
+      <ion-item class="list card" style="padding: 0px"  ng-repeat="sheet in sheets track by $index" ng-click="gotoSheet(sheet)">
+
+          <div class="item item-divider" style="background-color: #feba51">
               <a ng-click="showRenamePopup(sheet)">{{sheet.name}}</a>
               <br>
               <span style="font-weight: lighter;font-size: small">created {{sheet.createdTimestamp | date : 'd MMM yyyy HH:mm' }}</span>
           </div>
+
           <div class="row"  ng-repeat="calc in sheet.calculations" style="background-color: white">
               <div class="col sheetsCol" style="text-align: left">{{calc.varName}}:</div>
               <div class="col sheetsCol" style="text-align: right">{{calc.result|toFixedDecimals}}</div>
