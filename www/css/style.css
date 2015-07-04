@@ -164,6 +164,11 @@
     right: 0;
 }
 
+/*geef de rows in de active sheet geen padding*/
+ion-item.calc-item div.item-content {
+    padding: 0px
+}
+
 .itemExpr{
     padding-left: 2px;
     padding-right: 2px;

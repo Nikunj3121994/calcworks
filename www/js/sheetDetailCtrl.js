@@ -71,6 +71,7 @@ angular.module('calcworks.controllers')
         });
         renamePopup.then(function(res) {
             if (res) {
+                //todo: do not allow 'x'
                 calcService.renameVar(calc, res, $scope.sheet);
                 sheetService.saveSheets();
             }

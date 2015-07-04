@@ -28,9 +28,15 @@ The Sheets service returns an array of sheet data
                 can-swipe="true">
           <!--moet can-swipe niet op false staan? -->
           <!--consider ionic's collection-repeat-->
-          <ion-item class="item-remove-animate item-icon-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id" >
-               <span ng-click="navigateToCalculator(calc)" >
+          <ion-item class="item-remove-animate item-icon-right item-button-right calc-item " style="padding:0px" ng-repeat="calc in sheet.calculations track by calc.id" >
+               <span ng-click="navigateToCalculator(calc)" class="row" style="padding: 0px;background-color: transparent">
+                   <span class="col col-90 ">
                   <resolve-expression sheet="sheet" index="$index"></resolve-expression>
+                   </span>
+                   <span class="col col-10">
+                   <button class="button  button-small">...
+                   </button>
+                   </span>
                   <ion-option-button class="button-info"
                                      ng-click="showRenamePopup(calc)">
                       Rename
@@ -51,6 +57,7 @@ The Sheets service returns an array of sheet data
         </div>
         <!--dummy element ivm uitlijning-->
         <h1 class="title"></h1>
+        <!--dit hieronder kunnen we tzt gebruiken om wel/niet de calc names te tonen-->
         <!--<div class="buttons">-->
             <!--<label class="toggle toggle-energized" style="float: right;">-->
                 <!--<input type="checkbox" ng-model="showResolvedExpression" >-->
