@@ -86,8 +86,8 @@ angular.module('calcworks.services')
         };
 
 
-        // public, we should change/improve the signature by passing in sheet
-        this.calculate = function(calculations) {
+        this.calculate = function(sheet) {
+            var calculations = sheet.calculations;
             //$log.log('---------- calculate ------------');
             var state = {}; // container for data during the calculation
             state.outcomes = Object.create(null);  // list of key-value pairs <varname, value>
@@ -95,11 +95,15 @@ angular.module('calcworks.services')
             calculations.errorlog = {};  // output variable for errors
             calculations.errorlog.undefinedVariables = [];
             calculations.errorlog.circularReference = null;
+            var sum = 0;
             try {
                 var arrayLength = calculations.length;
                 for (var i = 0; i < arrayLength; i++) {
                     this.calcCalculation(calculations, calculations[i], state);
+                    sum = sum + calculations[i].result;
                 }
+                // we slaan altijd de sum op om risico te voorkomen dat ie out of sync gaat lopen
+                sheet.sum = sum;
             } catch (error) {
                 calculations.errorlog.circularReference = error.message;
             }

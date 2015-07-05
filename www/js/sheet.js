@@ -4,12 +4,14 @@
 var Sheet = function(par, name, calculations) {
     if (par === null) throw 'undefined parameter for Sheet constructor';
     if (typeof(par) === 'string') {
-        //console.log('build from params');
+        //console.log('build from all parameters');
         this.id = par;
         this.name = name;
         this.calculations = calculations;
         this.createdTimestamp = new Date();
         this.favorite = false;
+        this.hasSum = false;
+        this.sum = undefined;
     } else {
         // build from object
         // console.log('build from object');
@@ -18,6 +20,8 @@ var Sheet = function(par, name, calculations) {
         this.calculations = par.calculations;
         this.createdTimestamp = par.createdTimestamp;
         this.favorite = par.favorite;
+        this.hasSum = par.hasSum;
+        this.sum = par.sum;
     }
     this.__type = 'Sheet';
 };

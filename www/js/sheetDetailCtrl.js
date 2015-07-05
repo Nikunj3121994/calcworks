@@ -45,6 +45,11 @@ angular.module('calcworks.controllers')
         $state.go('tab.calculator');
     };
 
+    $scope.toggleSum = function() {
+        console.log(".." + $scope.sheet.hasSum);
+        $scope.sheet.hasSum = !$scope.sheet.hasSum;
+    };
+
     $scope.showRenamePopup = function(calc) {
         $scope.data = {};
         $scope.data.name = calc.varName;

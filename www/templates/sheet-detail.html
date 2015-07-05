@@ -27,21 +27,26 @@ The Sheets service returns an array of sheet data
                 show-reorder="showReorder"
                 can-swipe="false">
           <!--consider ionic's collection-repeat-->
-          <ion-item class="item-remove-animate item-icon-right item-button-right calc-item " style="padding:0px" ng-repeat="calc in sheet.calculations track by calc.id" >
+          <ion-item class="item-remove-animate item-icon-right item-button-right calc-item" style="padding:0px" ng-repeat="calc in sheet.calculations track by calc.id" >
                <span class="row" style="padding: 0px;background-color: transparent">
                    <span class="col col-90" ng-click="navigateToCalculator(calc)">
-                  <resolve-sheet sheet="sheet" index="$index"></resolve-sheet>
+                        <resolve-sheet sheet="sheet" index="$index"></resolve-sheet>
                    </span>
                    <span class="col col-10">
-                   <span ng-click="showRenamePopup(calc)">...
-                   </span>
+                       <span ng-click="showRenamePopup(calc)">...
+                       </span>
                    </span>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
                   </ion-delete-button>
                   <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
                   </ion-reorder-button>
               </span>
-
+          </ion-item>
+          <ion-item ng-if="sheet.hasSum" style="padding:0px" >
+              <span class="row calc-item" style="background-color: transparent">
+                  <span class="col col-90">Sum</span>
+                  <span class="col col-10">{{sheet.sum}}</span>
+              </span>
           </ion-item>
       </ion-list>
   </ion-content>
@@ -52,14 +57,8 @@ The Sheets service returns an array of sheet data
         </div>
         <!--dummy element ivm uitlijning-->
         <h1 class="title"></h1>
-        <!--dit hieronder kunnen we tzt gebruiken om wel/niet de calc names te tonen-->
-        <!--<div class="buttons">-->
-            <!--<label class="toggle toggle-energized" style="float: right;">-->
-                <!--<input type="checkbox" ng-model="showResolvedExpression" >-->
-                <!--<div class="track">-->
-                    <!--<div class="handle"></div>-->
-                <!--</div>-->
-            <!--</label>-->
-        <!--</div>-->
+        <div class="buttons">
+            <div class="button" ng-class="{'button-energized': sheet.hasSum}" ng-click="toggleSum()">Sum</div>
+        </div>
     </ion-footer-bar>
 </ion-view>

@@ -312,7 +312,7 @@ angular.module('calcworks.controllers')
                 $scope.operatorStr = '';
                 var calc = createNewCalculation($scope.expression);
                 $scope.sheet.add(calc);
-                calcService.calculate($scope.sheet.calculations);
+                calcService.calculate($scope.sheet);
                 if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
                 $scope.result = calc.result;                 // type is number
                 $scope.display = $rootScope.convertNumberToDisplay(calc.result);     // type is string

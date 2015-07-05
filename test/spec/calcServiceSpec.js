@@ -28,12 +28,13 @@ describe('Test calcService', function () {
     it('verify calculate without vars', function() {
         var calc1 = new Calculation('xxxx', 'var1', [2, '+', 3]);
         var calculations = [ calc1 ];
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBe(5);
 
         var calc2 = new Calculation('xxxx', 'var2', [4, '+', 5]);
         calculations.push(calc2);
-        calcService.calculate(calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBe(5);
         expect(calculations[1].result).toBe(9);
     });
@@ -41,7 +42,8 @@ describe('Test calcService', function () {
     it('verify calculate multiply', function() {
         var calc1 = new Calculation('xxxx', 'var1', [10, 'x', 3, 'x', 2]);
         var calculations = [ calc1 ];
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBe(60);
     });
 
@@ -49,19 +51,21 @@ describe('Test calcService', function () {
     it('verify calculate percentage', function() {
         var calc1 = new Calculation('xxxx', 'var1', [600, '%', 3]);
         var calculations = [ calc1 ];
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBe(18);
     });
 
     it('verify calculate with 1 var', function () {
         var calc1 = new Calculation('xxxx', 'var1', [2, '+', 3]);
         var calculations = [ calc1 ];
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBe(5);
 
         var calc2 = new Calculation('xxxx', 'var2', ['var1', '+', 4]);
         calculations.push(calc2);
-        calcService.calculate(calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBe(5);
         expect(calculations[1].result).toBe(9);
     });
@@ -92,7 +96,8 @@ describe('Test calcService', function () {
         calculations.push(calc2);
         var calc3 = new Calculation('xxxx', 'var3', ['var2', '+', 1]);
         calculations.push(calc3);
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBe(5);
         expect(calculations[1].result).toBe(9);
         expect(calculations[2].result).toBe(10);
@@ -106,7 +111,8 @@ describe('Test calcService', function () {
         calculations.push(calc2);
         var calc3 = new Calculation('xxxx', 'var3', ['var1', '+', 'var11', '+', 'var1', '+', 'var11']);
         calculations.push(calc3);
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBe(5);
         expect(calculations[1].result).toBe(105);
         expect(calculations[2].result).toBe(220);
@@ -117,7 +123,8 @@ describe('Test calcService', function () {
         var calculations = [ calc1 ];
         var calc2 = new Calculation('xxxx', 'var2', ['var1', '+', 'var1']);
         calculations.push(calc2);
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBe(5);
         expect(calculations[1].result).toBe(10);
     });
@@ -129,7 +136,8 @@ describe('Test calcService', function () {
         calculations.push(calc2);
         var calc3 = new Calculation('xxxx', 'var3', ['var1', '+', 1]);
         calculations.push(calc3);
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBe(5);
         expect(calculations[1].result).toBe(10);
         expect(calculations[2].result).toBe(6);
@@ -139,22 +147,26 @@ describe('Test calcService', function () {
     it('verify calculate with error', function () {
         var calc1 = new Calculation('xxxx', 'var1', [2, '+', 'sdf']);
         var calculations = [ calc1 ];
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBeNaN();
+        // todo: errlog moet naar sheet nivo
         expect(calculations.errorlog.undefinedVariables).toEqual(["\"sdf\" is undefined"]);
     });
 
     it('verify calculate with circular reference', function () {
         var calc1 = new Calculation('id1', 'var1', [2, '+', 'var1']);
         var calculations = [ calc1 ];
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBeNull();
         expect(calculations.errorlog.circularReference).toEqual('Circular reference; "var1" refers to a calculation that refers back to "var1"');
 
         var calc1 = new Calculation('id1', 'var1', [2, '+', 'var2']);
         var calc2 = new Calculation('id2', 'var2', ['2', '+', 'var1']);
         var calculations = [ calc1, calc2 ];
-        calcService.calculate(calculations);
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
         expect(calculations[0].result).toBeNull();
         expect(calculations.errorlog.circularReference).toEqual('Circular reference; "var2" refers to a calculation that refers back to "var2"');
     });
@@ -192,8 +204,9 @@ describe('Test calcService', function () {
         expect(sheet.calculations[1].expression).toEqual(['foo' , '+',  5]);
     });
 
+
     it('verify countVarNames', function () {
-        var calc1 = new Calculation('id1', 'var1', [2, , '+',  'var1']);
+        var calc1 = new Calculation('id1', 'var1', [2, '+',  'var1']);
         var calculations = [ calc1 ];
         expect(calcService.countVarNames('a', calculations)).toEqual(0);
         expect(calcService.countVarNames('var1', calculations)).toEqual(1);
@@ -204,6 +217,27 @@ describe('Test calcService', function () {
 
         calc2.varName = 'var1';
         expect(calcService.countVarNames('var1', calculations)).toEqual(2);
+    });
+
+
+    it('verify sum', function () {
+        var calculations = [];
+        var sheet = new Sheet('id','sheet', calculations);
+        expect(sheet.sum).toBeUndefined();
+
+        calcService.calculate(sheet)
+        expect(sheet.sum).toEqual(0);
+
+        var calc1 = new Calculation('id1', 'var1', [2, '+',  5]);
+        calculations.push(calc1);
+        calcService.calculate(sheet)
+        expect(sheet.sum).toEqual(7);
+
+        var calc2 = new Calculation('id2', 'var2', [3]);
+        calculations.push(calc2);
+        calcService.calculate(sheet)
+        expect(sheet.sum).toEqual(10);
+
     });
 
 

@@ -132,6 +132,8 @@ aan settings tab een 'send feedback' toevoegen
 killer-feature: maak t mogelijk om 1 var als input aan te wijzen (evt meerdere tzt) en 1 var als result/output.
 Voeg dan een run icon toe aan een sheet. Dit toont popup met de input var(s)
 
+editen van een expressie via een form.
+
 voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
 http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution
 
@@ -157,14 +159,8 @@ een getal selecteren uit de active werkt op de telefoon niet goed
 Twee keer = achter elkaar is altijd naam geven
 2500 + 0 kan ook niet
 
-Bij nieuwe var naam geven wordt de oude niet getoond
 
 
-Totaal v. e.  Sheet aan/uitzetten
-
-Nieuw sheet actie scrolled met de lijst - is niet goed.
-
-Naam geven v d actieve sheet
 
 Als je vanuit history naar een oude sheet gaat dan zijn er 2 problemen:
 Deze sheet zou de actieve moeten worden
