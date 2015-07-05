@@ -25,22 +25,17 @@ The Sheets service returns an array of sheet data
       <ion-list
                 show-delete="showDelete"
                 show-reorder="showReorder"
-                can-swipe="true">
-          <!--moet can-swipe niet op false staan? -->
+                can-swipe="false">
           <!--consider ionic's collection-repeat-->
           <ion-item class="item-remove-animate item-icon-right item-button-right calc-item " style="padding:0px" ng-repeat="calc in sheet.calculations track by calc.id" >
-               <span ng-click="navigateToCalculator(calc)" class="row" style="padding: 0px;background-color: transparent">
-                   <span class="col col-90 ">
+               <span class="row" style="padding: 0px;background-color: transparent">
+                   <span class="col col-90" ng-click="navigateToCalculator(calc)">
                   <resolve-sheet sheet="sheet" index="$index"></resolve-sheet>
                    </span>
                    <span class="col col-10">
-                   <button class="button  button-small">...
-                   </button>
+                   <span ng-click="showRenamePopup(calc)">...
                    </span>
-                  <ion-option-button class="button-info"
-                                     ng-click="showRenamePopup(calc)">
-                      Rename
-                  </ion-option-button>
+                   </span>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
                   </ion-delete-button>
                   <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">

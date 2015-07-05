@@ -47,6 +47,7 @@ angular.module('calcworks.controllers')
 
     $scope.showRenamePopup = function(calc) {
         $scope.data = {};
+        $scope.data.name = calc.varName;
 
         var renamePopup = $ionicPopup.show({
             template: '<input type="text" ng-model="data.name">',

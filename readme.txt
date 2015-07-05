@@ -103,6 +103,7 @@ je kan een nieuwe active sheet maken en dan mag je niet in de calculator de laat
 (door lastCalc te resetten en deze te gebruiken voor de last var name los je dit op)
 
 als je een operator hebt ingetikt moet je een andere kunnen intikken die ahw een override doet, delete zou ook moeten werken
+als je plus hebt gedrukt, moet je nog steeds op = kunnen klikken
 
 lijst van sheets update niet als je alle sheets verwijderd.
 
@@ -114,7 +115,7 @@ om autofocus voor elkaar te krijgen:
 For it to work with cordova you need to add this in your config.xml
 <preference name="KeyboardDisplayRequiresUserAction" value="false" />
 
-als je plus hebt gedrukt, moet je nog steeds op = kunnen klikken
+Delete van een item , de waarde invullen in andere items
 
 lastVarName zou lastVarNumber moeten worden, veel simpeler
 
@@ -149,21 +150,15 @@ Twee cijfers achter de komma. (Pro instelbaar)
 
 verwijderen van een sheet ging niet goed, ik denk dat er geen event gestuurd werd om de display bij te werken
 
-hernoemen van een variable gaat waarschijnlijk nu niet meer goed
-
 de getallen moeten in display en expression een pixel hoger
 
 een getal selecteren uit de active werkt op de telefoon niet goed
 
-2500 =   werkt niet. Je zou dan hierna altijd geef n naam dlg kunnen tonen. Twee keer = achter elkaar is altijd naam geven
+Twee keer = achter elkaar is altijd naam geven
 2500 + 0 kan ook niet
-Nieuwe operator moet override vd huidige doen
 
 Bij nieuwe var naam geven wordt de oude niet getoond
 
-Links en rechts uitlijnen in de lijst
-
-Delete van een item , de waarde invullen in andere items
 
 Totaal v. e.  Sheet aan/uitzetten
 
