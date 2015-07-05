@@ -31,7 +31,7 @@ The Sheets service returns an array of sheet data
           <ion-item class="item-remove-animate item-icon-right item-button-right calc-item " style="padding:0px" ng-repeat="calc in sheet.calculations track by calc.id" >
                <span ng-click="navigateToCalculator(calc)" class="row" style="padding: 0px;background-color: transparent">
                    <span class="col col-90 ">
-                  <resolve-expression sheet="sheet" index="$index"></resolve-expression>
+                  <resolve-sheet sheet="sheet" index="$index"></resolve-sheet>
                    </span>
                    <span class="col col-10">
                    <button class="button  button-small">...

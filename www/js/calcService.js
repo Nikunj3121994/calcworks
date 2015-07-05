@@ -112,6 +112,19 @@ angular.module('calcworks.services')
             this.renameVarInExpressions(oldName, newName, sheet.calculations);
         };
 
+        //private
+        this.renameVarInExpressions = function(oldName, newName, calculations) {
+            var arrayLength = calculations.length;
+            for (var i = 0; i < arrayLength; i++) {
+                var calculation = calculations[i];
+                for (var j = 0; j < calculation.expression.length; j++) {
+                    if (calculation.expression[j] === oldName) {
+                        calculation.expression[j] = newName;
+                    }
+                }
+            }
+        };
+
         // obsolet with ionic.Utils.nextUid();
         this.generateUUID = function() {
             var d = new Date().getTime();

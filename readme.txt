@@ -139,6 +139,10 @@ misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkel
 
 plaats files mbt feature bij elkaar
 
+als je een lege sheet hebt en je doet new dan krijg je geen feedback
+
+de items in een expression zouden objecten moet zijn van een class hierarchy. De parent class heeft toString methods
+
 Twee cijfers achter de komma. (Pro instelbaar)
 
 verwijderen van een sheet ging niet goed, ik denk dat er geen event gestuurd werd om de display bij te werken
