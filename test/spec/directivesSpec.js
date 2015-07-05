@@ -11,7 +11,7 @@ describe('Test directives', function () {
         httpBackend = $httpBackend;
         scope = $rootScope.$new();
         element = angular.element(
-            '<resolve-expression index="0" sheet="sheet"></resolve-expression>');
+            '<resolve-sheet index="0" sheet="sheet"></resolve-sheet>');
 
     }));
 
@@ -82,7 +82,7 @@ describe('Test directives', function () {
         scope.sheet.add(calculation2);
         scope.index = 0;
         element = angular.element(
-            '<resolve-expression index="index" sheet="sheet" showcalcname="showcalcname"></resolve-expression>');
+            '<resolve-sheet index="index" sheet="sheet" showcalcname="showcalcname"></resolve-sheet>');
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
