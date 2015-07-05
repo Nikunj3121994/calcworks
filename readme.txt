@@ -93,6 +93,8 @@ Issues
 
 sta 'x' niet toe als calc name
 
+verwijder resolvedExpression uit Calculation
+
 active sheet deleten vanuit lijst van sheets
 
 je moet een calculation niet kunnen deleten als ie gebruikt wordt (ref integrity)

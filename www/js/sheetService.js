@@ -12,7 +12,7 @@ angular.module('calcworks.services')
     .factory('sheetService', function($rootScope, $log, storageService) {
 
         function createSheet() {
-            var sheet = new Sheet(ionic.Utils.nextUid(), 'Untitled Sheet', []);
+            var sheet = new Sheet(generateUUID(), 'Untitled Sheet', []);
             return sheet;
         }
 

@@ -40,7 +40,10 @@ angular.module('calcworks.controllers')
                     template = template + '</table>';
                     // since we resolve the parameters above there is no need to compile
                     element.html(template);
+                } else {
+                    console.log('resolveSheet called with NO new value');
                 }
+
             }, true); // true is deep dirty checking
         }
     };

@@ -296,7 +296,7 @@ angular.module('calcworks.controllers')
         $log.log('info calculatorCtrl:createNewCalculation: lastVarName: ' + lastVarName);
         var varName = generateCalcName(lastVarName);
         lastVarName = varName;
-        var id = ionic.Utils.nextUid(); // ionic util
+        var id = generateUUID();
         var calc = new Calculation(id, varName, expression);
         return calc;
     }
