@@ -23,7 +23,7 @@ angular.module('calcworks.controllers')
     // ipv bij elke change te saven, zouden we dit ook bij de view exit kunnen doen
 
     $scope.deleteCalculation = function(index) {
-        $scope.sheet.calculations.splice(index, 1);
+        $scope.sheet.deleteCalculation(index, 1);
         sheetService.saveSheets();
     };
 

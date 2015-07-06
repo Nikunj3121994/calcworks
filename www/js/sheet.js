@@ -47,7 +47,6 @@ Sheet.prototype.getLastNumberFromCalcName = function() {
     return result;
 };
 
-//todo: write test
 Sheet.prototype.getCalculationFor = function(calcName) {
     var arrayLength = this.calculations.length;
     for (var i = 0; i < arrayLength; i++) {
@@ -58,15 +57,26 @@ Sheet.prototype.getCalculationFor = function(calcName) {
     throw new Error('Calculation name "' + calcName + '" not found');
 };
 
-//todo: use getCalculationFor
 Sheet.prototype.getValueFor = function(calcName) {
+    return this.getCalculationFor(calcName).result;
+};
+
+Sheet.prototype.deleteCalculation = function(index) {
+    if (index >= this.calculations.length) throw new Error('Illegal argument, index: ' + index);
+    var calcName = this.calculations[index].varName;
+    var result = this.calculations[index].result;
     var arrayLength = this.calculations.length;
+    // replace the usage of calcName with its result
     for (var i = 0; i < arrayLength; i++) {
-        if (this.calculations[i].varName === calcName) {
-            return this.calculations[i].result;
+        // we could skip i===index but we do not bother
+        var calculation = this.calculations[i];
+        for (var j = 0; j < calculation.expression.length; j++) {
+            if (calculation.expression[j] === calcName) {
+                calculation.expression[j] = result;
+            }
         }
     }
-    throw new Error('Calculation name "' + calcName + '" not found');
+    this.calculations.splice(index, 1);
 };
 
 

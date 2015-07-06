@@ -90,14 +90,11 @@ website nodig?
 
 Issues
 -------
-
-sta 'x' niet toe als calc name
+editen van een expressie via een form.
 
 verwijder resolvedExpression uit Calculation
 
 active sheet deleten vanuit lijst van sheets
-
-je moet een calculation niet kunnen deleten als ie gebruikt wordt (ref integrity)
 
 je kan een nieuwe active sheet maken en dan mag je niet in de calculator de laatste var gebruiken.
 (door lastCalc te resetten en deze te gebruiken voor de last var name los je dit op)
@@ -115,8 +112,6 @@ om autofocus voor elkaar te krijgen:
 For it to work with cordova you need to add this in your config.xml
 <preference name="KeyboardDisplayRequiresUserAction" value="false" />
 
-Delete van een item , de waarde invullen in andere items
-
 lastVarName zou lastVarNumber moeten worden, veel simpeler
 
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
@@ -132,13 +127,14 @@ aan settings tab een 'send feedback' toevoegen
 killer-feature: maak t mogelijk om 1 var als input aan te wijzen (evt meerdere tzt) en 1 var als result/output.
 Voeg dan een run icon toe aan een sheet. Dit toont popup met de input var(s)
 
-editen van een expressie via een form.
-
 voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
 http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution
 
 nice-to-have
 ------------
+
+bij 'x' als calc name een foutmelding tonen
+
 toon 'today' of 'yesterday' ipv de datum
 misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
 
