@@ -118,6 +118,8 @@ plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 
 aantal decimalen instelbaar maken
 
+share moet eruit of werken
+
 beep of vibrate bij fout in calculator
 
 bij aanzetten of activeren kunnen of een bepaalde tijdsperiode is verstreken en zo ja een nieuwe sheet maken.
