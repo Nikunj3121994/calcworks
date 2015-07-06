@@ -62,11 +62,15 @@ angular.module('calcworks.controllers')
             buttons: [
                 { text: 'Cancel' },
                 {
-                    text: '<b>Save</b>',
+                    text: '<b>OK</b>',
                     type: 'button-positive',
                     onTap: function(e) {
                         if (!$scope.data.name) {
                             //don't allow the user to close unless he enters something
+                            e.preventDefault();
+                        } if ($scope.data.name === 'x') {
+                            // do not allow 'x' because of multiply
+                            // todo: show error message
                             e.preventDefault();
                         } else {
                             return $scope.data.name;
@@ -77,7 +81,6 @@ angular.module('calcworks.controllers')
         });
         renamePopup.then(function(res) {
             if (res) {
-                //todo: do not allow 'x'
                 calcService.renameVar(calc, res, $scope.sheet);
                 sheetService.saveSheets();
             }
