@@ -6,8 +6,10 @@
 
           <div class="item item-divider"
                ng-class="{activeSheet: getActiveSheetId() === sheet.id, inactiveSheet: getActiveSheetId() !== sheet.id}"
-               ng-click="showRenamePopup(sheet)" >
-              {{sheet.name}} <span ng-show="getActiveSheetId() === sheet.id">(active)</span>
+               ng-click="gotoSheet(sheet)" >
+              <span ng-click="showRenamePopup(sheet); $event.stopPropagation();">
+                {{sheet.name}} <span ng-show="getActiveSheetId() === sheet.id">(active)</span>
+              </span>
               <br>
               <span style="font-weight: lighter;font-size: small">created {{sheet.createdTimestamp | date : 'd MMM yyyy HH:mm' }}</span>
           </div>
