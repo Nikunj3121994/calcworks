@@ -7,9 +7,8 @@ angular.module('calcworks.controllers')
     $scope.showReorder = false;
     $scope.listCanSwipe = true;
     $scope.showResolvedExpression = true;
-    // dit kan je ook via resolve: kunnen doen
-    // zie http://learn.ionicframework.com/formulas/sharing-data-between-views/
     if ($stateParams.sheetId) {
+        sheetService.setActiveSheet($stateParams.sheetId);
         $scope.sheet = sheetService.getSheet($stateParams.sheetId);
         $log.log('SheetDetailCtrl, sheet id:' + $scope.sheet.id);
     } else {
@@ -19,8 +18,6 @@ angular.module('calcworks.controllers')
     //$scope.$on('sheetsUpdated', function(e, value) {
     //    $scope.sheet = sheetService.getSheet($stateParams.sheetId);
     //});
-
-    // ipv bij elke change te saven, zouden we dit ook bij de view exit kunnen doen
 
     $scope.deleteCalculation = function(index) {
         $scope.sheet.deleteCalculation(index, 1);

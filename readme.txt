@@ -94,7 +94,7 @@ editen van een expressie via een form.
 
 verwijder resolvedExpression uit Calculation
 
-active sheet deleten vanuit lijst van sheets
+je kan niet een sheet active maken als ie leeg is
 
 je kan een nieuwe active sheet maken en dan mag je niet in de calculator de laatste var gebruiken.
 (door lastCalc te resetten en deze te gebruiken voor de last var name los je dit op)
@@ -105,6 +105,8 @@ als je plus hebt gedrukt, moet je nog steeds op = kunnen klikken
 lijst van sheets update niet als je alle sheets verwijderd.
 
 persisteren moet per sheet
+
+Launch image voor IOS
 
 limiet op aantal calculaties en aantal sheets (met name belangrijk als we gratis verspreiden)
 
@@ -146,23 +148,14 @@ als je een lege sheet hebt en je doet new dan krijg je geen feedback
 
 de items in een expression zouden objecten moet zijn van een class hierarchy. De parent class heeft toString methods
 
-Twee cijfers achter de komma. (Pro instelbaar)
-
-verwijderen van een sheet ging niet goed, ik denk dat er geen event gestuurd werd om de display bij te werken
+cijfers achter de komma instelbaar
 
 de getallen moeten in display en expression een pixel hoger
-
-een getal selecteren uit de active werkt op de telefoon niet goed
 
 Twee keer = achter elkaar is altijd naam geven
 2500 + 0 kan ook niet
 
 
-
-
-Als je vanuit history naar een oude sheet gaat dan zijn er 2 problemen:
-Deze sheet zou de actieve moeten worden
-Je kan op de hele sheet klikken, dit werkt niet lekker
 
 PRO VERSIE
 In app purchase zodat je later de limiet van max 10 sheets kan overschrijven

@@ -61,9 +61,6 @@
     top: 50%;
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
-    /*padding-bottom: 3%;*/
-    /*padding top is nodig om de tekst te laten zakken*/
-    /*padding-top: 5%;*/
     box-shadow: inset 1px 1px 3px #999;
 }
 
@@ -154,6 +151,14 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+.inactiveSheet {
+    background-color: rgba(254, 186, 81, 0.6);
+}
+
+.activeSheet {
+    background-color: #feba51;
 }
 
 .calc-item {

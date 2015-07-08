@@ -73,6 +73,22 @@ angular.module('calcworks.controllers')
             }, true); // true is deep dirty checking
         }
     };
+})
+.directive('activeSheetFlag', function(sheetService) {
+    return {
+        restrict: 'E',
+        scope: {
+            sheet: '=',
+        },
+        link: function(scope, element) {
+            console.log('    active ' + sheetService.getActiveSheet().id);
+            if (sheetService.getActiveSheet().id === scope.sheet.id) {
+                element.html('(active)');
+            } else {
+                console.log('not active ' + scope.sheet.id);
+            }
+        }
+    };
 });
 
 // there is another way to implement this directive and that is by using templating. However this gives less

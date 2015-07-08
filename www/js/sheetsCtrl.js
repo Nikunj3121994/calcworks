@@ -11,7 +11,11 @@ angular.module('calcworks.controllers')
         //});
 
         $scope.gotoSheet = function(sheet) {
-            $state.go('tab.sheet-detail', { sheetId: sheet.id});
+            $state.go('tab.active-sheet', { sheetId: sheet.id});
+        };
+
+        $scope.getActiveSheetId = function() {
+            return sheetService.getActiveSheet().id;
         };
 
         $scope.showRenamePopup = function(sheet) {

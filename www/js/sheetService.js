@@ -18,7 +18,7 @@ angular.module('calcworks.services')
 
         // init
         var sheets = [];
-        var activeSheetIndex = 0;  // is a const, always 0.
+        var activeSheet = null;
         sheets = storageService.getObject('sheets');
         if (angular.equals({}, sheets)) {
             sheets = [];
@@ -27,14 +27,27 @@ angular.module('calcworks.services')
 
         return {
             createNewActiveSheet: function() {
-                sheets.splice(0, 0, createSheet());
+                // consider: als de huidige activeSheet leeg is dan kunnen we die verwijderen
+                var sheet = createSheet();
+                activeSheet = sheet;
+                $rootScope.$broadcast("sheetsUpdated", 'active-sheet-changed');
+                sheets.splice(0, 0, sheet);
                 storageService.setObject('sheets', sheets);
                 $rootScope.$broadcast("sheetsUpdated", null);
+                return sheet;
             },
             getActiveSheet: function() {
-                var sheet = sheets[activeSheetIndex];
-                if (! (sheet instanceof Sheet)) throw 'internal error, sheet is wrong type!';
-                return sheet;
+                if (!activeSheet) {
+                    // hier kunnen we logica plaatsen die alleen een nieuwe sheet maakt als x twee uur geleden is
+                    // dat een nieuwe is aangemaakt
+                    this.createNewActiveSheet();
+                }
+                return activeSheet;
+            },
+            setActiveSheet: function(sheetId) {
+                activeSheet = this.getSheet(sheetId);
+                if (!activeSheet) throw new Error('sheetId '+ sheetId + ' illegal value');
+                $rootScope.$broadcast("sheetsUpdated", 'active-sheet-changed');
             },
             getSheets: function() {
                 return sheets;
@@ -42,20 +55,23 @@ angular.module('calcworks.services')
             saveSheets: function() {
                 storageService.setObject('sheets', sheets);
             },
-            getSheet: function(id) {
+            getSheet: function(sheetId) {
                 for (var i in sheets) {
-                    if (sheets[i].id === id) {
+                    if (sheets[i].id === sheetId) {
                         return sheets[i];
                     }
                 }
+                throw new Error('sheetId ' + sheetId + ' not found');
             },
-            deleteSheet: function(id) {
+            deleteSheet: function(sheetId) {
                 for (var i in sheets) {
-                    if (sheets[i].id === id) {
-                        // todo:  throw exception if activeSheet is deleted
+                    if (sheets[i].id === sheetId) {
                         sheets.splice(i,1);
                         break;
                     }
+                }
+                if (sheetId === activeSheet.id) {
+                    activeSheet = this.createNewActiveSheet();
                 }
                 storageService.setObject('sheets', sheets);
 

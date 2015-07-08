@@ -8,7 +8,6 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     var CalculatorCtrl,
-        //rootScope,
         scope,
         sheet = new Sheet('id', 'foo', []);
 
@@ -26,7 +25,6 @@ describe('Test controller CalculatorCtrl', function () {
         sheetService.getActiveSheet = getActiveSheet;
         CalculatorCtrl = $controller('CalculatorCtrl', {
           $scope: scope,
-          //$rootScope : $rootScope,
           calcService: calcService,
           sheetService: sheetService
         });

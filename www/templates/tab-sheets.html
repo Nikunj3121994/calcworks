@@ -4,8 +4,10 @@
         <!--een href gebruiken maakt de lay-out niet goed, vandaar een ng-click-->
       <ion-item class="list card" style="padding: 0px"  ng-repeat="sheet in sheets track by $index">
 
-          <div class="item item-divider" style="background-color: #feba51" ng-click="showRenamePopup(sheet)" >
-              {{sheet.name}}
+          <div class="item item-divider"
+               ng-class="{activeSheet: getActiveSheetId() === sheet.id, inactiveSheet: getActiveSheetId() !== sheet.id}"
+               ng-click="showRenamePopup(sheet)" >
+              {{sheet.name}} <span ng-show="getActiveSheetId() === sheet.id">(active)</span>
               <br>
               <span style="font-weight: lighter;font-size: small">created {{sheet.createdTimestamp | date : 'd MMM yyyy HH:mm' }}</span>
           </div>
