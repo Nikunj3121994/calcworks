@@ -53,12 +53,12 @@ The Sheets service returns an array of sheet data
 
     <ion-footer-bar align-title="left" class="bar-light">
         <div class="buttons">
-            <button class="button" ng-click="showDelete = false; showReorder = false; newSheet()">New</button>
+            <button class="button button-clear" ng-click="showDelete = false; showReorder = false; newSheet()">New</button>
         </div>
         <!--dummy element ivm uitlijning-->
         <h1 class="title"></h1>
         <div class="buttons">
-            <div class="button" ng-class="{'button-energized': sheet.hasSum}" ng-click="toggleSum()">Sum</div>
+            <div class="button button-clear" ng-class="{'button-energized': sheet.hasSum}" ng-click="toggleSum()">Sum</div>
         </div>
     </ion-footer-bar>
 </ion-view>
