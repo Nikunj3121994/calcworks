@@ -16,6 +16,7 @@ angular.module('calcworks.controllers')
 
         $scope.showRenamePopup = function(sheet) {
             $scope.data = {};
+            $scope.data.name = sheet.name;
 
             // An elaborate, custom popup
             var renamePopup = $ionicPopup.show({

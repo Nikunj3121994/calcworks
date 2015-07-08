@@ -188,7 +188,7 @@ ion-item.calc-item div.item-content {
 }
 
 .rowSum {
-    background-color: #ececec;
+    background-color: rgba(236, 236, 236, 0.2);
     border-top-color: #b7b7b7;
     border-top-width: 1px;
     border-top-style: solid;
