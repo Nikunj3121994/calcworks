@@ -18,11 +18,21 @@ angular.module('calcworks.services')
 
         // init
         var sheets = [];
-        var activeSheet = null;
         sheets = storageService.getObject('sheets');
+        var activeSheet = null;
         if (angular.equals({}, sheets)) {
             sheets = [];
-            sheets.push(createSheet());
+            activeSheet = createSheet()
+            sheets.push(activeSheet);
+        } else if (sheets[0].calculations.length === 0) {
+            // de laatste sheet is leeg, die kunnen we weggooien en een nieuwe aanmaken
+            // later kunnen we nog kijken of ie ouder als een paar uur is
+            sheets.splice(0, 1);
+            activeSheet = createSheet();
+            sheets.splice(0, 0, activeSheet);
+        } else {
+            // hier kunnen we gaan controleren of het x aantal uur geleden is dat we een sheet hebben aangemaakt
+            activeSheet = sheets[0];
         }
 
         return {
@@ -37,11 +47,7 @@ angular.module('calcworks.services')
                 return sheet;
             },
             getActiveSheet: function() {
-                if (!activeSheet) {
-                    // hier kunnen we logica plaatsen die alleen een nieuwe sheet maakt als x twee uur geleden is
-                    // dat een nieuwe is aangemaakt
-                    this.createNewActiveSheet();
-                }
+                if (!activeSheet) throw new Error('no active sheet defined');
                 return activeSheet;
             },
             setActiveSheet: function(sheetId) {

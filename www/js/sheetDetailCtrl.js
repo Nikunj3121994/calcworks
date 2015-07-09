@@ -53,7 +53,7 @@ angular.module('calcworks.controllers')
 
         var renamePopup = $ionicPopup.show({
             template: '<input type="text" ng-model="data.name">',
-            title: 'Enter new name for the variable',
+            title: 'Enter new name for the calculation',
             subTitle: '(Please use normal characters)',
             scope: $scope,
             buttons: [

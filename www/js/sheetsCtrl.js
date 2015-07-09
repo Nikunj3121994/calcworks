@@ -54,8 +54,8 @@ angular.module('calcworks.controllers')
 
         $scope.confirmDeleteSheet = function(sheet) {
             var confirmPopup = $ionicPopup.confirm({
-                title: 'Delete sheet ' + sheet.name,
-                template: 'Are you sure you want to delete this sheet?'
+                title: 'Delete sheet',
+                template: 'Delete sheet ' + sheet.name + '?'
             });
             confirmPopup.then(function(res) {
                 if (res) {
