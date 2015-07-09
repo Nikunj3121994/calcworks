@@ -6,9 +6,9 @@ angular.module('calcworks.controllers')
         $scope.sheets = sheetService.getSheets();
         $scope.showResolvedExpression = true;
 
-        //$scope.$on('sheetsUpdated', function(e, value) {
-        //    $scope.sheets = sheetService.getSheets();
-        //});
+        $scope.$on('sheetsUpdated', function(e, value) {
+            $scope.sheets = sheetService.getSheets();
+        });
 
         $scope.gotoSheet = function(sheet) {
             $state.go('tab.active-sheet', { sheetId: sheet.id});

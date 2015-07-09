@@ -94,15 +94,8 @@ editen van een expressie via een form.
 
 verwijder resolvedExpression uit Calculation
 
-je kan niet een sheet active maken als ie leeg is
-
-je kan een nieuwe active sheet maken en dan mag je niet in de calculator de laatste var gebruiken.
-(door lastCalc te resetten en deze te gebruiken voor de last var name los je dit op)
-
 als je een operator hebt ingetikt moet je een andere kunnen intikken die ahw een override doet, delete zou ook moeten werken
 als je plus hebt gedrukt, moet je nog steeds op = kunnen klikken
-
-lijst van sheets update niet als je alle sheets verwijderd.
 
 persisteren moet per sheet
 

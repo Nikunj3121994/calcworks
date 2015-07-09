@@ -15,9 +15,11 @@ angular.module('calcworks.controllers')
         $scope.sheet = sheetService.getActiveSheet();
     }
 
-    //$scope.$on('sheetsUpdated', function(e, value) {
-    //    $scope.sheet = sheetService.getSheet($stateParams.sheetId);
-    //});
+    $scope.$on('sheetsUpdated', function(e, value) {
+        // we zouden dit kunnen optimaliseren door naar specifieke event 'active-sheet-changed' te kijken
+        // maar ik betwijfel of dit veel winst oplevert
+        $scope.sheet = sheetService.getActiveSheet();
+    });
 
     $scope.deleteCalculation = function(index) {
         $scope.sheet.deleteCalculation(index, 1);
