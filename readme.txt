@@ -95,7 +95,6 @@ editen van een expressie via een form.
 verwijder resolvedExpression uit Calculation
 
 als je een operator hebt ingetikt moet delete werken
-als je plus hebt gedrukt, moet je nog steeds op = kunnen klikken
 
 persisteren moet per sheet
 

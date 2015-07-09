@@ -111,7 +111,6 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
-    // de huidige operator te overschrijven
     it('verify override touchOperator', function () {
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('');
@@ -262,8 +261,6 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('8');
         expect(scope.result).toBe(8);
     });
-
-
 
 
     it('verify start meteen met een operator', function() {
@@ -492,10 +489,9 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(5);
         scope.touchOperator('+');
         scope.touchEqualsOperator();
-        // expect error signal
-        expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual([5, '+']);
-        expect(scope.result).toEqual(null);
+        expect(scope.display).toBe('5');
+        expect(scope.expression).toEqual([5, '+', 0]);
+        expect(scope.result).toEqual(5);
 
         scope.reset();
         scope.touchOpenBracket();

@@ -305,32 +305,31 @@ angular.module('calcworks.controllers')
     // in tegenstelling tot andere 'touches' bestaat de equals uit 2 zaken:
     // verwerkerking van de input tot aan de '=' en daarna het resultaat uitrekenen/tonen
     $scope.touchEqualsOperator = function() {
-        if (operandEntered()) {
-            updateDisplayAndExpression();
-            try {
-                // nu moeten we nog het resultaat verwerken:
-                $scope.operatorStr = '';
-                var calc = createNewCalculation($scope.expression);
-                $scope.sheet.add(calc);
-                calcService.calculate($scope.sheet);
-                if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
-                $scope.result = calc.result;                 // type is number
-                $scope.display = $rootScope.convertNumberToDisplay(calc.result);     // type is string
-                sheetService.saveSheets();
-                selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
-            } catch (e) {
-                if (e instanceof SyntaxError) {
-                    $scope.display = 'error';
-                } else {
-                    $log.error('internal error: ' + e);
-                    $scope.display = 'internal error: ' + e;
-                }
-            }
-            $scope.numberEnteringState = false;
-            $scope.expressionEnteringState = false;
-        } else {
-            // ignore, consider error signal
+        if (!operandEntered()) {
+            $scope.expression.push(0);
         }
+        updateDisplayAndExpression();
+        try {
+            // nu moeten we nog het resultaat verwerken:
+            $scope.operatorStr = '';
+            var calc = createNewCalculation($scope.expression);
+            $scope.sheet.add(calc);
+            calcService.calculate($scope.sheet);
+            if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
+            $scope.result = calc.result;                 // type is number
+            $scope.display = $rootScope.convertNumberToDisplay(calc.result);     // type is string
+            sheetService.saveSheets();
+            selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
+        } catch (e) {
+            if (e instanceof SyntaxError) {
+                $scope.display = 'error';
+            } else {
+                $log.error('internal error: ' + e);
+                $scope.display = 'internal error: ' + e;
+            }
+        }
+        $scope.numberEnteringState = false;
+        $scope.expressionEnteringState = false;
     };
 
 
