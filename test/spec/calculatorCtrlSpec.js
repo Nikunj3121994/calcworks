@@ -31,30 +31,6 @@ describe('Test controller CalculatorCtrl', function () {
     }));
 
 
-    //// needed for deep equal comparison of objects
-    //function replacer(k, v) {
-    //    if (touchof v === 'function') {
-    //        v = v.toString();
-    //    } else if (window['File'] && v instanceof File) {
-    //        v = '[File]';
-    //    } else if (window['FileList'] && v instanceof FileList) {
-    //        v = '[FileList]';
-    //    }
-    //    return v;
-    //}
-    //
-    //beforeEach(function(){
-    //    this.addMatchers({
-    //        toBeJsonEqual: function(expected){
-    //            var one = JSON.stringify(this.actual, replacer).replace(/(\\t|\\n)/g,''),
-    //                two = JSON.stringify(expected, replacer).replace(/(\\t|\\n)/g,'');
-    //
-    //            return one === two;
-    //        }
-    //    });
-    //});
-    //
-
     it('verify touch digit', function () {
         expect(scope.display).toBe('0');
         scope.touchDigit(5);
@@ -134,16 +110,20 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.result).toEqual(-2);
     });
 
-    //  in de toekomst zou het mogelijk moeten zijn om de huidige operator te overschrijven
-    //it('verify override touchOperator', function () {
-    //    expect(scope.display).toBe('0');
-    //    scope.touchDigit(5);
-    //    scope.touchOperator('+');
-    //    scope.touchOperator('-');
-    //    scope.touchDigit(2);
-    //    scope.touchEqualsOperator();
-    //    expect(scope.display).toBe('3');
-    //});
+
+    // de huidige operator te overschrijven
+    it('verify override touchOperator', function () {
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('');
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        expect(scope.operatorStr).toBe('+');
+        scope.touchOperator('-');
+        expect(scope.operatorStr).toBe('-');
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('3');
+    });
 
 
     it('verify touchDelete', function() {

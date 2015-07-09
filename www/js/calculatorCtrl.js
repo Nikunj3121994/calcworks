@@ -225,9 +225,9 @@ angular.module('calcworks.controllers')
             $scope.operatorStr = operator;
             $scope.numberEnteringState = false;
         } else {
-            console.log('touchOperator error condition');
-            // ignore because this is a binary operator, so an operand must have been entered
-            // consider: error signal
+            // er is al een operator ingetikt, deze override de vorige
+            $scope.expression[$scope.expression.length-1] = operator;
+            $scope.operatorStr = operator;
         }
     };
 
