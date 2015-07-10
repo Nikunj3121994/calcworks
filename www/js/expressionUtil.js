@@ -113,7 +113,7 @@ function convertNumberToDisplay(number, nrOfDecimals) {
 }
 
 // MISSCHIEN MOET DIT naar sheet
-// het is nog totaal onduidelijk hoe we dit het beste kunnen oplossen
+// er ontbreekt een base class ExprItem voor deze functies
 // testen ontbreken
 // geeft de waarde voor een calcName en anders de literal zelf terug
 function getExprItemAsString(exprItem, sheet, nrOfDecimals) {

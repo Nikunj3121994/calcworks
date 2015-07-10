@@ -65,6 +65,7 @@ describe('Test Expression Utilities', function () {
     it('getExprItemAsString', function() {
         expect(getExprItemAsString(1), null, 1).toEqual('1');
         expect(getExprItemAsString('('), null, 1).toEqual('(');
+        expect(getExprItemAsString('x'), null, 1).toEqual('x');
     });
 
 
