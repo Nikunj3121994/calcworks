@@ -67,9 +67,9 @@ angular.module('calcworks.controllers')
                     if (scope.result) {
                         template = template + '<span  class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';
                     }
+                    // since we resolve the parameters above there is no need to compile
+                    element.html(template);
                 }
-                // since we resolve the parameters above there is no need to compile
-                element.html(template);
             }, true); // true is deep dirty checking
         }
     };
