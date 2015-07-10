@@ -60,8 +60,14 @@ describe('Test Expression Utilities', function () {
         expect( function(){ convertNumberToDisplay('abc', 3); } ).toThrow(new SyntaxError('"abc" is nan or infinite'));
         expect( function(){ convertNumberToDisplay(1 / 0, 3); } ).toThrow();
         expect( function(){ convertNumberToDisplay(0 / 0, 3); } ).toThrow();
-
     });
+
+    it('getExprItemAsString', function() {
+        expect(getExprItemAsString(1), null, 1).toEqual('1');
+        expect(getExprItemAsString('('), null, 1).toEqual('(');
+    });
+
+
 
 });
 

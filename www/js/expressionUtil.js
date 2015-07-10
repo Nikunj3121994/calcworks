@@ -80,6 +80,15 @@ function isOperator(exprItem) {
     }
 }
 
+function isBracket(exprItem) {
+    if (isString(exprItem)) {
+        var char = exprItem.charAt(0);
+        return char === '(' || char === ')';
+    } else {
+        return false;
+    }
+}
+
 // expression is an array
 function countOccurencesInExpression(string, expression) {
     var count = 0;
@@ -103,12 +112,12 @@ function convertNumberToDisplay(number, nrOfDecimals) {
     }
 }
 
-// MISSCHIEN MOET DIT NAAR DE link functie van het directief
+// MISSCHIEN MOET DIT naar sheet
 // het is nog totaal onduidelijk hoe we dit het beste kunnen oplossen
 // testen ontbreken
 // geeft de waarde voor een calcName en anders de literal zelf terug
 function getExprItemAsString(exprItem, sheet, nrOfDecimals) {
-    if (isOperator(exprItem)) {
+    if (isOperator(exprItem) || isBracket(exprItem)) {
         return exprItem;
     } else if (isCalcName(exprItem)) {
         return convertNumberToDisplay(sheet.getValueFor(exprItem), nrOfDecimals);
