@@ -125,7 +125,7 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
-    it('verify touchDelete', function() {
+    it('verify touchDelete numbers', function() {
         expect(scope.display).toBe('0');
 
         scope.touchDigit(3);
@@ -154,6 +154,98 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('6');
         expect(scope.result).toEqual(6);
+    });
+
+    it('verify touchDelete operator', function() {
+        scope.reset();
+        scope.touchDigit(3);
+        scope.touchOperator('x');
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toEqual([]);
+        expect(scope.display).toBe('3');
+
+        scope.reset();
+        scope.touchDigit(3);
+        scope.touchOperator('x');
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toEqual([3, 'x']);
+        expect(scope.display).toBe('2');
+        scope.touchDigit(9);
+        expect(scope.display).toBe('29');
+
+        scope.reset();
+        scope.touchDigit(3);
+        scope.touchOperator('x');
+        scope.touchDigit(0);
+        scope.touchOperator('+');
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toEqual([3, 'x']);
+        expect(scope.display).toBe('0');
+        scope.touchDigit(9);
+        expect(scope.display).toBe('9');
+
+        scope.reset();
+        scope.touchDigit(1);
+        scope.touchOperator('/');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        scope.touchOperator('+');
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toEqual([]);
+        expect(scope.display).toBe('0.33');
+        scope.touchOperator('x');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.expression).toEqual(['calc5', 'x', 3]);
+        expect(scope.display).toBe('1');
+    });
+
+
+    it('verify touchDelete open bracket', function() {
+        // open bracket
+        scope.reset();
+        scope.touchOpenBracket();
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toEqual([]);
+        expect(scope.display).toBe('0');
+
+        scope.reset();
+        scope.touchDigit(1);
+        scope.touchOperator('+');
+        scope.touchOpenBracket();
+        scope.touchDelete();
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toEqual([1, '+', 2]);
+        expect(scope.display).toBe('3');
+    });
+
+    it('verify touchDelete close bracket', function() {
+        scope.reset();
+        scope.touchOpenBracket();
+        scope.touchDigit(1);
+        scope.touchOperator('+');
+        scope.touchDigit(3);
+        scope.touchCloseBracket();
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toEqual(['(', 1, '+']);
+        expect(scope.display).toBe('3');
+        // we gaan verder met edit
+        scope.touchOperator('x');
+        scope.touchDigit(4);
+        scope.touchCloseBracket();
+        scope.touchEqualsOperator();
+        expect(scope.expression).toEqual(['(', 1, '+', 3, 'x', 4, ')']);
+        expect(scope.display).toBe('13');
     });
 
 

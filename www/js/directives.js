@@ -81,7 +81,6 @@ angular.module('calcworks.controllers')
             sheet: '=',
         },
         link: function(scope, element) {
-            console.log('    active ' + sheetService.getActiveSheet().id);
             if (sheetService.getActiveSheet().id === scope.sheet.id) {
                 element.html('(active)');
             } else {

@@ -79,7 +79,7 @@ angular.module('calcworks.controllers')
     // hier een scope functie van gemaakt om te kunnen testen
     $scope.processSelectedCalculation = function (calc) {
         selectedCalc = calc;
-        $scope.display = calc.result;
+        $scope.display = calc.result;   // dit klopt niet; gebruik: $rootScope.convertNumberToDisplay
         $scope.operatorStr = '';
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // wis de expressie als we nu een nieuwe gaan beginnen met een variabele
@@ -158,11 +158,38 @@ angular.module('calcworks.controllers')
     };
 
     $scope.touchDelete = function() {
-        //todo:  if $scope.numberEnteringState && operatorStr then operatorStr = null    so you can overwrite operator
-        if ($scope.display.length===1) {
+        var length = $scope.expression.length;
+        if (length > 0 && $scope.expression[length-1]==='(') {
+            // laatste exprItem was een haakje open
+            $scope.expression.splice(length - 1, 1);
+            $scope.numberEnteringState = true;
+        } else if (
+                  (!$scope.numberEnteringState && $scope.operatorStr) ||
+                  ($scope.expression[length-1]===')') )
+           {
+            // laatste exprItem was een operator of haakje sluiten
+            // note: als alleen een operator is ingetikt dan staat er een 0 voor
+            // de lengte is altijd groter dan 2 maar just-to-be-sure
+            if (length >= 2) {
+                $scope.operatorStr = '';
+                var exprItem = $scope.expression[length - 2];
+                if (isCalcName(exprItem)) {
+                    selectedCalc = $scope.sheet.getCalculationFor(exprItem);
+                    $scope.display = $rootScope.convertNumberToDisplay(selectedCalc.result);
+                    $scope.numberEnteringState = false;
+                } else {
+                    $scope.display = exprItem.toString();
+                    $scope.numberEnteringState = true;
+                }
+                // verwijder de operand en de operator/haakje
+                $scope.expression.splice(length - 2, 2);
+            }
+        } else if ($scope.display.length===1) {
+            // getal bestaande uit 1 cijfer ingetikt
             $scope.display = '0';
             $scope.numberEnteringState = false;
         } else {
+            // getal bestaande uit meerdere cijfers ingetikt
             $scope.display = $scope.display.substring(0, $scope.display.length - 1);
             $scope.numberEnteringState = true;
         }
@@ -222,13 +249,12 @@ angular.module('calcworks.controllers')
         if ($scope.numberEnteringState || selectedCalc || $scope.expression[$scope.expression.length-1]=== ')' || (!$scope.expressionEnteringState && $scope.sheet.nrOfCalcs() > 0)) {
             updateDisplayAndExpression();
             $scope.expression.push(operator);
-            $scope.operatorStr = operator;
-            $scope.numberEnteringState = false;
         } else {
             // er is al een operator ingetikt, deze override de vorige
             $scope.expression[$scope.expression.length-1] = operator;
-            $scope.operatorStr = operator;
         }
+        $scope.operatorStr = operator;
+        $scope.numberEnteringState = false;
     };
 
     $scope.touchOpenBracket = function() {
@@ -264,7 +290,7 @@ angular.module('calcworks.controllers')
         $scope.expressionEnteringState = true;
         $scope.expression = [];
         $scope.result = null;
-    };
+    }
 
     // na elke 'actie' moet expression en display bijgewerkt worden
     // operator, close bracket, equalsOperator  call this function

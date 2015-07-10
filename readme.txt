@@ -92,9 +92,11 @@ Issues
 -------
 editen van een expressie via een form.
 
-verwijder resolvedExpression uit Calculation
+haakjes als variable naam mag ook niet, getal ook niet
 
-als je een operator hebt ingetikt moet delete werken
+als de uitkomst een error was dan niet toevoegen aan de sheet
+
+verwijder resolvedExpression uit Calculation
 
 persisteren moet per sheet
 
