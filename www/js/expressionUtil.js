@@ -103,10 +103,10 @@ function countOccurencesInExpression(string, expression) {
 
 // ook aangeboden via $rootScope
 // converts number into a string with max nr of decimals
-// throws SyntaxError if the number is nan or infinite
+// returns error if the number is nan or infinite
 function convertNumberToDisplay(number, nrOfDecimals) {
     if (isNaN(number) || !isFinite(number)) {
-        throw new SyntaxError('"' + number +'" is nan or infinite');
+        return 'error';
     } else {
         return (+number.toFixed(nrOfDecimals)).toString();
     }

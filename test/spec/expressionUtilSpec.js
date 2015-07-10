@@ -56,10 +56,8 @@ describe('Test Expression Utilities', function () {
         expect(convertNumberToDisplay(123, 0)).toEqual('123');
         expect(convertNumberToDisplay(1 / 3, 2)).toEqual('0.33');
         expect(convertNumberToDisplay(1 / 3, 3)).toEqual('0.333');
-        // note there is a difference between NaN and Infinite
-        expect( function(){ convertNumberToDisplay('abc', 3); } ).toThrow(new SyntaxError('"abc" is nan or infinite'));
-        expect( function(){ convertNumberToDisplay(1 / 0, 3); } ).toThrow();
-        expect( function(){ convertNumberToDisplay(0 / 0, 3); } ).toThrow();
+        expect(convertNumberToDisplay('abc', 2)).toEqual('error');
+        expect(convertNumberToDisplay(1 / 0, 2)).toEqual('error');
     });
 
     it('getExprItemAsString', function() {

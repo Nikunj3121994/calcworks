@@ -189,7 +189,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(9);
         expect(scope.display).toBe('9');
 
-        scope.reset();
+        scope.reset(); // consider: scope._test_reset()
         scope.touchDigit(1);
         scope.touchOperator('/');
         scope.touchDigit(3);
@@ -686,12 +686,21 @@ describe('Test controller CalculatorCtrl', function () {
 
     it('verify division by zero', function () {
         scope._test_reset();
+        expect(getActiveSheet().calculations.length).toBe(0);
         scope.touchDigit(1);
         scope.touchOperator('/');
         scope.touchDigit(0);
         scope.touchEqualsOperator();
+        expect(scope.expression).toEqual([1, '/', 0]);
         expect(scope.display).toBe('error');
         expect(isFinite(scope.result)).toBeFalsy();
+        expect(getActiveSheet().calculations.length).toBe(1);
+        // nu gaan we verder met error situatie
+        scope.touchOperator('+');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.expression).toEqual(['calc1', '+', 3]);
+        expect(scope.display).toBe('error');
     });
 
 });
