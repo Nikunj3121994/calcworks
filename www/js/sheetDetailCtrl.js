@@ -67,7 +67,7 @@ angular.module('calcworks.controllers')
                         if (!$scope.data.name) {
                             //don't allow the user to close unless he enters something
                             e.preventDefault();
-                        } if ($scope.data.name === 'x') {
+                        } if ($scope.data.name === 'x') { // todo: alle operators en haakjes niet toestaan
                             // do not allow 'x' because of multiply
                             // todo: show error message
                             e.preventDefault();

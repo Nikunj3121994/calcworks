@@ -703,4 +703,16 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('error');
     });
 
+    it('verify two times touch equal', function() {
+        scope._test_reset();
+        expect(getActiveSheet().calculations.length).toBe(0);
+        scope.touchDigit(1);
+        scope.touchOperator('+');
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(getActiveSheet().calculations.length).toBe(1);
+        scope.touchEqualsOperator();
+        expect(getActiveSheet().calculations.length).toBe(1);
+    });
+
 });

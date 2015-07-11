@@ -202,6 +202,8 @@ angular.module('calcworks.controllers')
     $scope.touchRemember = function() {
         $scope.data = {};
 
+        // deze logica zit ook in sheetDetailCtrl; samen voegen
+        // zodat ook de validatie rules voor een calc name op 1 plek zitten
         var renamePopup = $ionicPopup.prompt({
             title: 'Enter a name for this calculation',
             template: 'Give this calculation a name so you can easily recall it later.',
@@ -331,31 +333,36 @@ angular.module('calcworks.controllers')
     // in tegenstelling tot andere 'touches' bestaat de equals uit 2 zaken:
     // verwerkerking van de input tot aan de '=' en daarna het resultaat uitrekenen/tonen
     $scope.touchEqualsOperator = function() {
-        if (!operandEntered()) {
-            $scope.expression.push(0);
-        }
-        updateDisplayAndExpression();
-        try {
-            // nu moeten we nog het resultaat verwerken:
-            $scope.operatorStr = '';
-            var calc = createNewCalculation($scope.expression);
-            $scope.sheet.add(calc);
-            calcService.calculate($scope.sheet);
-            if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
-            $scope.result = calc.result;                 // type is number
-            $scope.display = $rootScope.convertNumberToDisplay(calc.result);     // type is string
-            sheetService.saveSheets();
-            selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
-        } catch (e) {
-            if (e instanceof SyntaxError) {
-                $scope.display = 'error';
-            } else {
-                $log.error('internal error: ' + e);
-                $scope.display = 'internal error: ' + e;
+        // als twee keer achter elkaar = wordt ingedrukt dan is er nog een result van vorige keer
+        if ($scope.result) {
+            this.touchRemember();
+        } else {
+            if (!operandEntered()) {
+                $scope.expression.push(0); // voeg getal 0 toe zodat de expressie altijd een operand heeft na de operator
             }
+            updateDisplayAndExpression();
+            try {
+                // nu moeten we nog het resultaat verwerken:
+                $scope.operatorStr = '';
+                var calc = createNewCalculation($scope.expression);
+                $scope.sheet.add(calc);
+                calcService.calculate($scope.sheet);
+                if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
+                $scope.result = calc.result;                 // type is number
+                $scope.display = $rootScope.convertNumberToDisplay(calc.result);     // type is string
+                sheetService.saveSheets();
+                selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
+            } catch (e) {
+                if (e instanceof SyntaxError) {
+                    $scope.display = 'error';
+                } else {
+                    $log.error('internal error: ' + e);
+                    $scope.display = 'internal error: ' + e;
+                }
+            }
+            $scope.numberEnteringState = false;
+            $scope.expressionEnteringState = false;
         }
-        $scope.numberEnteringState = false;
-        $scope.expressionEnteringState = false;
     };
 
 
