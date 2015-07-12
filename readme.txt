@@ -42,6 +42,19 @@ $ionic lib update
 daarna de rest bijwerken:
 $bower update
 
+Cordova bijwerken:
+sudo npm update -g cordova
+
+Updates the project to use the latest version of cordova:
+$ cordova platform update ios
+
+Je kan verifieren op welke versie van cordova je zit door:
+$ npm list -g cordova
+
+App bouwen
+-----------
+cordova prepare ios
+ionic build ios
 
 Testen runnen
 -------------
@@ -92,7 +105,8 @@ Issues
 -------
 editen van een expressie via een form.
 
-haakjes als variable naam mag ook niet, getal ook niet
+samen nemen van de calc name invoer dialogen
+alle operatoren en haakjes als variable naam mag niet, getal ook niet
 
 verwijder resolvedExpression uit Calculation
 

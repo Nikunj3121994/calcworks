@@ -94,15 +94,14 @@ angular.module('calcworks.controllers')
 
     var selectCalculationModalClicked = function(calc) {
         if (calc) {
-            // not cancel clicked
-            $log.log('selected calc= ' + calc.varName + ' (' + calc.result +')');
+            // OK clicked
             $scope.processSelectedCalculation(calc);
         }
         $scope.closeModal();
     };
 
     // als we nog ooit met een eigen controller willen werken voor deze popup,
-    // zie dan http://www.dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/
+    // zie http://stackoverflow.com/questions/27434262/pass-a-controller-to-ionicmodal
     $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
         scope: null,
         animation: 'slide-in-up'
