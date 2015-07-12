@@ -105,6 +105,8 @@ Issues
 -------
 editen van een expressie via een form.
 
+ik vermoed dat t misgaat als je een calc selecteert met decimalen , e.g. 1/3
+
 samen nemen van de calc name invoer dialogen
 alle operatoren en haakjes als variable naam mag niet, getal ook niet
 

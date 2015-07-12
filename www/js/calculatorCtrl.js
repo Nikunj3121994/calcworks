@@ -56,10 +56,8 @@ angular.module('calcworks.controllers')
     $rootScope.$watch('hackSelectedCalcName', function(newVal, oldVal) {
         $log.log('calculatorCtrl: calculationName= ' + newVal);
         if (!newVal) {
-            $log.log('calculatorCtrl: null');
             return false;
         }
-        // todo: we moeten er rekening mee houden dat de geselecteerde calc wel eens een andere sheet kan zijn
         var calc = sheetService.getActiveSheet().getCalculationFor(newVal);
         $scope.processSelectedCalculation(calc);
         $rootScope.hackSelectedCalcName = null; // dit triggered weer een watch....
