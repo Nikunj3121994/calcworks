@@ -77,7 +77,7 @@ angular.module('calcworks.controllers')
     // hier een scope functie van gemaakt om te kunnen testen
     $scope.processSelectedCalculation = function (calc) {
         selectedCalc = calc;
-        $scope.display = calc.result;   // dit klopt niet; gebruik: $rootScope.convertNumberToDisplay
+        $scope.display = $rootScope.convertNumberToDisplay(calc.result);
         $scope.operatorStr = '';
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // wis de expressie als we nu een nieuwe gaan beginnen met een variabele

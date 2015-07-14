@@ -106,7 +106,6 @@ Issues
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
 
-ik vermoed dat t misgaat als je een calc selecteert met decimalen , e.g. 1/3
 
 samen nemen van de calc name invoer dialogen
 alle operatoren en haakjes als variable naam mag niet, getal ook niet
@@ -147,10 +146,7 @@ http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-scre
 nice-to-have
 ------------
 
-bij 'x' als calc name een foutmelding tonen
-
-toon 'today' of 'yesterday' ipv de datum
-misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
+bij een operator of haakje als calc name een foutmelding tonen
 
 plaats files mbt feature bij elkaar
 
@@ -161,9 +157,6 @@ de items in een expression zouden objecten moet zijn van een class hierarchy. De
 cijfers achter de komma instelbaar
 
 de getallen moeten in display en expression een pixel hoger
-
-Twee keer = achter elkaar is altijd naam geven
-2500 + 0 kan ook niet
 
 
 

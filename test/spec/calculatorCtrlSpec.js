@@ -611,11 +611,26 @@ describe('Test controller CalculatorCtrl', function () {
         scope.processSelectedCalculation(getActiveSheet().calculations[0]);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('10');
-        // als we meer testen toevoegen zal calc17 niet meer kloppen en moeten we de varname ophalen
         var varName = sheet.calculations[0].varName;
         expect(scope.expression).toEqual(['calc1', '+', 'calc1']);
         expect(sheet.calculations[0].expression).toEqual(['calc1', '+', 'calc1']);
         expect(scope.result).toEqual(10);
+
+        // verify decimals
+        scope._test_reset();
+        scope.touchDigit(1);
+        scope.touchOperator('/');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.expression).toEqual([1, '/', 3]);
+        expect(scope.display).toBe('0.33');
+
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        expect(scope.display).toBe('0.33');
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('2.33');
     });
 
 
