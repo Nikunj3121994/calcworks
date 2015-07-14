@@ -110,7 +110,6 @@ Je kan een recall of een getal invoeren.
 samen nemen van de calc name invoer dialogen
 alle operatoren en haakjes als variable naam mag niet, getal ook niet
 
-verwijder resolvedExpression uit Calculation
 
 persisteren moet per sheet, updated timestamp toevoegen
 

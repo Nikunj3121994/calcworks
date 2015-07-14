@@ -58,7 +58,6 @@ angular.module('calcworks.services')
                 //$log.log('calcCalculation: about to process: ' + calculation.varName + ' : ' + calculation.expression);
                 var expression = this.resolveExpression(calculation, calculations, state);
                 //$log.log('calcCalculation: and ' + calculation.varName + ' resolved into: ' + expression);
-                calculation.resolvedExpression = expression;
                 var outcome;
                 try {
                     expression = this.replaceMultiplyPercentageOperators(expression);

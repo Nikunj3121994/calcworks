@@ -6,7 +6,6 @@ angular.module('calcworks.controllers')
     $scope.showDelete = false;
     $scope.showReorder = false;
     $scope.listCanSwipe = true;
-    $scope.showResolvedExpression = true;
     if ($stateParams.sheetId) {
         sheetService.setActiveSheet($stateParams.sheetId);
         $scope.sheet = sheetService.getSheet($stateParams.sheetId);

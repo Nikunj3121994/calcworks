@@ -26,7 +26,9 @@ angular.module('calcworks.controllers')
                     for (var i = 0; i < arrayLength; i++) {
                         template = template + '<td class="itemExpr">' + $rootScope.getExprItemAsString(expression[i], scope.sheet) + '</td>';
                     }
-                    template = template + '</tr><tr>';
+                    template = template + '</tr>';
+                    // second row
+                    template = template + '<tr>';
                     template = template + '<td class="calcNameExpr">' + calculation.varName + '</td>';
                     template = template + '<td></td>';
                     for (var i = 0; i < arrayLength; i++) {

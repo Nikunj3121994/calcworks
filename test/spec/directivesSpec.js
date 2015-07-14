@@ -82,7 +82,7 @@ describe('Test directives', function () {
         scope.sheet.add(calculation2);
         scope.index = 0;
         element = angular.element(
-            '<resolve-sheet index="index" sheet="sheet" showcalcname="showcalcname"></resolve-sheet>');
+            '<resolve-sheet index="index" sheet="sheet"></resolve-sheet>');
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();

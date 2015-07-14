@@ -15,14 +15,12 @@ var Calculation = function(param, calcName, expression) {
         this.id = param;   // we not use generateUUID() here because this makes the tests harder to write
         this.varName = calcName;
         this.expression = expression;   // this is an array of numbers, calcNames and operators
-        this.resolvedExpression = '';   // ik weet niet of deze wel nuttig is ivm decimalen afkappen
         this.result = null;    // can be a number or a string in case of error
     } else {
         //console.log('build calc from json');
         this.id = param.id;
         this.varName = param.varName;
         this.expression = param.expression;
-        this.resolvedExpression = param.resolvedExpression;
         this.result = param.result;
     }
     this.__type = 'Calculation';
