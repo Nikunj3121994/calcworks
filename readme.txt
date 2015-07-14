@@ -103,7 +103,8 @@ website nodig?
 
 Issues
 -------
-editen van een expressie via een form.
+editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
+Je kan een recall of een getal invoeren.
 
 ik vermoed dat t misgaat als je een calc selecteert met decimalen , e.g. 1/3
 
@@ -112,13 +113,14 @@ alle operatoren en haakjes als variable naam mag niet, getal ook niet
 
 verwijder resolvedExpression uit Calculation
 
-persisteren moet per sheet
+persisteren moet per sheet, updated timestamp toevoegen
 
 Launch image voor IOS
 
 limiet op aantal calculaties en aantal sheets (met name belangrijk als we gratis verspreiden)
 
 om autofocus voor elkaar te krijgen:
+http://forum.ionicframework.com/t/auto-focus-textbox-while-template-loads/6851/28
 For it to work with cordova you need to add this in your config.xml
 <preference name="KeyboardDisplayRequiresUserAction" value="false" />
 

@@ -363,14 +363,4 @@ angular.module('calcworks.controllers')
     };
 
 
-})
-// filter that expects a number (not a string!) and converts it to a string with the right decimals
-.filter('toFixedDecimals', function($log, $rootScope) {
-        return function (input) {
-            if (input === undefined || input === null) {
-                return null;
-            } else {
-                return $rootScope.convertNumberToDisplay(input);
-            }
-        };
 });

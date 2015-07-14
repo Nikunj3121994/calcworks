@@ -13,12 +13,11 @@ var Sheet = function(par, name, calculations) {
         this.hasSum = false;
         this.sum = undefined;
     } else {
-        // build from object
-        // console.log('build from object');
+        // build from json object
         this.id = par.id;
         this.name = par.name;
         this.calculations = par.calculations;
-        this.createdTimestamp = par.createdTimestamp;
+        this.createdTimestamp = new Date(par.createdTimestamp);
         this.favorite = par.favorite;
         this.hasSum = par.hasSum;
         this.sum = par.sum;

@@ -11,7 +11,7 @@
                 {{sheet.name}} <span ng-show="getActiveSheetId() === sheet.id">(active)</span>
               </span>
               <br>
-              <span style="font-weight: lighter;font-size: small">created {{sheet.createdTimestamp | date : 'd MMM yyyy HH:mm' }}</span>
+              <span style="font-weight: lighter;font-size: small">created {{sheet.createdTimestamp | toDate }}</span>
           </div>
 
           <div ng-click="gotoSheet(sheet)">
