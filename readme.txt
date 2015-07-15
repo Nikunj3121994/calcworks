@@ -51,10 +51,15 @@ $ cordova platform update ios
 Je kan verifieren op welke versie van cordova je zit door:
 $ npm list -g cordova
 
-App bouwen
------------
-cordova prepare ios
-ionic build ios
+App bouwen ter voorbereiding van XCode deploy
+---------------------------------------------
+$ cordova prepare ios
+$ ionic build ios
+
+XCode
+=====
+Laadt het project 'calcworks.xcodeproj' in de platforms/ios folder
+Je kan runnen op de iphone door linksboven 'iphone stephan' te kiezen (ipv de emulators)
 
 Testen runnen
 -------------
@@ -84,6 +89,8 @@ $ ionic upload
 stephanwesten@gmail.com
 wachtwoord: <straat><huisnr>a
 
+
+
 UI-Router
 =========
 UI-Router heeft deze eigenschap:
@@ -94,8 +101,8 @@ Dit is wat we niet willen voor de calculator-tab.
 
 Distribute
 -----------
-icon v/d app
-minimize/ulgify js
+icon v/d app + launch image
+minimize/uglify js
 controleer persistence rules Apple
 screenshots maken (goede use-cases)
 website nodig?
@@ -106,10 +113,8 @@ Issues
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
 
-
 samen nemen van de calc name invoer dialogen
 alle operatoren en haakjes als variable naam mag niet, getal ook niet
-
 
 persisteren moet per sheet, updated timestamp toevoegen
 
