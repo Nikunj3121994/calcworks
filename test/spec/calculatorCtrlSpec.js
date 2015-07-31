@@ -703,16 +703,46 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('error');
     });
 
-    it('verify two times touch equal', function() {
+    it('verify two times touch equal = remember', function() {
         scope._test_reset();
+        spyOn(scope, 'touchRemember');
+        expect(scope.touchRemember.calls.count()).toEqual(0);
         expect(getActiveSheet().calculations.length).toBe(0);
         scope.touchDigit(1);
         scope.touchOperator('+');
         scope.touchDigit(2);
         scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(0);
         expect(getActiveSheet().calculations.length).toBe(1);
         scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(1);
         expect(getActiveSheet().calculations.length).toBe(1);
+        // nog een keer
+        scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(2);
+        expect(getActiveSheet().calculations.length).toBe(1);
+    });
+
+    it('verify two times touch equal = remember - repeated', function() {
+        scope._test_reset();
+        spyOn(scope, 'touchRemember');
+        expect(scope.touchRemember.calls.count()).toEqual(0);
+        expect(getActiveSheet().calculations.length).toBe(0);
+        scope.touchDigit(1);
+        scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(0);
+        expect(getActiveSheet().calculations.length).toBe(1);
+        scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(1);
+        expect(getActiveSheet().calculations.length).toBe(1);
+        // nog een keer met een ander getal
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(1);
+        expect(getActiveSheet().calculations.length).toBe(2);
+        scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(2);
+        expect(getActiveSheet().calculations.length).toBe(2);
     });
 
 });
