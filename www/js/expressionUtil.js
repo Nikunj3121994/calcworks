@@ -135,6 +135,7 @@ function getExprItemIfCalcName(exprItem) {
 }
 
 // note we do not use Ionic's next id since it is not unique across sessions
+// consider: prefix with type identifier like sheet, calc, etc
 function generateUUID() {
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

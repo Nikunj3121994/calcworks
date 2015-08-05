@@ -351,7 +351,7 @@ angular.module('calcworks.controllers')
                 if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
                 $scope.result = calc.result;                 // type is number
                 $scope.display = $rootScope.convertNumberToDisplay(calc.result);     // type is string
-                sheetService.saveSheets();
+                sheetService.saveSheet($scope.sheet);
                 selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
             } catch (e) {
                 if (e instanceof SyntaxError) {

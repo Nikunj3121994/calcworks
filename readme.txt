@@ -108,6 +108,10 @@ Je kan een recall of een getal invoeren.
 
 ik vermoed dat t misgaat als je een calc selecteert met decimalen , e.g. 1/3
 
+later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
+Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
+Je moet misschien nu al bij de persistentie rekening houden met de verschillende types binnen een expressie.
+
 samen nemen van de calc name invoer dialogen
 alle operatoren en haakjes als variable naam mag niet, getal ook niet
 

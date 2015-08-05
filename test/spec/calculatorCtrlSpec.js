@@ -23,6 +23,7 @@ describe('Test controller CalculatorCtrl', function () {
         // however, strictly speaking this should not be necessary, I suspect that one failing test is a bug
         // on the other hand some tests require that the first variable is 'calc1'
         sheetService.getActiveSheet = getActiveSheet;
+        sheetService.saveSheet = function(sheet) {};
         CalculatorCtrl = $controller('CalculatorCtrl', {
           $scope: scope,
           calcService: calcService,
