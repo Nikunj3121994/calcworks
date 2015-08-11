@@ -56,7 +56,7 @@ angular.module('calcworks.controllers')
         scope: {
             expression: '=',
             sheet: '=',
-            result: '='  //optional
+            result: '='  //optional since might not be there yet
         },
         link: function(scope, element) {
             scope.$watch('expression', function(newValue, oldValue) {
@@ -64,10 +64,11 @@ angular.module('calcworks.controllers')
                     var template = '';
                     var arrayLength = scope.expression.length;
                     for (var i = 0; i < arrayLength; i++) {
-                        template = template + '<span  class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i], scope.sheet) + '</span>';
+                        template = template + '<span class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i], scope.sheet) + '</span>';
                     }
-                    if (scope.result) {
-                        template = template + '<span  class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';
+                    if (typeof scope.result === 'number') {
+                        // note that checking  if (result)   would not work since the result can be 0
+                        template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';
                     }
                     // since we resolve the parameters above there is no need to compile
                     element.html(template);

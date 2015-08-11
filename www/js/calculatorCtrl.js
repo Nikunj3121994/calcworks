@@ -15,7 +15,7 @@ angular.module('calcworks.controllers')
         $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
         $scope.operatorStr = '';
         $scope.expression = []; // array of calcNames, operators as char and numbers
-        $scope.result = null;
+        $scope.result = null; // we check for null so do not make this undefined
         // misschien kan $scope wel weg
         $scope.numberEnteringState = false;  // na de eerste digit zit je in deze state totdat een operator, bracket of equals komt
         $scope.expressionEnteringState = false;   // geeft aan dat een nieuwe expression is gestart  (direct na equals is deze false)

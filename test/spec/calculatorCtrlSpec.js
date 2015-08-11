@@ -109,6 +109,17 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.operatorStr).toBe('');
         expect(scope.expression).toEqual([91, '-', 93]);
         expect(scope.result).toEqual(-2);
+
+        scope.reset();
+        scope.touchDigit(9);
+        scope.touchOperator('-');
+        expect(scope.operatorStr).toBe('-');
+        scope.touchDigit(9);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toEqual([9, '-', 9]);
+        expect(scope.result).toEqual(0);
     });
 
 
@@ -190,7 +201,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(9);
         expect(scope.display).toBe('9');
 
-        scope.reset(); // consider: scope._test_reset()
+        scope._test_reset()
         scope.touchDigit(1);
         scope.touchOperator('/');
         scope.touchDigit(3);
@@ -203,7 +214,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchOperator('x');
         scope.touchDigit(3);
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual(['calc5', 'x', 3]);
+        expect(scope.expression).toEqual(['calc1', 'x', 3]);
         expect(scope.display).toBe('1');
     });
 

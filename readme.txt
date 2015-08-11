@@ -109,18 +109,13 @@ website nodig?
 Issues
 -------
 
-6 - 6 werkt niet meer goed
 
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
 
-
 later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
 Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
 Je moet misschien nu al bij de persistentie rekening houden met de verschillende types binnen een expressie.
-
-samen nemen van de calc name invoer dialogen
-alle operatoren en haakjes als variable naam mag niet, getal ook niet
 
 verwijder resolvedExpression uit Calculation
 
@@ -128,7 +123,8 @@ persisteren moet per sheet, updated timestamp toevoegen
 
 Launch image voor IOS
 
-limiet op aantal calculaties en aantal sheets (met name belangrijk als we gratis verspreiden)
+limiet op aantal calculaties en aantal sheets en aantal favorite sheets (met name belangrijk als we gratis verspreiden)
+Door de limiet op favorite sheets kan je altijd een niet-favorite sheet verwijderen bij t aanmaken van een nieuwe
 
 om autofocus voor elkaar te krijgen:
 http://forum.ionicframework.com/t/auto-focus-textbox-while-template-loads/6851/28
