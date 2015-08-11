@@ -53,6 +53,7 @@ angular.module('calcworks.controllers')
     // deze hack was nodig omdat anders via een state.go() een nieuwe state geintroduceerd werd
     // echter deze oplossing is ook fout omdat je een verandering nodig hebt, en dat is er niet per se t geval
     // nu dwingen we deze af via een gore hack
+    // IPV een watch op een variabele, zouden we een event moeten sturen om de views in sync te houden.
     $rootScope.$watch('hackSelectedCalcName', function(newVal, oldVal) {
         $log.log('calculatorCtrl: calculationName= ' + newVal);
         if (!newVal) {
@@ -83,10 +84,6 @@ angular.module('calcworks.controllers')
         // wis de expressie als we nu een nieuwe gaan beginnen met een variabele
         if (!$scope.expressionEnteringState) {
             expressionEnteringStart();
-            //$scope.expression = [];
-            // consider: expressionEnteringState = true,  je bent nu een expressie aan t invoeren
-            // deze logica zit ook in UpdateDisplayExpression - misschien dat t handiger kan door deze aan te roepen..
-            // merk op dat bij een nieuw getal we de expression niet wissen, inconsequent....
         }
     };
 
@@ -128,6 +125,11 @@ angular.module('calcworks.controllers')
     });
 
     $scope.touchDigit = function(n) {
+        // merk op dat bij een nieuw getal we de expression niet wissen, inconsequent maar wel handig dat je
+        // nog het resultaat van de vorige keer ziet
+        // eigenlijk zouden we dit moeten doen:
+        // expressionEnteringStart();
+        // nu doen we dit pas bij de eerste operator
         if ($scope.numberEnteringState === false) {
             $scope.display = '' + n;
             $scope.numberEnteringState = true;
@@ -313,8 +315,10 @@ angular.module('calcworks.controllers')
     // in tegenstelling tot andere 'touches' bestaat de equals uit 2 zaken:
     // verwerkerking van de input tot aan de '=' en daarna het resultaat uitrekenen/tonen
     $scope.touchEqualsOperator = function() {
-        // als twee keer achter elkaar = wordt ingedrukt dan is er nog een result van vorige keer
-        if ($scope.result) {
+        // als twee keer achter elkaar = wordt ingedrukt dan is dit een short cut voor de remember functie
+        // doordat een nieuw getal niet meteen expressionEnteringStart() aanroept kan result en display out of sync zijn
+        // we eisen dat ze wel hetzelfde zijn voor de remember functie
+        if ($scope.result && $rootScope.convertNumberToDisplay($scope.result) === $scope.display) {
             this.touchRemember();
         } else {
             if (!operandEntered()) {
@@ -330,7 +334,7 @@ angular.module('calcworks.controllers')
                 if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
                 $scope.result = calc.result;                 // type is number
                 $scope.display = $rootScope.convertNumberToDisplay(calc.result);     // type is string
-                sheetService.saveSheets();
+                sheetService.saveSheet($scope.sheet);
                 selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
             } catch (e) {
                 if (e instanceof SyntaxError) {

@@ -5,35 +5,41 @@
 // nadeel is wel dat het lastig kan worden om bijvoorbeeld alle sheets te deleten.
 // misschien moet je de keys prefixen met een token zodat je snel kan zien wat voor soort object het is
 
-// ook nog iets om over na te denken is: geven we een id als parameter mee of het object zelf?
-// als we de sheets los opslaan is het makkelijk, dan moet je de id meegeven.
+// deze service is stateful, beheerst alle sheets, stuurt events en bepaalt de active sheet.
+// het nadeel is dat alle sheets in het geheugen zitten. Maar de history laat nu alle sheets met calculaties zien
+// de events moeten duidelijker gedefinieerd worden.
 
 angular.module('calcworks.services')
     .factory('sheetService', function($rootScope, $log, storageService) {
+
+        var activeSheet = null;
+        var sheets = null;
 
         function createSheet() {
             var sheet = new Sheet(generateUUID(), 'Untitled Sheet', []);
             return sheet;
         }
 
-        // init
-        var sheets = [];
-        sheets = storageService.getObject('sheets');
-        var activeSheet = null;
-        if (angular.equals({}, sheets)) {
-            sheets = [];
-            activeSheet = createSheet()
-            sheets.push(activeSheet);
-        } else if (sheets[0].calculations.length === 0) {
-            // de laatste sheet is leeg, die kunnen we weggooien en een nieuwe aanmaken
-            // later kunnen we nog kijken of ie ouder als een paar uur is
-            sheets.splice(0, 1);
-            activeSheet = createSheet();
-            sheets.splice(0, 0, activeSheet);
-        } else {
-            // hier kunnen we gaan controleren of het x aantal uur geleden is dat we een sheet hebben aangemaakt
-            activeSheet = sheets[0];
+        function init() {
+            sheets = storageService.loadSheets();
+            // bepaal de activeSheet
+            if (sheets.length === 0) {
+                activeSheet = createSheet();
+                sheets.push(activeSheet);
+                // onderstaande is te verwarrend voor testen
+            //} else if (sheets[0].calculations.length === 0) {
+            //    // de laatste sheet is leeg, die kunnen we weggooien en een nieuwe aanmaken
+            //    // later kunnen we nog kijken of ie ouder als een paar uur is
+            //    sheets.splice(0, 1);
+            //    activeSheet = createSheet();
+            //    sheets.splice(0, 0, activeSheet);
+            } else {
+                // hier kunnen we gaan controleren of het x aantal uur geleden is dat we een sheet hebben aangemaakt
+                activeSheet = sheets[0];
+            }
         }
+
+        init();
 
         return {
             createNewActiveSheet: function() {
@@ -42,7 +48,7 @@ angular.module('calcworks.services')
                 activeSheet = sheet;
                 $rootScope.$broadcast("sheetsUpdated", 'active-sheet-changed');
                 sheets.splice(0, 0, sheet);
-                storageService.setObject('sheets', sheets);
+                storageService.saveSheet(sheet);
                 $rootScope.$broadcast("sheetsUpdated", null);
                 return sheet;
             },
@@ -58,10 +64,14 @@ angular.module('calcworks.services')
             getSheets: function() {
                 return sheets;
             },
-            saveSheets: function() {
-                storageService.setObject('sheets', sheets);
+            saveSheet: function(sheet) {
+                storageService.saveSheet(sheet);
             },
             getSheet: function(sheetId) {
+                // kan ook op deze manier:
+                // var result = sheets.filter(function(s) {
+                //     return s.id === id; // filter out appropriate one
+                // })[0];
                 for (var i in sheets) {
                     if (sheets[i].id === sheetId) {
                         return sheets[i];
@@ -70,42 +80,46 @@ angular.module('calcworks.services')
                 throw new Error('sheetId ' + sheetId + ' not found');
             },
             deleteSheet: function(sheetId) {
+                var sheet = null;
                 for (var i in sheets) {
                     if (sheets[i].id === sheetId) {
+                        sheet = sheets[i];
                         sheets.splice(i,1);
                         break;
                     }
                 }
+                storageService.deleteSheets([sheet.id]);
                 if (sheetId === activeSheet.id) {
                     activeSheet = this.createNewActiveSheet();
                 }
-                storageService.setObject('sheets', sheets);
-
-                // in the future:
-                //storageService.removeItem(key);
+                // todo:  (nodig denk ik als je de active sheet delete)
+                // $rootScope.$broadcast("sheetsUpdated", sheetID);
 
             },
             deleteAllSheets: function(includeFavoriteSheets) {
-                if (includeFavoriteSheets) {
-                    storageService.deleteObject('sheets');
-                    sheets = [];
-                } else {
-                    sheets = sheets.filter(function(sheet) {
-                        return sheet.favorite;
-                    });
+                var flagNewActiveSheet = false;
+                var sheetIds = [];
+                var i = sheets.length - 1;
+                while (i >= 0) {
+                    if (!sheets[i].favorite || includeFavoriteSheets) {
+                        sheetIds.push(sheets[i].id);
+                        if (sheets[i].id === activeSheet.id) {
+                            flagNewActiveSheet = true;
+                        }
+                        sheets.splice(i,1);
+                    }
+                    i = i - 1;
                 }
-                this.createNewActiveSheet();
-                storageService.setObject('sheets', sheets);
-                // we zouden in de tweede parameter meer info kunnen stoppen, bijvoorbeeld 'all' of de index van
-                // welke sheet is aangepast.
+                storageService.deleteSheets(sheetIds);
+                if (flagNewActiveSheet) {
+                    activeSheet = this.createNewActiveSheet();
+                }
                 $rootScope.$broadcast("sheetsUpdated", null);
+            },
+            _test_init: function() {
+                init();
             }
         };
     });
 
 
-
-// voor als we nog een keer moeten zoeken in de array of sheets:
-// var result = sheets.filter(function(s) {
-//     return s.id === id; // filter out appropriate one
-// })[0];

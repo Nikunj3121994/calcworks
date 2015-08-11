@@ -89,8 +89,6 @@ $ ionic upload
 stephanwesten@gmail.com
 wachtwoord: <straat><huisnr>a
 
-
-
 UI-Router
 =========
 UI-Router heeft deze eigenschap:
@@ -115,6 +113,16 @@ Issues
 
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
+
+
+later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
+Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
+Je moet misschien nu al bij de persistentie rekening houden met de verschillende types binnen een expressie.
+
+samen nemen van de calc name invoer dialogen
+alle operatoren en haakjes als variable naam mag niet, getal ook niet
+
+verwijder resolvedExpression uit Calculation
 
 persisteren moet per sheet, updated timestamp toevoegen
 
@@ -150,7 +158,8 @@ http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-scre
 nice-to-have
 ------------
 
-bij een operator of haakje als calc name een foutmelding tonen
+
+misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
 
 plaats files mbt feature bij elkaar
 
@@ -161,6 +170,7 @@ de items in een expression zouden objecten moet zijn van een class hierarchy. De
 cijfers achter de komma instelbaar
 
 de getallen moeten in display en expression een pixel hoger
+
 
 
 

@@ -29,6 +29,45 @@ angular.module('calcworks.services')
             },
             deleteObject: function(key) {
                 $window.localStorage.removeItem(key);
+            },
+
+            //todo: make sure order is preserved
+            loadSheets: function() {
+                var sheets = [];
+                // for now we assume that only sheets are stored
+                // if we store other objects then we need to prefix the id with a type identifier to separate the sheets
+                // or store the sheet ids in a json object with a hard coded key, we can also preserve the order of sheets
+                for (var i = 0, len = localStorage.length; i < len; ++i ) {
+                    var sheet = this.getObject( localStorage.key( i ) );
+                    // verify valid and in the future we can update the object
+                    if (sheet.version === '1.0') {
+                        sheets.push(sheet);
+                    }
+                }
+                return sheets;
+            },
+
+            //saveSheets: function(sheets) {
+            //    for ( var i = 0, len = sheets.length; i < len; ++i ) {
+            //        this.setObject(sheets[i].id, sheets[i]);
+            //    }
+            //},
+
+            saveSheet: function(sheet) {
+                this.setObject(sheet.id, sheet);
+            },
+
+            deleteSheets: function(sheetIds) {
+                for ( var i = 0, len = sheetIds.length; i < len; ++i ) {
+                    this.deleteObject(sheetIds[i]);
+                }
+            },
+
+            _test_cleanLocalStorage: function() {
+                for (var i = 0, len = localStorage.length; i < len; ++i ) {
+                    $window.localStorage.removeItem(localStorage.key(i));
+                }
             }
+
         };
     }]);

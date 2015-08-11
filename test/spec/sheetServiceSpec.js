@@ -4,20 +4,21 @@ describe('Test sheetService', function () {
 
     beforeEach(module('calcworks'));
 
-    var sheetService;
+    var sheetService, storageService;
 
     // the underscore at both sides is a convention by AngularJS to get the right service
-    beforeEach(inject(function (_sheetService_) {
+    beforeEach(inject(function (_sheetService_, _storageService_) {
         sheetService = _sheetService_;
+        storageService = _storageService_;
+        // use a mock persistence
+        storageService.saveSheet = function(sheet) {};
+        storageService.loadSheets = function() { return [] };
+        // we need to re-initialize to load sheets with the mock
+        sheetService._test_init();
     }));
 
-    //todo: use a mock persistence
 
     it('verify sheet', function() {
-        // we need to mock the storage service - for all tests (!)
-        // for now delete all previous data
-        sheetService.deleteAllSheets(true);
-
         var sheet1 = sheetService.getActiveSheet();
         sheet1.name = 'sheet1';
         expect(sheet1.id).toBeDefined();
@@ -34,8 +35,6 @@ describe('Test sheetService', function () {
         expect(sheetService.getActiveSheet().name).toEqual('sheet2');
         sheetService.setActiveSheet(sheet1.id);
         expect(sheetService.getActiveSheet().name).toEqual('sheet1');
-
-
 
         // mock storage en dan:
         //expect(sheetService.getSheets().length).toBe(2);
@@ -54,7 +53,56 @@ describe('Test sheetService', function () {
         expect(sheetService.getActiveSheet().name).toBe('Untitled Sheet');
     });
 
+    it('delete all sheets', function() {
+        var sheet1 = sheetService.createNewActiveSheet();
+        sheet1.name = 'sheet1';
+        var sheet2 = sheetService.createNewActiveSheet();
+        sheet2.name = 'sheet2';
+        sheet2.favorite = true;
+        var sheet3 = sheetService.createNewActiveSheet();
+        sheet3.name = 'sheet3';
+        storageService.loadSheets = function() { return [sheet1, sheet2, sheet3] };
+        // we need to re-initialize to load sheets with the mock
+        sheetService._test_init();
 
+        sheetService.setActiveSheet(sheet2.id);
+        expect(sheetService.getActiveSheet().name).toEqual('sheet2');
+        spyOn(storageService, 'deleteSheets');
+        sheetService.deleteAllSheets(false);
+        expect(storageService.deleteSheets.calls.count()).toEqual(1);
+        var arg = storageService.deleteSheets.calls.argsFor(0);
+        // het eerste argument moet een array zijn met 2 sheets erin
+        expect(arg[0].length).toEqual(2);
+        // test ook dat sheets idd 2 minder heeft
+        expect(sheetService.getSheets().length).toEqual(1);
+        expect(sheetService.getActiveSheet().name).toEqual('sheet2');
+
+        // nu alle sheets verwijderen
+        sheetService._test_init();
+        sheetService.deleteAllSheets(true);
+        expect(storageService.deleteSheets.calls.count()).toEqual(2);
+        var arg = storageService.deleteSheets.calls.argsFor(1);
+        // het eerste argument moet een array zijn met 3 sheets erin
+        expect(arg[0].length).toEqual(3);
+        // test ook dat sheets idd alleen een nieuwe active sheet heeft
+        expect(sheetService.getSheets().length).toEqual(1);
+        expect(sheetService.getSheets()[0].name).toEqual('Untitled Sheet');
+
+        // test zonder favorites
+        sheet2.favorite = false;
+        sheetService._test_init();
+        expect(sheetService.getSheets().length).toEqual(3);
+        sheetService.setActiveSheet(sheet1.id);
+        sheetService.deleteAllSheets(false);
+        expect(storageService.deleteSheets.calls.count()).toEqual(3);
+        var arg = storageService.deleteSheets.calls.argsFor(2);
+        // het eerste argument moet een array zijn met 3 sheets erin
+        expect(arg[0].length).toEqual(3);
+        // test ook dat sheets idd leeg is
+        expect(sheetService.getSheets().length).toEqual(1);
+        expect(sheetService.getSheets()[0].name).toEqual('Untitled Sheet');
+
+    });
 
 });
 

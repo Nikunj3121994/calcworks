@@ -23,6 +23,7 @@ describe('Test controller CalculatorCtrl', function () {
         // however, strictly speaking this should not be necessary, I suspect that one failing test is a bug
         // on the other hand some tests require that the first variable is 'calc1'
         sheetService.getActiveSheet = getActiveSheet;
+        sheetService.saveSheet = function(sheet) {};
         CalculatorCtrl = $controller('CalculatorCtrl', {
           $scope: scope,
           calcService: calcService,
@@ -718,16 +719,46 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('error');
     });
 
-    it('verify two times touch equal', function() {
+    it('verify two times touch equal = remember', function() {
         scope._test_reset();
+        spyOn(scope, 'touchRemember');
+        expect(scope.touchRemember.calls.count()).toEqual(0);
         expect(getActiveSheet().calculations.length).toBe(0);
         scope.touchDigit(1);
         scope.touchOperator('+');
         scope.touchDigit(2);
         scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(0);
         expect(getActiveSheet().calculations.length).toBe(1);
         scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(1);
         expect(getActiveSheet().calculations.length).toBe(1);
+        // nog een keer
+        scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(2);
+        expect(getActiveSheet().calculations.length).toBe(1);
+    });
+
+    it('verify two times touch equal = remember - repeated', function() {
+        scope._test_reset();
+        spyOn(scope, 'touchRemember');
+        expect(scope.touchRemember.calls.count()).toEqual(0);
+        expect(getActiveSheet().calculations.length).toBe(0);
+        scope.touchDigit(1);
+        scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(0);
+        expect(getActiveSheet().calculations.length).toBe(1);
+        scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(1);
+        expect(getActiveSheet().calculations.length).toBe(1);
+        // nog een keer met een ander getal
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(1);
+        expect(getActiveSheet().calculations.length).toBe(2);
+        scope.touchEqualsOperator();
+        expect(scope.touchRemember.calls.count()).toEqual(2);
+        expect(getActiveSheet().calculations.length).toBe(2);
     });
 
 });

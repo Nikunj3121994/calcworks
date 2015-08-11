@@ -23,6 +23,7 @@ var Sheet = function(par, name, calculations) {
         this.sum = par.sum;
     }
     this.__type = 'Sheet';
+    this.version = '1.0'; // we will use this for versioning and potential updating of storage format
 };
 
 Sheet.prototype.nrOfCalcs = function() {
