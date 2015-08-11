@@ -110,11 +110,11 @@ website nodig?
 
 Issues
 -------
+
+6 - 6 werkt niet meer goed
+
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
-
-samen nemen van de calc name invoer dialogen
-alle operatoren en haakjes als variable naam mag niet, getal ook niet
 
 persisteren moet per sheet, updated timestamp toevoegen
 

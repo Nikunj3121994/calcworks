@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-.controller('SheetDetailCtrl', function($scope, $rootScope, $state, $log, $stateParams, $ionicPopup, sheetService, calcService) {
+.controller('SheetDetailCtrl', function($scope, $rootScope, $state, $log, $stateParams, renameCalculationDialog, sheetService) {
     $scope.showDelete = false;
     $scope.showReorder = false;
     $scope.listCanSwipe = true;
@@ -48,42 +48,7 @@ angular.module('calcworks.controllers')
         $scope.sheet.hasSum = !$scope.sheet.hasSum;
     };
 
-    $scope.showRenamePopup = function(calc) {
-        $scope.data = {};
-        $scope.data.name = calc.varName;
-
-        var renamePopup = $ionicPopup.show({
-            template: '<input type="text" ng-model="data.name">',
-            title: 'Enter new name for the calculation',
-            subTitle: '(Please use normal characters)',
-            scope: $scope,
-            buttons: [
-                { text: 'Cancel' },
-                {
-                    text: '<b>OK</b>',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        if (!$scope.data.name) {
-                            //don't allow the user to close unless he enters something
-                            e.preventDefault();
-                        } if ($scope.data.name === 'x') { // todo: alle operators en haakjes niet toestaan
-                            // do not allow 'x' because of multiply
-                            // todo: show error message
-                            e.preventDefault();
-                        } else {
-                            return $scope.data.name;
-                        }
-                    }
-                }
-            ]
-        });
-        renamePopup.then(function(res) {
-            if (res) {
-                calcService.renameVar(calc, res, $scope.sheet);
-                sheetService.saveSheets();
-            }
-        });
-    };
+    $scope.showRenamePopup = function(calc) { renameCalculationDialog.showPopup(calc, $scope.sheet); };
 
 
 });

@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-.controller('CalculatorCtrl', function($scope, $rootScope, $stateParams, $log, $ionicPopup, $ionicModal, calcService, sheetService) {
+.controller('CalculatorCtrl', function($scope, $rootScope, $stateParams, $log, $ionicModal, calcService, sheetService, renameCalculationDialog) {
 
     //consider: ipv sheetService zou je ook via de resolve: in app.js de activeSheet kunnen injecteren.
     // op deze manier heb je een betere decoupling
@@ -196,24 +196,7 @@ angular.module('calcworks.controllers')
         $scope.openModal();
     };
 
-    $scope.touchRemember = function() {
-        $scope.data = {};
-
-        // deze logica zit ook in sheetDetailCtrl; samen voegen
-        // zodat ook de validatie rules voor een calc name op 1 plek zitten
-        var renamePopup = $ionicPopup.prompt({
-            title: 'Enter a name for this calculation',
-            template: 'Give this calculation a name so you can easily recall it later.',
-            inputPlaceholder: 'new name',
-            autofocus: true
-        });
-        renamePopup.then(function(newName) {
-            if (newName) {
-                calcService.renameVar(selectedCalc, newName, $scope.sheet);
-                sheetService.saveSheets();
-            }
-        });
-    };
+    $scope.touchRemember = function(calc) { renameCalculationDialog.showPopup(selectedCalc, $scope.sheet); };
 
     $scope.touchPlusMinOperator = function() {
         if ($scope.numberEnteringState === false) {
