@@ -66,8 +66,7 @@ angular.module('calcworks.controllers')
                     for (var i = 0; i < arrayLength; i++) {
                         template = template + '<span class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i], scope.sheet) + '</span>';
                     }
-                    if (typeof scope.result === 'number') {
-                        // note that checking  if (result)   would not work since the result can be 0
+                    if (scope.result !== null) {
                         template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';
                     }
                     // since we resolve the parameters above there is no need to compile
