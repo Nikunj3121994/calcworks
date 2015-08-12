@@ -40,7 +40,7 @@ angular.module('calcworks.services')
                 renamePopup.then(function (res) {
                     if (res) {
                         calcService.renameVar(calc, res, sheet);
-                        sheetService.saveSheets();
+                        sheetService.saveSheet(sheet);
                     }
                 });
             }

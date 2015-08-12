@@ -109,6 +109,12 @@ website nodig?
 Issues
 -------
 
+Je kan nu nog steeds een 'x' als calc name invoeren. Of we moeten dit verbieden of we moeten de expressie items als
+objecten opslaan. Het lastige hierbij is json
+
+zorg voor een kruisje in het edit field van een calculator name zodat de inhoud gewist wordt
+
+updated timestamp sheet
 
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
@@ -120,6 +126,8 @@ Je moet misschien nu al bij de persistentie rekening houden met de verschillende
 verwijder resolvedExpression uit Calculation
 
 persisteren moet per sheet, updated timestamp toevoegen
+
+de sheetname moet net zoals een calcname aan voorwaarden voldoen zoals letters en cijfers, validatie toevoegen in rename dlg
 
 Launch image voor IOS
 

@@ -22,13 +22,14 @@ angular.module('calcworks.controllers')
 
     $scope.deleteCalculation = function(index) {
         $scope.sheet.deleteCalculation(index, 1);
-        sheetService.saveSheets();
+        sheetService.saveSheet($scope.sheet);
     };
 
+        // drop item
     $scope.reorderItem = function(item, fromIndex, toIndex) {
         var array = $scope.sheet.calculations;
         array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
-        sheetService.saveSheets();
+        sheetService.saveSheet($scope.sheet);
     };
 
     $scope.newSheet = function() {

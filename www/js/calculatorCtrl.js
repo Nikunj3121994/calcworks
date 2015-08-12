@@ -81,7 +81,7 @@ angular.module('calcworks.controllers')
         $scope.display = $rootScope.convertNumberToDisplay(calc.result);
         $scope.operatorStr = '';
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
-        // wis de expressie als we nu een nieuwe gaan beginnen met een variabele
+        // make sure we start the expression (cause of the built-in delay)
         if (!$scope.expressionEnteringState) {
             expressionEnteringStart();
         }
@@ -234,7 +234,7 @@ angular.module('calcworks.controllers')
             updateDisplayAndExpression();
             $scope.expression.push(operator);
         } else {
-            // er is al een operator ingetikt, deze override de vorige
+            // er was al een operator ingetikt, de (nieuwe) operator overschrijft de bestaande
             $scope.expression[$scope.expression.length-1] = operator;
         }
         $scope.operatorStr = operator;
@@ -291,7 +291,7 @@ angular.module('calcworks.controllers')
             $scope.display = '0';
             selectedCalc = null;
         } else if (selectedCalc) {
-            // er is niet een getal ingetikt, maar er is wel een variabele gekozen
+            // er is niet een getal ingetikt, maar er is wel een calculatie gekozen
             $scope.expression.push(selectedCalc.varName);
             $scope.display = '0';
             selectedCalc = null;

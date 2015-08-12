@@ -12,7 +12,7 @@ describe('Test sheetService', function () {
         storageService = _storageService_;
         // use a mock persistence
         storageService.saveSheet = function(sheet) {};
-        storageService.loadSheets = function() { return [] };
+        storageService.loadSheets = function() { return []; };
         // we need to re-initialize to load sheets with the mock
         sheetService._test_init();
     }));

@@ -34,7 +34,8 @@ angular.module('calcworks.controllers')
                         type: 'button-positive',
                         onTap: function(e) {
                             if (!$scope.data.name) {
-                                //don't allow the user to close unless he enters wifi password
+                                //don't allow the user to close unless he enters a sheet name
+                                //todo: test valid name
                                 e.preventDefault();
                             } else {
                                 return $scope.data.name;
@@ -46,7 +47,7 @@ angular.module('calcworks.controllers')
             renamePopup.then(function(res) {
                 if (res) {
                     sheet.name = res;
-                    sheetService.saveSheets();
+                    sheetService.saveSheet(sheet);
                 }
             });
         };
@@ -58,18 +59,15 @@ angular.module('calcworks.controllers')
             });
             confirmPopup.then(function(res) {
                 if (res) {
-                    // we kunnen ook de functie aanpassen en de sheet zelf meegeven
                     sheetService.deleteSheet(sheet.id);
-                    $scope.sheets= sheetService.getSheets();
-                    //todo: als current sheet delete is, dan een nieuwe aanmaken
-                    // misschien moet er altijd een current sheet zijn op sheetService nivo
+                    $scope.sheets = sheetService.getSheets();
                 }
             });
         };
 
         $scope.toggleSheetFavorite = function(sheet) {
             sheet.favorite = !sheet.favorite;
-            sheetService.saveSheets();
+            sheetService.saveSheet(sheet);
         };
 
     });
