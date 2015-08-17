@@ -43,7 +43,7 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
-    reportSlowerThan: 100,
+    reportSlowerThan: 50,
 
 
     // Start these browsers, currently available:

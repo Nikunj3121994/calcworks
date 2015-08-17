@@ -27,7 +27,6 @@ angular.module('calcworks.services')
                                     $scope.errorMsg = 'The name cannot be empty';
                                 }
                                 if (!isCalcName($scope.data.name)) {
-                                    // we houden hier geen rekening met de 'x' - hopelijk kunnen we dit nog fixen
                                     $scope.errorMsg = 'The name must start with a character followed by characters or digits';
                                     e.preventDefault();
                                 } else {
@@ -39,7 +38,7 @@ angular.module('calcworks.services')
                 });
                 renamePopup.then(function (res) {
                     if (res) {
-                        calcService.renameVar(calc, res, sheet);
+                        calc.varName = res;
                         sheetService.saveSheet(sheet);
                     }
                 });

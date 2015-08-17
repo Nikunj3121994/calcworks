@@ -74,24 +74,32 @@ describe('Test directives', function () {
 
 
     it('verify directive with calc names', function () {
-        var calculation1 = new Calculation('id', 'calc1', [6, '+', 2]);
-        calculation1.result = 8;
-        scope.sheet = new Sheet('id', 'name', [calculation1]);
-        var calculation2 = new Calculation('id', 'calc1', [10, "-", "calc1"]);
-        calculation2.result = 2;
-        scope.sheet.add(calculation2);
+        var calc1 = new Calculation('id', 'calc1', [6, '+', 2]);
+        calc1.result = 8;
+        scope.sheet = new Sheet('id', 'name', [calc1]);
+        var calc2 = new Calculation('id', 'calc1', [10, "-", calc1]);
+        calc2.result = 2;
+        scope.sheet.add(calc2);
         scope.index = 0;
         element = angular.element(
             '<resolve-sheet index="index" sheet="sheet"></resolve-sheet>');
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
+        //      2  =    10 - 8
+        //                   calc1
+        //      8  =     6 + 2
         var td = element.find('td');
         expect(td.length).toBe(10);
         expect(td.eq(0).text()).toBe('2');
+        //expect(td.eq(1).text()).toBe('=');
         expect(td.eq(2).text()).toBe('10');
         expect(td.eq(3).text()).toBe('-');
-        expect(td.eq(4).text()).toBe('2');
+        expect(td.eq(4).text()).toBe('8');
+        expect(td.eq(5).text()).toBe('calc1');
+        expect(td.eq(6).text()).toBe('');
+        expect(td.eq(7).text()).toBe('');
+        expect(td.eq(8).text()).toBe('');
         expect(td.eq(9).text()).toBe('calc1');
     });
 

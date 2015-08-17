@@ -63,7 +63,7 @@ describe('Test calcService', function () {
         calcService.calculate(sheet);
         expect(calculations[0].result).toBe(5);
 
-        var calc2 = new Calculation('xxxx', 'var2', ['var1', '+', 4]);
+        var calc2 = new Calculation('xxxx', 'var2', [calc1, '+', 4]);
         calculations.push(calc2);
         calcService.calculate(sheet);
         expect(calculations[0].result).toBe(5);
@@ -73,28 +73,27 @@ describe('Test calcService', function () {
     it('verify calcVarname(calculations, varname, outcomes)', function () {
         var calc1 = new Calculation('xxxx', 'var1', [2, '+', '3']);
         var calculations = [ calc1 ];
-        var calc2 = new Calculation('xxxx', 'var2', ['var1', '+', 4]);
+        var calc2 = new Calculation('xxxx', 'var2', [calc1, '+', 4]);
         calculations.push(calc2);
-        var calc3 = new Calculation('xxxx', 'var3', ['var2', '+', 1]);
+        var calc3 = new Calculation('xxxx', 'var3', [calc2, '+', 1]);
         calculations.push(calc3);
         var state = {};
-        state.outcomes = {};
         state.varNamesInCalculation = {};
-        calcService.calcVarname(calculations, 'var1', state);
-        expect(state.outcomes['var1']).toBe(5);
-        calcService.calcVarname(calculations, 'var2', state);
-        expect(state.outcomes['var2']).toBe(9);
-        calcService.calcVarname(calculations, 'var3', state);
-        expect(state.outcomes['var3']).toBe(10);
+        calcService.calcCalculation(calculations, calc1, state);
+        expect(calc1.result).toBe(5);
+        calcService.calcCalculation(calculations, calc2, state);
+        expect(calc2.result).toBe(9);
+        calcService.calcCalculation(calculations, calc3, state);
+        expect(calc3.result).toBe(10);
     });
 
 
     it('verify calculate with 2 vars', function () {
         var calc1 = new Calculation('xxxx', 'var1', [2, '+', 3]);
         var calculations = [ calc1 ];
-        var calc2 = new Calculation('xxxx', 'var2', ['var1', '+', 4]);
+        var calc2 = new Calculation('xxxx', 'var2', [calc1, '+', 4]);
         calculations.push(calc2);
-        var calc3 = new Calculation('xxxx', 'var3', ['var2', '+', 1]);
+        var calc3 = new Calculation('xxxx', 'var3', [calc2, '+', 1]);
         calculations.push(calc3);
         var sheet = new Sheet('id','sheet', calculations);
         calcService.calculate(sheet);
@@ -107,9 +106,9 @@ describe('Test calcService', function () {
  it('verify calculate with 2 vars overlapping in name', function () {
         var calc1 = new Calculation('xxxx', 'var1', [2, '+', 3]);
         var calculations = [ calc1 ];
-        var calc2 = new Calculation('xxxx', 'var11', ['var1', '+', 100]);
+        var calc2 = new Calculation('xxxx', 'var2', [calc1, '+', 100]);
         calculations.push(calc2);
-        var calc3 = new Calculation('xxxx', 'var3', ['var1', '+', 'var11', '+', 'var1', '+', 'var11']);
+        var calc3 = new Calculation('xxxx', 'var3', [calc1, '+', calc2, '+', calc1, '+', calc2]);
         calculations.push(calc3);
         var sheet = new Sheet('id','sheet', calculations);
         calcService.calculate(sheet);
@@ -121,7 +120,7 @@ describe('Test calcService', function () {
     it('verify calculate with 2 identical vars', function () {
         var calc1 = new Calculation('xxxx', 'var1', [2, '+', 3]);
         var calculations = [ calc1 ];
-        var calc2 = new Calculation('xxxx', 'var2', ['var1', '+', 'var1']);
+        var calc2 = new Calculation('xxxx', 'var2', [calc1, '+', calc1]);
         calculations.push(calc2);
         var sheet = new Sheet('id','sheet', calculations);
         calcService.calculate(sheet);
@@ -132,9 +131,10 @@ describe('Test calcService', function () {
     it('verify calculate with 2 vars in random order', function () {
         var calc1 = new Calculation('xxxx', 'var1', [2, '+', 3]);
         var calculations = [ calc1 ];
-        var calc2 = new Calculation('xxxx', 'var2', ['var3', '+', 4]);
+        var calc2 = new Calculation('xxxx', 'var2', []);
         calculations.push(calc2);
-        var calc3 = new Calculation('xxxx', 'var3', ['var1', '+', 1]);
+        var calc3 = new Calculation('xxxx', 'var3', [calc1, '+', 1]);
+        calc2.expression = [calc3, '+', 4];
         calculations.push(calc3);
         var sheet = new Sheet('id','sheet', calculations);
         calcService.calculate(sheet);
@@ -143,70 +143,39 @@ describe('Test calcService', function () {
         expect(calculations[2].result).toBe(6);
     });
 
-
-    it('verify calculate with error', function () {
-        var calc1 = new Calculation('xxxx', 'var1', [2, '+', 'sdf']);
-        var calculations = [ calc1 ];
-        var sheet = new Sheet('id','sheet', calculations);
-        calcService.calculate(sheet);
-        expect(calculations[0].result).toBeNaN();
-        // todo: errlog moet naar sheet nivo
-        expect(calculations.errorlog.undefinedVariables).toEqual(["\"sdf\" is undefined"]);
-    });
+    //  zover ik nu kan zien, kan dit zich niet meer voordoen met de Calculatie direct in de expressie
+    //it('verify calculate with error', function () {
+    //    var calc1 = new Calculation('xxxx', 'var1', [2, '+', 'sdf']);
+    //    var calculations = [ calc1 ];
+    //    var sheet = new Sheet('id','sheet', calculations);
+    //    calcService.calculate(sheet);
+    //    expect(calculations[0].result).toBeNaN();
+    //    // todo: errlog moet naar sheet nivo
+    //    expect(calculations.errorlog.undefinedVariables).toEqual(["\"sdf\" is undefined"]);
+    //});
 
     it('verify calculate with circular reference', function () {
-        var calc1 = new Calculation('id1', 'var1', [2, '+', 'var1']);
+        var calc1 = new Calculation('id1', 'var1', [2, '+']);
         var calculations = [ calc1 ];
         var sheet = new Sheet('id','sheet', calculations);
+        calc1.expression.push(calc1);
         calcService.calculate(sheet);
         expect(calculations[0].result).toBeNull();
-        expect(calculations.errorlog.circularReference).toEqual('Circular reference; "var1" refers to a calculation that refers back to "var1"');
+        expect(calculations.errorlog.circularReference).toEqual('Circular reference; "var1" refers to a calculation that refers back to itself');
 
-        var calc1 = new Calculation('id1', 'var1', [2, '+', 'var2']);
-        var calc2 = new Calculation('id2', 'var2', ['2', '+', 'var1']);
-        var calculations = [ calc1, calc2 ];
-        var sheet = new Sheet('id','sheet', calculations);
+        calc1 = new Calculation('id1', 'var1', [2, '+']);
+        var calc2 = new Calculation('id2', 'var2', ['2', '+', calc1]);
+        calc1.expression.push(calc2);
+        calculations = [ calc1, calc2 ];
+        sheet = new Sheet('id','sheet', calculations);
         calcService.calculate(sheet);
         expect(calculations[0].result).toBeNull();
-        expect(calculations.errorlog.circularReference).toEqual('Circular reference; "var2" refers to a calculation that refers back to "var2"');
-    });
-
-
-    it('verify renameVar single', function () {
-        var calc1 = new Calculation('xx', 'var1', [2, '+',  'var2']);
-        var calculations = [ calc1 ];
-        calcService.renameVarInExpressions('var2', 'debt', calculations);
-        expect(calculations[0].expression).toEqual([2,  '+', 'debt']);
-
-        var calc1 = new Calculation('xx', 'var1', [2, '+', '5']);
-        var calc2 = new Calculation('xx', 'var2', [2, '+',  'var1' , '+',  'var1']);
-        var calculations = [ calc1, calc2 ];
-        calcService.renameVarInExpressions('var1', 'debt', calculations);
-        expect(calculations[0].expression).toEqual([2, '+', '5']);
-        expect(calculations[1].expression).toEqual([2, '+', 'debt' , '+',  'debt']);
-    });
-
-
-    it('verify renameVar ', function () {
-        var calc1 = new Calculation('id1', 'var1', [2, '+',  3]);
-        var calculations = [ calc1 ];
-        var sheet = new Sheet('id','sheet', calculations);
-
-        calcService.renameVar(calc1, 'foo', sheet);
-        expect(sheet.calculations[0].varName).toEqual('foo');
-
-        // reset
-        calc1 = new Calculation('id1', 'var1', [2, '+',  3]);
-        var calc2 = new Calculation('id2', 'var2', ['var1' , '+',  5]);
-        sheet.calculations.push(calc2);
-        calcService.renameVar(calc1, 'foo', sheet);
-        expect(sheet.calculations[0].expression).toEqual([2, '+',  3]);
-        expect(sheet.calculations[1].expression).toEqual(['foo' , '+',  5]);
+        expect(calculations.errorlog.circularReference).toEqual('Circular reference; "var1" refers to a calculation that refers back to itself');
     });
 
 
     it('verify countVarNames', function () {
-        var calc1 = new Calculation('id1', 'var1', [2, '+',  'var1']);
+        var calc1 = new Calculation('id1', 'var1', [2, '+',  calc1]);
         var calculations = [ calc1 ];
         expect(calcService.countVarNames('a', calculations)).toEqual(0);
         expect(calcService.countVarNames('var1', calculations)).toEqual(1);

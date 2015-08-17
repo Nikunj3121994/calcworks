@@ -32,8 +32,8 @@ angular.module('calcworks.controllers')
                     template = template + '<td class="calcNameExpr">' + calculation.varName + '</td>';
                     template = template + '<td></td>';
                     for (var i = 0; i < arrayLength; i++) {
-                        if (isCalcName(expression[i])) {
-                            template = template + '<td class="calcNameExpr">' + $rootScope.getExprItemIfCalcName(expression[i]) + '</td>';
+                        if (expression[i] instanceof Calculation) {
+                            template = template + '<td class="calcNameExpr">' + expression[i].varName + '</td>';
                         } else {
                             template = template + '<td></td>';
                         }
@@ -66,7 +66,7 @@ angular.module('calcworks.controllers')
                     for (var i = 0; i < arrayLength; i++) {
                         template = template + '<span class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i], scope.sheet) + '</span>';
                     }
-                    if (scope.result !== null) {
+                    if (scope.result !== undefined && scope.result !== null) {
                         template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';
                     }
                     // since we resolve the parameters above there is no need to compile

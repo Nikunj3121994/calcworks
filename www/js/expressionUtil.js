@@ -55,13 +55,13 @@ function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-// als het eerste karakter een letter is dan beschouwen het een calcname, tenzij het de 'x' is die mag niet als calc name
+//TODO: rename to isValidCalcName
+// als het eerste karakter een letter is dan beschouwen het een calcname
 // cijfers en operators vallen buiten de boot
 // leeg argument geeft een error
 function isCalcName(variable) {
     // merk op dat de shortcut  !variable  niet werkt ivm het cijfer 0.
     if (variable === undefined || variable === null || variable.toString().trim()==='') throw new EvalError('empty argument');
-    if (variable === 'x') return false; // x is multiply operator
     // consider: optimize to store the pattern
     var patt = new RegExp(/^[A-Za-z]/);
     return patt.test(variable);
@@ -112,26 +112,22 @@ function convertNumberToDisplay(number, nrOfDecimals) {
     }
 }
 
-// MISSCHIEN MOET DIT naar sheet
+// MISSCHIEN MOET DIT naar Calculation
 // er ontbreekt een base class ExprItem voor deze functies
 // testen ontbreken
 // geeft de waarde voor een calcName en anders de literal zelf terug
 function getExprItemAsString(exprItem, sheet, nrOfDecimals) {
     if (isOperator(exprItem) || isBracket(exprItem)) {
         return exprItem;
-    } else if (isCalcName(exprItem)) {
-        return convertNumberToDisplay(sheet.getValueFor(exprItem), nrOfDecimals);
+    } else if (exprItem instanceof Calculation) {
+        return convertNumberToDisplay(exprItem.result, nrOfDecimals);
     } else {
         return convertNumberToDisplay(exprItem, nrOfDecimals);
     }
 }
 
 function getExprItemIfCalcName(exprItem) {
-    if (isCalcName(exprItem)) {
-        return exprItem;
-    } else {
-        return null;
-    }
+    throw new Error('deze moet je vervangen door instanceOf Calculation');
 }
 
 // note we do not use Ionic's next id since it is not unique across sessions

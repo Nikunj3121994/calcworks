@@ -109,27 +109,25 @@ website nodig?
 Issues
 -------
 
-Je kan nu nog steeds een 'x' als calc name invoeren. Of we moeten dit verbieden of we moeten de expressie items als
-objecten opslaan. Het lastige hierbij is json
-
 zorg voor een kruisje in het edit field van een calculator name zodat de inhoud gewist wordt
 
 updated timestamp sheet
+
+persisteren moet per sheet, updated timestamp toevoegen
+
+bij het laden van de sheets moet de volgorde wel weer kloppen in de history
 
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
 
 later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
 Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
-Je moet misschien nu al bij de persistentie rekening houden met de verschillende types binnen een expressie.
-
-verwijder resolvedExpression uit Calculation
-
-persisteren moet per sheet, updated timestamp toevoegen
 
 de sheetname moet net zoals een calcname aan voorwaarden voldoen zoals letters en cijfers, validatie toevoegen in rename dlg
 
 Launch image voor IOS
+
+de error log van de calc service wordt niets mee gedaan
 
 limiet op aantal calculaties en aantal sheets en aantal favorite sheets (met name belangrijk als we gratis verspreiden)
 Door de limiet op favorite sheets kan je altijd een niet-favorite sheet verwijderen bij t aanmaken van een nieuwe

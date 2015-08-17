@@ -12,8 +12,8 @@ angular.module('calcworks.services')
             setObject: function(key, value) {
                 $window.localStorage[key] = JSON.stringify(value);
             },
-            getObject: function(key) {
-                return JSON.parse($window.localStorage[key] || '{}',
+            jsonToSheet: function(json) {
+                var objects = JSON.parse(json,
                     // http://stackoverflow.com/questions/12975430/custom-object-to-json-then-back-to-a-custom-object
                     function(key, val) {
                         //$log.log('deserialize: ' + val);
@@ -25,7 +25,11 @@ angular.module('calcworks.services')
                         }
                         return val;
                     }
-                    );
+                );
+                return JSON.retrocycle(objects);
+            },
+            getObject: function(key) {
+                return this.jsonToSheet($window.localStorage[key] || '{}');
             },
             deleteObject: function(key) {
                 $window.localStorage.removeItem(key);
@@ -47,14 +51,12 @@ angular.module('calcworks.services')
                 return sheets;
             },
 
-            //saveSheets: function(sheets) {
-            //    for ( var i = 0, len = sheets.length; i < len; ++i ) {
-            //        this.setObject(sheets[i].id, sheets[i]);
-            //    }
-            //},
+            sheetToJSON: function(sheet) {
+                return JSON.stringify(JSON.decycle(sheet));
+            },
 
             saveSheet: function(sheet) {
-                this.setObject(sheet.id, sheet);
+                $window.localStorage[sheet.id] = this.sheetToJSON(sheet);
             },
 
             deleteSheets: function(sheetIds) {
@@ -63,6 +65,7 @@ angular.module('calcworks.services')
                 }
             },
 
+            // for testing purposes only
             _test_cleanLocalStorage: function() {
                 for (var i = 0, len = localStorage.length; i < len; ++i ) {
                     $window.localStorage.removeItem(localStorage.key(i));

@@ -30,7 +30,7 @@ describe('Test Expression Utilities', function () {
 
     it('verify isCalcName', function () {
         expect(isCalcName('abc')).toBe(true);
-        expect(isCalcName('x')).toBe(false);  // multiply operator
+        expect(isCalcName('x')).toBe(true);
         expect(isCalcName('5')).toBe(false);
         expect(isCalcName(0)).toBe(false);
         expect(isCalcName(5)).toBe(false);

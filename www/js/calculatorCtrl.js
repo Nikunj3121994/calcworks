@@ -14,7 +14,7 @@ angular.module('calcworks.controllers')
     $scope.reset = function() {
         $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
         $scope.operatorStr = '';
-        $scope.expression = []; // array of calcNames, operators as char and numbers
+        $scope.expression = []; // array of Calculations, operators as string and numbers
         $scope.result = null; // we check for null so do not make this undefined
         // misschien kan $scope wel weg
         $scope.numberEnteringState = false;  // na de eerste digit zit je in deze state totdat een operator, bracket of equals komt
@@ -172,9 +172,9 @@ angular.module('calcworks.controllers')
             if (length >= 2) {
                 $scope.operatorStr = '';
                 var exprItem = $scope.expression[length - 2];
-                if (isCalcName(exprItem)) {
-                    selectedCalc = $scope.sheet.getCalculationFor(exprItem);
-                    $scope.display = $rootScope.convertNumberToDisplay(selectedCalc.result);
+                if (exprItem instanceof Calculation) {
+                    selectedCalc = exprItem;
+                    $scope.display = $rootScope.convertNumberToDisplay(exprItem.result);
                     $scope.numberEnteringState = false;
                 } else {
                     $scope.display = exprItem.toString();
@@ -292,7 +292,7 @@ angular.module('calcworks.controllers')
             selectedCalc = null;
         } else if (selectedCalc) {
             // er is niet een getal ingetikt, maar er is wel een calculatie gekozen
-            $scope.expression.push(selectedCalc.varName);
+            $scope.expression.push(selectedCalc);
             $scope.display = '0';
             selectedCalc = null;
         } // else

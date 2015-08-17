@@ -10,41 +10,26 @@ angular.module('calcworks.services')
         CalculationError.prototype = new Error();
         CalculationError.prototype.constructor = CalculationError;
 
-        // private
-        this.calcVarname = function(calculations, calcName, state) {
-            if (calcName in state.varNamesInCalculation) {
-                throw new CalculationError('Circular reference; "' + calcName + '" refers to a calculation that refers back to "' + calcName + '"');
-            }
-            var arrayLength = calculations.length;
-            for (var i = 0; i < arrayLength; i++) {
-                if (calculations[i].varName === calcName) {
-                    state.varNamesInCalculation[calcName] = true;
-                    this.calcCalculation(calculations, calculations[i], state);
-                    delete state.varNamesInCalculation[calcName];
-                    //nice-to-have: optimize - with return since varname is unique and no need for further processing
-                }
-            }
-        };
 
         // replaces
         // private
         this.resolveExpression = function(calculation, calculations, state) {
             var resolvedExpression = '';
-            var calculationLength = calculation.expression.length;
-            for (var i = 0; i < calculationLength; i++) {
-                if (isCalcName(calculation.expression[i])) {
-                    var calcName = calculation.expression[i];
-                    if (!state.outcomes[calcName]) {
-                        this.calcVarname(calculations, calcName, state);
-                        // double check if calculated
-                        if (!state.outcomes[calcName]) {
-                            calculations.errorlog.undefinedVariables.push('"' + calcName + '" is undefined');
+            var expressionLength = calculation.expression.length;
+            for (var i = 0; i < expressionLength; i++) {
+                var calc = calculation.expression[i];
+                if (calc instanceof Calculation) {
+                    if (!calc.result) {
+                        this.calcCalculation(calculations, calc, state);
+                        // double check if indeed calculated
+                        if (!calc.result) {
+                            calculations.errorlog.undefinedVariables.push('"' + calc.varName + '" is undefined');
                             //consider: add varname to outcomes as NaN or null to avoid re-calculation
                         }
                     }
-                    resolvedExpression = resolvedExpression + ' ' + state.outcomes[calcName];
+                    resolvedExpression = resolvedExpression + ' ' + calc.result;
                 } else {
-                    resolvedExpression = resolvedExpression + ' ' + calculation.expression[i];
+                    resolvedExpression = resolvedExpression + ' ' + calc;
                 }
             }
             return resolvedExpression;
@@ -52,9 +37,13 @@ angular.module('calcworks.services')
 
         // private
         this.calcCalculation = function(calculations, calculation, state) {
-            if (state.outcomes[calculation.varName]) {
+            if (calculation.result) {
                 //$log.log('calcCalculation, already known ' + calculation.varName + ' : ' + calculation.expression + ' = ' + calculation.result);
             } else {
+                if (calculation.varName in state.varNamesInCalculation) {
+                    throw new CalculationError('Circular reference; "' + calculation.varName + '" refers to a calculation that refers back to itself');
+                }
+                state.varNamesInCalculation[calculation.varName] = true;
                 //$log.log('calcCalculation: about to process: ' + calculation.varName + ' : ' + calculation.expression);
                 var expression = this.resolveExpression(calculation, calculations, state);
                 //$log.log('calcCalculation: and ' + calculation.varName + ' resolved into: ' + expression);
@@ -62,7 +51,7 @@ angular.module('calcworks.services')
                 try {
                     expression = this.replaceMultiplyPercentageOperators(expression);
                     outcome = eval(expression);
-                    $log.log('  calcCalculation, eval ' + calculation.varName  + ' : ' + expression + ' = ' + outcome);
+                    //$log.log('  calcCalculation, eval ' + calculation.varName  + ' : ' + expression + ' = ' + outcome);
                 } catch (e) {
                     if (e instanceof SyntaxError) {
                         $log.log('  calcCalculation; ' + calculation.varName  + ' : ' + expression);
@@ -72,7 +61,7 @@ angular.module('calcworks.services')
                     }
                 }
                 calculation.result = outcome;
-                state.outcomes[calculation.varName] = outcome;
+                delete state.varNamesInCalculation[calculation.varName];
             }
         };
 
@@ -86,10 +75,9 @@ angular.module('calcworks.services')
 
 
         this.calculate = function(sheet) {
-            var calculations = sheet.calculations;
             //$log.log('---------- calculate ------------');
+            var calculations = sheet.calculations;
             var state = {}; // container for data during the calculation
-            state.outcomes = Object.create(null);  // list of key-value pairs <varname, value>
             state.varNamesInCalculation = Object.create(null);  // list varnames that are being calculated
             calculations.errorlog = {};  // output variable for errors
             calculations.errorlog.undefinedVariables = [];
@@ -97,6 +85,9 @@ angular.module('calcworks.services')
             var sum = 0;
             try {
                 var arrayLength = calculations.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    calculations[i].result = null;
+                }
                 for (var i = 0; i < arrayLength; i++) {
                     this.calcCalculation(calculations, calculations[i], state);
                     sum = sum + calculations[i].result;
@@ -108,25 +99,6 @@ angular.module('calcworks.services')
             }
         };
 
-        // public
-        this.renameVar = function(calculation, newName, sheet) {
-            var oldName = calculation.varName;
-            calculation.varName = newName;
-            this.renameVarInExpressions(oldName, newName, sheet.calculations);
-        };
-
-        //private
-        this.renameVarInExpressions = function(oldName, newName, calculations) {
-            var arrayLength = calculations.length;
-            for (var i = 0; i < arrayLength; i++) {
-                var calculation = calculations[i];
-                for (var j = 0; j < calculation.expression.length; j++) {
-                    if (calculation.expression[j] === oldName) {
-                        calculation.expression[j] = newName;
-                    }
-                }
-            }
-        };
 
         this.countVarNames = function(varName, calculations) {
             var count = 0;
