@@ -9,15 +9,17 @@ var Sheet = function(par, name, calculations) {
         this.name = name;
         this.calculations = calculations;
         this.createdTimestamp = new Date();
+        this.updatedTimestamp = this.createdTimestamp;
         this.favorite = false;
         this.hasSum = false;
         this.sum = undefined;
     } else {
-        // build from json object
+        // reconstruct object from json
         this.id = par.id;
         this.name = par.name;
         this.calculations = par.calculations;
         this.createdTimestamp = new Date(par.createdTimestamp);
+        this.updatedTimestamp = new Date(par.updatedTimestamp);
         this.favorite = par.favorite;
         this.hasSum = par.hasSum;
         this.sum = par.sum;

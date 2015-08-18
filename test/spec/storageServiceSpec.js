@@ -39,21 +39,21 @@ describe('Test storageService', function () {
     });
 
 
-    it('verify sheetToJSON', function() {
+    it('verify _sheetToJSON', function() {
         var sheet = new Sheet('id1', 'Sheet 1', []);
         var calc1 = new Calculation('idc1', "calc1", [123]);
         sheet.add(calc1);
-        var json = storageService.sheetToJSON(sheet);
+        var json = storageService._sheetToJSON(sheet);
         expect(json).toContain('"id":"id1","name":"Sheet 1","calculations":[{"id":"idc1","varName":"calc1","expression":[123]');
-        var returnedSheet = storageService.jsonToSheet(json);
+        var returnedSheet = storageService._jsonToSheet(json);
         expect(returnedSheet.name).toEqual('Sheet 1');
         expect(returnedSheet.calculations.length).toEqual(1);
 
         var calc2 = new Calculation('idc2', "calc2", [calc1, '+', 3]);
         sheet.add(calc2);
-        json = storageService.sheetToJSON(sheet);
+        json = storageService._sheetToJSON(sheet);
       //expect(json).toContain('"expression":["#idc1","+",3]');   de volgorde is anders
-        returnedSheet = storageService.jsonToSheet(json);
+        returnedSheet = storageService._jsonToSheet(json);
         expect(returnedSheet.name).toEqual('Sheet 1');
         expect(returnedSheet.calculations.length).toEqual(2);
         expect(returnedSheet.calculations[0].varName).toEqual('calc2');
