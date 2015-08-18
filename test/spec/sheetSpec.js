@@ -66,7 +66,7 @@ describe('Test sheet', function () {
         sheet.deleteCalculation(0);
         expect(sheet.calculations.length).toEqual(0);
 
-        var calc2 = new Calculation('id', 'calc2', ['calc1', '+', 2]);
+        var calc2 = new Calculation('id', 'calc2', [calc1, '+', 2]);
         sheet.add(calc1);
         sheet.add(calc2);
         sheet.deleteCalculation(1); // dit is calc1
@@ -74,7 +74,7 @@ describe('Test sheet', function () {
         expect(sheet.calculations[0].expression).toEqual([15, '+', 2]);
 
         sheet = new Sheet('id', 'foo', []);
-        calc2 = new Calculation('id', 'calc2', ['calc1', '+', 'calc1']);
+        calc2 = new Calculation('id', 'calc2', [calc1, '+', calc1]);
         sheet.add(calc2);
         sheet.add(calc1);
         sheet.deleteCalculation(0); // dit is calc1

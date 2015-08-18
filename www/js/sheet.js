@@ -66,13 +66,13 @@ Sheet.prototype.deleteCalculation = function(index) {
     var calcName = this.calculations[index].varName;
     var result = this.calculations[index].result;
     var arrayLength = this.calculations.length;
-    // replace the usage of calcName with its result
+    // replace the usage of calculation with its result
     for (var i = 0; i < arrayLength; i++) {
         // we could skip i===index but we do not bother
         var calculation = this.calculations[i];
         for (var j = 0; j < calculation.expression.length; j++) {
-            if (calculation.expression[j] === calcName) {
-                calculation.expression[j] = result;
+            if (calculation.expression[j] instanceof Calculation) {
+                calculation.expression[j] = calculation.expression[j].result;
             }
         }
     }

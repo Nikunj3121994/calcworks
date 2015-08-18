@@ -30,7 +30,7 @@ describe('Test sheetDetailCtrl', function () {
     it('verify deleteCalculation', function() {
         var sheet1 = sheetService.getActiveSheet();
         sheet1.name = 'sheet1';
-        var calc = new Calculation('id', 'varname', []);
+        var calc = new Calculation('id', 'calc1', []);
         sheet1.add(calc);
         scope.deleteCalculation(0);
         expect(sheetService.saveSheet).toHaveBeenCalled();
@@ -38,7 +38,6 @@ describe('Test sheetDetailCtrl', function () {
         expect(returnedSheet.name).toEqual('sheet1');
         expect(returnedSheet.calculations.length).toEqual(0);
     });
-
 
 
     it('verify reorderItem', function() {

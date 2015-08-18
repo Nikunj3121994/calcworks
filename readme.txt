@@ -109,6 +109,11 @@ website nodig?
 Issues
 -------
 
+
+na een new active sheet neemt de recall nog de oude sheet
+
+reload maakt oude sheet active
+
 zorg voor een kruisje in het edit field van een calculator name zodat de inhoud gewist wordt
 
 updated timestamp sheet
