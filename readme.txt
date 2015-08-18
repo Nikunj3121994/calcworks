@@ -109,10 +109,7 @@ website nodig?
 Issues
 -------
 
-
-na een new active sheet neemt de recall nog de oude sheet
-
-reload maakt oude sheet active
+reload maakt oude sheet active, komt misschien door de order bug in load
 
 zorg voor een kruisje in het edit field van een calculator name zodat de inhoud gewist wordt
 

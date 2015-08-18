@@ -102,10 +102,11 @@ angular.module('calcworks.controllers')
         animation: 'slide-in-up'
     }).then(function(modal) {
         $scope.selectCalculationModal = modal;
-        modal.scope.sheet = sheetService.getActiveSheet();  // of $scope.sheet
+        modal.scope.sheet = undefined; // wait till openModal
         modal.scope.clickCalculation = selectCalculationModalClicked;
     });
     $scope.openModal = function() {
+        $scope.selectCalculationModal.scope.sheet = sheetService.getActiveSheet();
         $scope.selectCalculationModal.show();
     };
     $scope.closeModal = function() {
