@@ -3,12 +3,12 @@
 angular.module('calcworks.services')
     .factory('storageService', ['$window', '$log', function($window, $log) {
         return {
-            set: function(key, value) {
-                $window.localStorage[key] = value;
-            },
-            get: function(key, defaultValue) {
-                return $window.localStorage[key] || defaultValue;
-            },
+            //set: function(key, value) {
+            //    $window.localStorage[key] = value;
+            //},
+            //get: function(key, defaultValue) {
+            //    return $window.localStorage[key] || defaultValue;
+            //},
             //setObject: function(key, value) {
             //    $window.localStorage[key] = JSON.stringify(value);
             //},
@@ -19,7 +19,6 @@ angular.module('calcworks.services')
             //    $window.localStorage.removeItem(key);
             //},
 
-            //todo: make sure order is preserved
             loadSheets: function() {
                 var sheets = [];
                 // for now we assume that only sheets are stored
@@ -30,6 +29,7 @@ angular.module('calcworks.services')
                     // verify valid and in the future we can update the object if it is from an older version
                     if (sheet.version === '1.0') {
                         this._insertSheet(sheet, sheets);
+                        console.log(JSON.stringify(sheet));
                     }
                 }
                 return sheets;
@@ -37,6 +37,7 @@ angular.module('calcworks.services')
 
             saveSheet: function(sheet) {
                 sheet.updatedTimestamp = new Date();
+                console.log(sheet.updatedTimestamp);
                 $window.localStorage[sheet.id] = this._sheetToJSON(sheet);
             },
 
@@ -49,6 +50,12 @@ angular.module('calcworks.services')
             // added to interface so we can test, the underscore indicates private usage
 
             _insertSheet: function(sheet, sheets) {
+                for (var i = 0, len = sheets.length; i < len; ++i ) {
+                    if (sheet.updatedTimestamp < sheets[i].updatedTimestamp) {
+                        sheets.splice(i, 0, sheet);
+                        return;
+                    }
+                }
                 sheets.push(sheet);
             },
 

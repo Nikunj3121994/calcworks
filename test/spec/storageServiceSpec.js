@@ -52,7 +52,6 @@ describe('Test storageService', function () {
         var calc2 = new Calculation('idc2', "calc2", [calc1, '+', 3]);
         sheet.add(calc2);
         json = storageService._sheetToJSON(sheet);
-      //expect(json).toContain('"expression":["#idc1","+",3]');   de volgorde is anders
         returnedSheet = storageService._jsonToSheet(json);
         expect(returnedSheet.name).toEqual('Sheet 1');
         expect(returnedSheet.calculations.length).toEqual(2);
@@ -60,7 +59,6 @@ describe('Test storageService', function () {
         var returnedCalc1 = returnedSheet.calculations[1];
         expect(returnedSheet.calculations[0].expression).toEqual([returnedCalc1, '+', 3]);
     });
-
 
 
     it('verify load,save sheets with calculation', function() {
@@ -84,6 +82,23 @@ describe('Test storageService', function () {
         expect(sheets[0].calculations[1].expression[0]).toBe(newCalc1);
     });
 
+    it('verify _insertSheet', function() {
+        var sheet1 = new Sheet('id1', 'Sheet 1', []);
+        sheet1.updatedTimestamp = new Date("October 1, 2015 11:00:00");
+        var sheet2 = new Sheet('id2', 'Sheet 2', []);
+        sheet2.updatedTimestamp = new Date("August 1, 2015 11:00:00");
+        var sheet3 = new Sheet('id3', 'Sheet 3', []);
+        sheet3.updatedTimestamp = new Date("December 1, 2015 11:00:00");
+        var sheets = [];
+        storageService._insertSheet(sheet1, sheets);
+        expect(sheets.length).toEqual(1);
+        storageService._insertSheet(sheet2, sheets);
+        expect(sheets.length).toEqual(2);
+        expect(sheets[0]).toEqual(sheet2);
+        storageService._insertSheet(sheet3, sheets);
+        expect(sheets.length).toEqual(3);
+        expect(sheets[2]).toEqual(sheet3);
+    });
 
 
 

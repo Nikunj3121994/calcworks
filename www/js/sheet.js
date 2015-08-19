@@ -11,7 +11,7 @@ var Sheet = function(par, name, calculations) {
         this.createdTimestamp = new Date();
         this.updatedTimestamp = this.createdTimestamp;
         this.favorite = false;
-        this.hasSum = false;
+        this.hasSum = false;  // waarom deze flag? je kan toch naar undefined waarde kijken van .sum
         this.sum = undefined;
     } else {
         // reconstruct object from json

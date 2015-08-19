@@ -19,16 +19,22 @@ angular.module('calcworks.controllers')
         return day2.getDate() === day1.getDate() && day2.getMonth() === day1.getMonth() && day2.getFullYear() === day1.getFullYear();
     }
 
+    function getTimeAsString(timestamp) {
+        // using the dateFilter as shown below gives inaccurate time, no clue why
+        // return dateFilter(timestamp, 'HH:MM');
+        return timestamp.getHours() + ':' + ((timestamp.getMinutes() < 10)?"0":"") + timestamp.getMinutes();
+    }
+
     return function(timestamp) {
-        var dateFilter = $filter('date');
         var today = new Date();
         if (areDaysEqual(today, timestamp)) {
-            return 'today at ' + dateFilter(timestamp, 'HH:MM');
+            return 'today at ' + getTimeAsString(timestamp);
         } else {
-            var yesterday = new Date((new Date()).valueOf() - 1000*60*60*24);
+            var yesterday = new Date(today.valueOf() - 1000*60*60*24);
             if (areDaysEqual(yesterday, timestamp)) {
-                return 'yesterday at ' + dateFilter(timestamp, 'HH:MM');
+                return 'yesterday at ' + getTimeAsString(timestamp);
             } else {
+                var dateFilter = $filter('date');
                 return dateFilter(timestamp, 'dd MMM yyyy');
             }
         }
