@@ -69,7 +69,7 @@ angular.module('calcworks.controllers')
     // evt in de toekomst  $scope.$on('$ionicView.beforeEnter', function() {
     init();  // misschien moet deze naar app.js als ie device ready is
 
-    // nu kan sheetsUpdated zich alleen voordoen door deleteAllSheets
+    // nu kan sheetsUpdated zich  voordoen door deleteAllSheets en change van activeSheet
     $scope.$on('sheetsUpdated', function(e, value) {
         init();
     });
