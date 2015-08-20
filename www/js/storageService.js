@@ -29,7 +29,6 @@ angular.module('calcworks.services')
                     // verify valid and in the future we can update the object if it is from an older version
                     if (sheet.version === '1.0') {
                         this._insertSheet(sheet, sheets);
-                        console.log(JSON.stringify(sheet));
                     }
                 }
                 return sheets;
