@@ -46,9 +46,9 @@ angular.module('calcworks.services')
                 // consider: als de huidige activeSheet leeg is dan kunnen we die verwijderen
                 var sheet = createSheet();
                 activeSheet = sheet;
-                $rootScope.$broadcast("sheetsUpdated", 'active-sheet-changed');
                 sheets.splice(0, 0, sheet);
                 storageService.saveSheet(sheet);
+                // we doen een generieke event ivm de save en niet alleen een specifieke 'active-sheet-changed'
                 $rootScope.$broadcast("sheetsUpdated", null);
                 return sheet;
             },
