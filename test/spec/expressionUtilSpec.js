@@ -36,8 +36,8 @@ describe('Test Expression Utilities', function () {
         expect(isValidObjectName(5)).toBe(false);
         expect(isValidObjectName('1bc')).toBe(false);
         expect(isValidObjectName('=')).toBe(false);
-        expect( function(){ isValidObjectName('');  } ).toThrow(new Error("empty argument"));
-        expect( function(){ isValidObjectName(' ');  } ).toThrow(new Error("empty argument"));
+        expect(isValidObjectName('')).toBe(false);
+        expect(isValidObjectName(' =')).toBe(false);
     });
 
     //

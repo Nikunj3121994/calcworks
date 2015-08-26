@@ -60,7 +60,7 @@ function endsWith(str, suffix) {
 // leeg argument geeft een error
 function isValidObjectName(variable) {
     // merk op dat de shortcut  !variable  niet werkt ivm het cijfer 0.
-    if (variable === undefined || variable === null || variable.toString().trim()==='') throw new EvalError('empty argument');
+    if (variable === undefined || variable === null || variable.toString().trim()==='') { return false };
     // consider: optimize to store the pattern
     var patt = new RegExp(/^[A-Za-z]/);
     return patt.test(variable);
