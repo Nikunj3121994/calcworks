@@ -113,10 +113,6 @@ reload maakt oude sheet active, komt misschien door de order bug in load
 
 zorg voor een kruisje in het edit field van een calculator name zodat de inhoud gewist wordt
 
-updated timestamp sheet
-
-persisteren moet per sheet, updated timestamp toevoegen
-
 bij het laden van de sheets moet de volgorde wel weer kloppen in de history
 
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.

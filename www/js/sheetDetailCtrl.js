@@ -3,16 +3,32 @@
 angular.module('calcworks.controllers')
 
 .controller('SheetDetailCtrl', function($scope, $rootScope, $state, $log, $stateParams, renameCalculationDialog, sheetService) {
+
+    var state = $stateParams;
+
     $scope.showDelete = false;
     $scope.showReorder = false;
     $scope.listCanSwipe = true;
-    if ($stateParams.sheetId) {
-        sheetService.setActiveSheet($stateParams.sheetId);
-        $scope.sheet = sheetService.getSheet($stateParams.sheetId);
-        $log.log('SheetDetailCtrl, sheet id:' + $scope.sheet.id);
-    } else {
-        $scope.sheet = sheetService.getActiveSheet();
-    }
+    $log.log('SheetDetailCtrl, sheet id:' + $stateParams.sheetId);
+    //if ($stateParams.sheetId) {
+    //    sheetService.setActiveSheet($stateParams.sheetId);
+    //    $scope.sheet = sheetService.getSheet($stateParams.sheetId);
+    //    console.log('active sheet set to ' + $scope.sheet.name);
+    //} else {
+    //    $scope.sheet = sheetService.getActiveSheet();
+    //}
+    $scope.sheet = sheetService.getActiveSheet();
+
+            // $ionicView.beforeEnter
+    $scope.$on('$ionicView.beforeEnter', function (e) {
+        //$log.log('SheetDetailCtrl, sheet id:' + $stateParams.sheetId);
+        console.log('SheetDetailCtrl view beforeEnter: ' + state.sheetId);
+        if (state.sheetId) {
+            sheetService.setActiveSheet($stateParams.sheetId);
+            $scope.sheet = sheetService.getSheet($stateParams.sheetId);
+            console.log('active sheet set to ' + $scope.sheet.name);
+        }
+    });
 
     $scope.$on('sheetsUpdated', function(e, value) {
         // we zouden dit kunnen optimaliseren door naar specifieke event 'active-sheet-changed' te kijken
