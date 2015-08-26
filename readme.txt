@@ -14,6 +14,7 @@ Ik kreeg toen een foutmelding over gulp-util die ontbrak. Opgelost door:
 
 om Karma testen te draaien:
 $ npm install --save-dev gulp-karma
+(een deel van het Chrome window moet zichtbaar zijn anders gaat er minder CPU kracht naar toe)
 
 angular-mocks was niet geinstalleerd met ionic. Toegevoegd:
 $ bower install angular-mocks#1.3.6
@@ -35,11 +36,12 @@ $sudo npm update
 $bower list
 laat zien wat er bijgewerkt kan worden
 
-updaten van ionic:
+Updaten van ionic
+-----------------
 $ionic lib update
-(ik moest hiertoe wel eerst de twee bower files uit /lib/ionic verwijderen)
-En ik moest Angular met de hand bijwerken in het bower.json file en met de hand angular animate en mocks upgraden
-Op een of andere manier staat ergens in de code base de versie van de laatste twee (indirect) gespecificeerd
+Ik moest Angular met de hand bijwerken in het bower.json file en met de hand angular animate en mocks upgraden
+Op een of andere manier staat ergens in de code base de versie van de laatste twee (indirect) gespecificeerd. t Lijkt
+te komen doordat mock library met de hand is geinstalleerd.
 
 daarna de rest bijwerken:
 $bower update
@@ -52,6 +54,12 @@ $ cordova platform update ios
 
 Je kan verifieren op welke versie van cordova je zit door:
 $ npm list -g cordova
+
+Cordova bouwen
+---------------
+$ cordova platform add ios
+$ ionic build ios
+$ ionic emulate ios
 
 App bouwen ter voorbereiding van XCode deploy
 ---------------------------------------------
@@ -69,6 +77,7 @@ Karma vanaf de cmd line runnen (handig omdat dit meer info geeft dan via gulp)
 vanuit de test folder:
 $ karma start --single-run
 $ karma start --auto-watch
+Mbv IntelliJ kan ook, karma plugin installeren en via rechtermuistoets runnen als je op karma file staat
 
 Ionic runnen
 --------------
@@ -96,7 +105,15 @@ UI-Router
 UI-Router heeft deze eigenschap:
 .. with ui-router, every time a query arg is changed, it is a state change, the controller is executed again, and the template is re-rendered.
 (http://www.jeremyzerr.com/using-angularjs-ui-router-query-parameters-and-complex-directives-together-without-killing-app)
-Dit is wat we niet willen voor de calculator-tab.
+Ionic cached views om re-render te beperken.
+
+Launch image en icon
+--------------------
+In config.xml (van Cordova) specifeer je het icon en launch (splash) image. Op dit moment heb ik maar 1 generiek
+file voor t icon en een voor launch image. Cordova genereert de device specifieke schermen. Zie de folder
+/.../calcworks/platforms/ios/Calcworks/Resources
+Via bijvoorbeeld http://makeappicon.com/ kunnen we evt ook specifieke iconen genereren.
+Ik weet niet of dat ook voor het launch image kan - en of t loont.
 
 
 Distribute
@@ -111,9 +128,6 @@ website nodig?
 Issues
 -------
 
-reload maakt oude sheet active, komt misschien door de order bug in load
-bij het laden van de sheets moet de volgorde wel weer kloppen in de history
-
 zorg voor een kruisje in het edit field van een calculator name zodat de inhoud gewist wordt
 
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
@@ -121,8 +135,6 @@ Je kan een recall of een getal invoeren.
 
 later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
 Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
-
-Launch image voor IOS
 
 de error log van de calc service wordt niets mee gedaan
 
@@ -134,11 +146,11 @@ http://forum.ionicframework.com/t/auto-focus-textbox-while-template-loads/6851/2
 For it to work with cordova you need to add this in your config.xml
 <preference name="KeyboardDisplayRequiresUserAction" value="false" />
 
+het icon kan beter; visueel en 1024 x 1024
+
 lastVarName zou lastVarNumber moeten worden, veel simpeler
 
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
-
-aantal decimalen instelbaar maken
 
 share moet eruit of werken
 
@@ -164,9 +176,7 @@ plaats files mbt feature bij elkaar
 
 als je een lege sheet hebt en je doet new dan krijg je geen feedback
 
-de items in een expression zouden objecten moet zijn van een class hierarchy. De parent class heeft toString methods
-
-cijfers achter de komma instelbaar
+het aantal decimalen instelbaar
 
 de getallen moeten in display en expression een pixel hoger
 
@@ -174,7 +184,7 @@ de getallen moeten in display en expression een pixel hoger
 
 
 PRO VERSIE
-In app purchase zodat je later de limiet van max 10 sheets kan overschrijven
+In app purchase zodat je later de limiet van max 10 sheets en max favorites kan overschrijven
 aantal decimalen instelbaar
 Aantal sheets limiet ophogen tot 50 of zo, evt archive functie toevoegen
 Twee sheets naast elkaar waarbij je waarden of items van de ene naar de andere kan slepen. Op deze manier kan je makkelijk, een nieuwe, schone sheet maken. Die je dan kan delen.
