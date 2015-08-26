@@ -55,11 +55,10 @@ function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-//TODO: rename to isValidCalcName
-// als het eerste karakter een letter is dan beschouwen het een calcname
+// als het eerste karakter een letter is dan beschouwen het een valide object name (calculation en sheet)
 // cijfers en operators vallen buiten de boot
 // leeg argument geeft een error
-function isCalcName(variable) {
+function isValidObjectName(variable) {
     // merk op dat de shortcut  !variable  niet werkt ivm het cijfer 0.
     if (variable === undefined || variable === null || variable.toString().trim()==='') throw new EvalError('empty argument');
     // consider: optimize to store the pattern

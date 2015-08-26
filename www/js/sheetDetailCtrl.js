@@ -2,31 +2,19 @@
 
 angular.module('calcworks.controllers')
 
-.controller('SheetDetailCtrl', function($scope, $rootScope, $state, $log, $stateParams, renameCalculationDialog, sheetService) {
+.controller('SheetDetailCtrl', function($scope, $rootScope, $state, $log, $stateParams, renameDialogs, sheetService) {
 
     var state = $stateParams;
 
     $scope.showDelete = false;
     $scope.showReorder = false;
     $scope.listCanSwipe = true;
-    $log.log('SheetDetailCtrl, sheet id:' + $stateParams.sheetId);
-    //if ($stateParams.sheetId) {
-    //    sheetService.setActiveSheet($stateParams.sheetId);
-    //    $scope.sheet = sheetService.getSheet($stateParams.sheetId);
-    //    console.log('active sheet set to ' + $scope.sheet.name);
-    //} else {
-    //    $scope.sheet = sheetService.getActiveSheet();
-    //}
     $scope.sheet = sheetService.getActiveSheet();
 
-            // $ionicView.beforeEnter
     $scope.$on('$ionicView.beforeEnter', function (e) {
-        //$log.log('SheetDetailCtrl, sheet id:' + $stateParams.sheetId);
-        console.log('SheetDetailCtrl view beforeEnter: ' + state.sheetId);
         if (state.sheetId) {
             sheetService.setActiveSheet($stateParams.sheetId);
             $scope.sheet = sheetService.getSheet($stateParams.sheetId);
-            console.log('active sheet set to ' + $scope.sheet.name);
         }
     });
 
@@ -35,6 +23,10 @@ angular.module('calcworks.controllers')
         // maar ik betwijfel of dit veel winst oplevert
         $scope.sheet = sheetService.getActiveSheet();
     });
+
+    $scope.renameSheet = function() {
+        renameDialogs.showRenameSheetDialog($scope.sheet);
+    };
 
     $scope.deleteCalculation = function(index) {
         $scope.sheet.deleteCalculation(index, 1);
@@ -65,7 +57,7 @@ angular.module('calcworks.controllers')
         $scope.sheet.hasSum = !$scope.sheet.hasSum;
     };
 
-    $scope.showRenamePopup = function(calc) { renameCalculationDialog.showPopup(calc, $scope.sheet); };
+    $scope.showRenamePopup = function(calc) { renameDialogs.showRenameCalculationDialog(calc, $scope.sheet); };
 
 
 });

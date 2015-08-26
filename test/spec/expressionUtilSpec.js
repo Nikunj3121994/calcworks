@@ -28,16 +28,16 @@ describe('Test Expression Utilities', function () {
         expect(generateCalcName('12sd9')).toBe('12sd10');
     });
 
-    it('verify isCalcName', function () {
-        expect(isCalcName('abc')).toBe(true);
-        expect(isCalcName('x')).toBe(true);
-        expect(isCalcName('5')).toBe(false);
-        expect(isCalcName(0)).toBe(false);
-        expect(isCalcName(5)).toBe(false);
-        expect(isCalcName('1bc')).toBe(false);
-        expect(isCalcName('=')).toBe(false);
-        expect( function(){ isCalcName('');  } ).toThrow(new Error("empty argument"));
-        expect( function(){ isCalcName(' ');  } ).toThrow(new Error("empty argument"));
+    it('verify isValidObjectName', function () {
+        expect(isValidObjectName('abc')).toBe(true);
+        expect(isValidObjectName('x')).toBe(true);
+        expect(isValidObjectName('5')).toBe(false);
+        expect(isValidObjectName(0)).toBe(false);
+        expect(isValidObjectName(5)).toBe(false);
+        expect(isValidObjectName('1bc')).toBe(false);
+        expect(isValidObjectName('=')).toBe(false);
+        expect( function(){ isValidObjectName('');  } ).toThrow(new Error("empty argument"));
+        expect( function(){ isValidObjectName(' ');  } ).toThrow(new Error("empty argument"));
     });
 
     //

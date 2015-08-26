@@ -38,6 +38,8 @@ laat zien wat er bijgewerkt kan worden
 updaten van ionic:
 $ionic lib update
 (ik moest hiertoe wel eerst de twee bower files uit /lib/ionic verwijderen)
+En ik moest Angular met de hand bijwerken in het bower.json file en met de hand angular animate en mocks upgraden
+Op een of andere manier staat ergens in de code base de versie van de laatste twee (indirect) gespecificeerd
 
 daarna de rest bijwerken:
 $bower update
@@ -110,18 +112,15 @@ Issues
 -------
 
 reload maakt oude sheet active, komt misschien door de order bug in load
+bij het laden van de sheets moet de volgorde wel weer kloppen in de history
 
 zorg voor een kruisje in het edit field van een calculator name zodat de inhoud gewist wordt
-
-bij het laden van de sheets moet de volgorde wel weer kloppen in de history
 
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
 
 later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
 Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
-
-de sheetname moet net zoals een calcname aan voorwaarden voldoen zoals letters en cijfers, validatie toevoegen in rename dlg
 
 Launch image voor IOS
 

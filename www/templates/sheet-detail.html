@@ -7,7 +7,7 @@ The Sheets service returns an array of sheet data
 <ion-view >
     <!--we use nav-title to work around a bug with title-view being incorrectly updated-->
     <ion-nav-title>
-         <div onclick="console.log('hier moet een call naar renameSheet komen');">{{sheet.name}}</div>
+         <div ng-click="renameSheet()">{{sheet.name}}</div>
     </ion-nav-title>
 
     <!--class bar-subheader is nodig om ervoor te zorgen dat ie onder de navbar komt van de ion-view-->
