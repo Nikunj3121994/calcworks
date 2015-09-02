@@ -128,7 +128,7 @@ website nodig?
 Issues
 -------
 
-zorg voor een kruisje in het edit field van een calculator name zodat de inhoud gewist wordt
+we moeten iets anders verzinnen dan calcworks...
 
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.

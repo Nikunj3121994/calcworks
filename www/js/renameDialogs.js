@@ -7,9 +7,8 @@ angular.module('calcworks.services')
 
         var $scope = $rootScope.$new();
         var renamePopupData = {
-            template: '<input type="text" ng-model="data.name"> <br> {{errorMsg}}',
-            title: '',
-            subTitle: '(Please use normal characters)',
+            templateUrl: 'templates/renameDialog.html',
+            title: '',  // defined below
             scope: $scope,
             buttons: [
                 {text: 'Cancel'},
@@ -32,9 +31,13 @@ angular.module('calcworks.services')
             ]
         };
         var renameSheetPopupData =  renamePopupData;
-        renameSheetPopupData.title = 'Enter a new name for the sheet';
+        renameSheetPopupData.title = 'Name for the sheet';
         var renameCalculationPopupData =  renamePopupData;
-        renameCalculationPopupData.title = 'Enter a new name for the calculation';
+        renameCalculationPopupData.title = 'Name for the calculation';
+        $scope.reset = function() {
+            $scope.data.name = '';
+            //consider: set focus to the input field
+        };
 
         return {
             showRenameCalculationDialog: function(calc, sheet) {
