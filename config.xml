@@ -19,9 +19,17 @@
 
     <platform name="ios">
         <icon src="resources/calculator-icon.png" />
-    </platform>
-    <platform name="ios">
-        <splash src="resources/launch-image.png" width="750" height="1334"/>
+        <!--generated with http://ticons.fokkezb.nl/#result-->
+        <splash src="resources/Default.png" width="320" height="480"/>
+        <splash src="resources/Default@2x.png" width="640" height="960"/>
+        <splash src="resources/Default-568h@2x.png" width="640" height="1136"/>
+        <splash src="resources/Default-667h@2x.png" width="750" height="1334"/>
+        <splash src="resources/Default-Landscape.png" width="1024" height="768"/>
+        <splash src="resources/Default-Landscape@2x.png" width="2048" height="1536"/>
+        <splash src="resources/Default-Landscape-736h@3x.png" width="2208" height="1242"/>
+        <splash src="resources/Default-Portrait.png" width="768" height="1024"/>
+        <splash src="resources/Default-Portrait@2x.png" width="1536" height="2048"/>
+        <splash src="resources/Default-Portrait-736h@3x.png" width="1242" height="2208"/>
     </platform>
 
   <!--later kunnen we evt specifieke iconen gaan toevoegen:-->
