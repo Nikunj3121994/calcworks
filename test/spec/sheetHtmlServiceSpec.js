@@ -33,7 +33,7 @@ describe('Test sheetHtmlService', function () {
         expect(html).toContain('<table');
         expect(html).toContain('200');
         expect(html).toContain('2500');
-        console.log(html);
+        //console.log(html);
     });
 
     it('verify generateHtml', function() {
@@ -48,7 +48,6 @@ describe('Test sheetHtmlService', function () {
         expect(html).toContain('<table');
         expect(html).toContain('Sum');
         expect(html).toContain('1000');
-        console.log(html);
     });
 
 });
