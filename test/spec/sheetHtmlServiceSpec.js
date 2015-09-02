@@ -9,15 +9,10 @@ describe('Test sheetHtmlService', function () {
     var sheetHtmlService;
 
     // the underscore at both sides is a convention by AngularJS to get the right service
-    beforeEach(inject(function (_sheetHtmlService_, _$log_) {
+    beforeEach(inject(function (_sheetHtmlService_) {
         sheetHtmlService = _sheetHtmlService_;
-        $log = _$log_;
     }));
 
-    //// Log debug messages in Karma
-    //afterEach(function(){
-    //    console.log($log.log.logs);
-    //});
 
 
     it('verify generateHtml', function() {
