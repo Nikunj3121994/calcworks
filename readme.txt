@@ -136,7 +136,6 @@ website nodig?
 Issues
 -------
 
-launchimage wordt denk ik niet opgepakt door iphone
 
 we moeten iets anders verzinnen dan calcworks...
 
