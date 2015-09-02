@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-    .controller('SheetsCtrl', function($scope, $ionicPopup, $state, sheetService, renameDialogs) {
+    .controller('SheetsCtrl', function($scope, $ionicPlatform, $ionicPopup, $state, sheetService, sheetHtmlService, renameDialogs) {
         $scope.sheets = sheetService.getSheets();
 
         $scope.$on('sheetsUpdated', function(e, value) {
@@ -37,6 +37,22 @@ angular.module('calcworks.controllers')
         $scope.toggleSheetFavorite = function(sheet) {
             sheet.favorite = !sheet.favorite;
             sheetService.saveSheet(sheet);
+        };
+
+        $scope.shareSheet = function(sheet) {
+            console.log('send email');
+            window.plugin.email.open(
+                {
+                    subject: "email calcworks on " + sheet.name,
+                    // we leave to: empty such that end-user can choose an email address
+                    body: sheetHtmlService.generateHtml(sheet),
+                    isHtml:  true
+                },
+                function () {
+                    console.log('email view dismissed');
+                },
+                this
+            );
         };
 
     });

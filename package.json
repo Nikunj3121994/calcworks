@@ -19,5 +19,8 @@
     "karma-chrome-launcher": "^0.1.7",
     "karma-jasmine": "^0.3.5",
     "shelljs": "^0.3.0"
-  }
+  },
+  "cordovaPlugins": [
+    "de.appplant.cordova.plugin.email-composer@0.8.2"
+  ]
 }

@@ -11,6 +11,13 @@ Ik kreeg toen een foutmelding over gulp-util die ontbrak. Opgelost door:
 - de node-modules te verwijderen
 - $ npm install
 
+De email plugin toevoegen
+-------------------------
+Overgenomen van: https://github.com/katzer/cordova-plugin-email-composer
+$ cordova plugin add de.appplant.cordova.plugin.email-composer@0.8.2
+dan de libraries toevoegen voor ios platform via
+$ ionic build ios
+
 
 om Karma testen te draaien:
 $ npm install --save-dev gulp-karma
@@ -63,7 +70,8 @@ $ ionic emulate ios
 
 App bouwen ter voorbereiding van XCode deploy
 ---------------------------------------------
-$ cordova prepare ios
+$ cd projects/calcworks/
+$ cordova prepare ios  (alleen de eerste keer vermoed ik)
 $ ionic build ios
 
 XCode
@@ -128,7 +136,13 @@ website nodig?
 Issues
 -------
 
+launchimage wordt denk ik niet opgepakt door iphone
+
 we moeten iets anders verzinnen dan calcworks...
+
+opnieuw de config.xml aanmaken aan de hand van de laatste cordova versie (ook dit checken)
+xcode geeft een warning over een deprecated iets:
+/Users/admin/projects/calcworks/platforms/ios/Calcworks/Plugins/org.apache.cordova.device/CDVDevice.m:64:33: 'uniqueAppInstanceIdentifier' is deprecated: Deprecated in Cordova 3.8 .0. API is slated for removal in 4.0.0
 
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
@@ -151,8 +165,6 @@ het icon kan beter; visueel en 1024 x 1024
 lastVarName zou lastVarNumber moeten worden, veel simpeler
 
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
-
-share moet eruit of werken
 
 beep of vibrate bij fout in calculator
 

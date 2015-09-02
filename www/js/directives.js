@@ -14,6 +14,7 @@ angular.module('calcworks.controllers')
             // we doen een deep watch van de sheet zodat calcNames veranderingen ook gedetecteerd worden
             scope.$watch('sheet', function(newValue, oldValue) {
                 if (newValue) {
+                    // note: logic duplicated into sheetHtmlService, we might need to keep the two in sync
                     if (!scope.sheet) throw new Error('illegal argument sheet');
                     var calculation = scope.sheet.calculations[scope.index];
                     var expression = calculation.expression;
