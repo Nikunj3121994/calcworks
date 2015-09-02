@@ -31,6 +31,23 @@ describe('Test sheetHtmlService', function () {
         var html = sheetHtmlService.generateHtml(sheet);
         expect(html).toContain('<style>');
         expect(html).toContain('<table');
+        expect(html).toContain('200');
+        expect(html).toContain('2500');
+        console.log(html);
+    });
+
+    it('verify generateHtml', function() {
+        var sheet = new Sheet('id', 'foo', []);
+        var calc1 = new Calculation('id', 'calc1', [200 , '+' , 300]);
+        calc1.result = 500;
+        sheet.add(calc1);
+        sheet.hasSum = true;
+        sheet.sum = 1000;
+        var html = sheetHtmlService.generateHtml(sheet);
+        expect(html).toContain('<style>');
+        expect(html).toContain('<table');
+        expect(html).toContain('Sum');
+        expect(html).toContain('1000');
         console.log(html);
     });
 
