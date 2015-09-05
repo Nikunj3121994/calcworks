@@ -48,7 +48,7 @@ angular.module('calcworks.controllers')
     $scope.navigateToCalculator = function(calculation) {
         // hack nodig om een nieuwe state te vermijden
         // je zou ook kunnen onderzoeken of je de activeSheet kan bewerken. Dan heb je een netter mvc model
-        $rootScope.hackSelectedCalcName = calculation.varName;
+        $rootScope.hackSelectedCalcName = calculation.name;
         $state.go('tab.calculator');
     };
 

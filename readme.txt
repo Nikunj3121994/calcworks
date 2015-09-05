@@ -118,7 +118,9 @@ Ionic cached views om re-render te beperken.
 Launch image en icon
 --------------------
 In config.xml (van Cordova) specifeer je het icon en launch (splash) image. Op dit moment heb ik maar 1 generiek
-file voor t icon en een voor launch image. Cordova genereert de device specifieke schermen. Zie de folder
+file voor t icon en een voor launch image. De launch image heb ik gemaakt door een screenshot te maken in de emulator.
+Daarna met een service de verschillende formaten gegenereert.
+Cordova copieert / genereert de device specifieke schermen. Zie de folder
 /.../calcworks/platforms/ios/Calcworks/Resources
 Via bijvoorbeeld http://makeappicon.com/ kunnen we evt ook specifieke iconen genereren.
 Ik weet niet of dat ook voor het launch image kan - en of t loont.
@@ -158,7 +160,7 @@ Bij het opstarten kijken we of de laatste sheet ouder dan een dag is.
 zo niet, dan gaan we meteen door.
 zo wel, dan verwijderen we de laatste sheet als updated=created
 
- maken we een nieuwe sheet - mits de vorige niet leeg is. Als het totaal aantal sheets 50 is dan verwijderen we de laatste.
+maken we een nieuwe sheet - mits de vorige niet leeg is. Als het totaal aantal sheets 50 is dan verwijderen we de laatste.
 
 om autofocus voor elkaar te krijgen:
 http://forum.ionicframework.com/t/auto-focus-textbox-while-template-loads/6851/28

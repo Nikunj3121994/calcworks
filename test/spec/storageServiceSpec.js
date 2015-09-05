@@ -44,7 +44,7 @@ describe('Test storageService', function () {
         var calc1 = new Calculation('idc1', "calc1", [123]);
         sheet.add(calc1);
         var json = storageService._sheetToJSON(sheet);
-        expect(json).toContain('"id":"id1","name":"Sheet 1","calculations":[{"id":"idc1","varName":"calc1","expression":[123]');
+        expect(json).toContain('"id":"id1","name":"Sheet 1","calculations":[{"id":"idc1","name":"calc1","expression":[123]');
         var returnedSheet = storageService._jsonToSheet(json);
         expect(returnedSheet.name).toEqual('Sheet 1');
         expect(returnedSheet.calculations.length).toEqual(1);
@@ -55,7 +55,7 @@ describe('Test storageService', function () {
         returnedSheet = storageService._jsonToSheet(json);
         expect(returnedSheet.name).toEqual('Sheet 1');
         expect(returnedSheet.calculations.length).toEqual(2);
-        expect(returnedSheet.calculations[0].varName).toEqual('calc2');
+        expect(returnedSheet.calculations[0].name).toEqual('calc2');
         var returnedCalc1 = returnedSheet.calculations[1];
         expect(returnedSheet.calculations[0].expression).toEqual([returnedCalc1, '+', 3]);
     });
@@ -77,7 +77,7 @@ describe('Test storageService', function () {
         sheets = storageService.loadSheets();
         expect(sheets.length).toEqual(1);
         expect(sheets[0].calculations.length).toEqual(2);
-        expect(sheets[0].calculations[1].varName).toEqual('calc2');
+        expect(sheets[0].calculations[1].name).toEqual('calc2');
         var newCalc1 = sheets[0].calculations[0];
         expect(sheets[0].calculations[1].expression[0]).toBe(newCalc1);
     });

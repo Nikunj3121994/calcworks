@@ -21,7 +21,6 @@ angular.module('calcworks.services')
 
             saveSheet: function(sheet) {
                 sheet.updatedTimestamp = new Date();
-                console.log(sheet.updatedTimestamp);
                 $window.localStorage[sheet.id] = this._sheetToJSON(sheet);
             },
 

@@ -627,7 +627,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.processSelectedCalculation(getActiveSheet().calculations[0]);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('10');
-        var varName = sheet.calculations[0].varName;
+        var name = sheet.calculations[0].name;
         expect(scope.expression).toEqual([calc1, '+', calc1]);
         expect(sheet.calculations[0].expression).toEqual([calc1, '+', calc1]);
         expect(scope.result).toEqual(10);

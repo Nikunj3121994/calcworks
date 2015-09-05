@@ -184,7 +184,7 @@ describe('Test calcService', function () {
         calculations.push(calc2);
         expect(calcService.countVarNames('var1', calculations)).toEqual(1);
 
-        calc2.varName = 'var1';
+        calc2.name = 'var1';
         expect(calcService.countVarNames('var1', calculations)).toEqual(2);
     });
 

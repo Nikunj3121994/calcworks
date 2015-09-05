@@ -41,7 +41,7 @@ Sheet.prototype.getLastNumberFromCalcName = function() {
     var result = 0;
     var arrayLength = this.calculations.length;
     for (var i = 0; i < arrayLength; i++) {
-        var num = getNumberFromVarname(this.calculations[i].varName);
+        var num = getNumberFromVarname(this.calculations[i].name);
         if (num > result) {
             result = num;
         }
@@ -52,7 +52,7 @@ Sheet.prototype.getLastNumberFromCalcName = function() {
 Sheet.prototype.getCalculationFor = function(calcName) {
     var arrayLength = this.calculations.length;
     for (var i = 0; i < arrayLength; i++) {
-        if (this.calculations[i].varName === calcName) {
+        if (this.calculations[i].name === calcName) {
             return this.calculations[i];
         }
     }
@@ -65,7 +65,7 @@ Sheet.prototype.getValueFor = function(calcName) {
 
 Sheet.prototype.deleteCalculation = function(index) {
     if (index >= this.calculations.length) throw new Error('Illegal argument, index: ' + index);
-    var calcName = this.calculations[index].varName;
+    var calcName = this.calculations[index].name;
     var result = this.calculations[index].result;
     var arrayLength = this.calculations.length;
     // replace the usage of calculation with its result

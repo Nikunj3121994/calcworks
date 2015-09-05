@@ -53,8 +53,8 @@ describe('Test sheetDetailCtrl', function () {
         expect(returnedSheet.name).toEqual('sheet1');
         expect(returnedSheet.calculations.length).toEqual(2);
         // order is reversed (remember that items are added to top)
-        expect(returnedSheet.calculations[0].varName).toEqual('calc1');
-        expect(returnedSheet.calculations[1].varName).toEqual('calc2');
+        expect(returnedSheet.calculations[0].name).toEqual('calc1');
+        expect(returnedSheet.calculations[1].name).toEqual('calc2');
     });
 
 

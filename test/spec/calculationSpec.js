@@ -7,7 +7,7 @@ describe('Test Calculation object', function () {
         var calc = new Calculation('xxxx', "calcName", []);
         expect(calc.result).toBeNull();
         expect(calc.id).toBe('xxxx');
-        expect(calc.varName).toBe('calcName');
+        expect(calc.name).toBe('calcName');
     });
 
 

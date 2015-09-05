@@ -42,11 +42,11 @@ angular.module('calcworks.services')
         return {
             showRenameCalculationDialog: function(calc, sheet) {
                 $scope.data = {};
-                $scope.data.name = calc.varName;
+                $scope.data.name = calc.name;
                 var renamePopup = $ionicPopup.show(renameCalculationPopupData);
                 renamePopup.then(function (res) {
                     if (res) {
-                        calc.varName = res;
+                        calc.name = res;
                         sheetService.saveSheet(sheet);
                     }
                 });

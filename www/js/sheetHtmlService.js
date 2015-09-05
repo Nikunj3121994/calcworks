@@ -28,11 +28,11 @@ angular.module('calcworks.services')
                 template = template + '</tr>';
                 // second row
                 template = template + '<tr>';
-                template = template + '<td class="calcNameExpr">' + calculation.varName + '</td>';
+                template = template + '<td class="calcNameExpr">' + calculation.name + '</td>';
                 template = template + '<td></td>';
                 for (var i = 0; i < arrayLength; i++) {
                     if (expression[i] instanceof Calculation) {
-                        template = template + '<td class="calcNameExpr">' + expression[i].varName + '</td>';
+                        template = template + '<td class="calcNameExpr">' + expression[i].name + '</td>';
                     } else {
                         template = template + '<td></td>';
                     }

@@ -25,9 +25,9 @@ function getDecimalSeparator() {
     return n;
 }
 
-// returns null if varName does not contain a number
-function getNumberFromVarname(varName) {
-    var numbers = varName.match(/\d+$/);
+// returns null if name does not contain a number
+function getNumberFromVarname(name) {
+    var numbers = name.match(/\d+$/);
     if (numbers && numbers.length > 0) {
         return Number(numbers[0]);
     } else {
@@ -35,7 +35,7 @@ function getNumberFromVarname(varName) {
     }
 }
 
-// parameter varName is the (previous) generated varName that is the basis for the next varName
+// parameter name is the (previous) generated name that is the basis for the next name
 function generateCalcName(calcName) {
     if (calcName) {
         var thenum = getNumberFromVarname(calcName);
@@ -60,7 +60,7 @@ function endsWith(str, suffix) {
 // leeg argument geeft een error
 function isValidObjectName(variable) {
     // merk op dat de shortcut  !variable  niet werkt ivm het cijfer 0.
-    if (variable === undefined || variable === null || variable.toString().trim()==='') { return false };
+    if (variable === undefined || variable === null || variable.toString().trim()==='') { return false; };
     // consider: optimize to store the pattern
     var patt = new RegExp(/^[A-Za-z]/);
     return patt.test(variable);

@@ -6,7 +6,7 @@
         <ion-list>
             <ion-item ng-repeat="calc in sheet.calculations  track by $index" ng-click="clickCalculation(calc)">
                 <div>
-                    <div class="listVarName"> {{calc.varName}} </div>
+                    <div class="listVarName"> {{calc.name}} </div>
                     <div class="listResolvedExpression" > <resolve-expression sheet="sheet" expression="calc.expression"></resolve-expression> = </div>
                     <div class="listResult"> {{calc.result|toFixedDecimals}} </div>
                 </div>
