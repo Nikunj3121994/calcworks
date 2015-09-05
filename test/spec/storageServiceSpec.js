@@ -92,12 +92,18 @@ describe('Test storageService', function () {
         var sheets = [];
         storageService._insertSheet(sheet1, sheets);
         expect(sheets.length).toEqual(1);
+
         storageService._insertSheet(sheet2, sheets);
         expect(sheets.length).toEqual(2);
-        expect(sheets[0]).toEqual(sheet2);
+        // de eerste sheet in de array moet de meest recente zijn
+        expect(sheets[0]).toEqual(sheet1);
+        expect(sheets[1]).toEqual(sheet2);
+
         storageService._insertSheet(sheet3, sheets);
         expect(sheets.length).toEqual(3);
-        expect(sheets[2]).toEqual(sheet3);
+        expect(sheets[0]).toEqual(sheet3);
+        expect(sheets[1]).toEqual(sheet1);
+        expect(sheets[2]).toEqual(sheet2);
     });
 
 

@@ -1,23 +1,8 @@
 'use strict';
 
 angular.module('calcworks.services')
-    .factory('storageService', ['$window', '$log', function($window, $log) {
+    .factory('storageService', ['$window', function($window) {
         return {
-            //set: function(key, value) {
-            //    $window.localStorage[key] = value;
-            //},
-            //get: function(key, defaultValue) {
-            //    return $window.localStorage[key] || defaultValue;
-            //},
-            //setObject: function(key, value) {
-            //    $window.localStorage[key] = JSON.stringify(value);
-            //},
-            //getObject: function(key) {
-            //    return this._jsonToSheet($window.localStorage[key] || '{}');
-            //},
-            //deleteObject: function(key) {
-            //    $window.localStorage.removeItem(key);
-            //},
 
             loadSheets: function() {
                 var sheets = [];
@@ -46,11 +31,12 @@ angular.module('calcworks.services')
                 }
             },
 
-            // added to interface so we can test, the underscore indicates private usage
+            // added methods to interface so we can test, the underscore indicates private usage
 
+            // add most recent update sheet to top
             _insertSheet: function(sheet, sheets) {
                 for (var i = 0, len = sheets.length; i < len; ++i ) {
-                    if (sheet.updatedTimestamp < sheets[i].updatedTimestamp) {
+                    if (sheet.updatedTimestamp > sheets[i].updatedTimestamp) {
                         sheets.splice(i, 0, sheet);
                         return;
                     }
@@ -62,7 +48,6 @@ angular.module('calcworks.services')
                 var objects = JSON.parse(json,
                     // http://stackoverflow.com/questions/12975430/custom-object-to-json-then-back-to-a-custom-object
                     function(key, val) {
-                        //$log.log('deserialize: ' + val);
                         if (val && typeof(val) === 'object' && val.__type === 'Sheet') {
                             return new Sheet(val);
                         }

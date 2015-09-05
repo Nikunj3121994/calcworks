@@ -138,6 +138,7 @@ Issues
 
 
 we moeten iets anders verzinnen dan calcworks...
+calcultra
 
 opnieuw de config.xml aanmaken aan de hand van de laatste cordova versie (ook dit checken)
 xcode geeft een warning over een deprecated iets:
@@ -152,7 +153,12 @@ Deze is handig voor de killer-feature om de gebruiker een selectie te laten make
 de error log van de calc service wordt niets mee gedaan
 
 limiet op aantal calculaties en aantal sheets en aantal favorite sheets (met name belangrijk als we gratis verspreiden)
-Door de limiet op favorite sheets kan je altijd een niet-favorite sheet verwijderen bij t aanmaken van een nieuwe
+Door de limiet op favorite sheets kan je altijd een niet-favorite sheet verwijderen bij t aanmaken van een nieuwe.
+Bij het opstarten kijken we of de laatste sheet ouder dan een dag is.
+zo niet, dan gaan we meteen door.
+zo wel, dan verwijderen we de laatste sheet als updated=created
+
+ maken we een nieuwe sheet - mits de vorige niet leeg is. Als het totaal aantal sheets 50 is dan verwijderen we de laatste.
 
 om autofocus voor elkaar te krijgen:
 http://forum.ionicframework.com/t/auto-focus-textbox-while-template-loads/6851/28
@@ -180,6 +186,7 @@ http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-scre
 nice-to-have
 ------------
 
+voor het emailen en de title is nog untitled dan de rename dlg tonen
 
 misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
 
