@@ -65,7 +65,16 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('3.');
         scope.touchDecimalSeparator();
         expect(scope.display).toBe('3.');
+    });
 
+
+    it('verify behavior thousand separators', function () {
+        scope._test_reset();
+        scope.touchDigit(4);
+        scope.touchDigit(3);
+        scope.touchDigit(2);
+        scope.touchDigit(1);
+        expect(scope.display).toBe('4321');
     });
 
 

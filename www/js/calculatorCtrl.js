@@ -7,7 +7,7 @@ angular.module('calcworks.controllers')
     //consider: ipv sheetService zou je ook via de resolve: in app.js de activeSheet kunnen injecteren.
     // op deze manier heb je een betere decoupling
 
-    var decimalSeparator = getDecimalSeparator();
+    var decimalSeparator = getDigitSeparators().decimalSeparator;
     var lastVarName = '';
     var selectedCalc;
 
@@ -132,6 +132,7 @@ angular.module('calcworks.controllers')
         // expressionEnteringStart();
         // nu doen we dit pas bij de eerste operator
         if ($scope.numberEnteringState === false) {
+            // de eerste keer dat een digit wordt ingetikt
             $scope.display = '' + n;
             $scope.numberEnteringState = true;
             if ($scope.plusMinusTyped) {
@@ -152,11 +153,14 @@ angular.module('calcworks.controllers')
     $scope.touchDecimalSeparator = function() {
         $scope.numberEnteringState = true; // needed if someone starts with period char
         // make sure you can only add decimal separator once
-        if ($scope.display.indexOf(decimalSeparator) < 0) {
+        if (!containsDecimalPart($scope.display)) {
             $scope.display = ($scope.display) + decimalSeparator;
         } // consider: else show/give error signal - however not sure if we can do this in every error situation
     };
 
+    // de delete is tegelijkertijd ook een undo-operator
+    // het zou misschien beter zijn geweest om deze te implementeren door de states op een stack te zetten
+    // de state zou dan een object zijn met alle state properties
     $scope.touchDelete = function() {
         var length = $scope.expression.length;
         if (length > 0 && $scope.expression[length-1]==='(') {
@@ -190,7 +194,15 @@ angular.module('calcworks.controllers')
             $scope.numberEnteringState = false;
         } else {
             // getal bestaande uit meerdere cijfers ingetikt
-            $scope.display = $scope.display.substring(0, $scope.display.length - 1);
+            // bepaal of er een decimal part is
+            //if (containsDecimalPart($scope.display)) {
+                $scope.display = $scope.display.substring(0, $scope.display.length - 1);
+            //} else {
+            //    // alleen een integer part waar we het laatste cijfer vanaf moeten halen
+            //    var temp = removeThousandSeparators($scope.display);
+            //    temp = temp.substring(0, temp.length - 1);
+            //    $scope.display = $rootScope.convertNumberToDisplay(parseInt(temp));
+            //}
             $scope.numberEnteringState = true;
         }
     };
@@ -320,7 +332,7 @@ angular.module('calcworks.controllers')
         // als twee keer achter elkaar = wordt ingedrukt dan is dit een short cut voor de remember functie
         // doordat een nieuw getal niet meteen expressionEnteringStart() aanroept kan result en display out of sync zijn
         // we eisen dat ze wel hetzelfde zijn voor de remember functie
-        if ($scope.result && $rootScope.convertNumberToDisplay($scope.result) === $scope.display) {
+        if ($scope.result && $rootScope.convertNumberToDisplayWithoutThousandsSeparator($scope.result) === $scope.display) {
             this.touchRemember();
         } else {
             if (!operandEntered()) {
@@ -335,7 +347,7 @@ angular.module('calcworks.controllers')
                 calcService.calculate($scope.sheet);
                 if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
                 $scope.result = calc.result;                 // type is number
-                $scope.display = $rootScope.convertNumberToDisplay(calc.result);     // type is string
+                $scope.display = $rootScope.convertNumberToDisplayWithoutThousandsSeparator(calc.result);     // type is string
                 sheetService.saveSheet($scope.sheet);
                 selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
             } catch (e) {

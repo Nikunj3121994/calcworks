@@ -7,15 +7,17 @@ angular.module('calcworks.controllers', []);
 angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controllers'])
 
 .run(function($ionicPlatform, $rootScope) {
-    //maybe it is better to add this method to ExpressionUtil and make it a service
+
     $rootScope.nrOfDecimals = 2;
     $rootScope.convertNumberToDisplay = function(number) {
-        return convertNumberToDisplay(number, $rootScope.nrOfDecimals);
+        return convertNumberToDisplay(number, $rootScope.nrOfDecimals, true);
     };
-    $rootScope.getExprItemAsString = function(exprItem, sheet) {
-        return getExprItemAsString(exprItem, sheet, $rootScope.nrOfDecimals);
+    $rootScope.convertNumberToDisplayWithoutThousandsSeparator = function(number) {
+        return convertNumberToDisplay(number, $rootScope.nrOfDecimals, false);
     };
-    $rootScope.getExprItemIfCalcName = getExprItemIfCalcName;
+    $rootScope.getExprItemAsString = function(exprItem) {
+        return getExprItemAsString(exprItem, $rootScope.nrOfDecimals);
+    };
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

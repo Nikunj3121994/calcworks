@@ -22,7 +22,7 @@ describe('Test filter toFixedDecimals in CalculatorCtrl', function () {
         expect(result).toBe(null);
 
         result = toFixedDecimalsFilter(1234);
-        expect(result).toBe('1234');
+        expect(result).toBe('1,234');
 
         result = toFixedDecimalsFilter(0.333333);
         expect(result).toBe('0.33');

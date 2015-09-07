@@ -25,7 +25,7 @@ angular.module('calcworks.controllers')
                     template = template + '<td class="itemExpr">  &nbsp;=&nbsp;  </td>';
                     var arrayLength = expression.length;
                     for (var i = 0; i < arrayLength; i++) {
-                        template = template + '<td class="itemExpr">' + $rootScope.getExprItemAsString(expression[i], scope.sheet) + '</td>';
+                        template = template + '<td class="itemExpr">' + $rootScope.getExprItemAsString(expression[i]) + '</td>';
                     }
                     template = template + '</tr>';
                     // second row
@@ -65,7 +65,7 @@ angular.module('calcworks.controllers')
                     var template = '';
                     var arrayLength = scope.expression.length;
                     for (var i = 0; i < arrayLength; i++) {
-                        template = template + '<span class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i], scope.sheet) + '</span>';
+                        template = template + '<span class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i]) + '</span>';
                     }
                     if (scope.result !== undefined && scope.result !== null) {
                         template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';

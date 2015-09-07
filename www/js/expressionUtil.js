@@ -18,13 +18,6 @@ function addSpaceIfNeeded(string) {
     }
 }
 
-// dit zou wel eens veel beter via een factory provider kunnen (https://docs.angularjs.org/guide/providers)
-function getDecimalSeparator() {
-    var n = 1.1;
-    n = n.toLocaleString().substring(1, 2);
-    return n;
-}
-
 // returns null if name does not contain a number
 function getNumberFromVarname(name) {
     var numbers = name.match(/\d+$/);
@@ -100,33 +93,72 @@ function countOccurencesInExpression(string, expression) {
     return count;
 }
 
-// ook aangeboden via $rootScope
+// private
+function getDecimalSeparator() {
+    var n = 1.1;
+    n = n.toLocaleString().substring(1, 2);
+    return n;
+}
+// private
+var decimalSeparatorChar = getDecimalSeparator();
+var thousandsSeparatorChar =  (decimalSeparatorChar==='.') ? ',' : '.';
+
+// public
+function getDigitSeparators() {
+    return { decimalSeparator: decimalSeparatorChar, thousandsSeparator: thousandsSeparatorChar };
+}
+
+// private
+function addThousandSeparators(numberStr) {
+    var parts = numberStr.split('.');
+    var integerPart = parts[0];
+    var fractionPart = parts.length > 1 ? '.' + parts[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(integerPart)) {
+        integerPart = integerPart.replace(rgx, '$1' + thousandsSeparatorChar + '$2');
+    }
+    return integerPart + fractionPart;
+}
+
+// public
+function removeThousandSeparators(numberStr) {
+    var re = new RegExp(thousandsSeparatorChar, "g");
+    return numberStr.replace(re, '');
+}
+
+// public
+function containsDecimalPart(numberStr) {
+    return numberStr.indexOf(decimalSeparatorChar) >= 0;
+}
+
+// private, public aangeboden via $rootScope
 // converts number into a string with max nr of decimals
 // returns error if the number is nan or infinite
-function convertNumberToDisplay(number, nrOfDecimals) {
+function convertNumberToDisplay(number, nrOfDecimals, hasThousandsSeparator) {
     if (isNaN(number) || !isFinite(number)) {
         return 'error';
     } else {
-        return (+number.toFixed(nrOfDecimals)).toString();
+        var temp = (+number.toFixed(nrOfDecimals)).toLocaleString();
+        if (hasThousandsSeparator) {
+            temp = addThousandSeparators(temp);
+        }
+        return temp;
     }
 }
+
 
 // MISSCHIEN MOET DIT naar Calculation
 // er ontbreekt een base class ExprItem voor deze functies
 // testen ontbreken
 // geeft de waarde voor een calcName en anders de literal zelf terug
-function getExprItemAsString(exprItem, sheet, nrOfDecimals) {
+function getExprItemAsString(exprItem, nrOfDecimals) {
     if (isOperator(exprItem) || isBracket(exprItem)) {
         return exprItem;
     } else if (exprItem instanceof Calculation) {
-        return convertNumberToDisplay(exprItem.result, nrOfDecimals);
+        return convertNumberToDisplay(exprItem.result, nrOfDecimals, true);
     } else {
-        return convertNumberToDisplay(exprItem, nrOfDecimals);
+        return convertNumberToDisplay(exprItem, nrOfDecimals, true);
     }
-}
-
-function getExprItemIfCalcName(exprItem) {
-    throw new Error('deze moet je vervangen door instanceOf Calculation');
 }
 
 // note we do not use Ionic's next id since it is not unique across sessions

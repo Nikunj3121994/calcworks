@@ -23,7 +23,7 @@ angular.module('calcworks.services')
                 template = template + '<td class="itemExpr">  &nbsp;=&nbsp;  </td>';
                 var arrayLength = expression.length;
                 for (var i = 0; i < arrayLength; i++) {
-                    template = template + '<td class="itemExpr">' + $rootScope.getExprItemAsString(expression[i], sheet) + '</td>';
+                    template = template + '<td class="itemExpr">' + $rootScope.getExprItemAsString(expression[i]) + '</td>';
                 }
                 template = template + '</tr>';
                 // second row

@@ -141,6 +141,9 @@ Issues
 
 we moeten iets anders verzinnen dan calcworks...
 calcultra
+calcgem
+calcberyl
+.info website eerste jaar paar euro, daarna uitkijken
 
 opnieuw de config.xml aanmaken aan de hand van de laatste cordova versie (ook dit checken)
 xcode geeft een warning over een deprecated iets:

@@ -87,4 +87,16 @@ describe('Test directives', function () {
         expect(spanElement.length).toBe(3);
     });
 
+    it('verify directive with thousand separator', function () {
+        scope.expression = [1234];
+        var calculation = new Calculation('id', 'name', scope.expression);
+        scope.result = null;
+        scope.sheet = new Sheet('id', 'name', [calculation]);
+        compile(element)(scope);
+        mockBackEnd();
+        scope.$digest();
+        var spanElement = element.find('span');
+        expect(spanElement.eq(0).text()).toBe('1,234');
+    });
+
 });

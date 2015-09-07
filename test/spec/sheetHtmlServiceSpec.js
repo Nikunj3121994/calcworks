@@ -27,7 +27,7 @@ describe('Test sheetHtmlService', function () {
         expect(html).toContain('<style>');
         expect(html).toContain('<table');
         expect(html).toContain('200');
-        expect(html).toContain('2500');
+        expect(html).toContain('2,500');
         //console.log(html);
     });
 
@@ -42,7 +42,7 @@ describe('Test sheetHtmlService', function () {
         expect(html).toContain('<style>');
         expect(html).toContain('<table');
         expect(html).toContain('Sum');
-        expect(html).toContain('1000');
+        expect(html).toContain('1,000');
     });
 
 });
