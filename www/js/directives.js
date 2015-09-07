@@ -77,6 +77,22 @@ angular.module('calcworks.controllers')
         }
     };
 })
+.directive('resolveInputDisplay', function() {
+    return {
+        restrict: 'E',
+        scope: {
+            numberstr: '='
+        },
+        link: function(scope, element) {
+            scope.$watch('numberstr', function(newValue, oldValue) {
+                if (newValue) {
+                    // since we resolve the parameters above there is no need to compile
+                    element.html(addThousandSeparators(scope.numberstr));
+                }
+            }, false);
+        }
+    };
+})
 .directive('activeSheetFlag', function(sheetService) {
     return {
         restrict: 'E',
