@@ -142,6 +142,7 @@ Issues
 we moeten iets anders verzinnen dan calcworks...
 calcultra
 calcgem
+calcgems
 calcberyl
 .info website eerste jaar paar euro, daarna uitkijken
 

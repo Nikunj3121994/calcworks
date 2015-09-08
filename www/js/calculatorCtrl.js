@@ -317,7 +317,6 @@ angular.module('calcworks.controllers')
 
     // we could move this function to Sheet
     function createNewCalculation(expression) {
-        $log.log('info calculatorCtrl:createNewCalculation: lastVarName: ' + lastVarName);
         var name = generateCalcName(lastVarName);
         lastVarName = name;
         var id = generateUUID();
