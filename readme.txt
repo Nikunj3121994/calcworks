@@ -192,6 +192,8 @@ http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-scre
 nice-to-have
 ------------
 
+samen nemen van btns Delete en Reorder into Change. Bij actief maken dan de ... button kolom hidden
+
 voor het emailen en de title is nog untitled dan de rename dlg tonen
 
 misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
