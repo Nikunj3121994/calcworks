@@ -40,19 +40,7 @@ angular.module('calcworks.controllers')
         };
 
         $scope.shareSheet = function(sheet) {
-            console.log('send email');
-            window.plugin.email.open(
-                {
-                    subject: "email calcworks on " + sheet.name,
-                    // we leave to: empty such that end-user can choose an email address
-                    body: sheetHtmlService.generateHtml(sheet),
-                    isHtml:  true
-                },
-                function () {
-                    console.log('email view dismissed');
-                },
-                this
-            );
+            sheetHtmlService.emailSheet(sheet);
         };
 
     });

@@ -2,6 +2,24 @@
 
 angular.module('calcworks.services')
     .service('sheetHtmlService', function ($rootScope) {
+        // maybe we have to rename this service to the Share or Email Service
+
+        this.emailSheet = function(sheet) {
+            console.log('send email');
+            window.plugin.email.open(
+                {
+                    subject: "email calcworks on " + sheet.name,
+                    // we leave to: empty such that end-user can choose an email address
+                    body: sheetHtmlService.generateHtml(sheet),
+                    isHtml: true
+                },
+                function () {
+                    console.log('email view dismissed');
+                },
+                this
+            );
+        }
+
 
         // this resembles for a large part the resolveSheet directive
         // not sure whether we should merge the code or keep it separate to allow for visual tweaks

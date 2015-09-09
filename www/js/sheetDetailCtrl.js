@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-.controller('SheetDetailCtrl', function($scope, $rootScope, $state, $log, $stateParams, renameDialogs, sheetService) {
+.controller('SheetDetailCtrl', function($scope, $rootScope, $state, $ionicActionSheet, $stateParams, renameDialogs, sheetService, sheetHtmlService) {
 
     var state = $stateParams;
 
@@ -33,7 +33,7 @@ angular.module('calcworks.controllers')
         sheetService.saveSheet($scope.sheet);
     };
 
-        // drop item
+    // drop item
     $scope.reorderItem = function(item, fromIndex, toIndex) {
         var array = $scope.sheet.calculations;
         array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
@@ -53,11 +53,39 @@ angular.module('calcworks.controllers')
     };
 
     $scope.toggleSum = function() {
-        console.log(".." + $scope.sheet.hasSum);
         $scope.sheet.hasSum = !$scope.sheet.hasSum;
     };
 
     $scope.showRenamePopup = function(calc) { renameDialogs.showRenameCalculationDialog(calc, $scope.sheet); };
 
+    $scope.showActionSheet = function() {
+
+        $ionicActionSheet.show({
+            buttons: [
+                { text: 'New' },
+                { text: 'Share' },
+                { text: 'Macro' }
+            ],
+            //destructiveText: 'Delete Sheet',
+            //titleText: 'Modify your album',
+            cancelText: 'Cancel',
+            cancel: function() {
+                // nothing to do
+            },
+            buttonClicked: function(index) {
+                if (index===0) {
+                    $scope.newSheet();
+                }
+                if (index===1) {
+                    sheetHtmlService.emailSheet($scope.sheet);
+                }
+                if (index===2) {
+                    //
+                }
+                return true; // close the sheet
+            }
+            //todo destructiveButtonClicked
+        });
+    };
 
 });

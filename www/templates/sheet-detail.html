@@ -37,8 +37,7 @@ The Sheets service returns an array of sheet data
                         <resolve-sheet sheet="sheet" index="$index"></resolve-sheet>
                    </span>
                    <span class="col col-10">
-                       <span ng-click="showRenamePopup(calc)">...
-                       </span>
+                       <button class="button button-clear ion-ios-more" ng-click="showRenamePopup(calc)"></button>
                    </span>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
                   </ion-delete-button>
@@ -55,12 +54,12 @@ The Sheets service returns an array of sheet data
       </ion-list>
   </ion-content>
 
-    <ion-footer-bar align-title="left" class="bar-light">
+    <ion-footer-bar align-title="center" class="bar-light">
         <div class="buttons">
-            <button class="button button-clear" ng-click="showDelete = false; showReorder = false; newSheet()">New</button>
         </div>
-        <!--dummy element ivm uitlijning-->
-        <h1 class="title"></h1>
+        <span class="title">
+            <button class="button button-clear ion-ios-more" ng-click="showDelete = false; showReorder = false; showActionSheet()"></button>
+        </span>
         <div class="buttons">
             <div class="button button-clear" ng-class="{'button-energized': sheet.hasSum}" ng-click="toggleSum()">Sum</div>
         </div>
