@@ -166,6 +166,9 @@ zo wel, dan verwijderen we de laatste sheet als updated=created
 
 maken we een nieuwe sheet - mits de vorige niet leeg is. Als het totaal aantal sheets 50 is dan verwijderen we de laatste.
 
+de active sheet gaat verloren als er een recentere is. Misschien moet je iets maken dat je kan 'pinnen'.
+
+
 om autofocus voor elkaar te krijgen:
 http://forum.ionicframework.com/t/auto-focus-textbox-while-template-loads/6851/28
 For it to work with cordova you need to add this in your config.xml
@@ -191,6 +194,8 @@ http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-scre
 
 nice-to-have
 ------------
+
+moeten we een lastSeen field toevoegen zodat je daar ook op kan sorteren
 
 samen nemen van btns Delete en Reorder into Change. Bij actief maken dan de ... button kolom hidden
 
