@@ -57,9 +57,11 @@ angular.module('calcworks.services')
                 return activeSheet;
             },
             setActiveSheet: function(sheetId) {
-                activeSheet = this.getSheet(sheetId);
-                if (!activeSheet) throw new Error('sheetId '+ sheetId + ' illegal value');
-                $rootScope.$broadcast("sheetsUpdated", 'active-sheet-changed');
+                if (activeSheet.id !== sheetId) {
+                    activeSheet = this.getSheet(sheetId);
+                    if (!activeSheet) throw new Error('sheetId ' + sheetId + ' illegal value');
+                    $rootScope.$broadcast("sheetsUpdated", 'active-sheet-changed');
+                }
             },
             getSheets: function() {
                 return sheets;
@@ -90,11 +92,8 @@ angular.module('calcworks.services')
                 }
                 storageService.deleteSheets([sheet.id]);
                 if (sheetId === activeSheet.id) {
-                    activeSheet = this.createNewActiveSheet();
+                    activeSheet = this.createNewActiveSheet();  // deze doet (al) een event broadcast
                 }
-                // todo:  (nodig denk ik als je de active sheet delete)
-                // $rootScope.$broadcast("sheetsUpdated", sheetID);
-
             },
             deleteAllSheets: function(includeFavoriteSheets) {
                 var flagNewActiveSheet = false;
