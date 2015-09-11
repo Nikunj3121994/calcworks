@@ -54,6 +54,9 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
 
   .state('tab.calculator', {
     url: '/calculator',
+          data: {
+              mode: 'normal'
+          },
     views: {
       'tab-calculator': {
         templateUrl: 'templates/tab-calculator.html',
@@ -80,16 +83,6 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
         }
       }
     })
-  //.state('tab.sheet-detail', {
-  //    url: '/sheets/:sheetId',
-  //    params: { sheetId: null },
-  //    views: {
-  //      'tab-sheets': {
-  //        templateUrl: 'templates/sheet-detail.html',
-  //        controller: 'SheetDetailCtrl'
-  //      }
-  //    }
-  //  })
   .state('tab.settings', {
     url: '/settings',
     views: {

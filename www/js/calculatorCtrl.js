@@ -2,20 +2,21 @@
 
 angular.module('calcworks.controllers')
 
-.controller('CalculatorCtrl', function($scope, $rootScope, $stateParams, $log, $ionicModal, calcService, sheetService, renameDialogs) {
+.controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, calcService, sheetService, renameDialogs) {
 
-    //consider: ipv sheetService zou je ook via de resolve: in app.js de activeSheet kunnen injecteren.
-    // op deze manier heb je een betere decoupling
 
     var decimalSeparator = getDigitSeparators().decimalSeparator;
     var lastVarName = '';
     var selectedCalc;
+    var state = $stateParams;  // dit moeten we in app.js in de rootscope stoppen
 
     $scope.reset = function() {
+        console.log('reset');
         $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
         $scope.operatorStr = '';
         $scope.expression = []; // array of Calculations, operators as string and numbers
         $scope.result = null; // we check for null so do not make this undefined
+        $scope.macroMode = false;
         // misschien kan $scope wel weg
         $scope.numberEnteringState = false;  // na de eerste digit zit je in deze state totdat een operator, bracket of equals komt
         $scope.expressionEnteringState = false;   // geeft aan dat een nieuwe expression is gestart  (direct na equals is deze false)
@@ -32,10 +33,9 @@ angular.module('calcworks.controllers')
     };
 
     function init() {
-        $log.log('calculatorCtrl: init');
+        console.log('init');
         $scope.sheet = sheetService.getActiveSheet();
         // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
-        $log.log('calculatorCtrl: calculationName empty');
         lastVarName = 'calc' + $scope.sheet.getLastNumberFromCalcName();
         selectedCalc = null;
         $scope.reset();
@@ -49,16 +49,28 @@ angular.module('calcworks.controllers')
         $scope.reset();
     };
 
+
+    $scope.$on('$ionicView.beforeEnter', function () {
+        console.log('beforeEnter calcCtrl  state.mode: ' + $state.current.data.mode);
+        if ($state.current.data.mode === 'run') {
+            $scope.macroMode = true;
+        } else {
+            $scope.macroMode = false;
+        }
+    });
+
+
     // de activeSheet tab kan een calculatie selecteren en geeft dit door via een globale variabele
     // deze hack was nodig omdat anders via een state.go() een nieuwe state geintroduceerd werd
     // echter deze oplossing is ook fout omdat je een verandering nodig hebt, en dat is er niet per se t geval
     // nu dwingen we deze af via een gore hack
     // IPV een watch op een variabele, zouden we een event moeten sturen om de views in sync te houden.
+    // of custom data in $state.current
     $rootScope.$watch('hackSelectedCalcName', function(newVal, oldVal) {
-        $log.log('calculatorCtrl: calculationName= ' + newVal);
         if (!newVal) {
             return false;
         }
+        $log.log('watch from calculatorCtrl: calculationName= ' + newVal);
         var calc = sheetService.getActiveSheet().getCalculationFor(newVal);
         $scope.processSelectedCalculation(calc);
         $rootScope.hackSelectedCalcName = null; // dit triggered weer een watch....
@@ -71,9 +83,15 @@ angular.module('calcworks.controllers')
 
     // nu kan sheetsUpdated zich  voordoen door deleteAllSheets en change van activeSheet
     $scope.$on('sheetsUpdated', function(e, value) {
+        console.log('sheetsUpdated: ' + value);
         init();
     });
 
+    $scope.cancelMacroMode = function() {
+        $scope.macroMode = false;
+        $state.get('tab.calculator').data.mode = 'normal';
+        $scope.reset();
+    };
 
     // hier een scope functie van gemaakt om te kunnen testen
     $scope.processSelectedCalculation = function (calc) {
@@ -91,7 +109,7 @@ angular.module('calcworks.controllers')
         if (calc) {
             // OK clicked
             $scope.processSelectedCalculation(calc);
-        }
+        } // else cancel clicked
         $scope.closeModal();
     };
 
@@ -105,25 +123,21 @@ angular.module('calcworks.controllers')
         modal.scope.sheet = undefined; // wait till openModal
         modal.scope.clickCalculation = selectCalculationModalClicked;
     });
+
     $scope.openModal = function() {
         $scope.selectCalculationModal.scope.sheet = sheetService.getActiveSheet();
         $scope.selectCalculationModal.show();
     };
+
     $scope.closeModal = function() {
         $scope.selectCalculationModal.hide();
     };
+
     //Cleanup the modal when we're done with it!
     $scope.$on('$destroy', function() {
         $scope.selectCalculationModal.remove();
     });
-    // Execute action on hide modal
-    $scope.$on('modal.hidden', function() {
-        // Execute action
-    });
-    // Execute action on remove modal
-    $scope.$on('modal.removed', function() {
-        // Execute action
-    });
+
 
     $scope.touchDigit = function(n) {
         // merk op dat bij een nieuw getal we de expression niet wissen, inconsequent maar wel handig dat je
@@ -212,7 +226,9 @@ angular.module('calcworks.controllers')
     };
 
         //todo: de parameter wordt niet gebruikt....
-    $scope.touchRemember = function(calc) { renameDialogs.showRenameCalculationDialog(selectedCalc, $scope.sheet); };
+    $scope.touchRemember = function(calc) {
+        renameDialogs.showRenameCalculationDialog(selectedCalc, $scope.sheet);
+    };
 
     $scope.touchPlusMinOperator = function() {
         if ($scope.numberEnteringState === false) {
@@ -328,6 +344,21 @@ angular.module('calcworks.controllers')
     // in tegenstelling tot andere 'touches' bestaat de equals uit 2 zaken:
     // verwerkerking van de input tot aan de '=' en daarna het resultaat uitrekenen/tonen
     $scope.touchEqualsOperator = function() {
+        if ($scope.macroMode) {
+            $scope.equalsOperatorMacroMode();
+        } else {
+            $scope.equalsOperatorNormalMode();
+        }
+    }
+
+    $scope.equalsOperatorMacroMode = function() {
+        $scope.sheet.inputCalculation.expression = [ +$scope.display ];
+        calcService.calculate($scope.sheet);
+        $scope.numberEnteringState = false;
+        $scope.expressionEnteringState = false;
+    }
+
+    $scope.equalsOperatorNormalMode = function() {
         // als twee keer achter elkaar = wordt ingedrukt dan is dit een short cut voor de remember functie
         // doordat een nieuw getal niet meteen expressionEnteringStart() aanroept kan result en display out of sync zijn
         // we eisen dat ze wel hetzelfde zijn voor de remember functie

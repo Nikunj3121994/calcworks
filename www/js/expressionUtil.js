@@ -138,6 +138,7 @@ function convertNumberToDisplay(number, nrOfDecimals, hasThousandsSeparator) {
     if (isNaN(number) || !isFinite(number)) {
         return 'error';
     } else {
+        // ik vermoed dat als number een string het hier fout gaat
         var temp = (+number.toFixed(nrOfDecimals)).toLocaleString();
         if (hasThousandsSeparator) {
             temp = addThousandSeparators(temp);
@@ -152,7 +153,9 @@ function convertNumberToDisplay(number, nrOfDecimals, hasThousandsSeparator) {
 // testen ontbreken
 // geeft de waarde voor een calcName en anders de literal zelf terug
 function getExprItemAsString(exprItem, nrOfDecimals) {
-    if (isOperator(exprItem) || isBracket(exprItem)) {
+    if (!exprItem) {
+        throw new Error();
+    } else if (isOperator(exprItem) || isBracket(exprItem)) {
         return exprItem;
     } else if (exprItem instanceof Calculation) {
         return convertNumberToDisplay(exprItem.result, nrOfDecimals, true);

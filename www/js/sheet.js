@@ -12,6 +12,8 @@ var Sheet = function(par, name, calculations) {
         this.updatedTimestamp = this.createdTimestamp;
         this.favorite = false;
         this.hasSum = false;  // waarom deze flag? je kan toch naar undefined waarde kijken van .sum
+        this.inputCalculation = undefined;
+        this.outputCalculation = undefined;
         this.sum = undefined;
     } else {
         // reconstruct object from json
@@ -23,6 +25,8 @@ var Sheet = function(par, name, calculations) {
         this.favorite = par.favorite;
         this.hasSum = par.hasSum;
         this.sum = par.sum;
+        this.inputCalculation = par.inputCalculation;
+        this.outputCalculation = par.outputCalculation;
     }
     this.__type = 'Sheet';
     this.version = '1.0'; // we will use this for versioning and potential updating of storage format

@@ -139,6 +139,10 @@ Issues
 -------
 
 
+bij t deleten van een calc moet je evt ook input en output bijwerken
+
+als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
+
 we moeten iets anders verzinnen dan calcworks...
 calcultra
 calcgem
@@ -194,6 +198,11 @@ http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-scre
 
 nice-to-have
 ------------
+
+angular.module("myApp").run(function ($rootScope, $state, $stateParams) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+});
 
 moeten we een lastSeen field toevoegen zodat je daar ook op kan sorteren
 
