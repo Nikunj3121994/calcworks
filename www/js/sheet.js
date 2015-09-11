@@ -69,6 +69,12 @@ Sheet.prototype.getValueFor = function(calcName) {
 
 Sheet.prototype.deleteCalculation = function(index) {
     if (index >= this.calculations.length) throw new Error('Illegal argument, index: ' + index);
+    if (this.inputCalculation === this.calculations[index]) {
+        this.inputCalculation = undefined;
+    }
+    if (this.outputCalculation === this.calculations[index]) {
+        this.outputCalculation = undefined;
+    }
     var calcName = this.calculations[index].name;
     var result = this.calculations[index].result;
     var arrayLength = this.calculations.length;

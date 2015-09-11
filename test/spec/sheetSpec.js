@@ -82,6 +82,22 @@ describe('Test sheet', function () {
         expect(sheet.calculations[0].expression).toEqual([15, '+', 15]);
     });
 
+    it('verify deleteCalculation input/output calculations', function() {
+        var sheet = new Sheet('id', 'foo', []);
+        var calc1 = new Calculation('id', 'calc1', []);
+        sheet.add(calc1);
+        var calc2 = new Calculation('id', 'calc2', []);
+        sheet.add(calc2);
+        sheet.inputCalculation = calc1;
+        sheet.outputCalculation = calc2;
+
+        sheet.deleteCalculation(0); // calc2
+        expect(sheet.outputCalculation).toBeUndefined();
+        sheet.deleteCalculation(0); // calc1
+        expect(sheet.inputCalculation).toBeUndefined();
+
+    });
+
 });
 
 

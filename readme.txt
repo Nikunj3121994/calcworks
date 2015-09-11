@@ -139,7 +139,8 @@ Issues
 -------
 
 
-bij t deleten van een calc moet je evt ook input en output bijwerken
+clear input en output calc in dlg
+input en output mogen niet hetzelfde zijn
 
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
 
@@ -157,8 +158,6 @@ xcode geeft een warning over een deprecated iets:
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
 
-later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
-Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
 
 de error log van de calc service wordt niets mee gedaan
 
@@ -190,14 +189,14 @@ bij aanzetten of activeren kunnen of een bepaalde tijdsperiode is verstreken en 
 
 aan settings tab een 'send feedback' toevoegen
 
-killer-feature: maak t mogelijk om 1 var als input aan te wijzen (evt meerdere tzt) en 1 var als result/output.
-Voeg dan een run icon toe aan een sheet. Dit toont popup met de input var(s)
-
 voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
 http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution
 
 nice-to-have
 ------------
+
+later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
+Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
 
 angular.module("myApp").run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
@@ -213,8 +212,6 @@ voor het emailen en de title is nog untitled dan de rename dlg tonen
 misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
 
 plaats files mbt feature bij elkaar
-
-als je een lege sheet hebt en je doet new dan krijg je geen feedback
 
 het aantal decimalen instelbaar
 
