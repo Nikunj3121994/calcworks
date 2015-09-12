@@ -139,8 +139,9 @@ Issues
 -------
 
 
-clear input en output calc in dlg
+de input en output calc moeten geselecteerd zijn in dlg
 input en output mogen niet hetzelfde zijn
+toon expressie met calc names ipv results
 
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
 

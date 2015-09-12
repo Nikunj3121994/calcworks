@@ -92,6 +92,10 @@ angular.module('calcworks.controllers')
         modal.scope.outputCalculation = undefined;
         modal.scope.sheet = undefined; // defined in showMacroPopup
         modal.scope.clickCalculation = selectCalculationModalClicked;
+        modal.scope.clickClear = function() {
+            modal.scope.inputCalculation = undefined;
+            modal.scope.outputCalculation = undefined;
+        };
         modal.scope.toggleInputOutput = function() {
             if (modal.scope.mode === 'input') {
                 modal.scope.mode = 'output';

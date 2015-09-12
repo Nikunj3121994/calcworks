@@ -1,13 +1,11 @@
 <ion-modal-view>
     <ion-header-bar>
-        <div class="bar bar-header">
             <h1 class="title">Configure macro</h1>
-        </div>
-        <div class="bar bar-subheader">
-            <h2 class="title">Select calculation that serves as {{mode}}</h2>
-        </div>
     </ion-header-bar>
-    <ion-content  class="has-header has-subheader">
+    <ion-content  >
+        <ion-item>
+            <h2 class="title">Select calculation that serves as {{mode}}:</h2>
+        </ion-item>
         <ion-list>
             <ion-item ng-repeat="calc in sheet.calculations  track by $index" ng-click="clickCalculation(calc)">
                 <div>
@@ -21,6 +19,7 @@
     <ion-footer-bar class="bar bar-light">
         <div class="buttons">
             <button class="button button-assertive" ng-click="clickCalculation()">Cancel</button>
+            <button class="button button-clear" ng-click="clickClear()">Clear selection</button>
         </div>
         <span class="title">
         </span>
