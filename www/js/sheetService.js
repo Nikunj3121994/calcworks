@@ -91,6 +91,7 @@ angular.module('calcworks.services')
                     }
                 }
                 storageService.deleteSheets([sheet.id]);
+                // het is nog maar de vraag of t zo handig is om altijd een nieuwe te maken
                 if (sheetId === activeSheet.id) {
                     activeSheet = this.createNewActiveSheet();  // deze doet (al) een event broadcast
                 }
