@@ -54,6 +54,8 @@ angular.module('calcworks.controllers')
         console.log('beforeEnter calcCtrl  state.mode: ' + $state.current.data.mode);
         if ($state.current.data.mode === 'run') {
             $scope.macroMode = true;
+            miniReset();  // whipe out left overs
+            // consider: display the inputCalculation.result as a placeholder somehow
         } else {
             $scope.macroMode = false;
         }
