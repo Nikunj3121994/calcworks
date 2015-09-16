@@ -152,13 +152,17 @@ function convertNumberToDisplay(number, nrOfDecimals, hasThousandsSeparator) {
 // er ontbreekt een base class ExprItem voor deze functies
 // testen ontbreken
 // geeft de waarde voor een calcName en anders de literal zelf terug
-function getExprItemAsString(exprItem, nrOfDecimals) {
+function getExprItemAsString(exprItem, nrOfDecimals, displayCalculationName) {
     if (!exprItem) {
         throw new Error();
     } else if (isOperator(exprItem) || isBracket(exprItem)) {
         return exprItem;
     } else if (exprItem instanceof Calculation) {
-        return convertNumberToDisplay(exprItem.result, nrOfDecimals, true);
+        if (displayCalculationName) {
+            return exprItem.name;
+        } else {
+            return convertNumberToDisplay(exprItem.result, nrOfDecimals, true);
+        }
     } else {
         return convertNumberToDisplay(exprItem, nrOfDecimals, true);
     }

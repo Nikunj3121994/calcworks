@@ -2,7 +2,8 @@
 
 angular.module('calcworks.controllers')
 
-.controller('SheetDetailCtrl', function($scope, $rootScope, $state, $ionicActionSheet, $stateParams, $ionicModal, renameDialogs, sheetService, calcService, sheetHtmlService) {
+.controller('SheetDetailCtrl', function($scope, $rootScope, $state, $ionicActionSheet, $stateParams, $ionicModal,
+                                        renameDialogs, configureMacroDialog, sheetService, calcService, sheetHtmlService) {
 
     var state = $stateParams;
 
@@ -58,64 +59,6 @@ angular.module('calcworks.controllers')
     // we can optimize this by initializing in the show, however in this case we need to wait till
     // the promise in the then() is resolved
     // init $scope.macroModalPopup:
-    $ionicModal.fromTemplateUrl('templates/configure-macro.html', {
-        scope: null,
-        animation: 'slide-in-up'
-    }).then(function(modal) {
-
-        var closeModal = function() {
-            $scope.macroModalPopup.hide();
-        };
-        var selectCalculationModalClicked = function(calc) {
-            if (calc) {
-                if (modal.scope.mode === 'input') {
-                    modal.scope.inputCalculation = calc;
-                } else {
-                    modal.scope.outputCalculation = calc;
-                }
-                modal.scope.toggleInputOutput();
-                if (modal.scope.inputCalculation && modal.scope.outputCalculation) {
-                    modal.scope.sheet.inputCalculation = modal.scope.inputCalculation;
-                    modal.scope.sheet.outputCalculation = modal.scope.outputCalculation;
-                    sheetService.saveSheet(modal.scope.sheet);
-                    closeModal();
-                }
-            } else {
-                // cancel
-                closeModal();
-            }
-        }
-
-        $scope.macroModalPopup = modal;
-        modal.scope.mode = 'input';
-        modal.scope.inputCalculation = undefined;
-        modal.scope.outputCalculation = undefined;
-        modal.scope.sheet = undefined; // defined in showMacroPopup
-        modal.scope.clickCalculation = selectCalculationModalClicked;
-        modal.scope.clickClear = function() {
-            modal.scope.inputCalculation = undefined;
-            modal.scope.outputCalculation = undefined;
-        };
-        modal.scope.toggleInputOutput = function() {
-            if (modal.scope.mode === 'input') {
-                modal.scope.mode = 'output';
-            } else {
-                modal.scope.mode = 'input';
-            }
-        };
-
-    });
-
-    //Cleanup the modal when we're done with it!
-    $scope.$on('$destroy', function() {
-        $scope.macroModalPopup.remove();
-    });
-
-
-    function showConfigMacroPopup() {
-        $scope.macroModalPopup.scope.sheet = $scope.sheet;
-        $scope.macroModalPopup.show();
-    }
 
 
     function newSheet() {
@@ -153,7 +96,7 @@ angular.module('calcworks.controllers')
                     sheetHtmlService.emailSheet($scope.sheet);
                 }
                 if (index===2) {
-                    showConfigMacroPopup();
+                    configureMacroDialog.showConfigureMacroDialog($scope.sheet);
                 }
                 if (index===3) {
                     $state.get('tab.calculator').data.mode = 'run';

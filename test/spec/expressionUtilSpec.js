@@ -65,9 +65,13 @@ describe('Test Expression Utilities', function () {
     });
 
     it('getExprItemAsString', function() {
-        expect(getExprItemAsString(1), 1).toEqual('1');
-        expect(getExprItemAsString('('), 1).toEqual('(');
-        expect(getExprItemAsString('x'), 1).toEqual('x');
+        expect(getExprItemAsString(1, 1)).toEqual('1');
+        expect(getExprItemAsString('(', 1)).toEqual('(');
+        expect(getExprItemAsString('x', 1)).toEqual('x');
+        var calc = new Calculation('id', 'name', '1 + 2');
+        calc.result = 3;
+        expect(getExprItemAsString(calc, 1, false)).toEqual('3');
+        expect(getExprItemAsString(calc, 1, true)).toEqual('name');
     });
 
 

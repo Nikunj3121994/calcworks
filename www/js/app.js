@@ -15,8 +15,8 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
     $rootScope.convertNumberToDisplayWithoutThousandsSeparator = function(number) {
         return convertNumberToDisplay(number, $rootScope.nrOfDecimals, false);
     };
-    $rootScope.getExprItemAsString = function(exprItem) {
-        return getExprItemAsString(exprItem, $rootScope.nrOfDecimals);
+    $rootScope.getExprItemAsString = function(exprItem, displayCalculationName) {
+        return getExprItemAsString(exprItem, $rootScope.nrOfDecimals, displayCalculationName);
     };
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

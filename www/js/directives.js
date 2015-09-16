@@ -57,15 +57,19 @@ angular.module('calcworks.controllers')
         scope: {
             expression: '=',
             sheet: '=',
-            result: '='  //optional since might not be there yet
+            result: '=',  //optional since might not be there yet
+            displayCalculationName: '=' // optional, display calculation name instead of its result
         },
         link: function(scope, element) {
             scope.$watch('expression', function(newValue, oldValue) {
                 if (newValue) {
                     var template = '';
                     var arrayLength = scope.expression.length;
+                    console.log('****** ' + scope.displayCalculationName);
                     for (var i = 0; i < arrayLength; i++) {
-                        template = template + '<span class="itemExpr">' + $rootScope.getExprItemAsString(scope.expression[i]) + '</span>';
+                        template = template + '<span class="itemExpr">';
+                        template = template + $rootScope.getExprItemAsString(scope.expression[i], scope.displayCalculationName);
+                        template = template + '</span>';
                     }
                     if (scope.result !== undefined && scope.result !== null) {
                         template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';

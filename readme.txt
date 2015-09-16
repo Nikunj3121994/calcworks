@@ -159,6 +159,9 @@ xcode geeft een warning over een deprecated iets:
 editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
 Je kan een recall of een getal invoeren.
 
+mailen
+ - toevoegen aan het actie menu
+ - je wilt een simpelere lay-out, zoiets als   rente kosten = 300,000 x 3.2% = 1040  oid
 
 de error log van de calc service wordt niets mee gedaan
 
