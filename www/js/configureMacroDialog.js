@@ -8,48 +8,57 @@ angular.module('calcworks.services')
         return {
             showConfigureMacroDialog: function(sheet) {
 
-                var modalDlg;
-
                 $ionicModal.fromTemplateUrl('templates/configure-macro.html', {
                     scope: null,
                     animation: 'slide-in-up'
                 }).then(function(modal) {
 
-                    modalDlg = modal;
-
                     var closeModal = function() {
-                        modalDlg.hide();
-                        modalDlg.remove();
+                        modal.hide();
+                        modal.remove();
                     };
-                    var selectCalculationModalClicked = function(calc) {
+
+                    modal.scope.clickCalculation = function(calc) {
                         if (calc) {
                             if (modal.scope.mode === 'input') {
-                                modal.scope.inputCalculation = calc;
+                                // deselect
+                                if (modal.scope.inputCalculation === calc) {
+                                    modal.scope.inputCalculation = null;
+                                } else {
+                                    if (calc === modal.scope.outputCalculation) {
+                                        // todo error signal since output and input are not allowed to be the same
+                                    } else {
+                                        modal.scope.inputCalculation = calc;
+                                    }
+                                }
                             } else {
-                                modal.scope.outputCalculation = calc;
-                            }
-                            modal.scope.toggleInputOutput();
-                            if (modal.scope.inputCalculation && modal.scope.outputCalculation) {
-                                modal.scope.sheet.inputCalculation = modal.scope.inputCalculation;
-                                modal.scope.sheet.outputCalculation = modal.scope.outputCalculation;
-                                sheetService.saveSheet(modal.scope.sheet);
-                                closeModal();
+                                if (modal.scope.outputCalculation === calc) {
+                                    modal.scope.outputCalculation = null;
+                                } else {
+                                    if (calc === modal.scope.inputCalculation) {
+                                        // todo error signal since output and input are not allowed to be the same
+                                    } else {
+                                        modal.scope.outputCalculation = calc;
+                                    }
+                                }
                             }
                         } else {
-                            // cancel
+                            // close
+                            modal.scope.sheet.inputCalculation = modal.scope.inputCalculation;
+                            modal.scope.sheet.outputCalculation = modal.scope.outputCalculation;
+                            sheetService.saveSheet(modal.scope.sheet);
                             closeModal();
                         }
-                    }
-
-                    modal.scope.mode = 'input';
-                    modal.scope.inputCalculation = undefined;
-                    modal.scope.outputCalculation = undefined;
-                    modal.scope.sheet = undefined; // defined in showMacroPopup
-                    modal.scope.clickCalculation = selectCalculationModalClicked;
-                    modal.scope.clickClear = function() {
-                        modal.scope.inputCalculation = undefined;
-                        modal.scope.outputCalculation = undefined;
                     };
+
+                    modal.scope.selected = function(calc) {
+                        if (modal.scope.mode === 'input') {
+                            return calc === modal.scope.inputCalculation;
+                        } else {
+                            return calc === modal.scope.outputCalculation;
+                        }
+                    };
+
                     modal.scope.toggleInputOutput = function() {
                         if (modal.scope.mode === 'input') {
                             modal.scope.mode = 'result';
@@ -58,8 +67,11 @@ angular.module('calcworks.services')
                         }
                     };
 
-                    modalDlg.scope.sheet = sheet;
-                    modalDlg.show();
+                    modal.scope.sheet = sheet;
+                    modal.scope.mode = 'input';
+                    modal.scope.inputCalculation =  modal.scope.sheet.inputCalculation;
+                    modal.scope.outputCalculation =  modal.scope.sheet.outputCalculation;
+                    modal.show();
                 });
 
 

@@ -7,8 +7,8 @@
             <h2 class="title">Select calculation that serves as {{mode}}:</h2>
         </ion-item>
         <ion-list>
-            <ion-item ng-repeat="calc in sheet.calculations  track by $index" ng-click="clickCalculation(calc)">
-                <div>
+            <ion-item ng-repeat="calc in sheet.calculations  track by $index" ng-click="clickCalculation(calc)" ng-style="selected(calc) && {'background-color':'#feba51'}">
+                <div >
                     <div class="listVarName"> {{calc.name}} </div>
                     <div class="listResolvedExpression">
                         <resolve-expression sheet="sheet" expression="calc.expression" result="" display-calculation-name="true"></resolve-expression>
@@ -19,8 +19,7 @@
     </ion-content>
     <ion-footer-bar class="bar bar-light">
         <div class="buttons">
-            <button class="button button-assertive" ng-click="clickCalculation()">Cancel</button>
-            <button class="button button-clear" ng-click="clickClear()">Clear selection</button>
+            <button class="button button-assertive" ng-click="clickCalculation()">Close</button>
         </div>
         <span class="title">
         </span>
