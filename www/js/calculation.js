@@ -25,12 +25,3 @@ var Calculation = function(param, calcName, expression) {
     this.__type = 'Calculation';
 };
 
-//  duplicate van isValidObjectName
-Calculation.prototype.validName  = function(calcName) {
-    //todo: identical/similar to reg exp in parseVars  -> unify
-    // we can optimize this by putting the regExp in constant
-    // ^ and $ are zero-word boundaries
-    return new RegExp('^[A-Za-z_]+[0-9]*$').test(calcName);
-};
-
-

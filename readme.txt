@@ -139,8 +139,6 @@ Issues
 -------
 
 
-input en output mogen niet hetzelfde zijn
-
 createdTime opslaan bij Calculation zodat we later deze kunnen tonen met de waarden
 
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
@@ -197,6 +195,8 @@ http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-scre
 
 nice-to-have
 ------------
+
+het type van de invoer kunnen bepalen (euro, tijdsduur, etc)
 
 later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
 Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
