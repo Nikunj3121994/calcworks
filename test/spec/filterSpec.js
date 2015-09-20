@@ -37,6 +37,11 @@ describe('Test filter toFixedDecimals in CalculatorCtrl', function () {
         var yesterday = new Date((new Date()).valueOf() - 1000*60*60*24);
         result = dateFilter(yesterday);
         expect(result).toContain('yesterday at');
+
+        var daysAgo = new Date((new Date()).valueOf() - 1000*60*60*24 * 4);
+        result = dateFilter(daysAgo);
+        expect(result).not.toContain('yesterday');
+        expect(result).not.toContain('today');
     });
 
 

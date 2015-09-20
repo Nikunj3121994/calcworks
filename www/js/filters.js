@@ -11,7 +11,7 @@ angular.module('calcworks.controllers')
             return $rootScope.convertNumberToDisplay(input);
         }
     };
-
+//toTimestamp zou beter zijn
 }).filter('toDate', function($filter) {
 
     function areDaysEqual(day1, day2) {
@@ -25,17 +25,16 @@ angular.module('calcworks.controllers')
     }
 
     return function(timestamp) {
-        var today = new Date();
-        if (areDaysEqual(today, timestamp)) {
+        if (!timestamp) return '';
+        var today = new Date();  // creating these objects each time can be expensive (?)
+        var yesterday = new Date(today.valueOf() - 1000*60*60*24);
+        if (timestamp < yesterday) {
+            var dateFilter = $filter('date');
+            return dateFilter(timestamp, 'dd MMM yyyy');
+        } else if (areDaysEqual(today, timestamp)) {
             return 'today at ' + getTimeAsString(timestamp);
         } else {
-            var yesterday = new Date(today.valueOf() - 1000*60*60*24);
-            if (areDaysEqual(yesterday, timestamp)) {
-                return 'yesterday at ' + getTimeAsString(timestamp);
-            } else {
-                var dateFilter = $filter('date');
-                return dateFilter(timestamp, 'dd MMM yyyy');
-            }
+            return 'yesterday at ' + getTimeAsString(timestamp);
         }
     };
 
