@@ -211,7 +211,7 @@ ion-item.calc-item div.item-content {
 
 
 /* copied from ionic's .item-input-inset without the padding.
-   this (display) style is needed to get the input field and button on the same row */
+   this (display) style is needed to get the input field and clear (x) button on the same row */
 .input-button-same-row {
     display: -webkit-box;
     display: -webkit-flex;
@@ -226,4 +226,13 @@ ion-item.calc-item div.item-content {
     align-items: center;
     position: relative;
     overflow: hidden;
+}
+
+/*the following two classes are a trick to get the ion-toggle higher in the button-bar*/
+div.item.item-toggle label.toggle {
+    margin-top: -10px;
+    padding-top: 0px;
+}
+div.item.item-toggle div.handle {
+    margin-top: -5px;
 }

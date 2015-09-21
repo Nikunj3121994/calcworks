@@ -15,12 +15,16 @@ var Calculation = function(param, calcName, expression) {
         this.name = calcName;
         this.expression = expression;   // this is an array of numbers, calcNames and operators
         this.result = null;    // can be a number or a string in case of error
+        this.createdTimestamp = new Date();
     } else {
         //console.log('build calc from json');
         this.id = param.id;
         this.name = param.name;
         this.expression = param.expression;
         this.result = param.result;
+        if (param.createdTimestamp) {
+            this.createdTimestamp = new Date(param.createdTimestamp);
+        }
     }
     this.__type = 'Calculation';
 };

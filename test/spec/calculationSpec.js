@@ -8,6 +8,7 @@ describe('Test Calculation object', function () {
         expect(calc.result).toBeNull();
         expect(calc.id).toBe('xxxx');
         expect(calc.name).toBe('calcName');
+        expect(calc.createdTimestamp).toBeDefined();
     });
 
 });

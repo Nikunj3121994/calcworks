@@ -11,6 +11,7 @@ angular.module('calcworks.controllers')
     $scope.showReorder = false;
     $scope.listCanSwipe = true;
     $scope.sheet = sheetService.getActiveSheet();
+    $scope.showCalcCreatedTime = false;
 
     $scope.$on('$ionicView.beforeEnter', function (e) {
         if (state.sheetId) {
@@ -52,7 +53,9 @@ angular.module('calcworks.controllers')
         $scope.sheet.hasSum = !$scope.sheet.hasSum;
     };
 
-    $scope.showRenamePopup = function(calc) { renameDialogs.showRenameCalculationDialog(calc, $scope.sheet); };
+    $scope.showRenamePopup = function(calc) {
+        renameDialogs.showRenameCalculationDialog(calc, $scope.sheet);
+    };
 
 
     // with this approach the popup is always initialized on startup
@@ -64,6 +67,7 @@ angular.module('calcworks.controllers')
     function newSheet() {
         sheetService.createNewActiveSheet();
         $scope.sheet = sheetService.getActiveSheet();
+        $state.go('tab.calculator');
     }
 
 
