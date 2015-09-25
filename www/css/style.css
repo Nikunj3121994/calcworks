@@ -229,10 +229,11 @@ ion-item.calc-item div.item-content {
 }
 
 /*the following two classes are a trick to get the ion-toggle higher in the button-bar*/
-div.item.item-toggle label.toggle {
+
+#btn-bar-toggle label.toggle {
     margin-top: -10px;
     padding-top: 0px;
 }
-div.item.item-toggle div.handle {
+#btn-bar-toggle div.handle {
     margin-top: -5px;
 }
