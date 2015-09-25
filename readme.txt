@@ -138,9 +138,6 @@ website nodig?
 Issues
 -------
 
-
-createdTime opslaan bij Calculation zodat we later deze kunnen tonen met de waarden
-
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
 
 we moeten iets anders verzinnen dan calcworks...

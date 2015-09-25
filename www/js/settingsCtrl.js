@@ -4,16 +4,13 @@ angular.module('calcworks.controllers')
 
 .controller('SettingsCtrl', function($scope, $ionicPopup, sheetService) {
 
-    $scope.includeFavoriteSheets = false;
+    // the parent object is needed to let ion-toggle function correctly
+    $scope.settings = { includeFavoriteSheets : false} ;
 
-    // without this explicit function you get all kinds of checkbox/angularjs issues
-    $scope.toggleIncludeFavoriteSheets = function() {
-        $scope.includeFavoriteSheets = !$scope.includeFavoriteSheets;
-    };
 
     $scope.deleteAllSheets = function() {
         var templ;
-        if ($scope.includeFavoriteSheets) {
+        if ($scope.settings.includeFavoriteSheets) {
             templ = 'Are you sure you want to delete all sheets - including favorites?';
         } else {
             templ = 'Are you sure you want to delete all sheets excluding favorites?';
