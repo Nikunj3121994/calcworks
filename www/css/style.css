@@ -172,7 +172,6 @@
 }
 
 .calc-item {
-    background-color: #0a9ec7;
     margin-left: 0px;
     margin-right: 0px;
     left: 0;
@@ -183,6 +182,7 @@
 ion-item.calc-item div.item-content {
     padding: 0px
 }
+
 
 .itemExpr{
     padding-left: 2px;
@@ -200,6 +200,11 @@ ion-item.calc-item div.item-content {
 .expressionTable tr {
     padding: 0px;
     margin: 0px;
+}
+
+.rowCalc {
+    padding: 0px;
+    background-color: transparent;
 }
 
 .rowSum {

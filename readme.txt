@@ -195,6 +195,8 @@ nice-to-have
 
 het type van de invoer kunnen bepalen (euro, tijdsduur, etc)
 
+toon een piechart en maak het mogelijk om rows wel of niet mee te doen
+
 later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
 Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
 
