@@ -15,6 +15,7 @@ var Sheet = function(par, name, calculations) {
         this.inputCalculation = undefined;
         this.outputCalculation = undefined;
         this.sum = undefined;
+        this.max = undefined;
     } else {
         // reconstruct object from json
         this.id = par.id;
@@ -25,6 +26,7 @@ var Sheet = function(par, name, calculations) {
         this.favorite = par.favorite;
         this.hasSum = par.hasSum;
         this.sum = par.sum;
+        this.max = par.max;
         this.inputCalculation = par.inputCalculation;
         this.outputCalculation = par.outputCalculation;
     }

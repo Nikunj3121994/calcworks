@@ -209,6 +209,12 @@ ion-item.calc-item div.item-content {
     border-top-style: solid;
 }
 
+.rowBar {
+    padding: 0px;
+    background-color: lightgrey;
+    height: 1px
+}
+
 
 /* copied from ionic's .item-input-inset without the padding.
    this (display) style is needed to get the input field and clear (x) button on the same row */

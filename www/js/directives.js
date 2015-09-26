@@ -65,7 +65,6 @@ angular.module('calcworks.controllers')
                 if (newValue) {
                     var template = '';
                     var arrayLength = scope.expression.length;
-                    console.log('****** ' + scope.displayCalculationName);
                     for (var i = 0; i < arrayLength; i++) {
                         template = template + '<span class="itemExpr">';
                         template = template + $rootScope.getExprItemAsString(scope.expression[i], scope.displayCalculationName);

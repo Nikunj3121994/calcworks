@@ -83,17 +83,22 @@ angular.module('calcworks.services')
             calculations.errorlog.undefinedVariables = [];
             calculations.errorlog.circularReference = null;
             var sum = 0;
+            var max;
             try {
                 var arrayLength = calculations.length;
                 for (var i = 0; i < arrayLength; i++) {
                     calculations[i].result = null;
                 }
+                if (arrayLength > 0) { max = calculations[0].result; }
                 for (var i = 0; i < arrayLength; i++) {
                     this.calcCalculation(calculations, calculations[i], state);
                     sum = sum + calculations[i].result;
+                    if (max < calculations[i].result) { max = calculations[i].result; }
                 }
                 // we slaan altijd de sum op om risico te voorkomen dat ie out of sync gaat lopen
                 sheet.sum = sum;
+                sheet.max = max;
+                console.log('max ' + max);
             } catch (error) {
                 calculations.errorlog.circularReference = error.message;
             }

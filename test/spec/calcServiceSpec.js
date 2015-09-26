@@ -189,23 +189,33 @@ describe('Test calcService', function () {
     });
 
 
-    it('verify sum', function () {
+    it('verify sum and max', function () {
         var calculations = [];
         var sheet = new Sheet('id','sheet', calculations);
         expect(sheet.sum).toBeUndefined();
+        expect(sheet.max).toBeUndefined();
 
         calcService.calculate(sheet)
         expect(sheet.sum).toEqual(0);
+        expect(sheet.max).toBeUndefined();
 
         var calc1 = new Calculation('id1', 'var1', [2, '+',  5]);
         calculations.push(calc1);
         calcService.calculate(sheet)
         expect(sheet.sum).toEqual(7);
+        expect(sheet.max).toEqual(7);
 
         var calc2 = new Calculation('id2', 'var2', [3]);
         calculations.push(calc2);
         calcService.calculate(sheet)
         expect(sheet.sum).toEqual(10);
+        expect(sheet.max).toEqual(7);
+
+        var calc3 = new Calculation('id3', 'var3', [-1]);
+        calculations.push(calc3);
+        calcService.calculate(sheet)
+        expect(sheet.sum).toEqual(9);
+        expect(sheet.max).toEqual(7);
 
     });
 
