@@ -34,7 +34,7 @@ The Sheets service returns an array of sheet data
 
           <!--consider ionic's collection-repeat-->
           <div ng-if="!showCalcCreatedTime">
-              <ion-item class="calc-item" ng-repeat="calc in sheet.calculations track by calc.id"  >
+              <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id"  >
                    <span class="row rowCalc">
                        <span class="col col-90" ng-click="navigateToCalculator(calc)">
                             <resolve-sheet sheet="sheet" index="$index"></resolve-sheet>
@@ -51,7 +51,7 @@ The Sheets service returns an array of sheet data
           </div>
 
           <div ng-if="showCalcCreatedTime">
-              <ion-item class="calc-item" ng-repeat="calc in sheet.calculations track by calc.id">
+              <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id">
                    <span class="row rowCalc">
                        <span class="col col-30" ng-click="navigateToCalculator(calc)">
                            {{calc.name}}<br>
