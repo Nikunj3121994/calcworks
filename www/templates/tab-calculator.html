@@ -4,7 +4,7 @@
 
 
       <div class="row" ng-if="macroMode">
-          <div class="col col-67">
+          <div class="col col-90">
               <div class="expression result">
                   <span style="font-size: small">Result {{sheet.outputCalculation.name}}</span>
                   <span class="text text_expression ">
@@ -12,8 +12,8 @@
                   </span>
               </div>
           </div>
-          <div class="col col-33">
-              <button class="button button-clear button-assertive" ng-click="cancelMacroMode()">Cancel Macro</button>
+          <div class="col col-10">
+              <button class="calculator-btn ion-close calculator-btn-assertive" ng-click="cancelMacroMode()"></button>
           </div>
       </div>
 
@@ -29,7 +29,7 @@
                  <button class="calculator-btn ion-pin" ng-disabled="result === null" ng-click="touchRemember()"></button>
              </div>
              <div class="col col-10" ng-if="editMode">
-                 <button class="calculator-btn ion-close" ng-click="cancelEditMode()"></button>
+                 <button class="calculator-btn ion-close calculator-btn-assertive" ng-click="cancelEditMode()"></button>
              </div>
          </div>
 
