@@ -139,19 +139,8 @@ website nodig?
 Issues
 -------
 
-tijd en evt carrier uit screenshot halen
-
-na het editen van een calc dan undo doen = wat gebeurt er?
 
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
-
-we moeten iets anders verzinnen dan calcworks...
-calcultra
-calcgem
-calcgems
-calcberyl
-swiss army knife
-.info website eerste jaar paar euro, daarna uitkijken
 
 opnieuw de config.xml aanmaken aan de hand van de laatste cordova versie (ook dit checken)
 xcode geeft een warning over een deprecated iets:
@@ -171,14 +160,12 @@ maken we een nieuwe sheet - mits de vorige niet leeg is. Als het totaal aantal s
 
 de active sheet gaat verloren als er een recentere is. Misschien moet je iets maken dat je kan 'pinnen'.
 
-als je opnieuw start weet je niet welke sheet actief is.
+rename sheet vanuit calculator tab (evt)
 
 om autofocus voor elkaar te krijgen:
 http://forum.ionicframework.com/t/auto-focus-textbox-while-template-loads/6851/28
 For it to work with cordova you need to add this in your config.xml
 <preference name="KeyboardDisplayRequiresUserAction" value="false" />
-
-het icon kan beter; visueel en 1024 x 1024
 
 lastVarName zou lastVarNumber moeten worden, veel simpeler
 
@@ -186,12 +173,21 @@ plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 
 beep of vibrate bij fout in calculator
 
-bij aanzetten of activeren kunnen of een bepaalde tijdsperiode is verstreken en zo ja een nieuwe sheet maken.
-
 aan settings tab een 'send feedback' toevoegen
 
-voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
-http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution
+Deploy appstore - gerelateerd
+- het icon kan beter; visueel en 1024 x 1024
+- minify
+- tijd en carrier uit screenshot halen
+
+we moeten iets anders verzinnen dan calcworks...
+calcultra
+calcgem
+calcgems
+calcberyl
+swiss army knife
+.info website eerste jaar paar euro, daarna uitkijken
+
 
 nice-to-have
 ------------
@@ -221,6 +217,9 @@ plaats files mbt feature bij elkaar
 het aantal decimalen instelbaar
 
 de getallen moeten in display en expression een pixel hoger
+
+voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
+http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution
 
 
 

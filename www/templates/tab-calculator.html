@@ -1,4 +1,11 @@
-<ion-view view-title="Calculator">
+<ion-view>
+
+    <!--we use nav-title to work around a bug with title-view being incorrectly updated-->
+    <ion-nav-title>
+        <div>{{sheet.name}}</div>
+    </ion-nav-title>
+
+
     <!--padding class zorgt ervoor dat de achtergrond kleur om de calculator zichtbaar is-->
   <ion-content class="calculator" scroll="false">
 
