@@ -98,7 +98,6 @@ angular.module('calcworks.services')
                 // we slaan altijd de sum op om risico te voorkomen dat ie out of sync gaat lopen
                 sheet.sum = sum;
                 sheet.max = max;
-                console.log('max ' + max);
             } catch (error) {
                 calculations.errorlog.circularReference = error.message;
             }

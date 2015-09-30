@@ -29,6 +29,9 @@ describe('Test controller CalculatorCtrl', function () {
           calcService: calcService,
           sheetService: sheetService
         });
+        // below reset is a bit odd, should not be necessary. I suspect that somewhere there is still some data
+        // loaded from storage
+        scope._test_reset();
     }));
 
 
@@ -77,6 +80,13 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('4321');
     });
 
+    it('verify very basic scenario', function() {
+        scope._test_reset();
+        scope.touchDigit(5);
+        scope.touchEqualsOperator();
+        expect(getActiveSheet().calculations.length).toBe(1);
+        expect(getActiveSheet().calculations[0].result).toBe(5);
+    });
 
     it('verify plus, min, reset', function () {
         expect(scope.display).toBe('0');
@@ -178,7 +188,6 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
     it('verify touchDelete operator', function() {
-        scope.reset();
         scope.touchDigit(3);
         scope.touchOperator('x');
         scope.touchDelete();
@@ -515,8 +524,6 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     it('verify resolved expression', function () {
-        scope._test_reset();
-
         scope.touchDigit(5);
         scope.touchOperator('+');
         scope.touchDigit(9);
@@ -623,7 +630,6 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     it('verify behavior processSelectedCalculation', function () {
-        scope._test_reset();
         scope.touchDigit(2);
         scope.touchOperator('+');
         scope.touchDigit(3);
@@ -660,7 +666,6 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     it('verify behavior processSelectedCalculation 2', function () {
-        scope._test_reset();
         scope.touchDigit(2);
         scope.touchOperator('+');
         scope.touchDigit(3);
@@ -680,7 +685,6 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
     it('verify behavior processSelectedCalculation 3', function () {
-        scope._test_reset();
         scope.touchDigit(2);
         scope.touchOperator('+');
         scope.touchDigit(3);
@@ -710,7 +714,6 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
     it('verify behavior decimal rounding', function () {
-        scope._test_reset();
         scope.touchDigit(3);
         scope.touchOperator('/');
         scope.touchDigit(1);
@@ -728,7 +731,6 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
     it('verify division by zero', function () {
-        scope._test_reset();
         expect(getActiveSheet().calculations.length).toBe(0);
         scope.touchDigit(1);
         scope.touchOperator('/');
@@ -749,7 +751,6 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
     it('verify two times touch equal = remember', function() {
-        scope._test_reset();
         spyOn(scope, 'touchRemember');
         expect(scope.touchRemember.calls.count()).toEqual(0);
         expect(getActiveSheet().calculations.length).toBe(0);
@@ -769,7 +770,6 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
     it('verify two times touch equal = remember - repeated', function() {
-        scope._test_reset();
         spyOn(scope, 'touchRemember');
         expect(scope.touchRemember.calls.count()).toEqual(0);
         expect(getActiveSheet().calculations.length).toBe(0);
@@ -778,8 +778,8 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.touchRemember.calls.count()).toEqual(0);
         expect(getActiveSheet().calculations.length).toBe(1);
         scope.touchEqualsOperator();
-        expect(scope.touchRemember.calls.count()).toEqual(1);
         expect(getActiveSheet().calculations.length).toBe(1);
+        expect(scope.touchRemember.calls.count()).toEqual(1);
         // nog een keer met een ander getal
         scope.touchDigit(2);
         scope.touchEqualsOperator();
@@ -788,6 +788,37 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.touchRemember.calls.count()).toEqual(2);
         expect(getActiveSheet().calculations.length).toBe(2);
+    });
+
+    it('verify edit mode', function() {
+        // setup fixture
+        scope.touchDigit(9);
+        scope.touchEqualsOperator();
+        expect(getActiveSheet().calculations[0].result).toBe(9);
+        // go to edit mode
+        scope.editMode = true;
+        scope.editCalc = getActiveSheet().calculations[0];
+        scope.touchDigit(7);
+        scope.touchEqualsOperator();
+        expect(getActiveSheet().calculations[0].result).toBe(7);
+        scope.cancelEditMode();
+
+        // again with bit more complex expression
+        scope.touchDigit(1);
+        scope.touchOperator('+');
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(getActiveSheet().calculations.length).toBe(2);
+        // go to edit mode
+        scope.editMode = true;
+        scope.editCalc = getActiveSheet().calculations[0]; // most recent calc
+        scope.touchDigit(4);
+        scope.touchOperator('+');
+        scope.touchDigit(4);
+        scope.touchEqualsOperator();
+        expect(getActiveSheet().calculations.length).toBe(2);
+        expect(getActiveSheet().calculations[0].result).toBe(8);
+        expect(getActiveSheet().calculations[1].result).toBe(7);
     });
 
 });

@@ -42,15 +42,45 @@ angular.module('calcworks.controllers')
         sheetService.saveSheet($scope.sheet);
     };
 
-    $scope.navigateToCalculator = function(calculation) {
-        // hack nodig om een nieuwe state te vermijden
-        // je zou ook kunnen onderzoeken of je de activeSheet kan bewerken. Dan heb je een netter mvc model
-        $rootScope.hackSelectedCalcName = calculation.name;
+    $scope.navigateToCalculator = function(calc) {
+        //todo:  $state.get('tab.calculator').data.mode = 'use';
+        //$state.get('tab.calculator').data.calc = calc;
+        $rootScope.hackSelectedCalcName = calc.name;
         $state.go('tab.calculator');
     };
 
     $scope.toggleSum = function() {
         $scope.sheet.hasSum = !$scope.sheet.hasSum;
+    };
+
+
+    $scope.showEditMenu = function(calc) {
+        var btns = [
+            { text: 'Edit' },
+            { text: 'Rename' }
+        ];
+        $ionicActionSheet.show({
+            buttons: btns,
+            cancelText: 'Cancel',
+            cancel: function() {
+                // nothing to do
+            },
+            buttonClicked: function(index) {
+                if (index===0) {
+                    $scope.editCalc(calc);
+                }
+                if (index===1) {
+                    $scope.showRenamePopup(calc);
+                }
+                return true; // close the sheet
+            }
+        });
+    };
+
+    $scope.editCalc = function(calc) {
+        $state.get('tab.calculator').data.mode = 'edit';
+        $state.get('tab.calculator').data.calc = calc;
+        $state.go('tab.calculator');
     };
 
     $scope.showRenamePopup = function(calc) {

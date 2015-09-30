@@ -36,9 +36,8 @@ npm install karma-jasmine --save-dev
 npm install karma-chrome-launcher --save-dev
 
 Update van libraries
---------------------
-$sudo npm update
-(misschien moet de  -g  erachter, want bower ging niet mee)
+=============================
+$sudo npm update -g
 
 $bower list
 laat zien wat er bijgewerkt kan worden
@@ -54,7 +53,9 @@ daarna de rest bijwerken:
 $bower update
 
 Cordova bijwerken:
-sudo npm update -g cordova
+$ sudo npm update -g cordova
+
+(hierrdoor bleef ik alleen op een oude versie zitten, toen gedaan: $sudo npm rm -g cordova   en  $sudo npm install -g cordova
 
 Updates the project to use the latest version of cordova:
 $ cordova platform update ios
@@ -138,6 +139,10 @@ website nodig?
 Issues
 -------
 
+tijd en evt carrier uit screenshot halen
+
+na het editen van een calc dan undo doen = wat gebeurt er?
+
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
 
 we moeten iets anders verzinnen dan calcworks...
@@ -151,9 +156,6 @@ swiss army knife
 opnieuw de config.xml aanmaken aan de hand van de laatste cordova versie (ook dit checken)
 xcode geeft een warning over een deprecated iets:
 /Users/admin/projects/calcworks/platforms/ios/Calcworks/Plugins/org.apache.cordova.device/CDVDevice.m:64:33: 'uniqueAppInstanceIdentifier' is deprecated: Deprecated in Cordova 3.8 .0. API is slated for removal in 4.0.0
-
-editen van een expressie in het calculator scherm. Voorstel is dat je de expressie items kan aanklikken en dan bewerken.
-Je kan een recall of een getal invoeren.
 
 mailen - je wilt een simpelere lay-out, zoiets als   rente kosten = 300,000 x 3.2% = 1040  oid
 
@@ -169,6 +171,7 @@ maken we een nieuwe sheet - mits de vorige niet leeg is. Als het totaal aantal s
 
 de active sheet gaat verloren als er een recentere is. Misschien moet je iets maken dat je kan 'pinnen'.
 
+als je opnieuw start weet je niet welke sheet actief is.
 
 om autofocus voor elkaar te krijgen:
 http://forum.ionicframework.com/t/auto-focus-textbox-while-template-loads/6851/28

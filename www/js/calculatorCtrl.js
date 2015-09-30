@@ -17,6 +17,8 @@ angular.module('calcworks.controllers')
         $scope.expression = []; // array of Calculations, operators as string and numbers
         $scope.result = null; // we check for null so do not make this undefined
         $scope.macroMode = false;
+        $scope.editMode = false;
+        $scope.editCalc = undefined;
         // misschien kan $scope wel weg
         $scope.numberEnteringState = false;  // na de eerste digit zit je in deze state totdat een operator, bracket of equals komt
         $scope.expressionEnteringState = false;   // geeft aan dat een nieuwe expression is gestart  (direct na equals is deze false)
@@ -53,9 +55,13 @@ angular.module('calcworks.controllers')
     $scope.$on('$ionicView.beforeEnter', function () {
         console.log('beforeEnter calcCtrl  state.mode: ' + $state.current.data.mode);
         if ($state.current.data.mode === 'run') {
-            $scope.macroMode = true;
             $scope.reset();  // whipe out left overs
-            // consider: display the inputCalculation.result as a placeholder somehow
+            $scope.macroMode = true;
+            // consider: display the inputCalculation.result as a placeholder somehow to make first edit easier
+        } else if ($state.current.data.mode === 'edit') {
+            $scope.reset();  // whipe out left overs
+            $scope.editMode = true;
+            $scope.editCalc = $state.current.data.calc;
         } else {
             $scope.macroMode = false;
         }
@@ -91,6 +97,12 @@ angular.module('calcworks.controllers')
 
     $scope.cancelMacroMode = function() {
         $scope.macroMode = false;
+        $state.get('tab.calculator').data.mode = 'normal';
+        $scope.reset();
+    };
+
+    $scope.cancelEditMode = function() {
+        $scope.editMode = false;
         $state.get('tab.calculator').data.mode = 'normal';
         $scope.reset();
     };
@@ -334,11 +346,11 @@ angular.module('calcworks.controllers')
     }
 
     // we could move this function to Sheet
-    function createNewCalculation(expression) {
+    function createNewCalculation() {
         var name = generateCalcName(lastVarName);
         lastVarName = name;
         var id = generateUUID();
-        var calc = new Calculation(id, name, expression);
+        var calc = new Calculation(id, name, []);
         return calc;
     }
 
@@ -348,17 +360,24 @@ angular.module('calcworks.controllers')
     $scope.touchEqualsOperator = function() {
         if ($scope.macroMode) {
             $scope.equalsOperatorMacroMode();
+        } else if ($scope.editMode) {
+            $scope.equalsOperatorEditMode();
         } else {
             $scope.equalsOperatorNormalMode();
         }
-    }
+    };
 
     $scope.equalsOperatorMacroMode = function() {
         $scope.sheet.inputCalculation.expression = [ +$scope.display ];
         calcService.calculate($scope.sheet);
         $scope.numberEnteringState = false;
         $scope.expressionEnteringState = false;
-    }
+    };
+
+    $scope.equalsOperatorEditMode = function() {
+        $scope.processCalc($scope.editCalc);
+        $scope.editMode = false;
+    };
 
     $scope.equalsOperatorNormalMode = function() {
         // als twee keer achter elkaar = wordt ingedrukt dan is dit een short cut voor de remember functie
@@ -367,32 +386,36 @@ angular.module('calcworks.controllers')
         if ($scope.result && $rootScope.convertNumberToDisplayWithoutThousandsSeparator($scope.result) === $scope.display) {
             this.touchRemember();
         } else {
-            if (!operandEntered()) {
-                $scope.expression.push(0); // voeg getal 0 toe zodat de expressie altijd een operand heeft na de operator
-            }
-            updateDisplayAndExpression();
-            try {
-                // nu moeten we nog het resultaat verwerken:
-                $scope.operatorStr = '';
-                var calc = createNewCalculation($scope.expression);
-                $scope.sheet.add(calc);
-                calcService.calculate($scope.sheet);
-                if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
-                $scope.result = calc.result;                 // type is number
-                $scope.display = $rootScope.convertNumberToDisplayWithoutThousandsSeparator(calc.result);     // type is string
-                sheetService.saveSheet($scope.sheet);
-                selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
-            } catch (e) {
-                if (e instanceof SyntaxError) {
-                    $scope.display = 'error';
-                } else {
-                    $log.error('internal error: ' + e);
-                    $scope.display = 'internal error: ' + e;
-                }
-            }
-            $scope.numberEnteringState = false;
-            $scope.expressionEnteringState = false;
+            var calc = createNewCalculation();
+            $scope.sheet.add(calc);
+            $scope.processCalc(calc);
         }
+    };
+
+    $scope.processCalc = function(calc) {
+         if (!operandEntered()) {
+             $scope.expression.push(0); // voeg getal 0 toe zodat de expressie altijd een operand heeft na de operator
+         }
+         updateDisplayAndExpression();
+         calc.expression = $scope.expression;
+         try {
+             $scope.operatorStr = '';
+             calcService.calculate($scope.sheet);
+             if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
+             $scope.result = calc.result;                 // type is number
+             $scope.display = $rootScope.convertNumberToDisplayWithoutThousandsSeparator(calc.result);     // type is string
+             sheetService.saveSheet($scope.sheet);
+             selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
+         } catch (e) {
+             if (e instanceof SyntaxError) {
+                 $scope.display = 'error';
+             } else {
+                 $log.error('internal error: ' + e);
+                 $scope.display = 'internal error: ' + e;
+             }
+         }
+         $scope.numberEnteringState = false;
+         $scope.expressionEnteringState = false;
     };
 
 
