@@ -15,24 +15,19 @@
     height: 100%
 }
 
-
 .text {
-    /*vertical center align*/
     position: relative;
     top: 40%;
 }
 
-
 .expression {
     display:inline-block;
     vertical-align: middle;
-    /*text overflow*/
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     width: 100%;
     background-color: #e4e4e4;
-    /*vertical center align*/
     position: relative;
     /* iets kleiner dan de display*/
     height: 80%;
@@ -56,21 +51,34 @@
 
 .display {
     display: inline-block;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
     height: 100%;
-    font-size: 35px;
-    text-align: right;
     width: 100%;
     background-color: #e4e4e4;
-    padding-right: 1%;
-    /*vertical center align*/
     position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
+    /*top: 50%;*/
+    /*transform: translateY(-50%);*/
+    /*-webkit-transform: translateY(-50%);*/
     box-shadow: inset 1px 1px 3px #999;
+}
+
+.display-text {
+    display: inline-block;
+    height: 30%;
+    width: 100%;
+    font-size: small;
+    background-color: rgba(64, 254, 113, 0.18);
+}
+
+.display-input {
+    display: inline-block;
+    /*heel vreemd, zonder background-kleur wordt de padding-bottom niet goed opgepakt*/
+    background-color: #e4e4e4;
+    height: 70%;
+    text-align: right;
+    width: 100%;
+    font-size: 35px;
+    padding-right: 1%;
+    padding-bottom: 9%;
 }
 
 .operatorStr {

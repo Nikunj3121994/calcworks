@@ -67,12 +67,12 @@ Cordova bouwen
 ---------------
 $ cordova platform add ios
 $ ionic build ios
-$ ionic emulate ios
+$ ionic emulate ios --device
 
 App bouwen ter voorbereiding van XCode deploy
 ---------------------------------------------
 $ cd projects/calcworks/
-$ cordova prepare ios  (alleen de eerste keer vermoed ik)
+$ cordova prepare ios  (alleen de eerste keer)
 $ ionic build ios
 
 XCode
@@ -139,6 +139,7 @@ website nodig?
 Issues
 -------
 
+wordt 'yesterday' getoond?
 
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
 
@@ -148,7 +149,7 @@ xcode geeft een warning over een deprecated iets:
 
 mailen - je wilt een simpelere lay-out, zoiets als   rente kosten = 300,000 x 3.2% = 1040  oid
 
-de error log van de calc service wordt niets mee gedaan
+de error log van de calc service wordt niets mee gedaan. Tonen in settings dlg?
 
 limiet op aantal calculaties en aantal sheets en aantal favorite sheets (met name belangrijk als we gratis verspreiden)
 Door de limiet op favorite sheets kan je altijd een niet-favorite sheet verwijderen bij t aanmaken van een nieuwe.
@@ -178,7 +179,7 @@ aan settings tab een 'send feedback' toevoegen
 Deploy appstore - gerelateerd
 - het icon kan beter; visueel en 1024 x 1024
 - minify
-- tijd en carrier uit screenshot halen
+- tijd en carrier uit screenshot halen, nieuw screenshot nodig
 
 we moeten iets anders verzinnen dan calcworks...
 calcultra
@@ -199,12 +200,15 @@ toon een piechart en maak het mogelijk om rows wel of niet mee te doen
 later wil je functies kunnen invoeren. Een van deze functies zou een select(calcname1, calcname2, ...) kunnen zijn.
 Deze is handig voor de killer-feature om de gebruiker een selectie te laten maken.
 
+Om code compacter te maken:
 angular.module("myApp").run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 });
 
 moeten we een lastSeen field toevoegen zodat je daar ook op kan sorteren
+
+In de history a la Google Docs per 'today' en 'deze week' en 'deze maand' laten zien
 
 samen nemen van btns Delete en Reorder into Change. Bij actief maken dan de ... button kolom hidden
 
