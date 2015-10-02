@@ -20,7 +20,7 @@
               </div>
           </div>
           <div class="col col-10">
-              <button class="calculator-btn ion-close calculator-btn-assertive" ng-click="cancelMacroMode()"></button>
+              <button class="calculator-btn ion-close calculator-btn-assertive" style="font-size: 150%;" ng-click="cancelMacroMode()"></button>
           </div>
       </div>
 
@@ -36,19 +36,19 @@
                  <button class="calculator-btn ion-pin" ng-disabled="result === null" ng-click="touchRemember()"></button>
              </div>
              <div class="col col-10" ng-if="editMode">
-                 <button class="calculator-btn ion-close calculator-btn-assertive" ng-click="cancelEditMode()"></button>
+                 <button class="calculator-btn ion-close calculator-btn-assertive" style="font-size: 150%;" ng-click="cancelEditMode()"></button>
              </div>
          </div>
 
         <div class="row">
             <div class="col col-90">
                 <div class="display">
-                    <span class="display-text">
+                    <span class="display-text">11
                         <span ng-if="macroMode">Enter value for {{sheet.inputCalculation.name}} (originally {{sheet.inputCalculation.result}})</span>
                         <span ng-if="editMode">Edit {{editCalc.name}}</span>
                     </span>
                     <span class="display-input">
-                        <span class="text"><resolve-input-display numberstr="display"></resolve-input-display> </span>
+                        <span class="display-input-text"><resolve-input-display numberstr="display"></resolve-input-display> </span>
                     </span>
                 </div>
             </div>

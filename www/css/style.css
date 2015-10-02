@@ -17,7 +17,7 @@
 
 .text {
     position: relative;
-    top: 40%;
+    top: 30%;
 }
 
 .expression {
@@ -54,7 +54,7 @@
     height: 100%;
     width: 100%;
     background-color: #e4e4e4;
-    position: relative;
+    /*position: relative;*/
     /*top: 50%;*/
     /*transform: translateY(-50%);*/
     /*-webkit-transform: translateY(-50%);*/
@@ -65,20 +65,27 @@
     display: inline-block;
     height: 30%;
     width: 100%;
+    padding-left: 1%;
     font-size: small;
     background-color: rgba(64, 254, 113, 0.18);
 }
 
 .display-input {
     display: inline-block;
-    /*heel vreemd, zonder background-kleur wordt de padding-bottom niet goed opgepakt*/
-    background-color: #e4e4e4;
-    height: 70%;
+    /*background-color: red;*/
+    /*bij meer dan 62% wordt dit blok te hoog en overlapt ie aan de onderkant*/
+    height: 62%;
     text-align: right;
     width: 100%;
-    font-size: 35px;
+    font-size: 200%;
     padding-right: 1%;
-    padding-bottom: 9%;
+    padding-bottom: 1%;
+}
+
+/*deze class zorgt ervoor dat de input verticaal goed gepositioneerd wordt*/
+.display-input-text {
+    position: relative;
+    top: 1%;
 }
 
 .operatorStr {
