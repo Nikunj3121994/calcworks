@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe('Test filter toFixedDecimals in CalculatorCtrl', function () {
+describe('Test filters', function () {
 
     var $filter;
 
@@ -31,10 +31,12 @@ describe('Test filter toFixedDecimals in CalculatorCtrl', function () {
 
     it('verify toDate filter', function () {
         var dateFilter = $filter('toDate');
-        var result = dateFilter(new Date());
+        var today = new Date();
+        var result = dateFilter(today);
         expect(result).toContain('today at');
 
-        var yesterday = new Date((new Date()).valueOf() - 1000*60*60*24);
+        //var yesterday = new Date((new Date()).valueOf() - 1000*60*60*24);
+        var yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1, 1, 1, 0, 0);
         result = dateFilter(yesterday);
         expect(result).toContain('yesterday at');
 
