@@ -139,7 +139,13 @@ website nodig?
 Issues
 -------
 
-wordt 'yesterday' getoond?
+gebruik cordova.plugins.email
+
+config macro moet beter
+
+hack oplossen met state.go
+
+de edit/rename popup zit te laag
 
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
 
@@ -159,8 +165,6 @@ zo wel, dan verwijderen we de laatste sheet als updated=created
 
 maken we een nieuwe sheet - mits de vorige niet leeg is. Als het totaal aantal sheets 50 is dan verwijderen we de laatste.
 
-de active sheet gaat verloren als er een recentere is. Misschien moet je iets maken dat je kan 'pinnen'.
-
 rename sheet vanuit calculator tab (evt)
 
 om autofocus voor elkaar te krijgen:
@@ -174,7 +178,7 @@ plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 
 beep of vibrate bij fout in calculator
 
-aan settings tab een 'send feedback' toevoegen
+bij settings tab, 'send feedback' juiste email adres invullen
 
 Deploy appstore - gerelateerd
 - het icon kan beter; visueel en 1024 x 1024
@@ -219,8 +223,6 @@ misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkel
 plaats files mbt feature bij elkaar
 
 het aantal decimalen instelbaar
-
-de getallen moeten in display en expression een pixel hoger
 
 voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
 http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution

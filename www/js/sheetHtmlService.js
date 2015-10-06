@@ -18,7 +18,7 @@ angular.module('calcworks.services')
                 },
                 this
             );
-        }
+        };
 
 
         // this resembles for a large part the resolveSheet directive

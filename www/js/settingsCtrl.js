@@ -6,6 +6,7 @@ angular.module('calcworks.controllers')
 
     // the parent object is needed to let ion-toggle function correctly
     $scope.settings = { includeFavoriteSheets : false} ;
+    $scope.feedback = '';
 
 
     $scope.deleteAllSheets = function() {
@@ -25,5 +26,19 @@ angular.module('calcworks.controllers')
             }
         });
     };
+
+    $scope.sendFeedback = function() {
+        cordova.plugins.email.open(
+            {
+                subject: "feedback calcgems",
+                to: 'stephanwesten@gmail.com',
+            },
+            function () {
+                console.log('email view dismissed');
+            },
+            this
+        );
+    };
+
 
 });
