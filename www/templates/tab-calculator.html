@@ -44,8 +44,8 @@
             <div class="col col-90">
                 <div class="display">
                     <span class="display-text">
-                        <span ng-if="macroMode">Enter value for {{sheet.inputCalculation.name}} (originally {{sheet.inputCalculation.result}})</span>
-                        <span ng-if="editMode">Edit {{editCalc.name}}</span>
+                        <span ng-if="macroMode">Enter value for {{sheet.inputCalculation.name}} ({{sheet.inputCalculation.result|toFixedDecimals}})</span>
+                        <span ng-if="editMode">Edit {{editCalc.name}} ({{editCalc.result|toFixedDecimals}})</span>
                     </span>
                     <span class="display-input">
                         <span class="display-input-text"><resolve-input-display numberstr="display"></resolve-input-display> </span>
