@@ -62,27 +62,12 @@ angular.module('calcworks.controllers')
             $scope.reset();  // whipe out left overs
             $scope.editMode = true;
             $scope.editCalc = $state.current.data.calc;
+        } else if ($state.current.data.mode === 'use') {
+            $scope.processSelectedCalculation($state.current.data.calc);
         } else {
             $scope.macroMode = false;
         }
     });
-
-
-    // de activeSheet tab kan een calculatie selecteren en geeft dit door via een globale variabele
-    // deze hack was nodig omdat anders via een state.go() een nieuwe state geintroduceerd werd
-    // echter deze oplossing is ook fout omdat je een verandering nodig hebt, en dat is er niet per se t geval
-    // nu dwingen we deze af via een gore hack
-    // IPV een watch op een variabele, zouden we een event moeten sturen om de views in sync te houden.
-    // of custom data in $state.current
-    $rootScope.$watch('hackSelectedCalcName', function(newVal, oldVal) {
-        if (!newVal) {
-            return false;
-        }
-        $log.log('watch from calculatorCtrl: calculationName= ' + newVal);
-        var calc = sheetService.getActiveSheet().getCalculationFor(newVal);
-        $scope.processSelectedCalculation(calc);
-        $rootScope.hackSelectedCalcName = null; // dit triggered weer een watch....
-    }, true);
 
     // de calculator controller heeft altijd een active sheet nodig om zijn rekenwerk in te doen
     // (de filter gaat variabelen resolven)

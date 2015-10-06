@@ -143,8 +143,6 @@ gebruik cordova.plugins.email
 
 config macro moet beter
 
-hack oplossen met state.go
-
 de edit/rename popup zit te laag
 
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken

@@ -43,9 +43,8 @@ angular.module('calcworks.controllers')
     };
 
     $scope.navigateToCalculator = function(calc) {
-        //todo:  $state.get('tab.calculator').data.mode = 'use';
-        //$state.get('tab.calculator').data.calc = calc;
-        $rootScope.hackSelectedCalcName = calc.name;
+        $state.get('tab.calculator').data.mode = 'use';
+        $state.get('tab.calculator').data.calc = calc;
         $state.go('tab.calculator');
     };
 
