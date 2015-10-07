@@ -64,8 +64,6 @@ angular.module('calcworks.controllers')
             $scope.editCalc = $state.current.data.calc;
         } else if ($state.current.data.mode === 'use') {
             $scope.processSelectedCalculation($state.current.data.calc);
-        } else {
-            $scope.macroMode = false;
         }
     });
 

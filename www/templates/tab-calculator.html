@@ -9,12 +9,11 @@
     <!--padding class zorgt ervoor dat de achtergrond kleur om de calculator zichtbaar is-->
   <ion-content class="calculator" scroll="false">
 
-
       <div class="row" ng-if="macroMode">
           <div class="col col-90">
-              <div class="expression result">
-                  <span class="inline-text" >Result {{sheet.outputCalculation.name}}</span>
-                  <span class="text text_expression">
+              <div class="expression">
+                  <span class="expression-inline-text">Result {{sheet.outputCalculation.name}}</span>
+                  <span class="expression-value">
                         {{sheet.outputCalculation.result|toFixedDecimals}}
                   </span>
               </div>
@@ -27,7 +26,7 @@
       <div class="row" ng-if="!macroMode">
              <div class="col col-90">
                 <div class="expression">
-                    <span class="text text_expression">
+                    <span class="text expression-text">
                         <resolve-expression expression="expression" sheet="sheet" result="result"></resolve-expression>
                     </span>
                 </div>
@@ -39,6 +38,7 @@
                  <button class="calculator-btn ion-close calculator-btn-assertive" style="font-size: 150%;" ng-click="cancelEditMode()"></button>
              </div>
          </div>
+
 
         <div class="row">
             <div class="col col-90">
