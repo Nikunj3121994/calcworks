@@ -27,7 +27,7 @@
       <div class="row" ng-if="!macroMode">
              <div class="col col-90">
                 <div class="expression">
-                    <div class="expression-inline-text"></div>
+                    <!--<div class="expression-inline-text"> misschien dat we dit later voor foutmeldingen gebruiken </div>-->
                     <div class="expression-normal-value">
                         <resolve-expression expression="expression" sheet="sheet" result="result"></resolve-expression>
                     </div>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="col col-10">
-                <div class="operatorStr"><span class="text">{{ operatorStr}} </span> </div>
+                <div class="operator"><span class="operator-text">{{ operatorStr}} </span> </div>
             </div>
         </div>
 
