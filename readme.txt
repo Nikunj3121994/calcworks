@@ -139,6 +139,10 @@ website nodig?
 Issues
 -------
 
+het hernoemen van een calc moet beter, de default 'calcxxx' wil je toch altijd aanpassen
+
+run vanuit history
+
 gebruik cordova.plugins.email
 
 config macro moet beter

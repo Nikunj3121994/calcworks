@@ -15,45 +15,55 @@
     height: 100%
 }
 
+/*kan misschien weg*/
 .text {
     position: relative;
     top: 30%;
 }
 
 .expression {
-    display:inline-block;
+    display: inline-block;
     width: 100%;
     /* iets kleiner dan de display*/
-    height: 80%;
+    height: 90%;
     background-color: #e4e4e4;
     box-shadow: inset 1px 1px 3px #999;
-    /*zorg ervoor dat de expressie items (span elements) op dezelfde regel blijven*/
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.expression-text {
-    padding-left: 1%;
-    font-size: 120%;
+    /*zorg ervoor dat de expressie items (span elements) op dezelfde regel blijven echter gaf problemen, nog fixen*/
+    /*overflow: hidden;*/
+    /*white-space: nowrap;*/
 }
 
 .expression-inline-text {
     display: inline-block;
-    height: 30%;
+    height: 40%;
     width: 100%;
     padding-left: 1%;
     font-size: small;
     background-color: rgba(179, 179, 179, 0.18);
 }
 
-.expression-value {
+/*.expression-normal-value {*/
+    /*padding-left: 1%;*/
+    /*font-size: 120%;*/
+    /*position: relative;*/
+    /*top: 30%;*/
+/*}*/
+
+.expression-normal-value {
     display: inline-block;
-    height: 22%;
+    height: 52%;
+    width: 100%;
+    padding-left: 1%;
+    font-size: 120%;
+}
+
+.expression-macro-value {
+    display: inline-block;
+    height: 62%;
     text-align: right;
     width: 100%;
     font-size: 200%;
-    padding-right: 1%;
-    padding-bottom: 1%;
+    padding: 1%;
 }
 
 .display {
@@ -64,7 +74,7 @@
     box-shadow: inset 1px 1px 3px #999;
 }
 
-.display-text {
+.display-inline-text {
     display: inline-block;
     height: 30%;
     width: 100%;
