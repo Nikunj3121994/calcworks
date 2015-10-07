@@ -143,7 +143,9 @@ het hernoemen van een calc moet beter, de default 'calcxxx' wil je toch altijd a
 
 run vanuit history
 
-gebruik cordova.plugins.email
+navigeren naar vorige sheet vanuit header bar  <-  en  ->   of  als je erop klikt dan een keuze maken
+
+test gebruik cordova.plugins.email
 
 config macro moet beter
 

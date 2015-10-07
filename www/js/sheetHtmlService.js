@@ -6,7 +6,7 @@ angular.module('calcworks.services')
 
         this.emailSheet = function(sheet) {
             console.log('send email');
-            window.plugin.email.open(
+            cordova.plugins.email.open(
                 {
                     subject: "email calcworks on " + sheet.name,
                     // we leave to: empty such that end-user can choose an email address
