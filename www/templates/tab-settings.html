@@ -1,19 +1,17 @@
 <ion-view view-title="Settings">
     <ion-content>
-        <ion-list>
-            <ion-item>
-                <h1>Trash</h1>
-                <!--consider to show the number of sheets in use-->
-                <button class="button button-assertive" ng-click="deleteAllSheets()" style="display:inline-block">
-                    Delete sheets
-                </button>
-                <br>&nbsp;
-                <ion-toggle ng-model="settings.includeFavoriteSheets" toggle-class="toggle-assertive"
-                            style="display:inline-block;float: left; border: none">
-                    Include favorite sheets
-                </ion-toggle>
-            </ion-item>
-        </ion-list>
+        <div style="padding: 3%;padding-bottom: 40px; border-bottom: thin dotted #ffe031;">
+            <h2>Trash</h2>
+            <!--consider to show the number of sheets in use-->
+            <button class="button button-assertive" ng-click="deleteAllSheets()" style="display:inline-block">
+                Delete sheets
+            </button>
+            <br>&nbsp;
+            <ion-toggle ng-model="settings.includeFavoriteSheets" toggle-class="toggle-assertive"
+                        style="display:inline-block;float: left; border: none">
+                Include favorite sheets
+            </ion-toggle>
+        </div>
         <div style="padding: 3%">
             <h2>Feedback</h2>
             Missing features? Bugs?
