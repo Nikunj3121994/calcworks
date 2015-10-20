@@ -154,7 +154,8 @@
 .favoriteOn {
     color: #eed508
 }
- /* select calculation dialog */
+
+/* select calculation dialog */
 .listVarName {
     display:inline-block;
     width: 30%;
@@ -177,6 +178,33 @@
     overflow: hidden;
     width: 20%;
     text-align: right
+}
+
+/* configure macro dialog */
+.confMacroIcon {
+    display:inline-block;
+    width: 5%;
+    text-align: left
+}
+
+.confMacroCalcName {
+    display:inline-block;
+    width: 30%;
+    text-align: left
+}
+
+.confMacroResolvedExpression {
+    display:inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 65%;
+    text-align: right;
+    padding-right: 1%;
+}
+
+.confMacroHeader {
+    background-color: #feba51;
 }
 
 .sheetsCol {

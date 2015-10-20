@@ -2,17 +2,20 @@
     <ion-header-bar>
             <h1 class="title">Configure macro</h1>
     </ion-header-bar>
-    <ion-content  >
-        <ion-item>
-            <h2 class="title">Select calculation that serves as {{mode}}:</h2>
+    <ion-content>
+        <ion-item class="confMacroHeader">
+            <span>Select calculation that serves as {{mode}}:</span>
         </ion-item>
         <ion-list>
-            <ion-item ng-repeat="calc in sheet.calculations  track by $index" ng-click="clickCalculation(calc)" ng-style="selected(calc) && {'background-color':'#feba51'}">
-                <div class="listVarName"> {{calc.name}}
-                    <span ng-if="isInputCalc(calc)">(in)</span>
-                    <span ng-if="isOutputCalc(calc)">(out)</span>
+            <ion-item ng-repeat="calc in sheet.calculations  track by $index" ng-click="clickCalculation(calc)" ng-style="selected(calc) && {'background-color':'light-grey'}">
+                <div class="confMacroIcon">
+                    <span ng-if="isInputCalc(calc)"> <i class="icon ion-log-in"></i> </span>
                 </div>
-                <div class="listResolvedExpression">
+                <div class="confMacroCalcName">
+                    {{calc.name}}
+                    <span ng-if="isOutputCalc(calc)"> <i class="icon ion-log-out"></i> </span>
+                </div>
+                <div class="confMacroResolvedExpression">
                     <resolve-expression sheet="sheet" expression="calc.expression" result="" display-calculation-name="true"></resolve-expression>
                 </div>
             </ion-item>
