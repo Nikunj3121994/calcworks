@@ -139,6 +139,8 @@ website nodig?
 Issues
 -------
 
+bij het editen kan je recall doen en de expressie kiezen die je aan het editen bent
+
 het hernoemen van een calc moet beter, de default 'calcxxx' wil je toch altijd aanpassen
 
 run vanuit history

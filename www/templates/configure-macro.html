@@ -8,11 +8,12 @@
         </ion-item>
         <ion-list>
             <ion-item ng-repeat="calc in sheet.calculations  track by $index" ng-click="clickCalculation(calc)" ng-style="selected(calc) && {'background-color':'#feba51'}">
-                <div >
-                    <div class="listVarName"> {{calc.name}} </div>
-                    <div class="listResolvedExpression">
-                        <resolve-expression sheet="sheet" expression="calc.expression" result="" display-calculation-name="true"></resolve-expression>
-                    </div>
+                <div class="listVarName"> {{calc.name}}
+                    <span ng-if="isInputCalc(calc)">(in)</span>
+                    <span ng-if="isOutputCalc(calc)">(out)</span>
+                </div>
+                <div class="listResolvedExpression">
+                    <resolve-expression sheet="sheet" expression="calc.expression" result="" display-calculation-name="true"></resolve-expression>
                 </div>
             </ion-item>
         </ion-list>
@@ -24,7 +25,7 @@
         <span class="title">
         </span>
         <div class="buttons">
-            <button class="button button-clear" ng-click="toggleInputOutput()">Toggle input/result</button>
+            <button class="button button-clear" ng-click="toggleInputOutput()">Toggle input/output</button>
         </div>
     </ion-footer-bar>
 </ion-modal-view>

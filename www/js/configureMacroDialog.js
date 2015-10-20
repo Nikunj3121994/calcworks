@@ -31,6 +31,7 @@ angular.module('calcworks.services')
                                         modal.scope.inputCalculation = calc;
                                     }
                                 }
+                                modal.scope.toggleInputOutput();
                             } else {
                                 if (modal.scope.outputCalculation === calc) {
                                     modal.scope.outputCalculation = null;
@@ -59,9 +60,17 @@ angular.module('calcworks.services')
                         }
                     };
 
+                    modal.scope.isInputCalc = function(calc) {
+                        return calc === modal.scope.inputCalculation;
+                    };
+
+                    modal.scope.isOutputCalc = function(calc) {
+                        return calc === modal.scope.outputCalculation;
+                    };
+
                     modal.scope.toggleInputOutput = function() {
                         if (modal.scope.mode === 'input') {
-                            modal.scope.mode = 'result';
+                            modal.scope.mode = 'output';
                         } else {
                             modal.scope.mode = 'input';
                         }
