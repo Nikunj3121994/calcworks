@@ -94,14 +94,14 @@
 
 .operator {
     display: inline-block;
-    height: 50%;
+    height: 60%;
+    width: 100%;
+    margin-top: 50%;
     text-align: center;
     color: #5d5d5d;
     font-size: 30px;
-    width: 100%;
-    background-color: lightgrey;
+    background-color: #e4e4e4;
     box-shadow: inset 0px 1px 3px #999;
-    margin-top: 100%;
 }
 
 .operator-text {
