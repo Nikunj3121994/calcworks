@@ -9,11 +9,17 @@ angular.module('calcworks.services')
                 // for now we assume that only sheets are stored
                 // if we store other objects then we need to prefix the id with a type identifier to separate the sheets
                 // or store the sheet ids in a json object with a hard coded key, we can also preserve the order of sheets
-                for (var i = 0, len = localStorage.length; i < len; ++i ) {
-                    var sheet = this._jsonToSheet($window.localStorage[localStorage.key(i)] || '{}');
-                    // verify valid and in the future we can update the object if it is from an older version
-                    if (sheet.version === '1.0') {
-                        this._insertSheet(sheet, sheets);
+                var len = $window.localStorage.length;
+                for (var i = 0; i < len; ++i ) {
+                    var key = $window.localStorage.key(i);
+                    var value = $window.localStorage[key];
+                    // it seems that undefined is returned as string
+                    if (value && value != 'undefined') {
+                        var sheet = this._jsonToSheet(value);
+                        // verify valid and in the future we can update the object if it is from an older version
+                        if (sheet.version === '1.0') {
+                            this._insertSheet(sheet, sheets);
+                        }
                     }
                 }
                 return sheets;
