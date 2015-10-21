@@ -17,7 +17,6 @@ describe('Test sheetService', function () {
         sheetService._test_init();
     }));
 
-
     it('verify sheet', function() {
         var sheet1 = sheetService.getActiveSheet();
         sheet1.name = 'sheet1';
@@ -39,6 +38,23 @@ describe('Test sheetService', function () {
         // mock storage en dan:
         //expect(sheetService.getSheets().length).toBe(2);
 
+    });
+
+    it('verify sheet creation', function() {
+        var sheet = new Sheet('id', 'name', []);
+        storageService.loadSheets = function() { return [sheet]; };
+        sheetService._test_init();
+        var sheet1 = sheetService.getActiveSheet();
+        expect(sheet1.name).toBe('name');
+        expect(sheetService.getSheets().length).toEqual(1);
+
+        var oldSheet = new Sheet('id', 'name', []);
+        oldSheet.updatedTimestamp = new Date(2010, 3, 14, 10, 0, 0, 0);
+        storageService.loadSheets = function() { return [oldSheet]; };
+        sheetService._test_init();
+        var sheet1 = sheetService.getActiveSheet();
+        expect(sheet1.name).toBe('Untitled Sheet');
+        expect(sheetService.getSheets().length).toEqual(2);
     });
 
 

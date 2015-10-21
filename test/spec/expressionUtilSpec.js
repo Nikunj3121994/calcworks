@@ -92,7 +92,22 @@ describe('Test Expression Utilities', function () {
         expect(containsDecimalPart('.45')).toBeTruthy();
     });
 
+    it('calcDayBeforeAtMidnight', function() {
+        var day = new Date(2015, 3, 14, 5, 6, 7, 0);
+        var yesterday = calcDayBeforeAtMidnight(day);
+        expect(yesterday.getFullYear()).toEqual(2015);
+        expect(yesterday.getMonth()).toEqual(3);
+        expect(yesterday.getDate()).toEqual(13);
+        expect(yesterday.getHours()).toEqual(0);
+        expect(yesterday.getMinutes()).toEqual(0);
 
+        day = new Date(2015, 2, 1, 5, 6, 7, 0);
+        yesterday = calcDayBeforeAtMidnight(day);
+        expect(yesterday.getFullYear()).toEqual(2015);
+        expect(yesterday.getMonth()).toEqual(1);
+        expect(yesterday.getDate()).toEqual(28);
+
+    })
 
 
 });

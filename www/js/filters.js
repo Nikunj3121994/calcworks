@@ -32,7 +32,7 @@ angular.module('calcworks.controllers')
         if (Date.now() - cachedTodayMs > 1000) {
             var today = new Date();
             cachedTodayMs = today.valueOf();
-            cachedYesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1, 0, 0, 0, 0);
+            cachedYesterday = calcDayBeforeAtMidnight(today);
         }
         return cachedYesterday;
     }

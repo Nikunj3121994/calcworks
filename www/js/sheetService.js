@@ -1,9 +1,6 @@
 'use strict';
 
-// dit gebruikt een hele simpel storage model waarbij alle sheets in 1 json object (key) worden opgeslagen
-// het is beter om elke sheet zijn eigen json object te geven. Hierdoor worden saves efficienter.
-// nadeel is wel dat het lastig kan worden om bijvoorbeeld alle sheets te deleten.
-// misschien moet je de keys prefixen met een token zodat je snel kan zien wat voor soort object het is
+// dit gebruikt een hele simpel storage model waarbij elke sheet zijn eigen json object heeft.
 
 // deze service is stateful, beheerst alle sheets, stuurt events en bepaalt de active sheet.
 // het nadeel is dat alle sheets in het geheugen zitten. Maar de history laat nu alle sheets met calculaties zien
@@ -26,16 +23,18 @@ angular.module('calcworks.services')
             if (sheets.length === 0) {
                 activeSheet = createSheet();
                 sheets.push(activeSheet);
-                // onderstaande is te verwarrend voor testen
-            //} else if (sheets[0].calculations.length === 0) {
-            //    // de laatste sheet is leeg, die kunnen we weggooien en een nieuwe aanmaken
-            //    // later kunnen we nog kijken of ie ouder als een paar uur is
-            //    sheets.splice(0, 1);
-            //    activeSheet = createSheet();
-            //    sheets.splice(0, 0, activeSheet);
             } else {
-                // hier kunnen we gaan controleren of het x aantal uur geleden is dat we een sheet hebben aangemaakt
-                activeSheet = sheets[0];
+                var midnight = new Date();
+                midnight.setHours(0);
+                midnight.setMinutes(0);
+                if (sheets[0].updatedTimestamp.valueOf() < midnight.valueOf()) {
+                    activeSheet = createSheet();
+                    sheets.push(activeSheet);
+                    // en als de vorige/laatste sheet nu leeg was, dan kunnen we die wel weggooien
+                    // maar ja dat geldt ook voor andere sheets die leeg zijn en geen naam hebben
+                } else {
+                    activeSheet = sheets[0];
+                }
             }
         }
 

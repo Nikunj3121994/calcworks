@@ -31,9 +31,15 @@ Evt kunnen we de angular folders direct onder lib verwijderen - behalve de angul
 Of we gebruiken vanuit karma de angular folders die onder lib hangen. Echter dit heeft het nadeel dat je potentieel
 een andere angular versie gebruikt vanuit ionic...
 
-npm install karma-jasmine --save-dev
+Lokaal karma installeren:
+$npm install karma-jasmine --save-dev
+(die save-dev zorgt ervoor dat karma als een developer dependency wordt behandeld
 
-npm install karma-chrome-launcher --save-dev
+$npm install karma-jasmine karma-chrome-launcher --save-dev
+(was npm install karma-chrome-launcher --save-dev)
+
+en globaal de cli:
+$ sudo  npm install -g karma-cli
 
 Update van libraries
 =============================

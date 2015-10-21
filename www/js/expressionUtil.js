@@ -181,3 +181,12 @@ function generateUUID() {
     return uuid;
 };
 
+//  today = new Date();
+function calcDayBeforeAtMidnight(today) {
+    var yesterday = new Date(today.valueOf());
+    yesterday.setDate(today.getDate() - 1);
+    yesterday.setHours(0);
+    yesterday.setMinutes(0)
+    return yesterday;
+}
+
