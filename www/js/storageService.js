@@ -18,7 +18,12 @@ angular.module('calcworks.services')
                         var sheet = this._jsonToSheet(value);
                         // verify valid and in the future we can update the object if it is from an older version
                         if (sheet.version === '1.0') {
-                            this._insertSheet(sheet, sheets);
+                            // if a sheet is not changed, it is empty and we do not load it
+                            if (sheet.createdTimestamp.valueOf() !== sheet.updatedTimestamp.valueOf()) {
+                                this._insertSheet(sheet, sheets);
+                            } else {
+                                $window.localStorage.removeItem(key);
+                            }
                         }
                     }
                 }

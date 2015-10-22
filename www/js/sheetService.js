@@ -24,6 +24,8 @@ angular.module('calcworks.services')
                 activeSheet = createSheet();
                 sheets.push(activeSheet);
             } else {
+                // check whether a 'day' has passed and we create a new sheet
+                // i doubt whether this will also work when the app is passive in memory
                 var midnight = new Date();
                 midnight.setHours(0);
                 midnight.setMinutes(0);

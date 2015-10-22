@@ -4,12 +4,18 @@ describe('Test storageService', function () {
 
     beforeEach(module('calcworks'));
 
-    var storageService;
+    var storageService, $window;
 
     // the underscore at both sides is a convention by AngularJS to get the right service
-    beforeEach(inject(function (_storageService_) {
+    beforeEach(inject(function (_storageService_, _$window_) {
         storageService = _storageService_;
+        $window = _$window_;
     }));
+
+    // helper function to force loadSheets to load the sheet
+    function touchSheet(sheet) {
+        sheet.updatedTimestamp.setMilliseconds(sheet.updatedTimestamp.getMilliseconds() + 1 );
+    }
 
     it('verify load, save and delete sheets', function() {
         storageService._test_cleanLocalStorage();
@@ -20,6 +26,7 @@ describe('Test storageService', function () {
         var sheet1 = new Sheet('id1', 'Sheet 1', []);
         var calc1 = new Calculation('id1', "calc1", []);
         sheet1.calculations.push(calc1);
+        touchSheet(sheet1);
         storageService.saveSheet(sheet1);
 
         sheets = storageService.loadSheets();
@@ -27,6 +34,7 @@ describe('Test storageService', function () {
         expect(sheets[0].calculations.length).toEqual(1);
 
         var sheet2 = new Sheet('id2', 'Sheet 2', []);
+        touchSheet(sheet2);
         storageService.saveSheet(sheet2);
 
         sheets = storageService.loadSheets();
@@ -36,6 +44,20 @@ describe('Test storageService', function () {
 
         sheets = storageService.loadSheets();
         expect(sheets.length).toEqual(0);
+    });
+
+
+    it('verify load and remove sheet ', function() {
+        storageService._test_cleanLocalStorage();
+
+        var sheet1 = new Sheet('id1', 'Unchanged sheet', []);
+        storageService.saveSheet(sheet1);
+
+        expect($window.localStorage[sheet1.id]).toBeDefined();
+
+        var sheets = storageService.loadSheets();
+        expect(sheets.length).toEqual(0);
+        expect($window.localStorage[sheet1.id]).toBeUndefined();
     });
 
 
@@ -72,6 +94,7 @@ describe('Test storageService', function () {
         var calc2 = new Calculation('id2', "calc2", [calc1, '+', 3]);
         sheet1.calculations.push(calc1);
         sheet1.calculations.push(calc2);
+        touchSheet(sheet1);
         storageService.saveSheet(sheet1);
 
         sheets = storageService.loadSheets();
