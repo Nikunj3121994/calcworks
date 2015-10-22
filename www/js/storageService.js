@@ -76,8 +76,9 @@ angular.module('calcworks.services')
 
             // for testing purposes only
             _test_cleanLocalStorage: function() {
-                for (var i = 0, len = localStorage.length; i < len; ++i ) {
-                    $window.localStorage.removeItem(localStorage.key(i));
+                var len = $window.localStorage.length;
+                for (var i = len - 1 ; i >= 0; --i ) {
+                    $window.localStorage.removeItem($window.localStorage.key(i));
                 }
             }
 
