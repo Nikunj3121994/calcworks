@@ -6,6 +6,9 @@ angular.module('calcworks.services')
 
             loadSheets: function() {
                 var sheets = [];
+                var expireDate = new Date();
+                expireDate.setDate(expireDate.getDate() - 30);
+
                 // for now we assume that only sheets are stored
                 // if we store other objects then we need to prefix the id with a type identifier to separate the sheets
                 // or store the sheet ids in a json object with a hard coded key, we can also preserve the order of sheets
@@ -19,7 +22,7 @@ angular.module('calcworks.services')
                         // verify valid and in the future we can update the object if it is from an older version
                         if (sheet.version === '1.0') {
                             // if a sheet is not changed, it is empty and we do not load it
-                            if (sheet.createdTimestamp.valueOf() !== sheet.updatedTimestamp.valueOf()) {
+                            if (this._usefulSheet(sheet, expireDate)) {
                                 this._insertSheet(sheet, sheets);
                             } else {
                                 $window.localStorage.removeItem(key);
@@ -42,6 +45,11 @@ angular.module('calcworks.services')
             },
 
             // added methods to interface so we can test, the underscore indicates private usage
+
+            _usefulSheet: function(sheet, expireDate) {
+                return (sheet.createdTimestamp.valueOf() !== sheet.updatedTimestamp.valueOf())
+                && (sheet.favorite || (sheet.updatedTimestamp.valueOf() > expireDate.valueOf()));
+            },
 
             // add most recent update sheet to top
             _insertSheet: function(sheet, sheets) {

@@ -44,7 +44,7 @@ angular.module('calcworks.controllers')
             } else {
                 var alertPopup = $ionicPopup.alert({
                      title: 'Max number of favorites reached',
-                     template: 'Please contact us if you need more favorites'
+                     template: 'Please contact us if you need more favorites (see Settings).'
                    });
                 alertPopup.then(function(res) {
                 });

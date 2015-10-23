@@ -130,7 +130,28 @@ describe('Test storageService', function () {
         expect(sheets[2]).toEqual(sheet2);
     });
 
+    it('verify _usefulSheet', function() {
+        var sheet1 = new Sheet('id1', 'Sheet 1', []);
+        var expireDate = new Date("November 1, 2015 11:00:00");
+        sheet1.createdTimestamp = new Date("November 10, 2015 11:00:00");;
+        sheet1.updatedTimestamp = sheet1.createdTimestamp;
 
+        // created and updated are the same so not useful
+        expect(storageService._usefulSheet(sheet1, expireDate)).toBeFalsy();
+
+        // old sheet, but recently updated, so useful
+        sheet1.createdTimestamp = new Date("October 1, 2014 11:00:00");
+        expect(storageService._usefulSheet(sheet1, expireDate)).toBeTruthy();
+
+        // last update older than 30 days
+        sheet1.updatedTimestamp = new Date("October 2, 2014 11:00:00");
+        expect(storageService._usefulSheet(sheet1, expireDate)).toBeFalsy();
+
+        // older but favorite
+        sheet1.favorite = true;
+        expect(storageService._usefulSheet(sheet1, expireDate)).toBeTruthy();
+
+    });
 
 });
 
