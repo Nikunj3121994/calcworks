@@ -94,6 +94,9 @@ $ karma start --single-run
 $ karma start --auto-watch
 Mbv IntelliJ kan ook, karma plugin installeren en via rechtermuistoets runnen als je op karma file staat
 
+Of via de termimal de testen continue runnen:
+$ karma start karma.conf.js --auto-watch
+
 Ionic runnen
 --------------
 $ ionic serve

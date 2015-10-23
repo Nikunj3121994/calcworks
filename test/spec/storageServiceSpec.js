@@ -13,8 +13,9 @@ describe('Test storageService', function () {
     }));
 
     // helper function to force loadSheets to load the sheet
+    // by making a diff between created and updated timestamp
     function touchSheet(sheet) {
-        sheet.updatedTimestamp.setMilliseconds(sheet.updatedTimestamp.getMilliseconds() + 1 );
+        sheet.updatedTimestamp.setMilliseconds(sheet.updatedTimestamp.getMilliseconds() + 5 );
     }
 
     it('verify load, save and delete sheets', function() {

@@ -120,5 +120,29 @@ describe('Test sheetService', function () {
 
     });
 
+
+    it('maxFavoritesReached', function() {
+        expect(sheetService.maxFavoritesReached()).toBeFalsy();
+
+        var sheets = [];
+        // make 10 sheets favorite
+        for (var i = 0 ; i < 9 ; ++i ) {
+            var sheet = new Sheet('id' + i, 'name' + i, []);
+            sheet.favorite = true;
+            sheets.push(sheet);
+        }
+        storageService.loadSheets = function() { return sheets; };
+        sheetService._test_init();
+        expect(sheetService.maxFavoritesReached()).toBeFalsy();
+
+        var sheet = new Sheet('id foo', 'name foo', []);
+        sheet.favorite = true;
+        sheets.push(sheet);
+
+        storageService.loadSheets = function() { return sheets; };
+        sheetService._test_init();
+        expect(sheetService.maxFavoritesReached()).toBeTruthy();
+    });
+
 });
 

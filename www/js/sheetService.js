@@ -117,6 +117,15 @@ angular.module('calcworks.services')
                 }
                 $rootScope.$broadcast("sheetsUpdated", null);
             },
+            maxFavoritesReached: function() {
+                var countFavs = 0;
+                for (var i in sheets) {
+                    if (sheets[i].favorite) {
+                        ++countFavs;
+                    }
+                }
+                return countFavs >= 10;  // note the =, we allow 10 favorites, but not more
+             },
             _test_init: function() {
                 init();
             }
