@@ -4,11 +4,19 @@
 
 }
 
-.row {
-    height: 13%;
+.calc-row-big {
+    height: 17%;
     background-color: #feba51;
-    /*border: 1px solid lightgrey;*/
+    padding-bottom: 2%;
 }
+/* 2 x 17 = 34 */
+
+.calc-row {
+    height: 12%;
+    background-color: #feba51;
+}
+/* 6 x 12 = 72 */
+
 
 /* col z'n height moet gezet worden ivm children*/
 .col {
@@ -19,8 +27,7 @@
 .expression {
     display: inline-block;
     width: 100%;
-    /* iets kleiner dan de display*/
-    height: 90%;
+    height: 100%;
     background-color: #e4e4e4;
     box-shadow: inset 1px 1px 3px #999;
     /*zorg ervoor dat de expressie items (span elements) op dezelfde regel blijven echter gaf problemen, nog fixen*/
@@ -55,6 +62,30 @@
     padding: 1%;
 }
 
+.expression-btn-area {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+}
+
+.expression-btn {
+    height: 80%;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-size: x-large;
+    text-align: center;
+    margin-top: 20%;
+}
+
+
+.expression-btn-assertive {
+    color: red;
+}
+
+
+
 .display {
     display: inline-block;
     height: 100%;
@@ -66,9 +97,20 @@
 .display-inline-text {
     display: inline-block;
     height: 30%;
-    width: 100%;
+    width: 91%;
     padding-left: 1%;
     font-size: small;
+    background-color: rgba(179, 179, 179, 0.18);
+}
+
+.display-inline-operator {
+    display: inline-block;
+    height: 30%;
+    width: 9%;
+    font-size: small;
+    vertical-align: top;
+    padding-right: 1%;
+    text-align: right;
     background-color: rgba(179, 179, 179, 0.18);
 }
 
@@ -92,6 +134,7 @@
     top: 1%;
 }
 
+/*
 .operator {
     display: inline-block;
     height: 60%;
@@ -99,7 +142,7 @@
     margin-top: 50%;
     text-align: center;
     color: #5d5d5d;
-    font-size: 30px;
+    font-size: x-large;
     background-color: #e4e4e4;
     box-shadow: inset 0px 1px 3px #999;
 }
@@ -108,6 +151,7 @@
     position: relative;
     top: 15%;
 }
+*/
 
 
 .calculator-btn {
@@ -145,10 +189,6 @@
     font-size: large;
 }
 
-.calculator-btn-assertive {
-    color: red;
-    font-size: 150%;
-}
 
 /* favorite icon color when selected */
 .favoriteOn {

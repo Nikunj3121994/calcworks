@@ -163,7 +163,6 @@ website nodig?
 Issues
 -------
 
-run macro wordt niet goed getoond
 
 bij het editen kan je recall doen en de expressie kiezen die je aan het editen bent
 
