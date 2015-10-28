@@ -226,8 +226,8 @@
 .calc-item {
     margin-left: 0px;
     margin-right: 0px;
-    left: 0;
-    right: 0;
+    left: 0px;
+    right: 0px;
 }
 
 /*geef de rows in de active sheet geen padding*/

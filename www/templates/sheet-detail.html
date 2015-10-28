@@ -75,14 +75,14 @@ The Sheets service returns an array of sheet data
               </ion-item>
           </div>
 
-          <ion-item ng-if="sheet.hasSum" style="padding:0px" >
-                  <span class="row calc-item rowSum">
-                      <span class="col col-90">Sum</span>
-                      <span class="col col-10">{{sheet.sum|toFixedDecimals}}</span>
+          <ion-item ng-if="sheet.hasSum" class="calc-item" style="padding: 0px">
+                  <span class="row rowSum">
+                      <span class="col col-30">Sum</span>
+                      <span class="col col-70" style="text-align: right">{{sheet.sum|toFixedDecimals}}</span>
                   </span>
-                  <span class="row calc-item rowSum">
-                      <span class="col col-90">Max</span>
-                      <span class="col col-10">{{sheet.max|toFixedDecimals}}</span>
+                  <span class="row rowSum">
+                      <span class="col col-30">Max</span>
+                      <span class="col col-70" style="text-align: right">{{sheet.max|toFixedDecimals}}</span>
                   </span>
           </ion-item>
 

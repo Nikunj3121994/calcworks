@@ -69,6 +69,11 @@ $ cordova platform update ios
 Je kan verifieren op welke versie van cordova je zit door:
 $ npm list -g cordova
 
+Maar merk op dat plugins van cordova via het volgende commando moet:
+$ cordova plugin ls
+Dit vind je (wel) terug in package.json. Ze hebben daar een extensie gemaakt voor cordova plugins
+
+
 Cordova bouwen
 ---------------
 $ cordova platform add ios
@@ -105,6 +110,16 @@ $ ionic serve
 Ionic op specifiek device runnen:
 $ /Users/admin/projects/calcworks/platforms/ios/cordova/lib/list-emulator-images
 $ cordova emulate ios --target="iPhone-5s"
+
+
+$ ionic emulate --livereload ios
+
+De emulate gaat fout omdat cordova een security feature heeft toegevoegd die netwerk access blokt, je moet dan doen:
+$ ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git
+
+Echter de cordova-ios versie zit op 3.9 ipv 4. We moeten dus nog even wachten totdat die er is.
+Of de vorige versie van de whitelist plugin installeren.
+
 
 
 Github
@@ -147,6 +162,8 @@ website nodig?
 
 Issues
 -------
+
+run macro wordt niet goed getoond
 
 bij het editen kan je recall doen en de expressie kiezen die je aan het editen bent
 
