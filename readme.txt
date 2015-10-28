@@ -163,6 +163,7 @@ website nodig?
 Issues
 -------
 
+In send feedback de juiste e-mail gebruiken
 
 bij het editen kan je recall doen en de expressie kiezen die je aan het editen bent
 
@@ -182,14 +183,6 @@ mailen - je wilt een simpelere lay-out, zoiets als   rente kosten = 300,000 x 3.
 
 de error log van de calc service wordt niets mee gedaan. Tonen in settings dlg?
 
-limiet op aantal calculaties en aantal sheets en aantal favorite sheets (met name belangrijk als we gratis verspreiden)
-Door de limiet op favorite sheets kan je altijd een niet-favorite sheet verwijderen bij t aanmaken van een nieuwe.
-Bij het opstarten kijken we of de laatste sheet ouder dan een dag is.
-zo niet, dan gaan we meteen door.
-zo wel, dan verwijderen we de laatste sheet als updated=created
-
-maken we een nieuwe sheet - mits de vorige niet leeg is. Als het totaal aantal sheets 50 is dan verwijderen we de laatste.
-
 rename sheet vanuit calculator tab (evt)
 
 om autofocus voor elkaar te krijgen:
@@ -202,8 +195,6 @@ lastVarName zou lastVarNumber moeten worden, veel simpeler
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 
 beep of vibrate bij fout in calculator
-
-bij settings tab, 'send feedback' juiste email adres invullen
 
 Deploy appstore - gerelateerd
 - het icon kan beter; visueel en 1024 x 1024
