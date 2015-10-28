@@ -38,6 +38,7 @@ angular.module('calcworks.controllers')
         console.log('init');
         $scope.sheet = sheetService.getActiveSheet();
         // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
+        // 'calc' is used in renameDialog, so keep them in sync. Consider using Angular's constant service.
         lastVarName = 'calc' + $scope.sheet.getLastNumberFromCalcName();
         selectedCalc = null;
         $scope.reset();

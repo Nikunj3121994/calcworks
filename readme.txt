@@ -166,15 +166,9 @@ Issues
 
 bij het editen kan je recall doen en de expressie kiezen die je aan het editen bent
 
-het hernoemen van een calc moet beter, de default 'calcxxx' wil je toch altijd aanpassen
-
 run vanuit history
 
 navigeren naar vorige sheet vanuit header bar  <-  en  ->   of  als je erop klikt dan een keuze maken
-
-test gebruik cordova.plugins.email
-
-config macro moet beter
 
 de edit/rename popup zit te laag
 
