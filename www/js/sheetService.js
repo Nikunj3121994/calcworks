@@ -18,6 +18,7 @@ angular.module('calcworks.services')
         }
 
         function init() {
+            // remember that loadSheets deletes sheets that are older than 30 days
             sheets = storageService.loadSheets();
             // bepaal de activeSheet
             if (sheets.length === 0) {
@@ -30,10 +31,10 @@ angular.module('calcworks.services')
                 midnight.setHours(0);
                 midnight.setMinutes(0);
                 if (sheets[0].updatedTimestamp.valueOf() < midnight.valueOf()) {
+                    // misschien is t beter om createNewActiveSheet aan te roepen, maar die doet ook een save
+                    // en een broadcast wat overbodig lijkt bij opstarten
                     activeSheet = createSheet();
-                    sheets.push(activeSheet);
-                    // en als de vorige/laatste sheet nu leeg was, dan kunnen we die wel weggooien
-                    // maar ja dat geldt ook voor andere sheets die leeg zijn en geen naam hebben
+                    sheets.splice(0, 0, activeSheet);
                 } else {
                     activeSheet = sheets[0];
                 }
@@ -44,7 +45,6 @@ angular.module('calcworks.services')
 
         return {
             createNewActiveSheet: function() {
-                // consider: als de huidige activeSheet leeg is dan kunnen we die verwijderen
                 var sheet = createSheet();
                 activeSheet = sheet;
                 sheets.splice(0, 0, sheet);

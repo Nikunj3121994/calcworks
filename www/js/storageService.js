@@ -21,7 +21,7 @@ angular.module('calcworks.services')
                         var sheet = this._jsonToSheet(value);
                         // verify valid and in the future we can update the object if it is from an older version
                         if (sheet.version === '1.0') {
-                            // if a sheet is not changed, it is empty and we do not load it
+                            // if a sheet is no longer 'useful' we delete it
                             if (this._usefulSheet(sheet, expireDate)) {
                                 this._insertSheet(sheet, sheets);
                             } else {
@@ -46,6 +46,7 @@ angular.module('calcworks.services')
 
             // added methods to interface so we can test, the underscore indicates private usage
 
+            // een sheet is useful als ie favorite is, minder dan 30 dagen geleden bewerkt en niet leeg
             _usefulSheet: function(sheet, expireDate) {
                 return (sheet.createdTimestamp.valueOf() !== sheet.updatedTimestamp.valueOf())
                 && (sheet.favorite || (sheet.updatedTimestamp.valueOf() > expireDate.valueOf()));

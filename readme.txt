@@ -94,7 +94,7 @@ Je kan runnen op de iphone door linksboven 'iphone stephan' te kiezen (ipv de em
 Testen runnen
 -------------
 Karma vanaf de cmd line runnen (handig omdat dit meer info geeft dan via gulp)
-vanuit de test folder:
+vanuit de *test* folder:
 $ karma start --single-run
 $ karma start --auto-watch
 Mbv IntelliJ kan ook, karma plugin installeren en via rechtermuistoets runnen als je op karma file staat
@@ -163,11 +163,15 @@ website nodig?
 Issues
 -------
 
+merk op dat als je alle sheets blijft bewerken er niets verwijderd wordt
+
 In send feedback de juiste e-mail gebruiken
 
 bij het editen kan je recall doen en de expressie kiezen die je aan het editen bent
 
-run vanuit history
+run vanuit history.
+Misschien dat je de updated tijd moet aanpassen of vragen of ie favorite moet worden zodat de macro niet per ongeluk
+verwijderd wordt
 
 navigeren naar vorige sheet vanuit header bar  <-  en  ->   of  als je erop klikt dan een keuze maken
 

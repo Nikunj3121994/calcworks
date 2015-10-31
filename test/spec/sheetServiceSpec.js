@@ -55,6 +55,7 @@ describe('Test sheetService', function () {
         var sheet1 = sheetService.getActiveSheet();
         expect(sheet1.name).toBe('Untitled Sheet');
         expect(sheetService.getSheets().length).toEqual(2);
+        expect(sheetService.getSheets()[0].name).toEqual('Untitled Sheet');
     });
 
 
