@@ -340,3 +340,7 @@ ion-item.calc-item div.item-content {
 #btn-bar-toggle div.handle {
     margin-top: -5px;
 }
+
+.select-calc-disabled-row {
+    color: grey;
+}

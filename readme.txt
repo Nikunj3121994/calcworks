@@ -163,11 +163,23 @@ website nodig?
 Issues
 -------
 
+Oppervlakte vd btn goed?
+
+De pin btn moet bij de uitkomst
+
+Verwijderen (eerste) sheet gaf rare interactie. Hij maakt n nieuwe lege aan. Ik wilde de vorige hebben.
+
+De haakes en plusmin moet hoger
+
+Doe een klik vanuit detail. Doe een berekening. Switch heen en weer. Het eerste getal staat er ipv uitkomst.
+
+
 merk op dat als je alle sheets blijft bewerken er niets verwijderd wordt
 
 In send feedback de juiste e-mail gebruiken
 
-bij het editen kan je recall doen en de expressie kiezen die je aan het editen bent
+bij het editen kan je recall doen en indirect een calc kiezen die afhankelijk is van de calc die je aan het editen bent
+Je kan een cirulaire dependency maken.
 
 run vanuit history.
 Misschien dat je de updated tijd moet aanpassen of vragen of ie favorite moet worden zodat de macro niet per ongeluk
@@ -176,6 +188,9 @@ verwijderd wordt
 navigeren naar vorige sheet vanuit header bar  <-  en  ->   of  als je erop klikt dan een keuze maken
 
 de edit/rename popup zit te laag
+gebruik $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
+                scope: null,
+                animation: 'slide-in-up'
 
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
 
@@ -216,6 +231,11 @@ swiss army knife
 
 nice-to-have
 ------------
+
+verzin een api voor extensies zodat wiskundige problemen opgelost kunnen worden.
+
+maak t mogelijk om een range van invoerwaarden aan te geven voor de macro en toon de antwoorden in een tabel
+evt met grafiek
 
 het type van de invoer kunnen bepalen (euro, tijdsduur, etc)
 

@@ -105,10 +105,15 @@ angular.module('calcworks.controllers')
 
     var selectCalculationModalClicked = function(calc) {
         if (calc) {
-            // OK clicked
-            $scope.processSelectedCalculation(calc);
-        } // else cancel clicked
-        $scope.closeModal();
+            if ($scope.editCalc !== calc) {
+                // OK clicked
+                $scope.processSelectedCalculation(calc);
+                $scope.closeModal();
+            }
+        } else {
+            // cancel clicked
+            $scope.closeModal();
+        }
     };
 
     // als we nog ooit met een eigen controller willen werken voor deze popup,
@@ -119,11 +124,16 @@ angular.module('calcworks.controllers')
     }).then(function(modal) {
         $scope.selectCalculationModal = modal;
         modal.scope.sheet = undefined; // wait till openModal
+        modal.scope.notAllowedCalc = undefined; // wait till openModal
         modal.scope.clickCalculation = selectCalculationModalClicked;
     });
 
     $scope.openModal = function() {
         $scope.selectCalculationModal.scope.sheet = sheetService.getActiveSheet();
+        if ($scope.editMode === true) {
+            // we cannot allow the calc that is being edited to pick itself
+            $scope.selectCalculationModal.scope.notAllowedCalc = $scope.editCalc;
+        }
         $scope.selectCalculationModal.show();
     };
 

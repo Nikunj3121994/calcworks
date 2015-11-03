@@ -8,6 +8,7 @@ angular.module('calcworks.services')
                 var sheets = [];
                 var expireDate = new Date();
                 expireDate.setDate(expireDate.getDate() - 30);
+                console.log("expire date " + expireDate);
 
                 // for now we assume that only sheets are stored
                 // if we store other objects then we need to prefix the id with a type identifier to separate the sheets
@@ -25,6 +26,7 @@ angular.module('calcworks.services')
                             if (this._usefulSheet(sheet, expireDate)) {
                                 this._insertSheet(sheet, sheets);
                             } else {
+                                console.log("remove sheet " + key);
                                 $window.localStorage.removeItem(key);
                             }
                         }
