@@ -163,13 +163,9 @@ website nodig?
 Issues
 -------
 
-Oppervlakte vd btn goed?
-
 De pin btn moet bij de uitkomst
 
 Verwijderen (eerste) sheet gaf rare interactie. Hij maakt n nieuwe lege aan. Ik wilde de vorige hebben.
-
-De haakes en plusmin moet hoger
 
 Doe een klik vanuit detail. Doe een berekening. Switch heen en weer. Het eerste getal staat er ipv uitkomst.
 
