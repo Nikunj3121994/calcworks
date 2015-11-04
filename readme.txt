@@ -96,7 +96,8 @@ Testen runnen
 Karma vanaf de cmd line runnen (handig omdat dit meer info geeft dan via gulp)
 vanuit de *test* folder:
 $ karma start --single-run
-$ karma start --auto-watch
+$
+
 Mbv IntelliJ kan ook, karma plugin installeren en via rechtermuistoets runnen als je op karma file staat
 
 Of via de termimal de testen continue runnen:
@@ -178,8 +179,6 @@ swiss army knife
 Issues
 
 -------
-
-Verwijderen (eerste) sheet gaf rare interactie. Hij maakt n nieuwe lege aan. Ik wilde de vorige hebben.
 
 gaat het wrappen van de expressie / getallen goed?  Misschien dat we bij groter dan miljoen in Ks moeten afbeelden?
 het font van de expression kan kleiner worden als de inhoud groeit

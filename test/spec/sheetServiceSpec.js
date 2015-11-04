@@ -66,7 +66,13 @@ describe('Test sheetService', function () {
         sheetService.createNewActiveSheet();
         sheetService.getActiveSheet().name = 'sheet2';
         expect(sheetService.getActiveSheet().name).toBe('sheet2');
+
+        // delete de active (sheet2) sheet, de vorige wordt actief
         sheetService.deleteSheet(sheetService.getActiveSheet().id);
+        expect(sheetService.getActiveSheet().name).toBe('sheet1');
+
+        sheetService.deleteSheet(sheetService.getActiveSheet().id);
+        // er zijn geen sheets meer, nu wordt een nieuwe aangemaakt
         expect(sheetService.getActiveSheet().name).toBe('Untitled Sheet');
     });
 
