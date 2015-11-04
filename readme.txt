@@ -151,13 +151,28 @@ Via bijvoorbeeld http://makeappicon.com/ kunnen we evt ook specifieke iconen gen
 Ik weet niet of dat ook voor het launch image kan - en of t loont.
 
 
-Distribute
+Te doen voor Distribute
 -----------
 icon v/d app + launch image
 minimize/uglify js
 controleer persistence rules Apple
+In send feedback de juiste e-mail gebruiken
 screenshots maken (goede use-cases)
 website nodig?
+
+
+Deploy appstore - gerelateerd
+- het icon kan beter; visueel en 1024 x 1024
+- minify
+- tijd en carrier uit screenshot halen, nieuw screenshot nodig
+
+we moeten iets anders verzinnen dan calcworks...
+calcultra
+calcgem
+calcgems
+calcberyl
+swiss army knife
+.info website eerste jaar paar euro, daarna uitkijken
 
 
 Issues
@@ -166,20 +181,14 @@ Issues
 
 Verwijderen (eerste) sheet gaf rare interactie. Hij maakt n nieuwe lege aan. Ik wilde de vorige hebben.
 
-Doe een klik vanuit detail. Doe een berekening. Switch heen en weer. Het eerste getal staat er ipv uitkomst.
+gaat het wrappen van de expressie / getallen goed?  Misschien dat we bij groter dan miljoen in Ks moeten afbeelden?
+het font van de expression kan kleiner worden als de inhoud groeit
 
-het font van de expression moet kleiner worden als de inhoud groeit
-
-merk op dat als je alle sheets blijft bewerken er niets verwijderd wordt
-
-In send feedback de juiste e-mail gebruiken
-
-gaat het wrappen van de expressie / getallen goed?
-
-in edit mode zou je de expressie moeten tonen ipv resultaat
 
 bij het editen kan je recall doen en indirect een calc kiezen die afhankelijk is van de calc die je aan het editen bent
 Je kan een cirulaire dependency maken.
+
+in edit mode zou je de expressie moeten tonen ipv resultaat
 
 run vanuit history.
 Misschien dat je de updated tijd moet aanpassen of vragen of ie favorite moet worden zodat de macro niet per ongeluk
@@ -215,18 +224,9 @@ plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 
 beep of vibrate bij fout in calculator
 
-Deploy appstore - gerelateerd
-- het icon kan beter; visueel en 1024 x 1024
-- minify
-- tijd en carrier uit screenshot halen, nieuw screenshot nodig
+merk op dat als je alle sheets blijft bewerken binnen 30 dagen er niets verwijderd wordt
 
-we moeten iets anders verzinnen dan calcworks...
-calcultra
-calcgem
-calcgems
-calcberyl
-swiss army knife
-.info website eerste jaar paar euro, daarna uitkijken
+
 
 
 nice-to-have

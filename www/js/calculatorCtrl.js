@@ -10,6 +10,10 @@ angular.module('calcworks.controllers')
     var selectedCalc;
     var state = $stateParams;  // dit moeten we in app.js in de rootscope stoppen
 
+    var resetDataMode = function() {
+        $state.get('tab.calculator').data.mode = 'normal';
+    }
+
     $scope.reset = function() {
         console.log('reset');
         $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
@@ -23,6 +27,7 @@ angular.module('calcworks.controllers')
         $scope.numberEnteringState = false;  // na de eerste digit zit je in deze state totdat een operator, bracket of equals komt
         $scope.expressionEnteringState = false;   // geeft aan dat een nieuwe expression is gestart  (direct na equals is deze false)
         $scope.plusMinusTyped = false; // flag to remember if plusMinus was typed while still 0 in display
+        resetDataMode();
     };
 
     // use this function as a reset when bracket open or closed is entered
@@ -64,6 +69,7 @@ angular.module('calcworks.controllers')
             $scope.editMode = true;
             $scope.editCalc = $state.current.data.calc;
         } else if ($state.current.data.mode === 'use') {
+            resetDataMode();  // we do not call reset() since we want to keep intermediate expression
             $scope.processSelectedCalculation($state.current.data.calc);
         }
     });
@@ -80,14 +86,10 @@ angular.module('calcworks.controllers')
     });
 
     $scope.cancelMacroMode = function() {
-        $scope.macroMode = false;
-        $state.get('tab.calculator').data.mode = 'normal';
         $scope.reset();
     };
 
     $scope.cancelEditMode = function() {
-        $scope.editMode = false;
-        $state.get('tab.calculator').data.mode = 'normal';
         $scope.reset();
     };
 
