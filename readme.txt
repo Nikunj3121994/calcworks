@@ -161,18 +161,22 @@ website nodig?
 
 
 Issues
--------
 
-De pin btn moet bij de uitkomst
+-------
 
 Verwijderen (eerste) sheet gaf rare interactie. Hij maakt n nieuwe lege aan. Ik wilde de vorige hebben.
 
 Doe een klik vanuit detail. Doe een berekening. Switch heen en weer. Het eerste getal staat er ipv uitkomst.
 
+het font van de expression moet kleiner worden als de inhoud groeit
 
 merk op dat als je alle sheets blijft bewerken er niets verwijderd wordt
 
 In send feedback de juiste e-mail gebruiken
+
+gaat het wrappen van de expressie / getallen goed?
+
+in edit mode zou je de expressie moeten tonen ipv resultaat
 
 bij het editen kan je recall doen en indirect een calc kiezen die afhankelijk is van de calc die je aan het editen bent
 Je kan een cirulaire dependency maken.

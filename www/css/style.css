@@ -23,7 +23,7 @@
     height: 100%
 }
 
-
+.display,
 .expression {
     display: inline-block;
     width: 100%;
@@ -35,6 +35,7 @@
     /*white-space: nowrap;*/
 }
 
+
 .expression-inline-text {
     display: inline-block;
     height: 40%;
@@ -44,54 +45,41 @@
     background-color: rgba(179, 179, 179, 0.18);
 }
 
+.expression-macro-value,
 .expression-normal-value {
     display: inline-block;
-    height: 100%;
     width: 100%;
-    margin-top: 5%;
     padding-left: 1%;
+    /* line-height is nodig om de twee inline blocks vertical aligned te krijgen */
+    line-height: 300%;
+}
+
+.expression-normal-value {
+    height: 100%;
     font-size: 120%;
+    /* margin-top is nodig om de twee inline blocks op de goede hoogte te krijgen */
+    margin-top: 3%;
 }
 
 .expression-macro-value {
-    display: inline-block;
-    height: 62%;
+    height: 70%;
     text-align: right;
-    width: 100%;
-    font-size: 200%;
-    padding: 1%;
+    /* door het font groter te maken, neemt het block meer verticale ruimte in
+       bij 150% overlapt ie al */
+    font-size: 140%;
+    line-height: 200%;
+    /*background-color: lightgreen;*/
 }
 
-.expression-btn-area {
+.expression-left {
     display: inline-block;
-    height: 100%;
-    width: 100%;
+    width: 85%;
+    /*background-color: yellow*/
 }
 
-.expression-btn {
-    height: 80%;
-    width: 100%;
-    background-color: white;
-    border: 1px solid #333;
-    border-radius: 5px;
-    font-size: x-large;
-    text-align: center;
-    margin-top: 20%;
-}
-
-
-.expression-btn-assertive {
-    color: red;
-}
-
-
-
-.display {
+.expression-right {
     display: inline-block;
-    height: 100%;
-    width: 100%;
-    background-color: #e4e4e4;
-    box-shadow: inset 1px 1px 3px #999;
+    width: 15%;
 }
 
 .display-inline-text {
@@ -131,7 +119,7 @@
 /*deze class zorgt ervoor dat de input verticaal goed gepositioneerd wordt*/
 .display-input-text {
     position: relative;
-    top: 1%;
+    top: 10%;
 }
 
 .calculator-btn {
@@ -160,10 +148,6 @@
 
 .calculator-btn:disabled {
     color: #d3d3d3;
-}
-
-.small-calculator-btn {
-    font-size: large;
 }
 
 
@@ -291,7 +275,8 @@ ion-item.calc-item div.item-content {
 
 
 /* copied from ionic's .item-input-inset without the padding.
-   this (display) style is needed to get the input field and clear (x) button on the same row */
+   this (display) style is needed to get the input field and clear (x) button on the same row
+   (Misschien maakte ik hier de fout door spaties tussen de elementen te hebben) */
 .input-button-same-row {
     display: -webkit-box;
     display: -webkit-flex;

@@ -13,10 +13,14 @@
           <div class="col col-100">
               <div class="expression">
                   <span class="expression-inline-text">
-                      Result {{sheet.outputCalculation.name}} based on {{sheet.inputCalculation.name}} = {{sheet.inputCalculation.result|toFixedDecimals}}</span>
-                  <span class="expression-macro-value">
-                        {{sheet.outputCalculation.result|toFixedDecimals}}
-                  </span>
+                      Result {{sheet.outputCalculation.name}} based on {{sheet.inputCalculation.name}} = {{sheet.inputCalculation.result|toFixedDecimals}}
+                  </span><span class="expression-macro-value">
+                        <span class="expression-left">
+                            {{sheet.outputCalculation.result|toFixedDecimals}}
+                        </span><span class="expression-right">
+                            <button class="button button-clear button-assertive ion-stop" ng-click="cancelMacroMode()"></button>
+                        </span>
+                    </span>
               </div>
           </div>
       </div>
@@ -26,19 +30,30 @@
                 <div class="expression">
                     <!--<div class="expression-inline-text"> misschien dat we dit later voor foutmeldingen gebruiken </div>-->
                     <div class="expression-normal-value">
-                        <resolve-expression expression="expression" sheet="sheet" result="result"></resolve-expression>
+                        <resolve-expression class="expression-left" expression="expression" sheet="sheet" result="result">
+                            <!--geen spaties tussen de elements hieronder-->
+                        </resolve-expression><span class="expression-right">
+                        <!--de spans zijn nodig om hide/show flikker te beteugelen-->
+                        <span ng-hide="result === null || editMode" >
+                            <button class="button button-clear button-positive ion-pin" ng-click="touchRemember()"></button>
+                        </span>
+                        <span ng-show="editMode">
+                            <button class="button button-clear button-assertive ion-close" ng-click="cancelEditMode()"></button>
+                        </span>
+                        <!--deze span hoort er wel bij-->
+                        </span>
                     </div>
                 </div>
              </div>
-         </div>
+      </div>
 
 
         <div class="row calc-row-big">
-            <div class="col col-80">
+            <div class="col col-100">
                 <div class="display">
                     <!--no spaces between spaces otherwise lay-out is broken-->
                     <span class="display-inline-text">
-                        <span ng-if="macroMode">Enter new value for {{sheet.inputCalculation.name}}</span>
+                        <span ng-if="macroMode">Enter new value for {{sheet.inputCalculation.name}}:</span>
                         <span ng-if="editMode">Edit {{editCalc.name}} ({{editCalc.result|toFixedDecimals}})</span>
                     </span><span class="display-inline-operator">{{ operatorStr}}</span>
                     <span class="display-input">
@@ -46,23 +61,12 @@
                     </span>
                 </div>
             </div>
-            <div class="col col-20">
-                 <span class="expression-btn-area" ng-if="!editMode && !macroMode">
-                    <button class="button ion-pin expression-btn"  ng-disabled="result === null" ng-click="touchRemember()"></button>
-                 </span>
-                <span class="expression-btn-area" ng-if="editMode">
-                    <button class="button expression-btn ion-close expression-btn-assertive" ng-click="cancelEditMode()"></button>
-                </span>
-                <span class="expression-btn-area" ng-if="macroMode">
-                    <button class="button expression-btn ion-stop expression-btn-assertive" ng-click="cancelMacroMode()"></button>
-                </span>
-            </div>
         </div>
 
 
         <div class="row calc-row">
-          <div class="col"><button class="calculator-btn small-calculator-btn" ng-click="touchRecall()">Recall</button></div>
-          <div class="col"><button class="calculator-btn small-calculator-btn" ng-click="reset()">Clear</button></div>
+          <div class="col"><button class="calculator-btn calculator-btn-small-text" ng-click="touchRecall()">Recall</button></div>
+          <div class="col"><button class="calculator-btn calculator-btn-small-text" ng-click="reset()">Clear</button></div>
           <div class="col"><button class="calculator-btn" ng-click="touchOperator('%')">%</button></div>
           <div class="col"><button class="calculator-btn" ng-click="touchDelete()">⌫</button></div>
         </div>
@@ -70,7 +74,7 @@
         <div class="row calc-row">
           <div class="col"><button class="calculator-btn calculator-btn-small-text" ng-click="touchOpenBracket()">(</button></div>
           <div class="col"><button class="calculator-btn calculator-btn-small-text" ng-click="touchCloseBracket()">)</button></div>
-          <div class="col"><button class="calculator-btn" ng-click="touchPlusMinOperator()">±</button></div>
+          <div class="col"><button class="calculator-btn calculator-btn-small-text" ng-click="touchPlusMinOperator()">±</button></div>
           <div class="col"><button class="calculator-btn" ng-click="touchOperator('/')">/</button></div>
         </div>
 
