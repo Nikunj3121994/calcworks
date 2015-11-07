@@ -177,17 +177,28 @@ swiss army knife
 
 
 Issues
+============
 
+
+Bugs
 -------
+
+Als je n oude sheet bewerkt dan zou die bovenop moeten komen
 
 gaat het wrappen van de expressie / getallen goed?  Misschien dat we bij groter dan miljoen in Ks moeten afbeelden?
 het font van de expression kan kleiner worden als de inhoud groeit
 
-
 bij het editen kan je recall doen en indirect een calc kiezen die afhankelijk is van de calc die je aan het editen bent
 Je kan een cirulaire dependency maken.
 
+
+Improvements
+--------------
+
 in edit mode zou je de expressie moeten tonen ipv resultaat
+
+
+het aantal decimalen instelbaar
 
 run vanuit history.
 Misschien dat je de updated tijd moet aanpassen of vragen of ie favorite moet worden zodat de macro niet per ongeluk
@@ -225,7 +236,7 @@ beep of vibrate bij fout in calculator
 
 merk op dat als je alle sheets blijft bewerken binnen 30 dagen er niets verwijderd wordt
 
-
+plaats files mbt feature bij elkaar
 
 
 nice-to-have
@@ -249,7 +260,8 @@ angular.module("myApp").run(function ($rootScope, $state, $stateParams) {
     $rootScope.$stateParams = $stateParams;
 });
 
-moeten we een lastSeen field toevoegen zodat je daar ook op kan sorteren
+moeten we een lastSeen / lastUsed field toevoegen zodat je daar ook op kan sorteren.
+Misschien ook handig ivm macro runnen
 
 In de history a la Google Docs per 'today' en 'deze week' en 'deze maand' laten zien
 
@@ -258,10 +270,6 @@ samen nemen van btns Delete en Reorder into Change. Bij actief maken dan de ... 
 voor het emailen en de title is nog untitled dan de rename dlg tonen
 
 misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
-
-plaats files mbt feature bij elkaar
-
-het aantal decimalen instelbaar
 
 voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
 http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution

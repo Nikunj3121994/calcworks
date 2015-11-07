@@ -30,10 +30,6 @@ angular.module('calcworks.services')
                 }
             ]
         };
-        var renameSheetPopupData =  renamePopupData;
-        renameSheetPopupData.title = 'Name for the sheet';
-        var renameCalculationPopupData =  renamePopupData;
-        renameCalculationPopupData.title = 'Name for the calculation';
         $scope.reset = function() {
             $scope.data.name = '';
             //consider: set focus to the input field
@@ -41,11 +37,12 @@ angular.module('calcworks.services')
 
         return {
             showRenameCalculationDialog: function(calc, sheet) {
+                renamePopupData.title = 'Name for the calculation';
                 $scope.data = {};
                 if (!calc.name.startsWith('calc')) {
                     $scope.data.name = calc.name;
                 }
-                var renamePopup = $ionicPopup.show(renameCalculationPopupData);
+                var renamePopup = $ionicPopup.show(renamePopupData);
                 renamePopup.then(function (res) {
                     if (res) {
                         calc.name = res;
@@ -54,9 +51,12 @@ angular.module('calcworks.services')
                 });
             },
             showRenameSheetDialog: function(sheet) {
+                renamePopupData.title = 'Name for the sheet';
                 $scope.data = {};
-                $scope.data.name = sheet.name;
-                var renamePopup = $ionicPopup.show(renameSheetPopupData);
+                if (!sheet.name === sheet.defaultName) {
+                    $scope.data.name = sheet.name;
+                }
+                var renamePopup = $ionicPopup.show(renamePopupData);
                 renamePopup.then(function (res) {
                     if (res) {
                         sheet.name = res;

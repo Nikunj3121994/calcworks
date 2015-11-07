@@ -34,6 +34,8 @@ var Sheet = function(par, name, calculations) {
     this.version = '1.0'; // we will use this for versioning and potential updating of storage format
 };
 
+Sheet.prototype.defaultName = 'Untitled Sheet';
+
 Sheet.prototype.nrOfCalcs = function() {
     return this.calculations.length;
 };

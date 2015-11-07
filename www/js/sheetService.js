@@ -13,7 +13,8 @@ angular.module('calcworks.services')
         var sheets = null;
 
         function createSheet() {
-            var sheet = new Sheet(generateUUID(), 'Untitled Sheet', []);
+            var sheet = new Sheet(generateUUID(), '', []);
+            sheet.name = sheet.defaultName;
             return sheet;
         }
 
