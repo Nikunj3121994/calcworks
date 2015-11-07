@@ -183,8 +183,6 @@ Issues
 Bugs
 -------
 
-Als je n oude sheet bewerkt dan zou die bovenop moeten komen
-
 gaat het wrappen van de expressie / getallen goed?  Misschien dat we bij groter dan miljoen in Ks moeten afbeelden?
 het font van de expression kan kleiner worden als de inhoud groeit
 
@@ -196,7 +194,6 @@ Improvements
 --------------
 
 in edit mode zou je de expressie moeten tonen ipv resultaat
-
 
 het aantal decimalen instelbaar
 

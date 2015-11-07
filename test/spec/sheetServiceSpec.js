@@ -34,11 +34,23 @@ describe('Test sheetService', function () {
         expect(sheetService.getActiveSheet().name).toEqual('sheet2');
         sheetService.setActiveSheet(sheet1.id);
         expect(sheetService.getActiveSheet().name).toEqual('sheet1');
-
-        // mock storage en dan:
-        //expect(sheetService.getSheets().length).toBe(2);
-
     });
+
+
+    it('verify activate old sheet', function() {
+        sheetService.getActiveSheet().name = 'sheet1';
+        expect(sheetService.getActiveSheet().name).toBe('sheet1');
+        var sheet1 = sheetService.getActiveSheet();
+        sheetService.createNewActiveSheet();
+        sheetService.getActiveSheet().name = 'sheet2';
+        expect(sheetService.getActiveSheet().name).toBe('sheet2');
+
+        sheetService.setActiveSheet(sheet1.id);
+        sheetService.saveSheet(sheet1);
+        // we expect sheet1 to become the first sheet in the list
+        expect(sheetService.getSheets()[0].name).toBe('sheet1');
+    });
+
 
     it('verify sheet creation', function() {
         var sheet = new Sheet('id', 'name', []);

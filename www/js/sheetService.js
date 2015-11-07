@@ -44,6 +44,19 @@ angular.module('calcworks.services')
 
         init();
 
+        function getIndex(sheetId) {
+            // kan ook op deze manier:
+                        // var result = sheets.filter(function(s) {
+                        //     return s.id === id; // filter out appropriate one
+                        // })[0];
+            for (var i in sheets) {
+                if (sheets[i].id === sheetId) {
+                    return i;
+                }
+            }
+            throw new Error('sheetId ' + sheetId + ' not found');
+        }
+
         return {
             createNewActiveSheet: function() {
                 var sheet = createSheet();
@@ -70,28 +83,18 @@ angular.module('calcworks.services')
             },
             saveSheet: function(sheet) {
                 storageService.saveSheet(sheet);
+                // move to top
+                var index = getIndex(sheet.id);
+                sheets.splice(index, 1);
+                sheets.splice(0, 0, sheet);
             },
             getSheet: function(sheetId) {
-                // kan ook op deze manier:
-                // var result = sheets.filter(function(s) {
-                //     return s.id === id; // filter out appropriate one
-                // })[0];
-                for (var i in sheets) {
-                    if (sheets[i].id === sheetId) {
-                        return sheets[i];
-                    }
-                }
-                throw new Error('sheetId ' + sheetId + ' not found');
+                return sheets[getIndex(sheetId)];
             },
             deleteSheet: function(sheetId) {
-                var sheet = null;
-                for (var i in sheets) {
-                    if (sheets[i].id === sheetId) {
-                        sheet = sheets[i];
-                        sheets.splice(i,1);
-                        break;
-                    }
-                }
+                var index = getIndex(sheetId);
+                var sheet = sheets[index];
+                sheets.splice(index, 1);
                 storageService.deleteSheets([sheet.id]);
                 if (sheetId === activeSheet.id) {
                     if (sheets.length > 0) {

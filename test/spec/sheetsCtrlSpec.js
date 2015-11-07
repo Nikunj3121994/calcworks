@@ -9,8 +9,14 @@ describe('Test sheetsCtrl', function () {
         sheetService,
         sheets = [];
 
+    // mock implementations
+
     var getSheets = function() {
         return sheets;
+    }
+
+    var saveSheet = function() {
+        // empty
     }
 
     // Initialize the controller and a mock scope
@@ -19,7 +25,7 @@ describe('Test sheetsCtrl', function () {
         scope = $rootScope.$new();
         // we need to supply an empty set of sheets for each test to make sure everything is 'clean'
         sheetService.getSheets = getSheets;
-        //spyOn(sheetService, 'saveSheet');
+        sheetService.saveSheet = saveSheet;
         SheetsCtrl = $controller('SheetsCtrl', {
             $scope: scope,
             sheetService: sheetService
