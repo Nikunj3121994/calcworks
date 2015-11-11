@@ -199,7 +199,6 @@ die rare flikker moet er nog uit
 bij het editen kan je recall doen en indirect een calc kiezen die afhankelijk is van de calc die je aan het editen bent
 Je kan een cirulaire dependency maken.
 
-in edit mode zou je de expressie moeten tonen ipv resultaat
 
 
 Improvements

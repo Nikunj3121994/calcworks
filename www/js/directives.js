@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-
+// zou eigenlijk ook resolveExpression moeten heten, dit is de twee-regel variant
 .directive('resolveSheet', function($rootScope) {
     return {
         restrict: 'E',
@@ -56,7 +56,6 @@ angular.module('calcworks.controllers')
         restrict: 'E',
         scope: {
             expression: '=',
-            sheet: '=',
             result: '=',  //optional since might not be there yet
             displayCalculationName: '=' // optional, display calculation name instead of its result
         },

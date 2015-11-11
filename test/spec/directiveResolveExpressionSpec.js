@@ -11,7 +11,7 @@ describe('Test directives', function () {
         httpBackend = $httpBackend;
         scope = $rootScope.$new();
         element = angular.element(
-            '<resolve-expression expression="expression" sheet="sheet" result="result"></resolve-expression>');
+            '<resolve-expression expression="expression" result="result"></resolve-expression>');
 
     }));
 
