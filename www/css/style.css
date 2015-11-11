@@ -30,9 +30,9 @@
     height: 100%;
     background-color: #e4e4e4;
     box-shadow: inset 1px 1px 3px #999;
-    /*zorg ervoor dat de expressie items (span elements) op dezelfde regel blijven echter gaf problemen, nog fixen*/
-    /*overflow: hidden;*/
-    /*white-space: nowrap;*/
+    /*zorg ervoor dat de expressie items (span elements) op dezelfde regel blijven echter gaf problemen, nog fixen
+    overflow: hidden;
+    white-space: nowrap;*/
 }
 
 
@@ -57,8 +57,6 @@
 .expression-normal-value {
     height: 100%;
     font-size: 120%;
-    /* margin-top is nodig om de twee inline blocks op de goede hoogte te krijgen */
-    margin-top: 3%;
 }
 
 .expression-macro-value {
@@ -68,38 +66,46 @@
        bij 150% overlapt ie al */
     font-size: 140%;
     line-height: 200%;
-    /*background-color: lightgreen;*/
 }
 
-.expression-left {
+.wide-as-needed {
+  overflow: scroll;
+  white-space: nowrap;
+}
+
+.expression-items {
     display: inline-block;
     width: 85%;
-    /*background-color: yellow*/
 }
 
-.expression-right {
+.expression-button {
     display: inline-block;
     width: 15%;
+    /* this vertical-align:top; is important otherwise text baseline is used to vertically align
+       resulting in a shift down for the buttons */
+    vertical-align:top;
 }
 
+.display-inline-operator,
 .display-inline-text {
     display: inline-block;
     height: 30%;
     width: 91%;
+    vertical-align: top;
     padding-left: 1%;
     font-size: small;
     background-color: rgba(179, 179, 179, 0.18);
 }
 
+.display-inline-text {
+    width: 91%;
+    padding-left: 1%;
+}
+
 .display-inline-operator {
-    display: inline-block;
-    height: 30%;
     width: 9%;
-    font-size: small;
-    vertical-align: top;
     padding-right: 1%;
     text-align: right;
-    background-color: rgba(179, 179, 179, 0.18);
 }
 
 .display-input {

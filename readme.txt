@@ -11,6 +11,11 @@ Ik kreeg toen een foutmelding over gulp-util die ontbrak. Opgelost door:
 - de node-modules te verwijderen
 - $ npm install
 
+Minify plugin toevoegen
+$ npm install ionic-minify --save-dev
+en schrijfrechten voor de hooks folder
+$ chmod -R 755 ./hooks
+
 De email plugin toevoegen
 -------------------------
 Overgenomen van: https://github.com/katzer/cordova-plugin-email-composer
@@ -41,6 +46,10 @@ $npm install karma-jasmine karma-chrome-launcher --save-dev
 en globaal de cli:
 $ sudo  npm install -g karma-cli
 
+maken van een release
+$ ionic build --release
+
+
 Update van libraries
 =============================
 $sudo npm update -g
@@ -61,7 +70,7 @@ $bower update
 Cordova bijwerken:
 $ sudo npm update -g cordova
 
-(hierrdoor bleef ik alleen op een oude versie zitten, toen gedaan: $sudo npm rm -g cordova   en  $sudo npm install -g cordova
+(hierdoor bleef ik alleen op een oude versie zitten, toen gedaan: $sudo npm rm -g cordova   en  $sudo npm install -g cordova
 
 Updates the project to use the latest version of cordova:
 $ cordova platform update ios
@@ -110,7 +119,7 @@ $ ionic serve
 
 Ionic op specifiek device runnen:
 $ /Users/admin/projects/calcworks/platforms/ios/cordova/lib/list-emulator-images
-$ cordova emulate ios --target="iPhone-5s"
+$ ionic emulate ios --target="iPhone-5s"
 
 
 $ ionic emulate --livereload ios
@@ -154,6 +163,8 @@ Ik weet niet of dat ook voor het launch image kan - en of t loont.
 
 Te doen voor Distribute
 -----------
+hoe zit t met  cordova-plugin-console, moet die voor de release eruit?
+wordt de test folder meegenomen? hoe zit met test libs zoals  JS file: ngMock.js
 icon v/d app + launch image
 minimize/uglify js
 controleer persistence rules Apple
@@ -183,19 +194,18 @@ Issues
 Bugs
 -------
 
-gaat het wrappen van de expressie / getallen goed?  Misschien dat we bij groter dan miljoen in Ks moeten afbeelden?
-het font van de expression kan kleiner worden als de inhoud groeit
+die rare flikker moet er nog uit
 
 bij het editen kan je recall doen en indirect een calc kiezen die afhankelijk is van de calc die je aan het editen bent
 Je kan een cirulaire dependency maken.
+
+in edit mode zou je de expressie moeten tonen ipv resultaat
 
 
 Improvements
 --------------
 
-in edit mode zou je de expressie moeten tonen ipv resultaat
-
-het aantal decimalen instelbaar
+paste functionaliteit
 
 run vanuit history.
 Misschien dat je de updated tijd moet aanpassen of vragen of ie favorite moet worden zodat de macro niet per ongeluk
@@ -234,6 +244,10 @@ beep of vibrate bij fout in calculator
 merk op dat als je alle sheets blijft bewerken binnen 30 dagen er niets verwijderd wordt
 
 plaats files mbt feature bij elkaar
+
+Misschien dat we bij groter dan miljoen in Ks moeten afbeelden?
+het font van de expression kan kleiner worden als de inhoud groeit
+het aantal decimalen instelbaar
 
 
 nice-to-have

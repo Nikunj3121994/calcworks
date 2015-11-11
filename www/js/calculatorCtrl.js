@@ -28,6 +28,10 @@ angular.module('calcworks.controllers')
         $scope.expressionEnteringState = false;   // geeft aan dat een nieuwe expression is gestart  (direct na equals is deze false)
         $scope.plusMinusTyped = false; // flag to remember if plusMinus was typed while still 0 in display
         resetDataMode();
+        /* if you want to play around with some preset data:
+            $scope.expression = [2, '+', 3];
+            $scope.result = 5;
+        */
     };
 
     // use this function as a reset when bracket open or closed is entered
