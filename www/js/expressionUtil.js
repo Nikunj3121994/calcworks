@@ -154,7 +154,7 @@ function convertNumberToDisplay(number, nrOfDecimals, hasThousandsSeparator) {
 // testen ontbreken
 // geeft de waarde voor een calcName en anders de literal zelf terug
 function getExprItemAsString(exprItem, nrOfDecimals, displayCalculationName) {
-    if (!exprItem) {
+    if (exprItem === undefined  || exprItem === null) {
         throw new Error('assertion error, empty exprItem');
     } else if (isOperator(exprItem) || isBracket(exprItem)) {
         return exprItem;

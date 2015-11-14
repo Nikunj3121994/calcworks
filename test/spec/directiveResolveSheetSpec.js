@@ -40,6 +40,22 @@ describe('Test directives', function () {
         expect(td.eq(4).text()).toBe('3');
     });
 
+    it('verify directive with zeros', function () {
+        var calculation = new Calculation('id', 'name', [0, "+", 0]);
+        calculation.result = 0;
+        scope.sheet = new Sheet('id', 'name', [calculation]);
+        scope.index = 0;
+        compile(element)(scope);
+        mockBackEnd();
+        scope.$digest();
+        var td = element.find('td');
+        expect(td.length).toBe(10);
+        expect(td.eq(0).text()).toBe('0');
+        expect(td.eq(2).text()).toBe('0');
+        expect(td.eq(3).text()).toBe('+');
+        expect(td.eq(4).text()).toBe('0');
+    });
+
     it('verify directive with decimals', function () {
         var calculation = new Calculation('id', 'name', [2, "+", 1/3]);
         calculation.result = 5;

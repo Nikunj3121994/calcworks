@@ -197,7 +197,7 @@ Bugs
 
 die rare flikker moet er nog uit
 
-0 +   geeft fout
+3 / 0 geeft error
 
 
 Improvements

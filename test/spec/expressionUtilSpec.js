@@ -66,6 +66,7 @@ describe('Test Expression Utilities', function () {
 
     it('getExprItemAsString', function() {
         expect(getExprItemAsString(1, 1)).toEqual('1');
+        expect(getExprItemAsString(0, 1)).toEqual('0');
         expect(getExprItemAsString('(', 1)).toEqual('(');
         expect(getExprItemAsString('x', 1)).toEqual('x');
         var calc = new Calculation('id', 'name', '1 + 2');
