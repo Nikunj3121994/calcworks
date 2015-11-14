@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-.controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, calcService, sheetService, renameDialogs) {
+.controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout, calcService, sheetService, renameDialogs) {
 
 
     var decimalSeparator = getDigitSeparators().decimalSeparator;
@@ -15,14 +15,13 @@ angular.module('calcworks.controllers')
     }
 
     $scope.reset = function() {
-        console.log('reset');
-        $scope.display = '0';   // must be a string, cannot be a number, for example because of 0.00
+        $scope.display = '0';       // must be a string, cannot be a number, for example because of 0.00
         $scope.operatorStr = '';
-        $scope.expression = []; // array of Calculations, operators as string and numbers
-        $scope.result = null; // we check for null so do not make this undefined
-        $scope.macroMode = false;
+        $scope.expression = [];     // array of Calculations, operators as string and numbers
+        $scope.result = null;       // we check for null so do not make this undefined
+        $scope.macroMode = false;   // an enum for the modes would be nicer
         $scope.editMode = false;
-        $scope.editCalc = undefined;
+        $scope.editCalc = undefined; // the calc that is edited
         // misschien kan $scope wel weg
         $scope.numberEnteringState = false;  // na de eerste digit zit je in deze state totdat een operator, bracket of equals komt
         $scope.expressionEnteringState = false;   // geeft aan dat een nieuwe expression is gestart  (direct na equals is deze false)
@@ -386,33 +385,50 @@ angular.module('calcworks.controllers')
         if ($scope.result && $rootScope.convertNumberToDisplayWithoutThousandsSeparator($scope.result) === $scope.display) {
             this.touchRemember();
         } else {
-            var calc = createNewCalculation();
+            var calc = createNewCalculation(); // consider to use editCalc and create during reset()
             $scope.sheet.add(calc);
             $scope.processCalc(calc);
         }
     };
 
     $scope.processCalc = function(calc) {
-         if (!operandEntered()) {
-             $scope.expression.push(0); // voeg getal 0 toe zodat de expressie altijd een operand heeft na de operator
-         }
-         updateDisplayAndExpression();
-         calc.expression = $scope.expression;
-         try {
-             $scope.operatorStr = '';
-             calcService.calculate($scope.sheet);
-             if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
-             $scope.result = calc.result;                 // type is number
-             $scope.display = $rootScope.convertNumberToDisplayWithoutThousandsSeparator(calc.result);     // type is string
-             sheetService.saveSheet($scope.sheet);
-             selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
-         } catch (e) {
-             if (e instanceof SyntaxError) {
-                 $scope.display = 'error';
-             } else {
-                 $log.error('internal error: ' + e);
-                 $scope.display = 'internal error: ' + e;
-             }
+        if (!operandEntered()) {
+            $scope.expression.push(0); // voeg getal 0 toe zodat de expressie altijd een operand heeft na de operator
+        }
+        updateDisplayAndExpression();
+        calc.expression = $scope.expression;
+        try {
+            $scope.operatorStr = '';
+            calcService.calculate($scope.sheet);
+            if (calc.result === null) throw new Error('Invalid calculation');
+            if (!isFinite(calc.result)) $log.log("warning: wrong result for " + calc.expression);
+            $scope.result = calc.result;                 // type is number
+            $scope.display = $rootScope.convertNumberToDisplayWithoutThousandsSeparator(calc.result);     // type is string
+            sheetService.saveSheet($scope.sheet);
+            selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
+        } catch (e) {
+            console.log('error exception: ' + e);
+            // the initial idea was to implement a kind of undo, but the last action is not necessarily
+            // the one that triggers the error, e.g. 2 + cycle-calc + 3
+            // so we fall back to a complete reset. If we would have a proper editor we could keep the expression
+            // and let the user fix the expression
+            var backupMode = $scope.editMode;
+            $scope.reset();
+            calc.expression = [];
+            calc.result = null;
+            // i'm pretty sure cycles can only occur in edit mode, but maybe there are other conditions that errors can occur
+            // if mode would be an enum we could write this more robust
+            $scope.editMode = backupMode;
+            var msg = e.message;
+            var alertPopup = $ionicPopup.alert({
+                  title: 'Error',
+                  template: msg
+                });
+             alertPopup.then(function(res) {
+             });
+             $timeout(function() {
+                  alertPopup.close();
+               }, 3000);
          }
          $scope.numberEnteringState = false;
          $scope.expressionEnteringState = false;

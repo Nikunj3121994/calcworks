@@ -72,7 +72,6 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     it('verify behavior thousand separators', function () {
-        scope._test_reset();
         scope.touchDigit(4);
         scope.touchDigit(3);
         scope.touchDigit(2);
@@ -81,7 +80,6 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
     it('verify very basic scenario', function() {
-        scope._test_reset();
         scope.touchDigit(5);
         scope.touchEqualsOperator();
         expect(getActiveSheet().calculations.length).toBe(1);
@@ -434,6 +432,13 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('5');
         expect(scope.operatorStr).toBe('');
         expect(scope.result).toEqual(5);
+
+        scope.reset();
+        scope.touchDigit(0);
+        scope.touchOperator('/');
+        scope.touchDigit(5);
+        expect(scope.result).toBeNull();
+
     });
 
 
@@ -819,6 +824,31 @@ describe('Test controller CalculatorCtrl', function () {
         expect(getActiveSheet().calculations.length).toBe(2);
         expect(getActiveSheet().calculations[0].result).toBe(8);
         expect(getActiveSheet().calculations[1].result).toBe(7);
+    });
+
+    it('verify edit mode virtual cycle', function() {
+        // setup simple fixture
+        scope.touchDigit(9);
+        scope.touchEqualsOperator();
+        var calc1 = scope.sheet.calculations[0];
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        var calc2 = scope.sheet.calculations[0];
+
+        // start creating the cycle
+        calc1.expression = [calc2];
+        calc1.result = calc2.result;
+
+        // go to edit mode for calc2
+        scope.reset();
+        scope.editMode = true;
+        scope.editCalc = getActiveSheet().calculations[0];
+        scope.processSelectedCalculation(calc1);
+        scope.touchEqualsOperator();
+        // the equals should reset
+        expect(calc2.expression).toEqual([]);
+        expect(calc2.result).toEqual(null);
+        expect(scope.display).toEqual('0');
     });
 
 });

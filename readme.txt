@@ -105,12 +105,13 @@ Testen runnen
 Karma vanaf de cmd line runnen (handig omdat dit meer info geeft dan via gulp)
 vanuit de *test* folder:
 $ karma start --single-run
-$
-
-Mbv IntelliJ kan ook, karma plugin installeren en via rechtermuistoets runnen als je op karma file staat
 
 Of via de termimal de testen continue runnen:
 $ karma start karma.conf.js --auto-watch
+
+Mbv IntelliJ kan ook, karma plugin installeren en via rechtermuistoets runnen als je op karma file staat
+
+
 
 Ionic runnen
 --------------
@@ -196,9 +197,7 @@ Bugs
 
 die rare flikker moet er nog uit
 
-bij het editen kan je recall doen en indirect een calc kiezen die afhankelijk is van de calc die je aan het editen bent
-Je kan een cirulaire dependency maken.
-
+0 +   geeft fout
 
 
 Improvements
