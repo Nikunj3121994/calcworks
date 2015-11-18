@@ -52,17 +52,21 @@ $ ionic build --release
 
 Update van libraries
 =============================
-$sudo npm update -g
+$ sudo npm update -g
 
-$bower list
+$ bower list
 laat zien wat er bijgewerkt kan worden
 
 Updaten van ionic
 -----------------
-$ionic lib update
+$ ionic lib update
 Ik moest Angular met de hand bijwerken in het bower.json file en met de hand angular animate en mocks upgraden
 Op een of andere manier staat ergens in de code base de versie van de laatste twee (indirect) gespecificeerd. t Lijkt
 te komen doordat mock library met de hand is geinstalleerd.
+
+note: ionic.bundle.js heeft angularjs met zich mee gebundeld
+note: ionic specificeert in zijn bower.json welke angularjs versie t nodig heeft
+note: ionic-bower is de bower repository voor ionic
 
 daarna de rest bijwerken:
 $bower update
