@@ -10,4 +10,4 @@ plugins/
 .idea/workspace.xml
 .idea/misc.xml
 resources/resources.iml
-www/lib
+www/lib/
