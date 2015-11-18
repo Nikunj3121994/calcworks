@@ -80,6 +80,16 @@ describe('Test sheet', function () {
         sheet.deleteCalculation(0); // dit is calc1
         expect(sheet.calculations.length).toEqual(1);
         expect(sheet.calculations[0].expression).toEqual([15, '+', 15]);
+
+        sheet = new Sheet('id', 'foo', []);
+        var calc3 = new Calculation('id', 'calc3', [calc1, '+', calc2]);
+        sheet.add(calc3);
+        sheet.add(calc2);
+        sheet.add(calc1);
+        sheet.deleteCalculation(0); // dit is calc1
+        expect(sheet.calculations.length).toEqual(2);
+        expect(sheet.calculations[0].expression).toEqual([15, '+', 15]);
+        expect(sheet.calculations[1].expression).toEqual([15, '+', calc2]);
     });
 
     it('verify deleteCalculation input/output calculations', function() {

@@ -197,8 +197,6 @@ Bugs
 
 die rare flikker moet er nog uit
 
-Sheet.prototype.deleteCalculation heeft denk ik een bug; neemt alle calcs
-
 
 Improvements
 --------------
