@@ -438,7 +438,20 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchOperator('/');
         scope.touchDigit(5);
         expect(scope.result).toBeNull();
+    });
 
+
+    // for now we do not keep an expression that results into an error
+    it('verify division by zero', function () {
+        expect(getActiveSheet().calculations.length).toBe(0);
+        scope.touchDigit(1);
+        scope.touchOperator('/');
+        scope.touchDigit(0);
+        scope.touchEqualsOperator();
+        expect(scope.expression).toEqual([]);
+        expect(scope.display).toBe('0');
+        expect(scope.result).toBe(null);
+        expect(getActiveSheet().calculations.length).toBe(0);
     });
 
 
@@ -733,26 +746,6 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('0.33');
         expect(scope.result).toEqual(1 / 3);
-    });
-
-    it('verify division by zero', function () {
-        expect(getActiveSheet().calculations.length).toBe(0);
-        scope.touchDigit(1);
-        scope.touchOperator('/');
-        scope.touchDigit(0);
-        scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([1, '/', 0]);
-        expect(scope.display).toBe('error');
-        expect(isFinite(scope.result)).toBeFalsy();
-        expect(getActiveSheet().calculations.length).toBe(1);
-        var calc1 = scope.sheet.calculations[0];
-
-        // nu gaan we verder met error situatie
-        scope.touchOperator('+');
-        scope.touchDigit(3);
-        scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([calc1, '+', 3]);
-        expect(scope.display).toBe('error');
     });
 
     it('verify two times touch equal = remember', function() {

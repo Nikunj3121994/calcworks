@@ -197,7 +197,7 @@ Bugs
 
 die rare flikker moet er nog uit
 
-3 / 0 geeft error
+Sheet.prototype.deleteCalculation heeft denk ik een bug; neemt alle calcs
 
 
 Improvements
