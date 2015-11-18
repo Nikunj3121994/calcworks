@@ -1,11 +1,13 @@
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
 
+# per ongeluk is de hooks folder ingecheckt
+
 node_modules/
 hooks/
 platforms/
 plugins/
 .idea/workspace.xml
 .idea/misc.xml
-
 resources/resources.iml
+www/lib
