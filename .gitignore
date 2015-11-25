@@ -2,6 +2,7 @@
 # http://git-scm.com/docs/gitignore
 
 # per ongeluk is de hooks folder ingecheckt
+# per ongeluk is de www/lib/ folder ingechekt
 
 node_modules/
 hooks/
@@ -10,4 +11,3 @@ plugins/
 .idea/workspace.xml
 .idea/misc.xml
 resources/resources.iml
-www/lib/
