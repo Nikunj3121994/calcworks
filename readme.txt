@@ -60,13 +60,17 @@ laat zien wat er bijgewerkt kan worden
 Updaten van ionic
 -----------------
 $ ionic lib update
+
+Dit werkt helaas niet goed. Met bower list kan je achterhalen wat de laatste versie is. Vervolgens pas je dit met de
+hand aan in bower.json, de regel met  "ionic": "driftyco/ionic-bower#x.y.z"
+note: ionic-bower is de bower repository voor ionic
+
 Ik moest Angular met de hand bijwerken in het bower.json file en met de hand angular animate en mocks upgraden
 Op een of andere manier staat ergens in de code base de versie van de laatste twee (indirect) gespecificeerd. t Lijkt
 te komen doordat mock library met de hand is geinstalleerd.
 
 note: ionic.bundle.js heeft angularjs met zich mee gebundeld
 note: ionic specificeert in zijn bower.json welke angularjs versie t nodig heeft
-note: ionic-bower is de bower repository voor ionic
 
 daarna de rest bijwerken:
 $bower update
@@ -199,7 +203,10 @@ Issues
 Bugs
 -------
 
-die rare flikker moet er nog uit
+markeer een sheet als favorite en de display gaat naar de calc tab toe
+
+markeer een sheet als favorite en hij komt bovenaan te staan (boven de active tab)
+
 
 
 Improvements
@@ -285,7 +292,7 @@ misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkel
 voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
 http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution
 
-
+de namen v.e. calc hoeven niet uniek te zijn, misschien een warning tonen. Kan bij export excel of zo een probleem worden
 
 
 PRO VERSIE
