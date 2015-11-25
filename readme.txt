@@ -140,8 +140,18 @@ Echter de cordova-ios versie zit op 3.9 ipv 4. We moeten dus nog even wachten to
 Of de vorige versie van de whitelist plugin installeren.
 
 
+Debuggen
+--------
+De makkelijkste manier is via ionic -serve de console aan te zetten.
+Chrome kan behoorlijk goed via dev tools de iphone simuleren - visueel.
+Vervolgens kan je de iphone simulator gebruiken:  ionic emulate ios --target="iPhone-5s"
+In het uiterste geval kan je via Safari dev tools
+de console te zien krijgen van de iphone door de iPhone via een kabel aan de mac te hangen en in Safari's
+menu te kiezen:  Develop | iPhone van Stephan en dan (calcworks) index.html
+
 
 Github
+------
 $ git push origin master
 
 om intelliJ files niet meer te tracken:
@@ -174,18 +184,13 @@ Te doen voor Distribute
 -----------
 hoe zit t met  cordova-plugin-console, moet die voor de release eruit?
 wordt de test folder meegenomen? hoe zit met test libs zoals  JS file: ngMock.js
-icon v/d app + launch image
-minimize/uglify js
+icon v/d app + launch image - - het icon kan beter; visueel en 1024 x 1024
+check minimize/uglify js
 controleer persistence rules Apple
 In send feedback de juiste e-mail gebruiken
 screenshots maken (goede use-cases)
 website nodig?
 
-
-Deploy appstore - gerelateerd
-- het icon kan beter; visueel en 1024 x 1024
-- minify
-- tijd en carrier uit screenshot halen, nieuw screenshot nodig
 
 we moeten iets anders verzinnen dan calcworks...
 calcultra
@@ -203,10 +208,9 @@ Issues
 Bugs
 -------
 
-markeer een sheet als favorite en de display gaat naar de calc tab toe
-
 markeer een sheet als favorite en hij komt bovenaan te staan (boven de active tab)
 
+versie nr opnemen in settings tab of build nr - ook in git tag
 
 
 Improvements

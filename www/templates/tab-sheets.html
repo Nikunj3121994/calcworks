@@ -26,15 +26,15 @@
           </div>
 
           <div class="item tabs tabs-secondary tabs-icon-left">
-              <a class="tab-item" href="#" ng-click="toggleSheetFavorite(sheet)">
+              <a class="tab-item" href="#" ng-click="toggleSheetFavorite(sheet); $event.stopPropagation();">
                   <i class="icon ion-star ng-class:{'favoriteOn': sheet.favorite}"></i>
                   Favorite
               </a>
-              <a class="tab-item" href="#" ng-click="confirmDeleteSheet(sheet)">
+              <a class="tab-item" href="#" ng-click="confirmDeleteSheet(sheet); $event.stopPropagation();">
                   <i class="icon ion-trash-b"></i>
                   Delete
               </a>
-              <a class="tab-item" href="#" ng-click="shareSheet(sheet)">
+              <a class="tab-item" href="#" ng-click="shareSheet(sheet); $event.stopPropagation();">
                   <i class="icon ion-share"></i>
                   Share
               </a>
