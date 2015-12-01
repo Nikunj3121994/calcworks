@@ -208,9 +208,6 @@ Issues
 Bugs
 -------
 
-markeer een sheet als favorite en hij komt bovenaan te staan (boven de active tab)
-
-versie nr opnemen in settings tab of build nr - ook in git tag
 
 
 Improvements
@@ -234,6 +231,8 @@ als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elka
 opnieuw de config.xml aanmaken aan de hand van de laatste cordova versie (ook dit checken)
 xcode geeft een warning over een deprecated iets:
 /Users/admin/projects/calcworks/platforms/ios/Calcworks/Plugins/org.apache.cordova.device/CDVDevice.m:64:33: 'uniqueAppInstanceIdentifier' is deprecated: Deprecated in Cordova 3.8 .0. API is slated for removal in 4.0.0
+
+markeer een sheet als favorite en hij blijft staan ipv naar boven te gaan
 
 mailen - je wilt een simpelere lay-out, zoiets als   rente kosten = 300,000 x 3.2% = 1040  oid
 
