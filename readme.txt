@@ -172,14 +172,15 @@ Ionic cached views om re-render te beperken.
 
 Launch image en icon
 --------------------
-In config.xml (van Cordova) specifeer je het icon en launch (splash) image. Op dit moment heb ik maar 1 generiek
-file voor t icon en een voor launch image. De launch image heb ik gemaakt door een screenshot te maken in de emulator.
-Die heb ik daarna bewerkt met Seashore en gescaled naar 2208 x 2208. Daarna met ionic resources splash de images gemaakt.
-Alleen twee landscape ipad images zien er minder goed uit, hierbij verdwijnt de witte header en de footer.
+In config.xml (van Cordova) specifeer je het icon en launch (splash) image.
+Op dit moment heb ik maar 1 generiek file voor t icon en een voor launch image.
+De launch image heb ik gemaakt door een screenshot te maken in de emulator voor de iphone 6 plus.
+Die heb ik daarna bewerkt met Seashore en horizontaal gescaled naar 2208 x 2208.
+Daarna met ionic resources --splash de images gegenereert.
+Alleen twee landscape ipad images zien er niet goed uit, hierbij verdwijnt de witte header en de footer.
+(ik dacht dat doordat de Orientation op "portrait" staat er geen landscape images worden gegenereerd - maar dat is nu onduidelijk)
 
 Via bijvoorbeeld http://makeappicon.com/ kunnen we evt ook specifieke iconen genereren.
-Ik weet niet of dat ook voor het launch image kan - en of t loont.
-
 
 Text. The launch image is static, so any text you display in it won’t be localized.
 Static launch images for all devices must include the status bar region.
