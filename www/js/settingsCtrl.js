@@ -31,7 +31,7 @@ angular.module('calcworks.controllers')
         cordova.plugins.email.open(
             {
                 subject: "feedback calcgems",
-                to: 'stephanwesten@gmail.com',
+                to: 'calculatorgems@gmail.com',
             },
             function () {
                 console.log('email view dismissed');

@@ -46,8 +46,6 @@ $npm install karma-jasmine karma-chrome-launcher --save-dev
 en globaal de cli:
 $ sudo  npm install -g karma-cli
 
-maken van een release
-$ ionic build --release
 
 
 Update van libraries
@@ -55,7 +53,7 @@ Update van libraries
 $ sudo npm update -g
 
 $ bower list
-laat zien wat er bijgewerkt kan worden
+laat zien wat er bijgewerkt kan worden aan bower dependencies. Cordova zit op npm nivo - die gaat dus niet mee.
 
 Updaten van ionic
 -----------------
@@ -75,16 +73,17 @@ note: ionic specificeert in zijn bower.json welke angularjs versie t nodig heeft
 daarna de rest bijwerken:
 $bower update
 
-Cordova bijwerken:
-$ sudo npm update -g cordova
 
-(hierdoor bleef ik alleen op een oude versie zitten, toen gedaan: $sudo npm rm -g cordova   en  $sudo npm install -g cordova
-
-Updates the project to use the latest version of cordova:
-$ cordova platform update ios
-
+Cordova bijwerken
+-----------------
 Je kan verifieren op welke versie van cordova je zit door:
 $ npm list -g cordova
+
+Bijwerken:
+$ sudo npm update -g cordova
+
+Updates the project to use the latest ios version of cordova:
+$ cordova platform update ios
 
 Maar merk op dat plugins van cordova via het volgende commando moet:
 $ cordova plugin ls
@@ -126,8 +125,10 @@ Ionic runnen
 $ ionic serve
 (gebruik 'c' om de logs te zien)
 
+Opvragen welke devices er zijn (shell script):
+$ platforms/ios/cordova/lib/list-emulator-images
+
 Ionic op specifiek device runnen:
-$ /Users/admin/projects/calcworks/platforms/ios/cordova/lib/list-emulator-images
 $ ionic emulate ios --target="iPhone-5s"
 
 
@@ -173,31 +174,50 @@ Launch image en icon
 --------------------
 In config.xml (van Cordova) specifeer je het icon en launch (splash) image. Op dit moment heb ik maar 1 generiek
 file voor t icon en een voor launch image. De launch image heb ik gemaakt door een screenshot te maken in de emulator.
-Daarna met een service de verschillende formaten gegenereert.
-Cordova copieert / genereert de device specifieke schermen. Zie de folder
-/.../calcworks/platforms/ios/Calcworks/Resources
+Die heb ik daarna bewerkt met Seashore en gescaled naar 2208 x 2208. Daarna met ionic resources splash de images gemaakt.
+Alleen twee landscape ipad images zien er minder goed uit, hierbij verdwijnt de witte header en de footer.
+
 Via bijvoorbeeld http://makeappicon.com/ kunnen we evt ook specifieke iconen genereren.
 Ik weet niet of dat ook voor het launch image kan - en of t loont.
 
 
-Te doen voor Distribute
------------
+Text. The launch image is static, so any text you display in it won’t be localized.
+Static launch images for all devices must include the status bar region.
+The source image’s minimum dimensions should be 2208 x 2208 px
+
+
+
+Instructies maken van een release voor deploy naar appstore
+===========================================================
+
+versie nummer ophogen in config.xml
+
+$ ionic build --release    (ivm uglify)
+
+XCode opties bij een Distributie maken
+---------------------------------------
+- menu Product | build for running
+- validate build product aanvinken voor 1 keer (?)
+- Info | iOS Deployment Target - kunnen we evt op 9.1 zetten - dit ivm glytch bij rendering
+- Build | Build Options - op release
+- Bij Devices heb ik alleen iphone geselecteerd  (dit zit bij General info tab in Xcode)
+
+calculatorgems@gmail.com / Calc1404
+
+https://developer.apple.com/membercenter/index.action
+
+
+TODO voor Distribute:
 hoe zit t met  cordova-plugin-console, moet die voor de release eruit?
-wordt de test folder meegenomen? hoe zit met test libs zoals  JS file: ngMock.js
-icon v/d app + launch image - - het icon kan beter; visueel en 1024 x 1024
-check minimize/uglify js
+icon v/d app  - het icon kan beter; visueel en 1024 x 1024
 controleer persistence rules Apple
-In send feedback de juiste e-mail gebruiken
 screenshots maken (goede use-cases)
 website nodig?
 
 
 we moeten iets anders verzinnen dan calcworks...
-calcultra
 calcgem
 calcgems
-calcberyl
-swiss army knife
 .info website eerste jaar paar euro, daarna uitkijken
 
 
@@ -207,7 +227,6 @@ Issues
 
 Bugs
 -------
-
 
 
 Improvements
