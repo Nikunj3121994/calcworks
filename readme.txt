@@ -227,7 +227,7 @@ Issues
 
 Bugs
 -------
-
+max lengte op vars namen
 
 Improvements
 --------------

@@ -42,6 +42,8 @@
     width: 100%;
     padding-left: 1%;
     font-size: small;
+    overflow: hidden;
+    white-space: nowrap;
     background-color: rgba(179, 179, 179, 0.18);
 }
 
@@ -94,6 +96,8 @@
     vertical-align: top;
     padding-left: 1%;
     font-size: small;
+    overflow: hidden;
+    white-space: nowrap;
     background-color: rgba(179, 179, 179, 0.18);
 }
 
