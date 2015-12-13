@@ -203,7 +203,7 @@ XCode opties bij een Distributie maken
 - Build | Build Options - op release
 - Bij Devices heb ik alleen iphone geselecteerd  (dit zit bij General info tab in Xcode)
 
-calculatorgems@gmail.com / Calc1404
+calculatorgems@gmail.com / calc1404
 
 https://developer.apple.com/membercenter/index.action
 
@@ -229,6 +229,7 @@ Issues
 Bugs
 -------
 max lengte op vars namen
+Calc spatie Gems
 
 Improvements
 --------------
