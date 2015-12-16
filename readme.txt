@@ -230,7 +230,6 @@ icon kleurtjes en hoekjes
 Bugs
 -------
 max lengte op vars namen
-Calc spatie Gems
 
 Improvements
 --------------
