@@ -195,6 +195,7 @@ versie nummer ophogen in config.xml
 
 $ ionic build --release    (ivm uglify)
 
+
 XCode opties bij een Distributie maken
 ---------------------------------------
 - menu Product | build for running
@@ -210,16 +211,10 @@ https://developer.apple.com/membercenter/index.action
 
 TODO voor Distribute:
 hoe zit t met  cordova-plugin-console, moet die voor de release eruit?
-icon v/d app  - het icon kan beter; visueel en 1024 x 1024
 controleer persistence rules Apple
 screenshots maken (goede use-cases)
-website nodig?
 
 
-we moeten iets anders verzinnen dan calcworks...
-calcgem
-calcgems
-.info website eerste jaar paar euro, daarna uitkijken
 
 
 Issues
