@@ -225,6 +225,7 @@ calcgems
 Issues
 ============
 
+icon kleurtjes en hoekjes
 
 Bugs
 -------
@@ -235,6 +236,8 @@ Improvements
 --------------
 
 paste functionaliteit
+
+laden van de sheets in de achtergrond als je een nieuwe start
 
 run vanuit history.
 Misschien dat je de updated tijd moet aanpassen of vragen of ie favorite moet worden zodat de macro niet per ongeluk

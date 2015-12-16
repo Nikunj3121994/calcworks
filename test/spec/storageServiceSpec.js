@@ -62,6 +62,30 @@ describe('Test storageService', function () {
     });
 
 
+    it('verify expiration sheet', function() {
+        storageService._test_cleanLocalStorage();
+
+        var sheet1 = new Sheet('id1', 'sheet1', []);
+        touchSheet(sheet1);
+        storageService.saveSheet(sheet1);
+        var sheet2 = new Sheet('id2', 'sheet2', []);
+        touchSheet(sheet2);
+        storageService.saveSheet(sheet2);
+        var sheet3 = new Sheet('id3', 'sheet3', []);
+        touchSheet(sheet3);
+        storageService.saveSheet(sheet3);
+
+        // make sheet2 old
+        sheet2.createdTimestamp.setFullYear(1999);
+        sheet2.updatedTimestamp.setFullYear(2000);
+        // we cannot use save because that will change the updated time stamp
+        $window.localStorage[sheet2.id] = storageService._sheetToJSON(sheet2);
+
+        var sheets = storageService.loadSheets();
+        expect(sheets.length).toEqual(2);
+    });
+
+
     it('verify _sheetToJSON', function() {
         var sheet = new Sheet('id1', 'Sheet 1', []);
         var calc1 = new Calculation('idc1', "calc1", [123]);

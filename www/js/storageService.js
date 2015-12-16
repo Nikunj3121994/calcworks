@@ -8,13 +8,13 @@ angular.module('calcworks.services')
                 var sheets = [];
                 var expireDate = new Date();
                 expireDate.setDate(expireDate.getDate() - 30);
-                console.log("expire date " + expireDate);
+                //console.log("expire date " + expireDate);
 
                 // for now we assume that only sheets are stored
                 // if we store other objects then we need to prefix the id with a type identifier to separate the sheets
                 // or store the sheet ids in a json object with a hard coded key, we can also preserve the order of sheets
                 var len = $window.localStorage.length;
-                for (var i = 0; i < len; ++i ) {
+                for (var i = len-1; i >= 0; --i ) {
                     var key = $window.localStorage.key(i);
                     var value = $window.localStorage[key];
                     // it seems that undefined is returned as string
@@ -26,7 +26,7 @@ angular.module('calcworks.services')
                             if (this._usefulSheet(sheet, expireDate)) {
                                 this._insertSheet(sheet, sheets);
                             } else {
-                                console.log("remove sheet " + key);
+                                //console.log("remove sheet " + key);
                                 $window.localStorage.removeItem(key);
                             }
                         }
