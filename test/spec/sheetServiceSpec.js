@@ -144,16 +144,17 @@ describe('Test sheetService', function () {
         expect(sheetService.maxFavoritesReached()).toBeFalsy();
 
         var sheets = [];
-        // make 10 sheets favorite
-        for (var i = 0 ; i < 9 ; ++i ) {
-            var sheet = new Sheet('id' + i, 'name' + i, []);
-            sheet.favorite = true;
-            sheets.push(sheet);
-        }
-        storageService.loadSheets = function() { return sheets; };
-        sheetService._test_init();
-        expect(sheetService.maxFavoritesReached()).toBeFalsy();
+        // we used to allow 10 favorites, we reserve this for premium
+        //        for (var i = 0 ; i < 1 ; ++i ) {
+        //            var sheet = new Sheet('id' + i, 'name' + i, []);
+        //            sheet.favorite = true;
+        //            sheets.push(sheet);
+        //        }
+        //        storageService.loadSheets = function() { return sheets; };
+        //        sheetService._test_init();
+        //        expect(sheetService.maxFavoritesReached()).toBeFalsy();
 
+        // make 1 sheet favorite
         var sheet = new Sheet('id foo', 'name foo', []);
         sheet.favorite = true;
         sheets.push(sheet);

@@ -231,7 +231,6 @@ Bugs
 -------
 max lengte op vars namen
 Calc spatie Gems
-max favorites = 1
 
 Improvements
 --------------
