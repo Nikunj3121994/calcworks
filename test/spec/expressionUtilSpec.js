@@ -39,6 +39,12 @@ describe('Test Expression Utilities', function () {
         expect(isValidObjectName('=')).toBe(false);
         expect(isValidObjectName('')).toBe(false);
         expect(isValidObjectName(' =')).toBe(false);
+
+        // we allow for max 20 chars to prevent screen clipping, e.g.
+        //  'interest per month'
+        //   12345678901234567890
+        expect(isValidObjectName('a2345678901234567890')).toBe(true);
+        expect(isValidObjectName('a23456789012345678901')).toBe(false);
     });
 
     //

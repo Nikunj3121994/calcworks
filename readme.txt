@@ -225,11 +225,9 @@ calcgems
 Issues
 ============
 
-icon kleurtjes en hoekjes
 
 Bugs
 -------
-max lengte op vars namen
 
 Improvements
 --------------

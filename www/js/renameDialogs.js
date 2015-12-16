@@ -21,7 +21,7 @@ angular.module('calcworks.services')
                             $scope.errorMsg = 'The name cannot be empty';
                         }
                         if (!isValidObjectName($scope.data.name)) {
-                            $scope.errorMsg = 'The name must start with a character followed by characters or digits';
+                            $scope.errorMsg = 'The name must start with a character followed by max 19 characters or digits';
                             e.preventDefault();
                         } else {
                             return $scope.data.name;
