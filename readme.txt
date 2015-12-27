@@ -237,6 +237,8 @@ verwijderd wordt
 
 navigeren naar vorige sheet vanuit header bar  <-  en  ->   of  als je erop klikt dan een keuze maken
 
+de notifications kunnen mooier. In het scherm sliden, time-out voor sluiten en ook met x kunnen closen
+
 de edit/rename popup zit te laag
 gebruik $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
                 scope: null,
@@ -315,16 +317,15 @@ de namen v.e. calc hoeven niet uniek te zijn, misschien een warning tonen. Kan b
 
 
 PRO VERSIE
-In app purchase zodat je later de limiet van max 10 sheets en max favorites kan overschrijven
+In app purchase zodat je later de limiet van max favorites kan overschrijven
 aantal decimalen instelbaar
 Aantal sheets limiet ophogen tot 50 of zo, evt archive functie toevoegen
 Twee sheets naast elkaar waarbij je waarden of items van de ene naar de andere kan slepen. Op deze manier kan je makkelijk, een nieuwe, schone sheet maken. Die je dan kan delen.
 Kopieer sheet
-Sharen via email (pdf / excel) of sms. Contact selecteren uit adresboek.
 Meer meta data bij een sheet:
-Locatie bij aanmaken v e sheet opslaan
-Omschrijving bij een sheet opslaan
-Clipboard functionaliteit zodat je de waarde kan kopieren of pasten in de calculator
+ Locatie bij aanmaken v e sheet opslaan
+ Omschrijving bij een sheet opslaan
+ Clipboard functionaliteit zodat je de waarde kan kopieren of pasten in de calculator
 
 PRO II VERSIE
 Koers opvragen web service
