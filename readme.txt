@@ -176,9 +176,14 @@ In config.xml (van Cordova) specifeer je het icon en launch (splash) image.
 Op dit moment heb ik maar 1 generiek file voor t icon en een voor launch image.
 De launch image heb ik gemaakt door een screenshot te maken in de emulator voor de iphone 6 plus.
 Die heb ik daarna bewerkt met Seashore en horizontaal gescaled naar 2208 x 2208.
+(Seashore werkt echter niet goed met tekst op retina beeldschermen...)
 Daarna met ionic resources --splash de images gegenereert.
 Alleen twee landscape ipad images zien er niet goed uit, hierbij verdwijnt de witte header en de footer.
 (ik dacht dat doordat de Orientation op "portrait" staat er geen landscape images worden gegenereerd - maar dat is nu onduidelijk)
+
+Font gebruikt in splash: arial rounded mt bold, 144 punts
+Ik heb er voor gekozen om alles in kleine letter te doen - ondanks dat de naam in de appstore met een hoofdletter is.
+Ik heb Paintbrush voor mac gekozen om de tekst te plaatsen
 
 Via bijvoorbeeld http://makeappicon.com/ kunnen we evt ook specifieke iconen genereren.
 
