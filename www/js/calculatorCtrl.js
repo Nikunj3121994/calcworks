@@ -38,8 +38,9 @@ angular.module('calcworks.controllers')
             $scope.result = 5;
         */
     };
+
     function init() {
-        console.log('init');
+        //console.log('init');
         $scope.sheet = sheetService.getActiveSheet();
         // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
         // 'calc' is used in renameDialog, so keep them in sync. Consider using Angular's constant service.
@@ -58,7 +59,7 @@ angular.module('calcworks.controllers')
 
 
     $scope.$on('$ionicView.beforeEnter', function () {
-        console.log('beforeEnter calcCtrl  state.mode: ' + $state.current.data.mode);
+        //console.log('beforeEnter calcCtrl  state.mode: ' + $state.current.data.mode);
         if ($state.current.data.mode === 'run') {
             $scope.reset();  // whipe out left overs
             $scope.macroMode = true;
@@ -80,7 +81,7 @@ angular.module('calcworks.controllers')
 
     // nu kan sheetsUpdated zich  voordoen door deleteAllSheets en change van activeSheet
     $scope.$on('sheetsUpdated', function(e, value) {
-        console.log('sheetsUpdated: ' + value);
+        //console.log('sheetsUpdated: ' + value);
         init();
     });
 
@@ -407,7 +408,7 @@ angular.module('calcworks.controllers')
             sheetService.saveSheet($scope.sheet);
             selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
         } catch (e) {
-            console.log('error exception: ' + e);
+            //console.log('error exception: ' + e);
             result = false;
             // the initial idea was to implement a kind of undo, but the last action is not necessarily
             // the one that triggers the error, e.g. 2 + cycle-calc + 3

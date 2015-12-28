@@ -196,6 +196,8 @@ Instructies maken van een release voor deploy naar appstore
 
 versie nummer ophogen in config.xml
 
+controleer of alle console log statements in comment staan
+
 $ ionic build --release    (ivm uglify)
 
 

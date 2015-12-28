@@ -34,7 +34,7 @@ angular.module('calcworks.controllers')
                 to: 'calculatorgems@gmail.com',
             },
             function () {
-                console.log('email view dismissed');
+                //console.log('email view dismissed');
             },
             this
         );

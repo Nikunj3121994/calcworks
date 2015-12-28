@@ -5,7 +5,7 @@ angular.module('calcworks.services')
         // maybe we have to rename this service to the Share or Email Service
 
         this.emailSheet = function(sheet) {
-            console.log('send email');
+            //console.log('send email');
             cordova.plugins.email.open(
                 {
                     subject: "email calcworks on " + sheet.name,

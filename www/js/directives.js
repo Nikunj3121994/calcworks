@@ -44,7 +44,7 @@ angular.module('calcworks.controllers')
                     // since we resolve the parameters above there is no need to compile
                     element.html(template);
                 } else {
-                    console.log('resolveSheet called with NO new value');
+                    //console.log('resolveSheet called with NO new value');
                 }
 
             }, true); // true is deep dirty checking
@@ -105,7 +105,7 @@ angular.module('calcworks.controllers')
             if (sheetService.getActiveSheet().id === scope.sheet.id) {
                 element.html('(active)');
             } else {
-                console.log('not active ' + scope.sheet.id);
+                //console.log('not active ' + scope.sheet.id);
             }
         }
     };
