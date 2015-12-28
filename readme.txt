@@ -185,8 +185,6 @@ Font gebruikt in splash: arial rounded mt bold, 144 punts
 Ik heb er voor gekozen om alles in kleine letter te doen - ondanks dat de naam in de appstore met een hoofdletter is.
 Ik heb Paintbrush voor mac gekozen om de tekst te plaatsen
 
-Via bijvoorbeeld http://makeappicon.com/ kunnen we evt ook specifieke iconen genereren.
-
 Text. The launch image is static, so any text you display in it won’t be localized.
 Static launch images for all devices must include the status bar region.
 The source image’s minimum dimensions should be 2208 x 2208 px
@@ -233,6 +231,9 @@ Improvements
 --------------
 
 paste functionaliteit
+
+bij het renamen van een sheet/calc was de tekst niet geselecteerd. Het is ook irritant dat toetsenbord niet meteen
+verschijnt.
 
 laden van de sheets in de achtergrond als je een nieuwe start
 

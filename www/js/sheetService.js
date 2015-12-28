@@ -131,7 +131,7 @@ angular.module('calcworks.services')
                         ++countFavs;
                     }
                 }
-                return countFavs >= 1;  // we allow 1 favorite, but not more
+                return countFavs >= 2;  // we allow 2 favorites for version 1.0.0 (0.99 cent)
              },
             _test_init: function() {
                 init();
