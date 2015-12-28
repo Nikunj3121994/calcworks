@@ -2,7 +2,7 @@
     <ion-content>
         <div style="padding: 3%;padding-bottom: 40px; border-bottom: thin dotted #ffe031;">
             <small style="float:right">Version 1.00.00</small>
-            <h2>Trash</h2>
+            <h3>Trash</h3>
             <!--consider to show the number of sheets in use-->
             <button class="button button-assertive" ng-click="deleteAllSheets()" style="display:inline-block">
                 Delete sheets
@@ -14,12 +14,13 @@
             </ion-toggle>
             <!--empty div for toggle text-->
             <div></div>
-            <br>
-            <h4>Note</h4>
+            <div style="display:inline-block;float: left;">
+            <i class="icon ion-ios-information-outline"></i>
             A sheet is automatically removed after 30 days unless the sheet is marked as favorite.
-            Mark a sheet you do not want to loose as favorite.
-
-            <h2>Feedback</h2>
+            Mark a sheet as favorite in case you do not want to loose it.
+            </div>
+            <br>&nbsp;
+            <h3>Feedback</h3>
             Missing features? Bugs?
             We welcome feedback, so don't hesitate.
             <br>
