@@ -229,10 +229,12 @@ calculatorgems@gmail.com / calc1404
 https://developer.apple.com/membercenter/index.action
 
 
-TODO voor Distribute:
-hoe zit t met  cordova-plugin-console, moet die voor de release eruit?
-controleer persistence rules Apple
-screenshots maken (goede use-cases)
+
+Roadmap
+=======
+
+- testen en code opschonen
+- ipad support   OF    android support     OF      kleine features (betere email, betere history)     OF     api (rest calls)
 
 
 
@@ -247,10 +249,24 @@ Bugs
 Improvements
 --------------
 
-paste functionaliteit
+Opschonen
+ zet t project lokaal in een dir calcgems. Evt ook de repo renamen.
+ use the using the controllerAs syntax
+ upgrade naar ionic 1.2 en gebruik de nieuwe webview
+ plaats files mbt feature bij elkaar
 
-bij het renamen van een sheet/calc was de tekst niet geselecteerd. Het is ook irritant dat toetsenbord niet meteen
-verschijnt.
+
+Kleine features
+ In de history a la Google Docs per 'today' en 'deze week' en 'deze maand' laten zien
+ Bij het renamen van een sheet/calc was de tekst niet geselecteerd. Het is ook irritant dat toetsenbord niet meteen
+ verschijnt.
+ Better looking popup menus
+ De notifications kunnen mooier. In het scherm sliden, time-out voor sluiten en ook met x kunnen closen
+ better looking notifications (e.g. error message)
+ beep of vibrate bij fout in calculator
+
+
+paste functionaliteit
 
 laden van de sheets in de achtergrond als je een nieuwe start
 
@@ -260,8 +276,6 @@ verwijderd wordt
 
 navigeren naar vorige sheet vanuit header bar  <-  en  ->   of  als je erop klikt dan een keuze maken
 
-de notifications kunnen mooier. In het scherm sliden, time-out voor sluiten en ook met x kunnen closen
-
 de edit/rename popup zit te laag
 gebruik $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
                 scope: null,
@@ -270,8 +284,6 @@ gebruik $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
 als je een expressie hebt zoals prijs x rente dan moet je die makkelijk uit elkaar kunnen trekken
 
 opnieuw de config.xml aanmaken aan de hand van de laatste cordova versie (ook dit checken)
-xcode geeft een warning over een deprecated iets:
-/Users/admin/projects/calcworks/platforms/ios/Calcworks/Plugins/org.apache.cordova.device/CDVDevice.m:64:33: 'uniqueAppInstanceIdentifier' is deprecated: Deprecated in Cordova 3.8 .0. API is slated for removal in 4.0.0
 
 markeer een sheet als favorite en hij blijft staan ipv naar boven te gaan
 
@@ -290,11 +302,7 @@ lastVarName zou lastVarNumber moeten worden, veel simpeler
 
 plus-min in combinatie met haakjes en zo is waarschijnlijk nog niet bugfree
 
-beep of vibrate bij fout in calculator
-
 merk op dat als je alle sheets blijft bewerken binnen 30 dagen er niets verwijderd wordt
-
-plaats files mbt feature bij elkaar
 
 Misschien dat we bij groter dan miljoen in Ks moeten afbeelden?
 het font van de expression kan kleiner worden als de inhoud groeit
@@ -303,6 +311,10 @@ het aantal decimalen instelbaar
 
 nice-to-have
 ------------
+
+Gebruik github als website ipv google docs. Het is alleen onduidelijk of je de hele repo moet clonen.
+We kunnen een nieuwe repository maken (calcgems?). (zie http://blog.teamtreehouse.com/using-github-pages-to-host-your-website)
+we kunnen hier evt ook de mobile versie draaien.
 
 verzin een api voor extensies zodat wiskundige problemen opgelost kunnen worden.
 
@@ -325,13 +337,10 @@ angular.module("myApp").run(function ($rootScope, $state, $stateParams) {
 moeten we een lastSeen / lastUsed field toevoegen zodat je daar ook op kan sorteren.
 Misschien ook handig ivm macro runnen
 
-In de history a la Google Docs per 'today' en 'deze week' en 'deze maand' laten zien
 
 samen nemen van btns Delete en Reorder into Change. Bij actief maken dan de ... button kolom hidden
 
 voor het emailen en de title is nog untitled dan de rename dlg tonen
-
-misschien moeten we tzt een divider toevoegen zoals bij lists kan, kan je makkelijk vorige week zien.
 
 voor ipad en iphone verschillende font sizes gebruiken mbv media queries:
 http://stackoverflow.com/questions/11777598/font-size-relative-to-the-users-screen-resolution
@@ -359,7 +368,6 @@ OVERWEGING
 Je zou (soms) willen dat ie bij elke nieuwe waarde om n var naam vraagt. Met t pinnetje kan je dit aan of uitzetten. Voor tussenliggende waarden moet je de vraag makkelijk kunnen overslaan.
 Je zou ipv een pinnetje een M kunnen tonen. Twee keer op M pint m vast.  Analoog shift toets ipad.
 
-Alternatief kleuren schema: wit , grijs en oranje
 
 USE CASES
 uitgaven bijhouden op vakantie
