@@ -189,6 +189,9 @@ Text. The launch image is static, so any text you display in it won’t be local
 Static launch images for all devices must include the status bar region.
 The source image’s minimum dimensions should be 2208 x 2208 px
 
+Screenshots
+-----------
+De screenshots die ik heb gemaakt met de iphone 6 simulator staan in de ./screenshots folder
 
 
 Instructies maken van een release voor deploy naar appstore
@@ -199,6 +202,18 @@ versie nummer ophogen in config.xml
 controleer of alle console log statements in comment staan
 
 $ ionic build --release    (ivm uglify)
+
+In xcode moest ik t header path aanpassen om build errors te omzeilen.
+ Add this line to your Build Settings -> Header Search Paths:
+ "$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include"
+ Don't replace the existing line that looks similar, that is still needed to be backwards compatible with Xcode 7 and Xcode 6.4.
+Zie ook het screenshot in de ./screenshots folder
+
+Maak een archive via Product | Archive
+
+Ik kreeg via email een warning mbt push notifications. Dit is een (oud) probleem in Cordova, zou opgelost moeten worden.
+zie http://stackoverflow.com/questions/26168713/cordova-app-that-doesnt-use-push-notifications-missing-push-notification-enti
+
 
 
 XCode opties bij een Distributie maken
