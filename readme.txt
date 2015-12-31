@@ -250,9 +250,13 @@ Improvements
 --------------
 
 Opschonen
+ iphone 4s support met css media queries
+ branch maken en uitproberen
  zet t project lokaal in een dir calcgems. Evt ook de repo renamen.
  use the using the controllerAs syntax
- upgrade naar ionic 1.2 en gebruik de nieuwe webview
+ upgrade naar ionic 1.2
+   gebruik de nieuwe checkbox ipv de toggle: <ion-checkbox ng-model="test" ng-checked="test" ng-disabled="test">Disabled Directive</ion-checkbox>
+ upgrade cordova
  plaats files mbt feature bij elkaar
 
 
