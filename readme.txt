@@ -151,6 +151,14 @@ de console te zien krijgen van de iphone door de iPhone via een kabel aan de mac
 menu te kiezen:  Develop | iPhone van Stephan en dan (calcworks) index.html
 
 
+Protractor
+----------
+
+$ cd projects/calcworks/test/e2e/
+$ webdriver-manager start
+$ protractor conf.js
+
+
 Github
 ------
 $ git push origin master
@@ -242,6 +250,7 @@ Roadmap
 Issues
 ============
 
+Bug plus min:  Recall doen,  Plus/min,  Plus,  Recall
 
 Bugs
 -------
