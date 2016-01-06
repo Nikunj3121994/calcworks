@@ -74,12 +74,10 @@ describe('calculator', function() {
         return items.get(0).getText();
     }
 
-//    this.getNumberOfCalcs = function()  {
-//        var items = element.all(by.css('.calcNameExpr'));
-//        items.then(function(items) {
-//          return items.length;
-//        });
-//    };
+    this.getNumberOfCalcs = function() {
+        var items = element.all(by.css('.calcNameExpr'));
+        return items.count();
+    };
   };
 
   var NameDialog = function() {
@@ -157,7 +155,7 @@ describe('calculator', function() {
     var activeSheetTab = new ActiveSheetTab();
     activeSheetTab.gotoTab();
     expect(activeSheetTab.getFirstCalc()).toBe('testname');
-    //expect(activeSheetTab.getNumberOfCalcs()).toBe(3);
+    expect(activeSheetTab.getNumberOfCalcs()).toBe(3);
   });
 
 
