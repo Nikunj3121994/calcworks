@@ -8,6 +8,7 @@ node_modules/
 hooks/
 platforms/
 plugins/
+.idea/
 .idea/workspace.xml
 .idea/misc.xml
 resources/resources.iml
