@@ -76,6 +76,11 @@ describe('calculator', function() {
     activeSheetTab.gotoTab();
     expect(activeSheetTab.getFirstCalc()).toBe('testname');
     expect(activeSheetTab.getNumberOfCalcs()).toBe(3);
+
+    var historyTab = new pageobjects.HistoryTab();
+    historyTab.gotoTab();
+    expect(historyTab.getFirstSheetName()).toBe('Untitled Sheet (active)');
+    expect(historyTab.getFirstSheetFirstCalcName()).toBe('testname');
   });
 
 

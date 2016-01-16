@@ -68,15 +68,38 @@ var ActiveSheetTab = function() {
     };
 
     this.getFirstCalc = function() {
-        var items = element.all(by.css('.calcNameExpr'));
-        return items.get(0).getText();
+        var calcNames = element.all(by.css('.calcNameExpr'));
+        return calcNames.get(0).getText();
     }
 
     this.getNumberOfCalcs = function() {
-        var items = element.all(by.css('.calcNameExpr'));
-        return items.count();
+        var calcNames = element.all(by.css('.calcNameExpr'));
+        return calcNames.count();
     };
 };
+
+var HistoryTab = function() {
+    this.gotoTab = function()  {
+        browser.get('http://localhost:8100/#/tab/sheets');
+    };
+
+    this.getFirstSheetName = function() {
+        var sheets = element.all(by.repeater('sheet in sheets'));
+        // expect(sheets.count()).toEqual(1); // tijdelijke test ter interne verificatie
+        var sheetName = sheets.get(0).element(by.binding('sheet.name'));
+        return sheetName.getText();
+    }
+
+    this.getFirstSheetFirstCalcName = function() {
+        var sheets = element.all(by.repeater('sheet in sheets'));
+        //expect(sheets.count()).toEqual(1); // tijdelijke test
+        //var calculations = sheets.get(0).element.all(by.binding('calc.name'));
+//        return calculations.get(0).getText();
+        var calculations = sheets.get(0).element(by.binding('calc.name'));
+        return calculations.getText();
+    }
+
+}
 
 var RenameDialog = function() {
     // by model does not work
@@ -92,4 +115,5 @@ var RenameDialog = function() {
 
 module.exports.CalculatorTab = CalculatorTab;
 module.exports.ActiveSheetTab = ActiveSheetTab;
+module.exports.HistoryTab = HistoryTab;
 module.exports.RenameDialog = RenameDialog;
