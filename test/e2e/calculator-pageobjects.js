@@ -85,18 +85,22 @@ var HistoryTab = function() {
 
     this.getFirstSheetName = function() {
         var sheets = element.all(by.repeater('sheet in sheets'));
-        // expect(sheets.count()).toEqual(1); // tijdelijke test ter interne verificatie
         var sheetName = sheets.get(0).element(by.binding('sheet.name'));
         return sheetName.getText();
     }
 
     this.getFirstSheetFirstCalcName = function() {
         var sheets = element.all(by.repeater('sheet in sheets'));
-        //expect(sheets.count()).toEqual(1); // tijdelijke test
-        //var calculations = sheets.get(0).element.all(by.binding('calc.name'));
-//        return calculations.get(0).getText();
-        var calculations = sheets.get(0).element(by.binding('calc.name'));
-        return calculations.getText();
+        var firstSheet = sheets.get(0);
+        var calculations = firstSheet.all(by.binding('calc.name'));
+        return calculations.get(0).getText();
+    }
+
+    this.getFirstSheetNumberOfCalcs = function() {
+        var sheets = element.all(by.repeater('sheet in sheets'));
+        var firstSheet = sheets.get(0);
+        var calculations = firstSheet.all(by.binding('calc.name'));
+        return calculations.count();
     }
 
 }

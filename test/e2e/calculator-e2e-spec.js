@@ -56,7 +56,7 @@ describe('calculator', function() {
   });
 
 
-  it('simple calculation with name', function() {
+  it('test rename of calculation', function() {
     var calculatorTab = new pageobjects.CalculatorTab();
     calculatorTab.clickBtnClear();
     expect(calculatorTab.getDisplay()).toEqual('0');
@@ -81,6 +81,7 @@ describe('calculator', function() {
     historyTab.gotoTab();
     expect(historyTab.getFirstSheetName()).toBe('Untitled Sheet (active)');
     expect(historyTab.getFirstSheetFirstCalcName()).toBe('testname');
+    expect(historyTab.getFirstSheetNumberOfCalcs()).toBe(3);
   });
 
 
