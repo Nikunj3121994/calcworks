@@ -76,6 +76,19 @@ var ActiveSheetTab = function() {
         var calcNames = element.all(by.css('.calcNameExpr'));
         return calcNames.count();
     };
+
+    this.getNewSheetBtnClick = function() {
+        // pak de laatste (onderste) menu btn
+        var menuBtns = element.all(by.css('.ion-ios-more'));
+        var s = menuBtns.count();
+        s.then(function(count){
+            var menuBtn = menuBtns.get(count-1);
+            menuBtn.click();
+            var newBtn = element(by.buttonText('New'));
+            return newBtn.click();
+        });
+    };
+
 };
 
 var HistoryTab = function() {

@@ -16,6 +16,18 @@ describe('calculator', function() {
     browser.get('http://localhost:8100/');
   });
 
+  it('test new sheet', function() {
+    var activeSheetTab = new pageobjects.ActiveSheetTab();
+    activeSheetTab.gotoTab();
+    activeSheetTab.getNewSheetBtnClick();
+    expect(activeSheetTab.getNumberOfCalcs()).toBe(0);
+
+    var historyTab = new pageobjects.HistoryTab();
+    historyTab.gotoTab();
+    expect(historyTab.getFirstSheetName()).toBe('Untitled Sheet (active)');
+    expect(historyTab.getFirstSheetNumberOfCalcs()).toBe(0);
+  });
+
 
   it('very simple calculation  1 + 2 = 3', function() {
     var calculatorTab = new pageobjects.CalculatorTab();
