@@ -252,6 +252,9 @@ Issues
 
 Bug plus min:  Recall doen,  Plus/min,  Plus,  Recall
 
+observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
+
+
 Bugs
 -------
 

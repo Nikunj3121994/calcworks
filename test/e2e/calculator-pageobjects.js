@@ -5,6 +5,15 @@
 
 'use strict';
 
+
+//var BrowserConsole = function() {
+//    this.dump() {
+//      browser.manage().logs().get('browser').then(function(browserLog) {
+//        console.log('log: ' + require('util').inspect(browserLog));
+//    });
+//  }
+//}
+
 var CalculatorTab = function() {
     var display = element(by.css('.display-input-text'));
     var expression = element(by.tagName('resolve-expression'))
@@ -12,13 +21,16 @@ var CalculatorTab = function() {
     var btn1 = element(by.buttonText('1'));
     var btn2 = element(by.buttonText('2'));
     var btnPlus =  element(by.buttonText('+'));
+    var btnPlusMin =  element(by.buttonText('±'));
     var btnEquals = element(by.buttonText('='));
     var btnClear = element(by.buttonText('Clear'));
+    var btnRecall = element(by.buttonText('Recall'));
     var btnDecimalSeparator = element(by.buttonText('.'));
     var btnPin = element(by.css('.ion-pin'));
 
     this.gotoTab = function() {
-        browser.get('http://localhost:8100/#/tab/calculator');
+        // do not use browser.get because this triggers a reload and thus a loadSheets()
+        browser.setLocation('tab/calculator');
     };
 
     this.getDisplay = function() {
@@ -45,6 +57,10 @@ var CalculatorTab = function() {
         btnPlus.click();
     }
 
+    this.clickBtnPlusMin = function() {
+        btnPlusMin.click();
+    }
+
     this.clickBtnEquals = function() {
         btnEquals.click();
     }
@@ -60,11 +76,26 @@ var CalculatorTab = function() {
     this.clickPin = function() {
         btnPin.click();
     }
+
+    this.recall = function(calcName) {
+        btnRecall.click();
+        element.all(by.css('.listVarName')).each(function(elem, index) {
+            elem.getText().then(function(name) {
+                //console.log(name);
+                if (name.trim() === calcName) {
+                    elem.click();
+                    return;
+                }
+            });
+        });
+        // unfortunately we cannot easily detect if calcName is not found
+    }
+
 };
 
 var ActiveSheetTab = function() {
     this.gotoTab = function()  {
-        browser.get('http://localhost:8100/#/tab/activesheet');
+        browser.setLocation('tab/activesheet');
     };
 
     this.getFirstCalc = function() {
@@ -84,8 +115,11 @@ var ActiveSheetTab = function() {
         s.then(function(count){
             var menuBtn = menuBtns.get(count-1);
             menuBtn.click();
+            // soms is de New btn niet clickable, deze regel toevoegen verhielp t
+            browser.driver.sleep(1000);
+            browser.waitForAngular();
             var newBtn = element(by.buttonText('New'));
-            return newBtn.click();
+            newBtn.click();
         });
     };
 
@@ -93,7 +127,7 @@ var ActiveSheetTab = function() {
 
 var HistoryTab = function() {
     this.gotoTab = function()  {
-        browser.get('http://localhost:8100/#/tab/sheets');
+        browser.setLocation('tab/sheets');
     };
 
     this.getFirstSheetName = function() {
@@ -118,9 +152,10 @@ var HistoryTab = function() {
 
 }
 
+// assumes an already open rename dialog, can be used for calculations and sheets
 var RenameDialog = function() {
     // by model does not work
-    var inputField =  element(By.xpath('//input[@ng-model="data.name"]'));  // mmm hoofdletter By  - typo?
+    var inputField =  element(By.xpath('//input[@ng-model="data.name"]'));
     var okBtn = element(by.buttonText('OK'));
 
     this.giveName = function(name) {

@@ -9,5 +9,14 @@ exports.config = {
 
   jasmineNodeOpts: {
     showColors: true
-  }
+  },
+
+
+  capabilities: {
+      'browserName': 'chrome',
+      'loggingPrefs': {
+          'browser': 'ALL'
+      }
+  },
+
 };
