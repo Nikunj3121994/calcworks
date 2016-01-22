@@ -165,16 +165,6 @@ describe('Test calcService', function () {
         expect(calculations[2].result).toBe(6);
     });
 
-    //  zover ik nu kan zien, kan dit zich niet meer voordoen met de Calculatie direct in de expressie
-    //it('verify calculate with error', function () {
-    //    var calc1 = new Calculation('xxxx', 'var1', [2, '+', 'sdf']);
-    //    var calculations = [ calc1 ];
-    //    var sheet = new Sheet('id','sheet', calculations);
-    //    calcService.calculate(sheet);
-    //    expect(calculations[0].result).toBeNaN();
-    //    // todo: errlog moet naar sheet nivo
-    //    expect(calculations.errorlog.undefinedVariables).toEqual(["\"sdf\" is undefined"]);
-    //});
 
     it('verify calculate with circular reference', function () {
         var calc1 = new Calculation('id1', 'var1', [2, '+']);
