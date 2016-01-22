@@ -34,6 +34,53 @@ describe('calculator', function() {
     expect(historyTab.getFirstSheetNumberOfCalcs()).toBe(0);
   });
 
+  it('test demo scenario', function() {
+    var calculatorTab = new pageobjects.CalculatorTab();
+
+    // voer 2.4 in
+    calculatorTab.clickBtn2();
+    calculatorTab.clickBtnDecimalSeparator();
+    calculatorTab.clickBtn4();
+    calculatorTab.clickBtnEquals();
+    calculatorTab.clickPin();
+    var nameDialog = new pageobjects.RenameDialog();
+    nameDialog.giveName('interest rate');
+
+    // voer 350.000 in
+    calculatorTab.clickBtn3();
+    calculatorTab.clickBtn5();
+    calculatorTab.clickBtn0();
+    calculatorTab.clickBtn0();
+    calculatorTab.clickBtn0();
+    calculatorTab.clickBtn0();
+    calculatorTab.clickBtnEquals();
+    calculatorTab.clickPin();
+    var nameDialog = new pageobjects.RenameDialog();
+    nameDialog.giveName('amount');
+
+    calculatorTab.clickBtnPercentage();
+    calculatorTab.recall('interest rate');
+    calculatorTab.clickBtnEquals();
+    expect(calculatorTab.getDisplay()).toEqual('8,400');
+    calculatorTab.clickPin();
+    var nameDialog = new pageobjects.RenameDialog();
+    nameDialog.giveName('interest');
+
+    var activeSheetTab = new pageobjects.ActiveSheetTab();
+    activeSheetTab.gotoTab();
+    expect(activeSheetTab.getFirstCalc()).toBe('interest');
+    //browser.pause();
+    expect(activeSheetTab.getNumberOfRows()).toBe(3);
+    expect(activeSheetTab.getNumberOfCalcs()).toBe(5);
+
+    var historyTab = new pageobjects.HistoryTab();
+    historyTab.gotoTab();
+    expect(historyTab.getFirstSheetName()).toBe('Untitled Sheet (active)');
+    expect(historyTab.getFirstSheetFirstCalcName()).toBe('interest');
+    expect(historyTab.getFirstSheetNumberOfCalcs()).toBe(3);
+
+  });
+
 
 
   it('test plus/min operator', function() {

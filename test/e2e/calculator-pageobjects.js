@@ -20,7 +20,15 @@ var CalculatorTab = function() {
     var btn0 = element(by.buttonText('0'));
     var btn1 = element(by.buttonText('1'));
     var btn2 = element(by.buttonText('2'));
+    var btn3 = element(by.buttonText('3'));
+    var btn4 = element(by.buttonText('4'));
+    var btn5 = element(by.buttonText('5'));
+    var btn6 = element(by.buttonText('6'));
+    var btn7 = element(by.buttonText('7'));
+    var btn8 = element(by.buttonText('8'));
+    var btn9 = element(by.buttonText('9'));
     var btnPlus =  element(by.buttonText('+'));
+    var btnPercentage =  element(by.buttonText('%'));
     var btnPlusMin =  element(by.buttonText('±'));
     var btnEquals = element(by.buttonText('='));
     var btnClear = element(by.buttonText('Clear'));
@@ -53,8 +61,24 @@ var CalculatorTab = function() {
         btn2.click();
     }
 
+    this.clickBtn3 = function() {
+        btn3.click();
+    }
+
+    this.clickBtn4 = function() {
+        btn4.click();
+    }
+
+    this.clickBtn5 = function() {
+        btn5.click();
+    }
+
     this.clickBtnPlus = function() {
         btnPlus.click();
+    }
+
+    this.clickBtnPercentage = function() {
+        btnPercentage.click();
     }
 
     this.clickBtnPlusMin = function() {
@@ -88,7 +112,7 @@ var CalculatorTab = function() {
                 }
             });
         });
-        // unfortunately we cannot easily detect if calcName is not found
+        // unfortunately we cannot easily escalate if calcName is not found
     }
 
 };
@@ -103,10 +127,16 @@ var ActiveSheetTab = function() {
         return calcNames.get(0).getText();
     }
 
+    // dit zijn alle calculations, dit kunnen er (dus) meerdere per row zijn
     this.getNumberOfCalcs = function() {
         var calcNames = element.all(by.css('.calcNameExpr'));
         return calcNames.count();
     };
+
+    this.getNumberOfRows = function() {
+        var rows = element.all(by.repeater('calc in sheet.calculations track by calc.id'));
+        return rows.count();
+    }
 
     this.getNewSheetBtnClick = function() {
         // pak de laatste (onderste) menu btn
