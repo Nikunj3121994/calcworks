@@ -382,6 +382,17 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('-24');
 
+        scope.reset();
+        scope.processSelectedCalculation(calc);
+        scope.touchPlusMinOperator();
+        expect(scope.display).toBe('-4');
+        expect(scope.plusMinusTyped).toBeTruthy();
+        expect(scope.operatorStr).toBe('');
+        scope.touchPlusMinOperator();
+        expect(scope.display).toBe('4');
+        expect(scope.plusMinusTyped).toBeFalsy();
+        expect(scope.operatorStr).toBe('');
+
         // test met een calc die negatief is
         scope.reset();
         scope.touchDigit(9);

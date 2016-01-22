@@ -249,7 +249,7 @@ angular.module('calcworks.controllers')
     };
 
     $scope.touchPlusMinOperator = function() {
-        if ($scope.numberEnteringState === false) {
+        if ($scope.numberEnteringState === false  && selectedCalc === null) {
             if ($scope.plusMinusTyped) {
                 $scope.operatorStr = '';
             } else {
