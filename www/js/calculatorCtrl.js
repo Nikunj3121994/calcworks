@@ -2,12 +2,17 @@
 
 angular.module('calcworks.controllers')
 
+
+// Deze controller moet eigenlijk twee dingen doen:
+// de display(s) bijwerken
+//  en
+// de expressie opbouwen
 .controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout, calcService, sheetService, renameDialogs) {
 
 
     var decimalSeparator = getDigitSeparators().decimalSeparator;
     var lastVarName = '';
-    var selectedCalc;
+    var selectedCalc;  // een geselecteerde calc - via recall of een ander tabblad of de vorige uitkomst
     var state = $stateParams;  // dit moeten we in app.js in de rootscope stoppen
 
     var resetDataMode = function() {
@@ -94,9 +99,13 @@ angular.module('calcworks.controllers')
     };
 
     // hier een scope functie van gemaakt om te kunnen testen
-    $scope.processSelectedCalculation = function (calc) {
-        selectedCalc = calc;
-        $scope.display = $rootScope.convertNumberToDisplay(calc.result);
+    $scope.processSelectedCalculation = function(calc) {
+        selectedCalc = calc;  // onthoud welke calc is gekozen zodat we deze later kunnen gebruiken bij t bouwen vd expression
+        var number = calc.result
+        if ($scope.plusMinusTyped) {
+            number = -number;
+        }
+        $scope.display = $rootScope.convertNumberToDisplay(number);
         $scope.operatorStr = '';
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // make sure we start the expression (cause of the built-in delay)
@@ -160,7 +169,6 @@ angular.module('calcworks.controllers')
             $scope.display = '' + n;
             $scope.numberEnteringState = true;
             if ($scope.plusMinusTyped) {
-                $scope.plusMinusTyped = false;
                 $scope.operatorStr = '';
                 addMinusSymbolToDisplay();
             }
@@ -243,20 +251,19 @@ angular.module('calcworks.controllers')
     $scope.touchPlusMinOperator = function() {
         if ($scope.numberEnteringState === false) {
             if ($scope.plusMinusTyped) {
-                $scope.plusMinusTyped = false;
                 $scope.operatorStr = '';
             } else {
                 $scope.operatorStr = '-';
-                $scope.plusMinusTyped = true;
             }
         } else {
-            // determine if this is already a minus symbol - if so then remove it
+            // determine if there is already a minus symbol - if so then remove it
             if ($scope.display.lastIndexOf('-', 0) === 0) {
                 $scope.display = $scope.display.substring(1);
             } else {
                 addMinusSymbolToDisplay();
             }
         }
+        $scope.plusMinusTyped = !$scope.plusMinusTyped;
     };
 
     function addMinusSymbolToDisplay() {
@@ -279,9 +286,13 @@ angular.module('calcworks.controllers')
         }
         $scope.operatorStr = operator;
         $scope.numberEnteringState = false;
+        $scope.plusMinusTyped = false;
     };
 
     $scope.touchOpenBracket = function() {
+        if ($scope.plusMinusTyped) {
+            $scope.expression.push('_');
+        }
         // we do not change $scope.operatorStr to bracket open, bracket is not an operator.
         // also expression already shows the bracket
         if (!$scope.expressionEnteringState) {
@@ -326,8 +337,13 @@ angular.module('calcworks.controllers')
             expressionEnteringStart();
         }
         // if a number is added to the display then we should add it to the expression
+        if ($scope.plusMinusTyped) {
+            $scope.expression.push('_'); // unaire min operator toevoegen
+        }
         if ($scope.numberEnteringState === true) {
-            $scope.expression.push(+$scope.display);
+            // dit is een hack, doordat we display zowel als buffer als voor display doeleinden gebruiken moeten we het minteken
+            // dat we voor display doeleinden hebben toegevoegd er weer afhalen
+            $scope.expression.push(Math.abs(+$scope.display));
             $scope.display = '0';
             selectedCalc = null;
         } else if (selectedCalc) {
@@ -432,6 +448,7 @@ angular.module('calcworks.controllers')
          $scope.operatorStr = '';
          $scope.numberEnteringState = false;
          $scope.expressionEnteringState = false;
+         $scope.plusMinusTyped = false;
          return result;
     };
 

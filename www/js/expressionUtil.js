@@ -69,7 +69,7 @@ function isString(str) {
     return typeof str === 'string' || str instanceof String;
 }
 
-function isOperator(exprItem) {
+function isBinaryOperator(exprItem) {
     if (isString(exprItem)) {
         var char = exprItem.charAt(0);
         return char === '+' || char === '-' || char === 'x' || char === '/' || char === '%';
@@ -161,7 +161,7 @@ function convertNumberToDisplay(number, nrOfDecimals, hasThousandsSeparator) {
 function getExprItemAsString(exprItem, nrOfDecimals, displayCalculationName) {
     if (exprItem === undefined  || exprItem === null) {
         throw new Error('assertion error, empty exprItem');
-    } else if (isOperator(exprItem) || isBracket(exprItem)) {
+    } else if (isBinaryOperator(exprItem) || isBracket(exprItem)) {
         return exprItem;
     } else if (exprItem instanceof Calculation) {
         if (displayCalculationName) {
@@ -169,6 +169,8 @@ function getExprItemAsString(exprItem, nrOfDecimals, displayCalculationName) {
         } else {
             return convertNumberToDisplay(exprItem.result, nrOfDecimals, true);
         }
+    } else if (exprItem === '_') {
+        return '-';  // unaire min
     } else {
         return convertNumberToDisplay(exprItem, nrOfDecimals, true);
     }

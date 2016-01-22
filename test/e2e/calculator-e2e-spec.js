@@ -1,7 +1,8 @@
+
+
 // instructions:
 // 1) start webdriver:                           $ webdriver-manager start
 // 2) run the protractor tests from /test/e2e:   $ protractor conf.js
-
 
 'use strict';
 
@@ -51,8 +52,7 @@ describe('calculator', function() {
     calculatorTab.clickBtnPlusMin();
     calculatorTab.recall('twintig');
     calculatorTab.clickBtnEquals();
-    //expect(calculatorTab.getDisplay()).toEqual('-19');
-
+    expect(calculatorTab.getDisplay()).toEqual('-19');
   });
 
 

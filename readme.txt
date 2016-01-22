@@ -24,7 +24,8 @@ dan de libraries toevoegen voor ios platform via
 $ ionic build ios
 
 
-om Karma testen te draaien:
+Karma testen installeren
+------------------------
 $ npm install --save-dev gulp-karma
 (een deel van het Chrome window moet zichtbaar zijn anders gaat er minder CPU kracht naar toe)
 
@@ -153,7 +154,7 @@ menu te kiezen:  Develop | iPhone van Stephan en dan (calcworks) index.html
 
 Protractor
 ----------
-
+Instructies om te runnen:
 $ cd projects/calcworks/test/e2e/
 $ webdriver-manager start
 $ protractor conf.js
@@ -251,6 +252,32 @@ Issues
 ============
 
 Bug plus min:  Recall doen,  Plus/min,  Plus,  Recall
+- plusMin in de expressie gaan opslaan als aparte operator, als min teken of een apart teken?
+  - het voordeel van een apart teken is dat je sneller weet dat t unaire operator is
+  - nadeel is dat de rendering overal er rekening mee moet houden, nu valt dit wel mee omdat er een globale routine hiervoor is
+    we kunnen de underscore gebruiken als indicator
+- $scope.touchDelete bijwerken
+- in de sheetService rekening houden met een plusmin als unaire operator
+    plusmin als start van een expressie,  voor een getal, voor een calc, voor een haakje
+- de htmlService en directives - ik denk geen impact
+
+
+test scenarios
+- lege display
+    - er wordt plusmin ingetikt
+        - er wordt een getal ingetikt, de min verschijnt ervoor, min als operatorStr wordt leeg
+        - er wordt een calc gekozen, de min verschijnt ervoor, min als operatorStr wordt leeg
+- er is nog een getal ingetikt
+    - er wordt op plusmin getikt
+        getal krijgt een min ervoor
+- er is nog een getal ingetikt of selectedCalc
+    - er wordt op plusmin getikt
+        calc krijgt een min ervoor
+- ingetikt: _5 dan moet plusmin true zijn, en de expressie []
+- ingetikt: _5 + dan moet plusmin false zijn, en de expressie  _ 5 +
+- ingetikt:  _ en recall, dan moet plus min true zijn, selectedCalc een waarde, expressie []
+- ingetikt:  _ en recall + , dan moet plus min false zijn, selectedCalc leeg, expressie _ calc +
+- todo: touch delete
 
 observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 

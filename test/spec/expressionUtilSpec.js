@@ -75,6 +75,7 @@ describe('Test Expression Utilities', function () {
         expect(getExprItemAsString(0, 1)).toEqual('0');
         expect(getExprItemAsString('(', 1)).toEqual('(');
         expect(getExprItemAsString('x', 1)).toEqual('x');
+        expect(getExprItemAsString('_', 1)).toEqual('-');
         var calc = new Calculation('id', 'name', '1 + 2');
         calc.result = 3;
         expect(getExprItemAsString(calc, 1, false)).toEqual('3');

@@ -300,18 +300,26 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchPlusMinOperator();
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('-');
+        expect(scope.plusMinusTyped).toBeTruthy();
         scope.touchDigit(4);
-        expect(scope.display).toBe('-4');
+        expect(scope.display).toBe('-4');  // dit is eigenlijk niet goed, zou gewoon 4 moeten zijn
+        expect(scope.plusMinusTyped).toBeTruthy();
+        expect(scope.operatorStr).toBe('');
         scope.touchPlusMinOperator();
         expect(scope.operatorStr).toBe('');
         expect(scope.display).toBe('4');
+        expect(scope.plusMinusTyped).toBeFalsy();
 
         scope.reset();
         scope.touchDigit(4);
         scope.touchPlusMinOperator();
         expect(scope.display).toBe('-4');
+        expect(scope.plusMinusTyped).toBeTruthy();
+        expect(scope.operatorStr).toBe('');
         scope.touchPlusMinOperator();
         expect(scope.display).toBe('4');
+        expect(scope.operatorStr).toBe('');
+        expect(scope.plusMinusTyped).toBeFalsy();
 
         scope.reset();
         scope.touchDecimalSeparator();
@@ -321,11 +329,22 @@ describe('Test controller CalculatorCtrl', function () {
 
         scope.reset();
         scope.touchDigit(4);
+        scope.touchPlusMinOperator();
+        scope.touchOperator('*');
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.expression).toEqual(['_', 4, '*', 2]);
+        expect(scope.display).toBe('-8');
+        expect(scope.result).toEqual(-8);
+
+        scope.reset();
+        scope.touchDigit(4);
         scope.touchOperator('*');
         scope.touchDigit(2);
         scope.touchPlusMinOperator();
         expect(scope.display).toBe('-2');
         scope.touchEqualsOperator();
+        expect(scope.expression).toEqual([4, '*', '_', 2]);
         expect(scope.display).toBe('-8');
         expect(scope.result).toEqual(-8);
 
@@ -336,8 +355,79 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(2);
         expect(scope.display).toBe('-2');
         scope.touchEqualsOperator();
+        expect(scope.expression).toEqual([4, '*', '_', 2]);
         expect(scope.display).toBe('-8');
         expect(scope.result).toEqual(-8);
+    });
+
+    it('verify touchPlusMin with var', function() {
+        scope.touchDigit(4);
+        scope.touchEqualsOperator();
+        var calc = sheet.calculations[0];
+
+        scope.touchDigit(3);
+        scope.touchOperator('*');
+        scope.touchPlusMinOperator();
+        scope.processSelectedCalculation(calc);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-12');
+
+        scope.reset();
+        scope.touchDigit(6);
+        scope.touchPlusMinOperator();
+        scope.touchOperator('*');
+        expect(scope.plusMinusTyped).toBeFalsy();
+        scope.processSelectedCalculation(calc);
+        expect(scope.plusMinusTyped).toBeFalsy();
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-24');
+
+        // test met een calc die negatief is
+        scope.reset();
+        scope.touchDigit(9);
+        scope.touchPlusMinOperator();
+        scope.touchEqualsOperator();
+        var calc = sheet.calculations[0];
+        expect(calc.result).toBe(-9);
+
+        scope.touchDigit(3);
+        scope.touchOperator('*');
+        scope.processSelectedCalculation(calc);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-27');
+
+        scope.reset();
+        scope.touchPlusMinOperator();
+        scope.processSelectedCalculation(calc);
+        scope.touchEqualsOperator();
+        // scope.expression is - - 9, niet mooi, maar ook wel weer eenduidig
+        expect(scope.display).toBe('9');
+
+
+        // test met haakjes
+        scope.reset();
+        scope.touchPlusMinOperator();
+        scope.touchOpenBracket();
+        scope.touchDigit(9);
+        scope.touchOperator('+');
+        scope.touchDigit(1);
+        scope.touchCloseBracket();
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-10');
+
+        scope.reset();
+        scope.touchOpenBracket();
+        scope.touchDigit(9);
+        scope.touchOperator('+');
+        scope.touchPlusMinOperator();
+        scope.touchDigit(1);
+        scope.touchCloseBracket();
+        scope.touchOperator('+');
+        scope.touchPlusMinOperator();
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('6');
+
     });
 
 

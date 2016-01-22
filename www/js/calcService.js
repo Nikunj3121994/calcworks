@@ -70,6 +70,7 @@ angular.module('calcworks.services')
             // replace percentage operator with divide by 100 and multiply
             expression = expression.replace(/x/g, '*');
             expression = expression.replace(/%/g, '/ 100 *');
+            expression = expression.replace(/_/g, '-');
             return expression;
         };
 

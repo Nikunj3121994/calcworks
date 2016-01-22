@@ -23,6 +23,7 @@ describe('Test calcService', function () {
     it('verify replaceMultiplyPercentageOperators', function() {
         expect(calcService.replaceMultiplyPercentageOperators('a % b')).toBe('a / 100 * b');
         expect(calcService.replaceMultiplyPercentageOperators('a x b')).toBe('a * b');
+        expect(calcService.replaceMultiplyPercentageOperators('a + _ b')).toBe('a + - b');
     });
 
     it('verify calculate without vars', function() {
@@ -45,6 +46,27 @@ describe('Test calcService', function () {
         var sheet = new Sheet('id','sheet', calculations);
         calcService.calculate(sheet);
         expect(calculations[0].result).toBe(60);
+    });
+
+
+    it('verify calculate unaire min', function() {
+        var calc1 = new Calculation('xxxx', 'var1', [10, '+', '_', 3]);
+        var calculations = [ calc1 ];
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
+        expect(calculations[0].result).toBe(7);
+
+        calc1 = new Calculation('xxxx', 'var1', [10, 'x', '_', 3]);
+        calculations = [ calc1 ];
+        sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
+        expect(calculations[0].result).toBe(-30);
+
+        calc1 = new Calculation('xxxx', 'var1', [10, '-', '_', 3]);
+        calculations = [ calc1 ];
+        sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
+        expect(calculations[0].result).toBe(13);
     });
 
 
