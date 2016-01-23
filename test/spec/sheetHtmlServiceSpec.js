@@ -45,4 +45,22 @@ describe('Test sheetHtmlService', function () {
         expect(html).toContain('1,000');
     });
 
+
+    it('verify generateHtml plusMin', function() {
+        var sheet = new Sheet('id', 'foo', []);
+        var calc1 = new Calculation('id', 'calc1', [200 , '%' , 3]);
+        calc1.result = 6;
+        sheet.add(calc1);
+        var calc2 = new Calculation('id', 'calc2', [500, 'x', '_', 5]);
+        calc2.result = -2500;
+        sheet.add(calc2);
+        var html = sheetHtmlService.generateHtml(sheet);
+        expect(html).toContain('<style>');
+        expect(html).toContain('<table');
+        expect(html).toContain('200');
+        expect(html).toContain('2,500');
+        console.log(html);
+    });
+
+
 });
