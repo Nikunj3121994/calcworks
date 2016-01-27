@@ -299,20 +299,25 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
-    it('verify touchDelete extended', function() {
+    it('verify touchDelete extended with plusmin', function() {
         expect(scope.display).toBe('0');
-        scope.touchDigit(1);
-        scope.touchDigit(2);
-        scope.touchOperator('+');
+        scope.touchDigit(4);
+        scope.touchOperator('x');
+        scope.touchPlusMinOperator();
         scope.touchDigit(6);
         scope.touchEqualsOperator();
-        expect(scope.display).toBe('18');
+        expect(scope.display).toBe('-24');
+        expect(scope.plusMinusTyped).toBeFalsy();
 
         scope.touchDelete();
-        expect(scope.display).toBe('1');
+        expect(scope.display).toBe('-2');
+        scope.touchOperator('x');
+        expect(scope.expression).toEqual([-2, 'x']);
         scope.touchDigit(4);
-        expect(scope.display).toBe('14');
-        expect(scope.result).toEqual(18);
+        scope.touchEqualsOperator();
+        expect(scope.expression).toEqual([-2, 'x', 4]);
+        expect(scope.display).toBe('-8');
+        expect(scope.result).toEqual(-8);
     });
 
 
@@ -321,13 +326,23 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(2);
         scope.touchDelete();
         expect(scope.display).toBe('0');
+        expect(scope.plusMinusTyped).toBeTruthy();
+        expect(scope.operatorStr).toBe('-');
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.plusMinusTyped).toBeFalsy();
         expect(scope.operatorStr).toBe('');
 
         scope.reset();
-        scope.touchDigit(2);
+        scope.touchDigit(9);
         scope.touchPlusMinOperator();
         scope.touchDelete();
         expect(scope.display).toBe('0');
+        expect(scope.plusMinusTyped).toBeTruthy();
+        expect(scope.operatorStr).toBe('-');
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.plusMinusTyped).toBeFalsy();
         expect(scope.operatorStr).toBe('');
 
         // 1 + -2
@@ -339,7 +354,11 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDelete();
         expect(scope.expression).toEqual([2, '+']);
         expect(scope.display).toBe('0');
-        expect(scope.operatorStr).toBe('+');
+        expect(scope.operatorStr).toBe('-');
+        scope.touchDigit(9);
+        expect(scope.expression).toEqual([2, '+']);
+        expect(scope.display).toBe('-9');
+        expect(scope.operatorStr).toBe('');
 
         // -(
         scope.reset();
@@ -494,7 +513,6 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         // scope.expression is - - 9, niet mooi, maar ook wel weer eenduidig
         expect(scope.display).toBe('9');
-
 
         // test met haakjes
         scope.reset();

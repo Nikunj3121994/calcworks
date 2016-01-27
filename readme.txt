@@ -251,8 +251,6 @@ Roadmap
 Issues
 ============
 
-Bug plus min:  Recall doen,  Plus/min,  Plus,  Recall
-
 
 test scenarios
 

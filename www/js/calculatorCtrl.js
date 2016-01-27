@@ -23,7 +23,7 @@ angular.module('calcworks.controllers')
     var miniReset = function() {
         $scope.display = '0';
         $scope.numberEnteringState = false;
-        $scope.plusMinusTyped = false;
+        $scope.plusMinusTyped = false;  // note: een negatief getal kan ook een uitkomst zijn, niet noodzakelijk plusmin
         $scope.operatorStr = '';
 
     };
@@ -191,8 +191,10 @@ angular.module('calcworks.controllers')
     };
 
     // de delete is tegelijkertijd ook een undo-operator
-    // het zou misschien beter zijn geweest om deze te implementeren door de states op een stack te zetten
+    // het zou beter zijn geweest om deze te implementeren door de states op een stack te zetten
     // de state zou dan een object zijn met alle state properties
+    // nadeel is dan wel dat je geen delete cijfer op een uitkomst kan doen, daar zou je dan toch aparte logica
+    // voor moeten maken
     $scope.touchDelete = function() {
         var length = $scope.expression.length;
         if (length > 0 && $scope.expression[length-1]==='(') {
@@ -213,7 +215,7 @@ angular.module('calcworks.controllers')
             }
             $scope.plusMinusTyped = false;
         } else if (
-                  (!$scope.numberEnteringState && $scope.operatorStr) ||
+                  (!$scope.numberEnteringState && !$scope.plusMinusTyped && $scope.operatorStr) ||
                   ($scope.expression[length-1]===')') )
            {
             // laatste exprItem was een operator of haakje sluiten
@@ -234,13 +236,23 @@ angular.module('calcworks.controllers')
                 $scope.expression.splice(length - 2, 2);
             }
         } else if (($scope.display.length===1) || ($scope.display.substring(0,1)==='-' && $scope.display.length===2))   {
-            // getal bestaande uit 1 cijfer ingetikt met evt het plusmin symbool
-            // toch is dit niet helemaal correct; we halen ook meteen het plusmin symbool weg, bij openhaakje doen we dit niet
-            $scope.display = '0';
-            $scope.numberEnteringState = false;
-            if (length > 0) {
-                $scope.operatorStr = $scope.expression[length-1];
+            // getal bestaande uit 1 cijfer ingetikt met evt het min symbool
+            // merk op dat er 2 oorzaken kunnen zijn; een negatief getal (uitkomst) of plusmin getikt
+            if ($scope.display.length === 1) {
+                // of 1 cijfer of alleen min
+                $scope.plusMinusTyped = false;
+                $scope.numberEnteringState = false;
+                if (length > 0) {
+                    $scope.operatorStr = $scope.expression[length-1];
+                } else {
+                    $scope.operatorStr = '';
+                }
+            } else if (($scope.display.length===2) && $scope.display.substring(0,1)==='-') {
+                // alleen plusMin is nog over
+                $scope.operatorStr = '-';
+                $scope.numberEnteringState = false;
             }
+            $scope.display = '0';
         } else {
             // getal bestaande uit meerdere cijfers ingetikt
             $scope.display = $scope.display.substring(0, $scope.display.length - 1);
@@ -258,6 +270,7 @@ angular.module('calcworks.controllers')
     };
 
     $scope.touchPlusMinOperator = function() {
+        // een plusmin resulteert in een _ in de expressie (niet een -)
         if ($scope.numberEnteringState === false  && selectedCalc === null) {
             if ($scope.plusMinusTyped) {
                 $scope.operatorStr = '';
@@ -352,7 +365,11 @@ angular.module('calcworks.controllers')
         if ($scope.numberEnteringState === true) {
             // dit is een hack, doordat we display zowel als buffer als voor display doeleinden gebruiken moeten we het minteken
             // dat we voor display doeleinden hebben toegevoegd er weer afhalen
-            $scope.expression.push(Math.abs(+$scope.display));
+            if ($scope.plusMinusTyped) {
+                $scope.expression.push(Math.abs(+$scope.display));
+            } else {
+                $scope.expression.push(+$scope.display);
+            }
             $scope.display = '0';
             selectedCalc = null;
         } else if (selectedCalc) {
