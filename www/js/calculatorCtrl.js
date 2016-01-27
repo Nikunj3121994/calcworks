@@ -198,7 +198,20 @@ angular.module('calcworks.controllers')
         if (length > 0 && $scope.expression[length-1]==='(') {
             // laatste exprItem was een haakje open
             $scope.expression.splice(length - 1, 1);
+            if (length > 1 && $scope.expression[length-2] === '_') {
+                $scope.operatorStr = '-';
+                $scope.plusMinusTyped = true;
+            }
             $scope.numberEnteringState = true;
+        } else if (length > 0 && $scope.expression[length-1]==='_') {
+            // laatste exprItem was plusMin
+            $scope.expression.splice(length - 1, 1);
+            if (length > 1) {
+                $scope.operatorStr = $scope.expression[length-2];
+            } else {
+                $scope.operatorStr = '';
+            }
+            $scope.plusMinusTyped = false;
         } else if (
                   (!$scope.numberEnteringState && $scope.operatorStr) ||
                   ($scope.expression[length-1]===')') )
@@ -220,21 +233,17 @@ angular.module('calcworks.controllers')
                 // verwijder de operand en de operator/haakje
                 $scope.expression.splice(length - 2, 2);
             }
-        } else if ($scope.display.length===1) {
-            // getal bestaande uit 1 cijfer ingetikt
+        } else if (($scope.display.length===1) || ($scope.display.substring(0,1)==='-' && $scope.display.length===2))   {
+            // getal bestaande uit 1 cijfer ingetikt met evt het plusmin symbool
+            // toch is dit niet helemaal correct; we halen ook meteen het plusmin symbool weg, bij openhaakje doen we dit niet
             $scope.display = '0';
             $scope.numberEnteringState = false;
+            if (length > 0) {
+                $scope.operatorStr = $scope.expression[length-1];
+            }
         } else {
             // getal bestaande uit meerdere cijfers ingetikt
-            // bepaal of er een decimal part is
-            //if (containsDecimalPart($scope.display)) {
-                $scope.display = $scope.display.substring(0, $scope.display.length - 1);
-            //} else {
-            //    // alleen een integer part waar we het laatste cijfer vanaf moeten halen
-            //    var temp = removeThousandSeparators($scope.display);
-            //    temp = temp.substring(0, temp.length - 1);
-            //    $scope.display = $rootScope.convertNumberToDisplay(parseInt(temp));
-            //}
+            $scope.display = $scope.display.substring(0, $scope.display.length - 1);
             $scope.numberEnteringState = true;
         }
     };

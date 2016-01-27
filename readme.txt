@@ -255,10 +255,8 @@ Bug plus min:  Recall doen,  Plus/min,  Plus,  Recall
 
 
 test scenarios
-- todo: touch delete, dit wordt nog lastig omdat we niet weten of plusmin was ingetikt. Hiet zit een bug als je
-  5 + -6 doet en dan een delete, krijg je alleen een - (twijfelachtig) en daarna kan je t echt kapot maken door nog
-  een delete te doen en een getal in te tikken.
-  Als je na de delete een min overhoudt, moet je die ook weghalen en de plusMin flag resetten.
+
+ik heb t idee dat je een close bracket kan doen terwijl er nog geen open is geweest
 
 observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 

@@ -154,9 +154,13 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
-    it('verify touchDelete numbers', function() {
+    it('verify touchDelete', function() {
+        scope.touchDelete();
         expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('');
+    });
 
+    it('verify touchDelete numbers', function() {
         scope.touchDigit(3);
         scope.touchDelete();
         expect(scope.display).toBe('0');
@@ -259,7 +263,6 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
     it('verify touchDelete close bracket', function() {
-        scope.reset();
         scope.touchOpenBracket();
         scope.touchDigit(1);
         scope.touchOperator('+');
@@ -294,6 +297,84 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('14');
         expect(scope.result).toEqual(18);
     });
+
+
+    it('verify touchDelete extended', function() {
+        expect(scope.display).toBe('0');
+        scope.touchDigit(1);
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchDigit(6);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('18');
+
+        scope.touchDelete();
+        expect(scope.display).toBe('1');
+        scope.touchDigit(4);
+        expect(scope.display).toBe('14');
+        expect(scope.result).toEqual(18);
+    });
+
+
+    it('verify touchDelete plusmin', function() {
+        scope.touchPlusMinOperator();
+        scope.touchDigit(2);
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('');
+
+        scope.reset();
+        scope.touchDigit(2);
+        scope.touchPlusMinOperator();
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('');
+
+        // 1 + -2
+        scope.reset();
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchPlusMinOperator();
+        scope.touchDigit(6);
+        scope.touchDelete();
+        expect(scope.expression).toEqual([2, '+']);
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('+');
+
+        // -(
+        scope.reset();
+        scope.touchPlusMinOperator();
+        scope.touchOpenBracket();
+        expect(scope.expression).toEqual(['_', '(']);
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toEqual(['_']);
+        expect(scope.operatorStr).toBe('-');
+        expect(scope.plusMinusTyped).toBeTruthy();
+        scope.touchDelete();
+        expect(scope.expression).toEqual([]);
+        expect(scope.operatorStr).toBe('');
+        expect(scope.plusMinusTyped).toBeFalsy();
+        expect(scope.display).toBe('0');
+
+        // 5 + -(
+        scope.reset();
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        scope.touchPlusMinOperator();
+        scope.touchOpenBracket();
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toEqual([5, '+', '_', '(']);
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toEqual([5, '+', '_']);
+        expect(scope.operatorStr).toBe('-');
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.expression).toEqual([5, '+' ]);
+        expect(scope.operatorStr).toBe('+');
+    });
+
 
     it('verify touchPlusMin', function() {
         expect(scope.display).toBe('0');
