@@ -131,6 +131,7 @@ $ platforms/ios/cordova/lib/list-emulator-images
 
 Ionic op specifiek device runnen:
 $ ionic emulate ios --target="iPhone-5s"
+$ ionic emulate ios --target="iPad-Air, 9.2"
 
 
 $ ionic emulate --livereload ios
@@ -168,6 +169,7 @@ om intelliJ files niet meer te tracken:
 $ git update-index --assume-unchanged .idea/workspace.xml
 
 Ionic View
+----------
 $ ionic upload
 stephanwesten@gmail.com
 wachtwoord: <straat><huisnr>a
@@ -245,30 +247,53 @@ Roadmap
 - testen en code opschonen
 - ipad support   OF    android support     OF      kleine features (betere email, betere history)     OF     api (rest calls)
 
-
-
+InApp purchase
+http://solidfoundationwebdev.com/blog/posts/setting-up-in-app-purchases-for-ios-in-ionic
+https://github.com/j3k0/cordova-plugin-purchase
 
 Issues
 ============
 
-
 test scenarios
-
-ik heb t idee dat je een close bracket kan doen terwijl er nog geen open is geweest
-
 observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 
 
 Bugs
 -------
 
+- Toen bij Michiel deed ik New. Ik voerde wat data in. Navigeer naar de active sheet, dit was de vorige...
+
+
+iPad:
+- expressie in bovenste regel moet iets lager.
+- de inline regels in pakken teveel hoogte, of de inline tekst moet in het verticale midden.
+- de onderste tab bar zou wel iets groter mogen
+
+
+
+
+ik heb t idee dat je een close bracket kan doen terwijl er nog geen open is geweest
+
+
+
 Improvements
 --------------
+
+Feedback Carolien
+-----------------
+In de Active Sheet staat de uitkomst van de calculatie links en maar bij Sum en Max staat het getal rechts… Op zich geen probleem, maar doordat het onderscheid tussen die totalen en de berekeningen (lichtgrijze achtergrond versus wit) zo klein is, is het wat verwarrend.
+·         In de oranje balk staat bij Reorder een plaatje met pijltjes door elkaar, maar als je de functie aanklikt komt er bij de berekenregels een ander symbool te staan: waarom niet hetzelfde plaatje? (Bij delete is dat wel zo) Sowieso is het plaatje met de drie streeptjes niet geschikt: dat betekent eigenlijk altijd ‘menu’.
+·         Waarom werkt Reorder niet hetzelfde als Delete? Met niks (dus geen ellipsis plaatjes rechts in de regel) als je de functie niet actief is en plaatjes links als ie wel actief is?
+·         Je kunt beide functies weer uitzetten door er nog een keer op te klikken, dat is duidelijker als je ze als een soort ingedrukte button weergeeft als ze actief zijn.
+·         Je hebt nu eigenlijk twee menu balken: die met delete reorder bovenin zzen die met het schuifje, de ellipsis en Sum onderin. Ik snap niet helemaal waarom…
+·         De ellipsis opent een pop-up menu. Daarvoor zou het plaatje met de drie streepjes (zie boven) misschien geschikter zijn en dat zou je dan links bovenin (denk dat dat links moet zijn bij Apple) naast de titel kunnen zetten.
+·         Het schuifje en ‘Sum’ zijn allebei view-achtige functies. Die zouden ook in de (oranje) menubalk kunnen… Allebei als een zelfde soort toggle. Nu is de een een toggle switch (schuifje) en bij de ander verandert de kleur (van de tekst) als hij is ingeschakeld (sum). Ik vind het schuifje niet zo duidelijk; geeft helemaal niet aan wat er gaat gebeuren… misschien een plaatje van een histogram (dat is wat er wordt getoond als hij aan is toch?) gebruiken en dat van kleur laten veranderen? Eventueel zou je voor Sum/Max ook een teken/plaatje kunnen gebruiken, bijvoorbeeld: ∑
+
 
 Opschonen
  iphone 4s support met css media queries
  branch maken en uitproberen
- zet t project lokaal in een dir calcgems. Evt ook de repo renamen.
+ zet t project lokaal in een dir calcgems. Evt ook de git repo renamen. Dit stellen we uit tot Ionic 2.
  use the using the controllerAs syntax
  upgrade naar ionic 1.2
    gebruik de nieuwe checkbox ipv de toggle: <ion-checkbox ng-model="test" ng-checked="test" ng-disabled="test">Disabled Directive</ion-checkbox>

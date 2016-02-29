@@ -56,9 +56,28 @@
     line-height: 300%;
 }
 
-.expression-normal-value {
-    height: 100%;
-    font-size: 120%;
+/* ipad; groter font bij de expressie en grotere buttons */
+@media (min-width: 700px)  {
+
+    .expression-normal-value {
+        height: 100%;
+        font-size: 240%;
+    }
+
+    /* maak de iconen groter en zorg dat ze verticaal halverwege op de row staat (beetje hacky oplossing) */
+    .cancel-edit-button,
+    .rename-calc-button {
+        font-size: 120%;
+        line-height: 300%;
+    }
+
+}
+
+@media (max-width: 700px)  {
+    .expression-normal-value {
+        height: 100%;
+        font-size: 120%;
+    }
 }
 
 .expression-macro-value {
@@ -69,6 +88,22 @@
     font-size: 140%;
     line-height: 200%;
 }
+
+/* ipad - macro mode; groter font bij de expressie en groter stop icon */
+@media (min-width: 700px)  {
+
+    .expression-macro-value {
+        font-size: 240%;
+    }
+
+    .macro-stop-button {
+        font-size: 120%;
+    }
+
+}
+
+
+
 
 .wide-as-needed {
   overflow: scroll;
@@ -86,6 +121,8 @@
     /* this vertical-align:top; is important otherwise text baseline is used to vertically align
        resulting in a shift down for the buttons */
     vertical-align:top;
+    /* voor de ipad moet de pin btn zoveel naar rechts */
+    text-align: right;
 }
 
 .display-inline-operator,
@@ -118,7 +155,6 @@
     height: 62%;
     text-align: right;
     width: 100%;
-    font-size: 200%;
     padding-right: 1%;
     padding-bottom: 1%;
     text-overflow: ellipsis;
@@ -126,10 +162,22 @@
     white-space: nowrap;
 }
 
-/*deze class zorgt ervoor dat de input verticaal goed gepositioneerd wordt*/
-.display-input-text {
-    position: relative;
-    top: 10%;
+/* deze class zorgt ervoor dat de input verticaal goed gepositioneerd wordt*/
+/* ipad */
+@media (min-width: 700px)  {
+    .display-input-text {
+        position: relative;
+        top: 40%;
+        font-size: 300%;
+    }
+}
+
+@media (max-width: 700px)  {
+    .display-input-text {
+        position: relative;
+        top: 10%;
+        font-size: 200%;
+    }
 }
 
 .calculator-btn {
@@ -147,10 +195,12 @@
     font-size: x-large;
 }
 
-.calculator-btn-small-text {
-    font-size: large;
+/* voor de iphone passen  (  )   ±  niet goed, dus kleiner font. Voor iPad definieren we deze class niet */
+@media (max-width: 700px)  {
+    .calculator-btn-small-text {
+        font-size: large;
+    }
 }
-
 
 .calculator-btn:active {
     background-color: #9d9d9d;
