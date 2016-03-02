@@ -56,8 +56,17 @@
     line-height: 300%;
 }
 
-/* ipad; groter font bij de expressie en grotere buttons */
+/* ipad; maak een aantal css classes die hierboven staan en een paar algemene wat groter */
 @media (min-width: 700px)  {
+
+    /* maak de tabs wat hoger (van 49 naar 53 pixels en de titel font wat groter */
+    .tabs {
+        height: 53px;
+    }
+
+    .tab-title {
+        font-size: 140%;
+    }
 
     .expression-normal-value {
         height: 100%;

@@ -267,7 +267,6 @@ Bugs
 iPad:
 - expressie in bovenste regel moet iets lager.
 - de inline regels in pakken teveel hoogte, of de inline tekst moet in het verticale midden.
-- de onderste tab bar zou wel iets groter mogen
 
 
 
