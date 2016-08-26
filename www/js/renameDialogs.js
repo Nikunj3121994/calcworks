@@ -37,7 +37,7 @@ angular.module('calcworks.services')
 
         return {
             showRenameCalculationDialog: function(calc, sheet) {
-                renamePopupData.title = 'Name for the calculation';
+                renamePopupData.title = 'Name this calculation';
                 $scope.data = {};
                 if (!calc.name.startsWith('calc')) {
                     $scope.data.name = calc.name;
@@ -51,7 +51,7 @@ angular.module('calcworks.services')
                 });
             },
             showRenameSheetDialog: function(sheet) {
-                renamePopupData.title = 'Name for the sheet';
+                renamePopupData.title = 'Name this sheet';
                 $scope.data = {};
                 if (!sheet.name === sheet.defaultName) {
                     $scope.data.name = sheet.name;
