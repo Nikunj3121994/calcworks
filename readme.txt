@@ -235,10 +235,6 @@ XCode opties bij een Distributie maken
 - Build | Build Options - op release
 - Bij Devices heb ik alleen iphone geselecteerd  (dit zit bij General info tab in Xcode)
 
-calculatorgems@gmail.com / calc1404
-
-https://developer.apple.com/membercenter/index.action
-
 
 
 Roadmap
@@ -265,10 +261,12 @@ Bugs
 
 
 iPad:
+
+je moet een class / container toevoegen tussen de tekst en de container zodat je align bottom kan doen
 - expressie in bovenste regel moet iets lager.
 - de inline regels in pakken teveel hoogte, of de inline tekst moet in het verticale midden.
 
-
+- is de ruimte tussen de buttons teveel? - zeker tov van de tabs
 
 
 ik heb t idee dat je een close bracket kan doen terwijl er nog geen open is geweest
