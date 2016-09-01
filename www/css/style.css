@@ -1,22 +1,37 @@
 
 .calculator {
-    background-color: rgba(254, 186, 81, 0.6);
-
+    /* background-color: rgba(254, 186, 81, 0.6); */
+    background-color: #feba51;
 }
 
 .calc-row-big {
     height: 17%;
-    background-color: #feba51;
     padding-bottom: 2%;
 }
 /* 2 x 17 = 34 */
 
 .calc-row {
     height: 12%;
-    background-color: #feba51;
 }
 /* 6 x 12 = 72 */
 
+
+/* ipad; heeft meer ruimte aan de onderkant nodig - voordat de tabs beginnen
+   dit komt doordat de ruimte tussen de rijen zo groot wordt dat de ruimte onder
+   de laatste rij visueel te klein wordt.
+   Dit zou met CSS beter moeten kunnen zodat je geen aparte regel voor iPad nodig hebt.
+   Iets met twee containers, eentje voor de buttons en eentje als separator.
+    */
+@media (min-width: 700px)  {
+
+    .calc-row {
+        height: 11%;
+    }
+
+    .calc-row-bottom {
+        height: 1%;
+    }
+}
 
 /* col z'n height moet gezet worden ivm children*/
 .col {
@@ -38,13 +53,14 @@
 
 .expression-inline-text {
     display: inline-block;
-    height: 40%;
+    /* height: 40%; */
     width: 100%;
     padding-left: 1%;
     font-size: small;
     overflow: hidden;
     white-space: nowrap;
     background-color: rgba(179, 179, 179, 0.18);
+    vertical-align: bottom;
 }
 
 .expression-macro-value,
@@ -66,6 +82,11 @@
 
     .tab-title {
         font-size: 140%;
+    }
+
+    /* zorg dat de teksten iets later zitten omdat de hoogte van de inline bar hoger is.
+       Deze oplossing voelt niet goed aan; de teksten moeten een vaste hoogte tov de onderkant hebben */
+    .expression-inline-text {
     }
 
     .expression-normal-value {
@@ -134,25 +155,31 @@
     text-align: right;
 }
 
-.display-inline-operator,
-.display-inline-text {
+.display-inline {
     display: inline-block;
     height: 30%;
-    width: 91%;
+    width: 100%;
     vertical-align: top;
-    padding-left: 1%;
     font-size: small;
-    overflow: hidden;
-    white-space: nowrap;
     background-color: rgba(179, 179, 179, 0.18);
 }
 
+.display-inline-operator,
 .display-inline-text {
+    padding-left: 1%;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: bottom;
+}
+
+.display-inline-text {
+    display: inline-block;
     width: 91%;
     padding-left: 1%;
 }
 
 .display-inline-operator {
+    display: inline-block;
     width: 9%;
     padding-right: 1%;
     text-align: right;
@@ -174,11 +201,15 @@
 /* deze class zorgt ervoor dat de input verticaal goed gepositioneerd wordt*/
 /* ipad */
 @media (min-width: 700px)  {
+
     .display-input-text {
         position: relative;
         top: 40%;
         font-size: 300%;
+        padding-top: 2%;
     }
+
+
 }
 
 @media (max-width: 700px)  {

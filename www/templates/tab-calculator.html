@@ -54,11 +54,13 @@
         <div class="row calc-row-big">
             <div class="col col-100">
                 <div class="display">
-                    <!--no spaces between spans otherwise lay-out is broken-->
-                    <span class="display-inline-text">
-                        <span ng-if="macroMode">Enter new value for {{sheet.inputCalculation.name}}:</span>
-                        <span ng-if="editMode">Edit {{editCalc.name}}: <resolve-expression expression="editCalc.expression" result="" display-calculation-name="true"></resolve-expression></span>
-                    </span><span class="display-inline-operator">{{operatorStr}}
+                    <span class="display-inline">
+                        <!--no spaces between spans otherwise lay-out is broken-->
+                        <span class="display-inline-text">
+                            <span ng-if="macroMode">Enter new value for {{sheet.inputCalculation.name}}:</span>
+                            <span ng-if="editMode">Edit {{editCalc.name}}: <resolve-expression expression="editCalc.expression" result="" display-calculation-name="true"></resolve-expression></span>
+                        </span><span class="display-inline-operator">{{operatorStr}}
+                    </span>
                     </span><span class="display-input">
                         <span class="display-input-text"><resolve-input-display numberstr="display"></resolve-input-display></span>
                     </span>
@@ -106,6 +108,9 @@
           <div class="col col-50"><button class="calculator-btn" ng-click="touchDigit(0)">0</button></div>
           <div class="col"><button class="calculator-btn" ng-click="touchDecimalSeparator()">.</button></div>
           <div class="col"><button class="calculator-btn" ng-click="touchEqualsOperator()">=</button></div>
+        </div>
+
+        <div class="row calc-row-bottom">
         </div>
 
   </ion-content>
