@@ -1,7 +1,8 @@
 Installatie instructies
 -----------------------
 
-$ npm install -g cordova ionic
+$ sudo npm install -g cordova ionic
+$ sudo npm -g install ios-sim.
 
 echter dan is gulp nog niet geinstalleerd:
 $ npm install --global gulp
@@ -47,6 +48,13 @@ $npm install karma-jasmine karma-chrome-launcher --save-dev
 en globaal de cli:
 $ sudo  npm install -g karma-cli
 
+
+NPM en de packages bijwerken
+-------------
+sudo npm install -g npm    (npm zelf)
+npm update -g  (gobal npm packages)
+
+gulp-karma package verwijderen - ik denk dat gulp helemaal niet meer gebruik
 
 
 Update van libraries
@@ -110,7 +118,7 @@ Je kan runnen op de iphone door linksboven 'iphone stephan' te kiezen (ipv de em
 
 Testen runnen
 -------------
-Karma vanaf de cmd line runnen (handig omdat dit meer info geeft dan via gulp)
+Karma vanaf de cmd line runnen
 vanuit de *test* folder:
 $ karma start --single-run
 
@@ -131,16 +139,12 @@ $ platforms/ios/cordova/lib/list-emulator-images
 
 Ionic op specifiek device runnen:
 $ ionic emulate ios --target="iPhone-5s"
-$ ionic emulate ios --target="iPad-Air, 9.2"
+$ ionic emulate ios --target="iPad-Air, 9.3"
+$ ionic emulate ios --target="iPad-Pro, 9.3"
 
 
-$ ionic emulate --livereload ios
-
-De emulate gaat fout omdat cordova een security feature heeft toegevoegd die netwerk access blokt, je moet dan doen:
-$ ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git
-
-Echter de cordova-ios versie zit op 3.9 ipv 4. We moeten dus nog even wachten totdat die er is.
-Of de vorige versie van de whitelist plugin installeren.
+$ ionic emulate ios
+(--livereload doet t sinds kort niet meer)
 
 
 Debuggen
@@ -220,6 +224,8 @@ In xcode moest ik t header path aanpassen om build errors te omzeilen.
  Don't replace the existing line that looks similar, that is still needed to be backwards compatible with Xcode 7 and Xcode 6.4.
 Zie ook het screenshot in de ./screenshots folder
 
+<TODO: we moeten voor de ipad nog een setting zetten ivm splitscreen>
+
 Maak een archive via Product | Archive
 
 Ik kreeg via email een warning mbt push notifications. Dit is een (oud) probleem in Cordova, zou opgelost moeten worden.
@@ -240,12 +246,8 @@ XCode opties bij een Distributie maken
 Roadmap
 =======
 
-- testen en code opschonen
-- ipad support   OF    android support     OF      kleine features (betere email, betere history)     OF     api (rest calls)
+ipad support
 
-InApp purchase
-http://solidfoundationwebdev.com/blog/posts/setting-up-in-app-purchases-for-ios-in-ionic
-https://github.com/j3k0/cordova-plugin-purchase
 
 Issues
 ============
@@ -416,3 +418,25 @@ uitgaven bijhouden op vakantie
 Offerte maken
 Koers conversie
 Historische gegevens bijhouden, bijv #km gefietst of gelopen. Dan wil je per dag 2 waarden invoeren; tijd en aantal. Door (meta) data mogelijk te maken per item kan je n spreadsheet simuleren. Bij de sheet geef je je extra vars op. Die kan je dan per item invullen. Bij n export krijg je een spreadsheet.
+
+
+
+Opnieuw schoon begonnen
+------------------------
+controleer node en npm versie. (npm -v en node -v)
+
+verwijder alle local npm packages:
+$ for package in `ls node_modules`; do npm uninstall $package; done;
+(volgens mij zou t met npm list mooier zijn btw)
+
+Ik heb t met de hand gedaan voor de global packages (sudo gaf problemen)
+$ npm list -g --depth=0
+en dan sudo uninstall -g <pck>
+
+cordova, ionic, de simular bijwerken,
+
+cordova ios platform verwijderen en weer toevoegen
+
+wat doet deze:  "ionic-plugin-keyboard"  - kan ie handig zijn?
+
+toevoegen  "karma": "^1.2.0"
