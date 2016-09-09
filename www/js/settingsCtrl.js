@@ -32,11 +32,7 @@ angular.module('calcworks.controllers')
             {
                 subject: "feedback calcgems",
                 to: 'calculatorgems@gmail.com',
-            },
-            function () {
-                //console.log('email view dismissed');
-            },
-            this
+            }
         );
     };
 

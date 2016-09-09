@@ -5,18 +5,14 @@ angular.module('calcworks.services')
         // maybe we have to rename this service to the Share or Email Service
 
         this.emailSheet = function(sheet) {
-            //console.log('send email');
+            var output = this.generateHtml(sheet); // aparte var maakt debuggen in browser makkelijker
             cordova.plugins.email.open(
                 {
                     subject: "email calcworks on " + sheet.name,
                     // we leave to: empty such that end-user can choose an email address
-                    body: sheetHtmlService.generateHtml(sheet),
+                    body: output,
                     isHtml: true
-                },
-                function () {
-                    console.log('email view dismissed');
-                },
-                this
+                }
             );
         };
 

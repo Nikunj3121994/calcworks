@@ -19,7 +19,7 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "de.appplant.cordova.plugin.email-composer@0.8.2"
+    "cordova-plugin-email-composer@0.8.3"
   ],
   "cordovaPlatforms": [
     "ios",

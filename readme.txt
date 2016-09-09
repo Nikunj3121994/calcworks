@@ -18,13 +18,15 @@ Minify plugin toevoegen
 $ npm install ionic-minify --save-dev
 en schrijfrechten voor de hooks folder
 $ chmod -R 755 ./hooks
+(let op: het cordova ios platform heeft ook een hook. Ik heb hierna ios platform verwijderd en weer toegevoegd)
 
 De email plugin toevoegen
 -------------------------
 Overgenomen van: https://github.com/katzer/cordova-plugin-email-composer
-$ cordova plugin add de.appplant.cordova.plugin.email-composer@0.8.2
+$ cordova plugin add cordova-plugin-email-composer@0.8.3
 dan de libraries toevoegen voor ios platform via
 $ ionic build ios
+(ik heb
 
 
 Karma testen installeren
@@ -231,12 +233,13 @@ ionic emulate ios --target="iPhone-6s-Plus"
 Instructies maken van een release voor deploy naar appstore
 ===========================================================
 
-versie nummer ophogen in config.xml
+versie nummer ophogen in config.xml en tab-settings.html
 
 controleer of alle console log statements in comment staan
 
 $ ionic build --release    (ivm uglify)
 
+Waarschijnlijk niet meer nodig:
 In xcode moest ik t header path aanpassen om build errors te omzeilen.
  Add this line to your Build Settings -> Header Search Paths:
  "$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include"
