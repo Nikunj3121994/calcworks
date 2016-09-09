@@ -59,7 +59,6 @@ describe('Test sheetHtmlService', function () {
         expect(html).toContain('<table');
         expect(html).toContain('200');
         expect(html).toContain('2,500');
-        console.log(html);
     });
 
 

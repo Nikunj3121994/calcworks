@@ -43,7 +43,4 @@
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
-    <!-- ik heb dit hieronder toegevoegd om een error bij ios emulate te omzeilen. Het kan zijn dat dit maar
-         eenmalig nodig is. Waarschijnlijk kan je dit beter verwijderen.  -->
-    <engine name="ios" spec="~4.2.0" />
 </widget>

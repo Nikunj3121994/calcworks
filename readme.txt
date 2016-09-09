@@ -276,7 +276,6 @@ observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 Bugs
 -------
 
-- een foutmelding wordt getoond bij rename sheet, als je die hiervoor had bij rename calc.
 
 iPad:
 

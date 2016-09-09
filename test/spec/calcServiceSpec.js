@@ -16,7 +16,7 @@ describe('Test calcService', function () {
 
     // Log debug messages in Karma
     afterEach(function(){
-        console.log($log.log.logs);
+        //console.log($log.log.logs);
     });
 
 

@@ -31,14 +31,16 @@ angular.module('calcworks.services')
             ]
         };
         $scope.reset = function() {
+            $scope.data = {};
             $scope.data.name = '';
+            $scope.errorMsg = '';
             //consider: set focus to the input field
         };
 
         return {
             showRenameCalculationDialog: function(calc, sheet) {
                 renamePopupData.title = 'Name this calculation';
-                $scope.data = {};
+                $scope.reset();
                 if (!calc.name.startsWith('calc')) {
                     $scope.data.name = calc.name;
                 }
@@ -52,7 +54,7 @@ angular.module('calcworks.services')
             },
             showRenameSheetDialog: function(sheet) {
                 renamePopupData.title = 'Name this sheet';
-                $scope.data = {};
+                $scope.reset();
                 if (!sheet.name === sheet.defaultName) {
                     $scope.data.name = sheet.name;
                 }

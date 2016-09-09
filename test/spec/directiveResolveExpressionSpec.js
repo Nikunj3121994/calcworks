@@ -15,8 +15,9 @@ describe('Test directives', function () {
 
     }));
 
-    // om onbekende redenen verwacht de mock back-end door de digest() dat een aantal html files opgehaald worden
-    // ik snap niet waar dit vandaan komt.
+    // When using Angular Mock all HTTP requests are processed locally and none are passed to the server.
+    // Since templates are requested via HTTP, they too are processed locally.
+    // So we need to handle them locally
     function mockBackEnd() {
         httpBackend.expectGET('templates/tab-sheets.html').respond(200); //mimicking the AJAX call
         httpBackend.expectGET('templates/sheet-detail.html').respond(200);
