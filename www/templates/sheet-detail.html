@@ -40,7 +40,8 @@ The Sheets service returns an array of sheet data
                             <resolve-sheet sheet="sheet" index="$index"></resolve-sheet>
                        </span>
                        <span class="col col-10">
-                            <button class="button button-clear ion-ios-more" ng-click="showEditMenu(calc)"></button>
+                            <!-- button-dark toegevoegd om de button zichtbaar te krijgen, lijkt een ionic bug -->
+                            <button class="button button-clear button-dark ion-ios-more" ng-click="showEditMenu(calc)"></button>
                        </span>
                   </span>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
@@ -62,7 +63,7 @@ The Sheets service returns an array of sheet data
                            {{calc.result|toFixedDecimals}}
                        </span>
                        <span class="col col-10">
-                            <button class="button button-clear ion-ios-more"  ng-click="showEditMenu(calc)"></button>
+                            <button class="button button-clear button-dark ion-ios-more"  ng-click="showEditMenu(calc)"></button>
                        </span>
                   </span>
                    <span class="row rowBar">

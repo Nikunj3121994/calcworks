@@ -1,10 +1,12 @@
 Installatie instructies
 -----------------------
+$ sudo npm install -g bower
 
 $ sudo npm install -g cordova ionic
 $ sudo npm -g install ios-sim.
 
 echter dan is gulp nog niet geinstalleerd:
+(gulp wil ik eruit krijgen, dit overslaan)
 $ npm install --global gulp
 $ npm install --save-dev gulp
 
@@ -29,6 +31,7 @@ Karma testen installeren
 ------------------------
 $ npm install --save-dev gulp-karma
 (een deel van het Chrome window moet zichtbaar zijn anders gaat er minder CPU kracht naar toe)
+(Deze sla ik nu over omdat ik zonder gulp wil werken)
 
 angular-mocks was niet geinstalleerd met ionic. Toegevoegd:
 $ bower install angular-mocks#1.3.6
@@ -38,8 +41,9 @@ Evt kunnen we de angular folders direct onder lib verwijderen - behalve de angul
 Of we gebruiken vanuit karma de angular folders die onder lib hangen. Echter dit heeft het nadeel dat je potentieel
 een andere angular versie gebruikt vanuit ionic...
 
-Lokaal karma installeren:
-$npm install karma-jasmine --save-dev
+Lokaal jasmine en karma installeren:
+$ npm install jasmine --save-dev
+$ npm install karma-jasmine --save-dev
 (die save-dev zorgt ervoor dat karma als een developer dependency wordt behandeld
 
 $npm install karma-jasmine karma-chrome-launcher --save-dev
@@ -47,6 +51,7 @@ $npm install karma-jasmine karma-chrome-launcher --save-dev
 
 en globaal de cli:
 $ sudo  npm install -g karma-cli
+(ik probeerde local en dan krijg je een warning dat ie global wil)
 
 
 NPM en de packages bijwerken
@@ -59,9 +64,9 @@ gulp-karma package verwijderen - ik denk dat gulp helemaal niet meer gebruik
 
 Update van libraries
 =============================
-$ sudo npm update -g
+1) $ sudo npm update -g
 
-$ bower list
+2) $ bower list
 laat zien wat er bijgewerkt kan worden aan bower dependencies. Cordova zit op npm nivo - die gaat dus niet mee.
 
 Updaten van ionic
@@ -138,7 +143,7 @@ Opvragen welke devices er zijn (shell script):
 $ platforms/ios/cordova/lib/list-emulator-images
 
 Ionic op specifiek device runnen:
-$ ionic emulate ios --target="iPhone-5s"
+$ ionic emulate ios --target="iPhone-6s"
 $ ionic emulate ios --target="iPad-Air, 9.3"
 $ ionic emulate ios --target="iPad-Pro, 9.3"
 
@@ -159,9 +164,21 @@ menu te kiezen:  Develop | iPhone van Stephan en dan (calcworks) index.html
 
 Protractor
 ----------
+
+installeren
+$ sudo npm install -g protractor
+$ webdriver-manager update
+
 Instructies om te runnen:
-$ cd projects/calcworks/test/e2e/
+
+1) Start de calcworks applicatie zodat er naar port 8100 geluisterd wordt
+$ ionic serve
+
+2) nieuwe shell, start selenium/webdriver server:
 $ webdriver-manager start
+
+3) nieuwe shell, start de test:
+$ cd projects/calcworks/test/e2e/
 $ protractor conf.js
 
 
@@ -175,8 +192,7 @@ $ git update-index --assume-unchanged .idea/workspace.xml
 Ionic View
 ----------
 $ ionic upload
-stephanwesten@gmail.com
-wachtwoord: <straat><huisnr>a
+stephanwesten@gmail.com / <straat><huisnr>a
 
 UI-Router
 =========
@@ -208,6 +224,9 @@ Screenshots
 -----------
 De screenshots die ik heb gemaakt met de iphone 6 simulator staan in de ./screenshots folder
 
+5.5 inch moet je met de 6s-plus doen:
+ionic emulate ios --target="iPhone-6s-Plus"
+
 
 Instructies maken van een release voor deploy naar appstore
 ===========================================================
@@ -224,8 +243,6 @@ In xcode moest ik t header path aanpassen om build errors te omzeilen.
  Don't replace the existing line that looks similar, that is still needed to be backwards compatible with Xcode 7 and Xcode 6.4.
 Zie ook het screenshot in de ./screenshots folder
 
-<TODO: we moeten voor de ipad nog een setting zetten ivm splitscreen>
-
 Maak een archive via Product | Archive
 
 Ik kreeg via email een warning mbt push notifications. Dit is een (oud) probleem in Cordova, zou opgelost moeten worden.
@@ -239,7 +256,7 @@ XCode opties bij een Distributie maken
 - validate build product aanvinken voor 1 keer (?)
 - Info | iOS Deployment Target - kunnen we evt op 9.1 zetten - dit ivm glytch bij rendering
 - Build | Build Options - op release
-- Bij Devices heb ik alleen iphone geselecteerd  (dit zit bij General info tab in Xcode)
+- Bij Devices heb ik Universal geselecteerd  (dit zit bij General info tab in Xcode)
 
 
 
@@ -259,10 +276,11 @@ observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 Bugs
 -------
 
-- Toen bij Michiel deed ik New. Ik voerde wat data in. Navigeer naar de active sheet, dit was de vorige...
-
+- een foutmelding wordt getoond bij rename sheet, als je die hiervoor had bij rename calc.
 
 iPad:
+
+<TODO: we moeten voor de ipad nog een setting zetten ivm splitscreen>
 
 je moet een class / container toevoegen tussen de tekst en de container zodat je align bottom kan doen
 - expressie in bovenste regel moet iets lager.

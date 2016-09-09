@@ -94,11 +94,13 @@
         font-size: 240%;
     }
 
-    /* maak de iconen groter en zorg dat ze verticaal halverwege op de row staat (beetje hacky oplossing) */
+    /* maak de iconen groter en zorg dat ze verticaal halverwege op de row staat  */
     .cancel-edit-button,
     .rename-calc-button {
         font-size: 120%;
-        line-height: 300%;
+        /* vertical positioning  (ik heb  top: 50%;  weggehaald, was niet nodig */
+         position: relative;
+         transform: translateY(50%);
     }
 
 }
