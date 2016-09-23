@@ -120,7 +120,7 @@ describe('calculator', function() {
   });
 
 
-  it('simple calculation with separators  100,000 + 2,1 = 100,002.1', function() {
+  it('simple calculation with separators  100,000 + 2.1 = 100,002.1', function() {
     var calculatorTab = new pageobjects.CalculatorTab();
     calculatorTab.clickBtnClear();
     expect(calculatorTab.getDisplay()).toEqual('0');

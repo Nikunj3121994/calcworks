@@ -10,7 +10,6 @@ angular.module('calcworks.controllers')
 .controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout, calcService, sheetService, renameDialogs) {
 
 
-    var decimalSeparator = getDigitSeparators().decimalSeparator;
     var lastVarName = '';
     var selectedCalc;  // een geselecteerde calc - via recall of een ander tabblad of de vorige uitkomst
     var state = $stateParams;  // dit moeten we in app.js in de rootscope stoppen
@@ -182,11 +181,14 @@ angular.module('calcworks.controllers')
     };
 
 
+
     $scope.touchDecimalSeparator = function() {
         $scope.numberEnteringState = true; // needed if someone starts with period char
         // make sure you can only add decimal separator once
-        if (!containsDecimalPart($scope.display)) {
-            $scope.display = ($scope.display) + decimalSeparator;
+        // we always use the period char because js expression can only deal with US locale
+        // only when we display a number then we do it localised
+        if (!containsPeriodChar($scope.display)) {
+            $scope.display = ($scope.display) + '.';
         } // consider: else show/give error signal - however not sure if we can do this in every error situation
     };
 
@@ -421,7 +423,7 @@ angular.module('calcworks.controllers')
         // als twee keer achter elkaar = wordt ingedrukt dan is dit een short cut voor de remember functie
         // doordat een nieuw getal niet meteen expressionEnteringStart() aanroept kan result en display out of sync zijn
         // we eisen dat ze wel hetzelfde zijn voor de remember functie
-        if ($scope.result && $rootScope.convertNumberToDisplayWithoutThousandsSeparator($scope.result) === $scope.display) {
+        if ($scope.result && $rootScope.convertNumberToDisplay($scope.result) === $scope.display) {
             this.touchRemember();
         } else {
             var calc = createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
@@ -446,7 +448,7 @@ angular.module('calcworks.controllers')
             if (calc.result === null) throw new Error('Invalid calculation');   // e.g. cycle in calculations
             if (!isFinite(calc.result)) throw new Error('Invalid calculation'); // e.g. divide by zero
             $scope.result = calc.result;                 // type is number
-            $scope.display = $rootScope.convertNumberToDisplayWithoutThousandsSeparator(calc.result);     // type is string
+            $scope.display = $rootScope.convertResultToDisplay(calc.result);     // type is string
             sheetService.saveSheet($scope.sheet);
             selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
         } catch (e) {

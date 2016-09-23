@@ -10,10 +10,10 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
 
     $rootScope.nrOfDecimals = 2;
     $rootScope.convertNumberToDisplay = function(number) {
-        return convertNumberToDisplay(number, $rootScope.nrOfDecimals, true);
+        return convertNumberToDisplay(number, $rootScope.nrOfDecimals);
     };
-    $rootScope.convertNumberToDisplayWithoutThousandsSeparator = function(number) {
-        return convertNumberToDisplay(number, $rootScope.nrOfDecimals, false);
+    $rootScope.convertResultToDisplay = function(number) {
+        return convertResultToDisplay(number, $rootScope.nrOfDecimals);
     };
     $rootScope.getExprItemAsString = function(exprItem, displayCalculationName) {
         return getExprItemAsString(exprItem, $rootScope.nrOfDecimals, displayCalculationName);

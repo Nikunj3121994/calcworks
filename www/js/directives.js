@@ -89,6 +89,7 @@ angular.module('calcworks.controllers')
             scope.$watch('numberstr', function(newValue, oldValue) {
                 if (newValue) {
                     // since we resolve the parameters above there is no need to compile
+                    // we cannot string.tolocale function because that would remove dec separator and trailing zero's
                     element.html(addThousandSeparators(scope.numberstr));
                 }
             }, false);

@@ -31,6 +31,18 @@ describe('Test directives', function () {
         scope.$digest();
         expect(element.eq(0).text()).toBe('0');
 
+        scope.number = '0.00';
+        compile(element)(scope);
+        mockBackEnd();
+        scope.$digest();
+        expect(element.eq(0).text()).toBe('0.00');
+
+        scope.number = '1234.';
+        compile(element)(scope);
+        mockBackEnd();
+        scope.$digest();
+        expect(element.eq(0).text()).toBe('1,234.');
+
         scope.number = '1234.99';
         compile(element)(scope);
         mockBackEnd();

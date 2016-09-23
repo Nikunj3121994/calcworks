@@ -1044,4 +1044,41 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toEqual('0');
     });
 
+
+    it('verify just-make-sure display', function() {
+        // setup fixture
+        scope.touchDigit(1);
+        scope.touchDigit(0);
+        scope.touchDigit(0);
+        scope.touchDigit(0);
+        scope.touchDigit(0);
+        scope.touchDigit(0);
+        scope.touchDigit(0);
+        scope.touchOperator('+');
+        scope.touchDigit(2);
+        scope.touchDecimalSeparator();
+        expect(scope.display).toEqual('2.');
+        scope.touchDigit(1);
+        expect(scope.display).toEqual('2.1');
+        scope.touchEqualsOperator();
+        expect(scope.display).toEqual('1000002.1');
+        // door het directief wordt 100,002.1 (localised) getoond
+    });
+
+
+//    //TODO: het afronden op twee decimalen moet in het directief, niet in de display
+//    it('verify zero bug in display', function() {
+//        // setup fixture
+//        scope.touchDecimalSeparator();
+//        scope.touchDigit(0);
+//        scope.touchDigit(0);
+//        scope.touchDigit(0);
+//        scope.touchDigit(3);
+//        scope.touchOperator('x');
+//        scope.touchDigit(2);
+//        scope.touchEqualsOperator();
+//        expect(scope.display).toEqual('0.0006');
+//    });
+
+
 });

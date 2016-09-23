@@ -1,7 +1,5 @@
 'use strict';
 
-// should we namespace these methods?
-// CalcApp.Utils = {
 
 function addSpaceIfNeeded(string) {
     if (string) {
@@ -105,20 +103,24 @@ function getDecimalSeparator() {
     n = n.toLocaleString().substring(1, 2);
     return n;
 }
-// private
+
+// optimisation, cache result
 var decimalSeparatorChar = getDecimalSeparator();
 var thousandsSeparatorChar =  (decimalSeparatorChar==='.') ? ',' : '.';
 
-// public
-function getDigitSeparators() {
-    return { decimalSeparator: decimalSeparatorChar, thousandsSeparator: thousandsSeparatorChar };
-}
+//
+//// public
+//function getDigitSeparators() {
+//    return { decimalSeparator: decimalSeparatorChar, thousandsSeparator: thousandsSeparatorChar };
+//}
 
-// private
+//    TODO: rename to convertNumberForDisplay
+// deze functie behoudt de decimal separator, trailing zero's e.d.
 function addThousandSeparators(numberStr) {
-    var parts = numberStr.split('.');
+    // je kan hier niet toLocaleString gebruiken omdat je dan trailing zero's e.d. kan kwijt raken
+    var parts = numberStr.split('.');   // numberStr is not localised
     var integerPart = parts[0];
-    var fractionPart = parts.length > 1 ? '.' + parts[1] : '';
+    var fractionPart = parts.length > 1 ? decimalSeparatorChar + parts[1] : '';
     var rgx = /(\d+)(\d{3})/;
     while (rgx.test(integerPart)) {
         integerPart = integerPart.replace(rgx, '$1' + thousandsSeparatorChar + '$2');
@@ -126,31 +128,44 @@ function addThousandSeparators(numberStr) {
     return integerPart + fractionPart;
 }
 
-// public
-function removeThousandSeparators(numberStr) {
-    var re = new RegExp(thousandsSeparatorChar, "g");
-    return numberStr.replace(re, '');
-}
+//// public - ik denk dat deze weg kan
+//function removeThousandSeparators(numberStr) {
+//    var re = new RegExp(thousandsSeparatorChar, "g");
+//    return numberStr.replace(re, '');
+//}
+
+//// public, this is the localised version   - Kan weg?
+//function containsDecimalPart(numberStr) {
+//    return numberStr.indexOf(decimalSeparatorChar) >= 0;
+//}
 
 // public
-function containsDecimalPart(numberStr) {
-    return numberStr.indexOf(decimalSeparatorChar) >= 0;
+function containsPeriodChar(numberStr) {
+    return numberStr.indexOf('.') >= 0;
 }
 
 // private, public aangeboden via $rootScope
 // converts number into a string with max nr of decimals
 // returns error if the number is nan or infinite
-function convertNumberToDisplay(number, nrOfDecimals, hasThousandsSeparator) {
+// deze naam is eigenlijk niet goed. Display is gereserveerd voor de calculatorTab
+// TODO: convertNumberToString zou beter zijn
+function convertNumberToDisplay(number, nrOfDecimals) {
+    // het probleem is dat onderstaande test/assert niet voldoende is,
+    // als number een string is komt ie er toch door heen en gaat later fout op toFixed()
     if (isNaN(number) || !isFinite(number)) {
+        console.log('error, not a proper number: "'+ number + '"');
         return 'error';
     } else {
-        // ik vermoed dat als number een string het hier fout gaat
-        var temp = (+number.toFixed(nrOfDecimals)).toLocaleString();
-        if (hasThousandsSeparator) {
-            temp = addThousandSeparators(temp);
-        }
-        return temp;
+        return (+number.toFixed(nrOfDecimals)).toLocaleString();
     }
+}
+
+
+// calcResult is a number
+// we return a string with a us decimal separator so it can be used for js math, but the type is string
+function convertResultToDisplay(calcResult, nrOfDecimals) {
+    //return calcResult.toString();
+    return (+calcResult.toFixed(nrOfDecimals)).toString();
 }
 
 
@@ -167,12 +182,12 @@ function getExprItemAsString(exprItem, nrOfDecimals, displayCalculationName) {
         if (displayCalculationName) {
             return exprItem.name;
         } else {
-            return convertNumberToDisplay(exprItem.result, nrOfDecimals, true);
+            return convertNumberToDisplay(exprItem.result, nrOfDecimals);
         }
     } else if (exprItem === '_') {
         return '-';  // unaire min
     } else {
-        return convertNumberToDisplay(exprItem, nrOfDecimals, true);
+        return convertNumberToDisplay(exprItem, nrOfDecimals);
     }
 }
 

@@ -26,7 +26,7 @@ Overgenomen van: https://github.com/katzer/cordova-plugin-email-composer
 $ cordova plugin add cordova-plugin-email-composer@0.8.3
 dan de libraries toevoegen voor ios platform via
 $ ionic build ios
-(ik heb
+
 
 
 Karma testen installeren
@@ -158,9 +158,12 @@ Debuggen
 --------
 De makkelijkste manier is via ionic -serve de console aan te zetten.
 Chrome kan behoorlijk goed via dev tools de iphone simuleren - visueel.
-Vervolgens kan je de iphone simulator gebruiken:  ionic emulate ios --target="iPhone-5s"
-In het uiterste geval kan je via Safari dev tools
-de console te zien krijgen van de iphone door de iPhone via een kabel aan de mac te hangen en in Safari's
+
+Vervolgens kan je de iphone simulator gebruiken:  ionic emulate ios --target="iPhone-6s"
+Start Safari op, in het menu kies je Develop | Simulator | Calcworks.
+Je kan dan de Console tab de output zien.
+
+Dit kan ook met het fysieke device door de iPhone via een kabel aan de mac te hangen en in Safari's
 menu te kiezen:  Develop | iPhone van Stephan en dan (calcworks) index.html
 
 
@@ -194,7 +197,7 @@ $ git update-index --assume-unchanged .idea/workspace.xml
 Ionic View
 ----------
 $ ionic upload
-stephanwesten@gmail.com / <straat><huisnr>a
+email@gmail.com / <straat><huisnr>a
 
 UI-Router
 =========
@@ -279,6 +282,13 @@ observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 Bugs
 -------
 
+100 + 2.1 dan verschijnt de . niet
+
+Onderstaande gaat fout bij localisation aan
+if ($scope.result && $rootScope.convertNumberToDisplayWithoutThousandsSeparator($scope.result) === $scope.display) {
+
+
+
 
 iPad:
 
@@ -297,6 +307,8 @@ ik heb t idee dat je een close bracket kan doen terwijl er nog geen open is gewe
 
 Improvements
 --------------
+a trash icon bij settings
+moet de button met de . ook niet localised worden?
 
 Feedback Carolien
 -----------------
