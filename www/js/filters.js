@@ -8,7 +8,7 @@ angular.module('calcworks.controllers')
         if (input === undefined || input === null) {
             return null;
         } else {
-            return $rootScope.convertNumberToDisplay(input);
+            return $rootScope.convertNumberForRendering(input);
         }
     };
 

@@ -16,21 +16,22 @@ describe('Test Expression Utilities', function () {
 
     });
 
-//    it('Separators', function () {
-//        expect(getDigitSeparators().decimalSeparator).toBe('.');
-//        expect(getDigitSeparators().thousandsSeparator).toBe(',');
-//    });
-
-    it('addThousandSeparators', function() {
-        expect(addThousandSeparators('123')).toEqual('123');
-        expect(addThousandSeparators('123456789')).toEqual('123,456,789');
-        expect(addThousandSeparators('123456789.01')).toEqual('123,456,789.01');
+    it('convertNumberForDisplay', function() {
+        expect(convertNumberForDisplay('123')).toEqual('123');
+        expect(convertNumberForDisplay('123.4567')).toEqual('123.45');
+        expect(convertNumberForDisplay('123456789')).toEqual('123,456,789');
+        expect(convertNumberForDisplay('123456789.01')).toEqual('123,456,789.01');
 
         decimalSeparatorChar = ',';
         thousandsSeparatorChar = '.';
 
-        expect(addThousandSeparators('123456789.01')).toEqual('123.456.789,01');
-        expect(addThousandSeparators('12345678912345')).toEqual('12.345.678.912.345');
+        expect(convertNumberForDisplay('123456789.01')).toEqual('123.456.789,01');
+        expect(convertNumberForDisplay('12345678912345')).toEqual('12.345.678.912.345');
+
+        // reset
+        decimalSeparatorChar = '.';
+        thousandsSeparatorChar = ',';
+
     });
 
     it('generateVarName', function () {
@@ -70,28 +71,28 @@ describe('Test Expression Utilities', function () {
     });
 
     //
-    it('convertNumberToDisplay', function () {
-        expect(convertNumberToDisplay(123, 2)).toEqual('123');
-        expect(convertNumberToDisplay(123, 0)).toEqual('123');
-        expect(convertNumberToDisplay(1 / 3, 2)).toEqual('0.33');
-        expect(convertNumberToDisplay(1 / 3, 3)).toEqual('0.333');
-        expect(convertNumberToDisplay('abc', 2)).toEqual('error');
-        expect(convertNumberToDisplay(1 / 0, 2)).toEqual('error');
-        expect(convertNumberToDisplay(1234, 2)).toEqual('1,234');
-        expect(convertNumberToDisplay(1234567, 2)).toEqual('1,234,567');
-        expect(convertNumberToDisplay(1234567.34, 2)).toEqual('1,234,567.34');
+    it('convertNumberForRendering', function () {
+        expect(convertNumberForRendering(123, 2)).toEqual('123');
+        expect(convertNumberForRendering(123, 0)).toEqual('123');
+        expect(convertNumberForRendering(1 / 3, 2)).toEqual('0.33');
+        expect(convertNumberForRendering(1 / 3, 3)).toEqual('0.333');
+        expect(convertNumberForRendering('abc', 2)).toEqual('error');
+        expect(convertNumberForRendering(1 / 0, 2)).toEqual('error');
+        expect(convertNumberForRendering(1234, 2)).toEqual('1,234');
+        expect(convertNumberForRendering(1234567, 2)).toEqual('1,234,567');
+        expect(convertNumberForRendering(1234567.34, 2)).toEqual('1,234,567.34');
     });
 
-    it('getExprItemAsString', function() {
-        expect(getExprItemAsString(1, 1)).toEqual('1');
-        expect(getExprItemAsString(0, 1)).toEqual('0');
-        expect(getExprItemAsString('(', 1)).toEqual('(');
-        expect(getExprItemAsString('x', 1)).toEqual('x');
-        expect(getExprItemAsString('_', 1)).toEqual('-');
+    it('getExprItemForRendering', function() {
+        expect(getExprItemForRendering(1, 1)).toEqual('1');
+        expect(getExprItemForRendering(0, 1)).toEqual('0');
+        expect(getExprItemForRendering('(', 1)).toEqual('(');
+        expect(getExprItemForRendering('x', 1)).toEqual('x');
+        expect(getExprItemForRendering('_', 1)).toEqual('-');
         var calc = new Calculation('id', 'name', '1 + 2');
         calc.result = 3;
-        expect(getExprItemAsString(calc, 1, false)).toEqual('3');
-        expect(getExprItemAsString(calc, 1, true)).toEqual('name');
+        expect(getExprItemForRendering(calc, 1, false)).toEqual('3');
+        expect(getExprItemForRendering(calc, 1, true)).toEqual('name');
     });
 
 

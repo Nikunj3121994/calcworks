@@ -108,19 +108,13 @@ function getDecimalSeparator() {
 var decimalSeparatorChar = getDecimalSeparator();
 var thousandsSeparatorChar =  (decimalSeparatorChar==='.') ? ',' : '.';
 
-//
-//// public
-//function getDigitSeparators() {
-//    return { decimalSeparator: decimalSeparatorChar, thousandsSeparator: thousandsSeparatorChar };
-//}
 
-//    TODO: rename to convertNumberForDisplay
 // deze functie behoudt de decimal separator, trailing zero's e.d.
-function addThousandSeparators(numberStr) {
+function convertNumberForDisplay(numberStr) {
     // je kan hier niet toLocaleString gebruiken omdat je dan trailing zero's e.d. kan kwijt raken
     var parts = numberStr.split('.');   // numberStr is not localised
     var integerPart = parts[0];
-    var fractionPart = parts.length > 1 ? decimalSeparatorChar + parts[1] : '';
+    var fractionPart = parts.length > 1 ? decimalSeparatorChar + parts[1].substring(0, 2) : '';
     var rgx = /(\d+)(\d{3})/;
     while (rgx.test(integerPart)) {
         integerPart = integerPart.replace(rgx, '$1' + thousandsSeparatorChar + '$2');
@@ -128,28 +122,14 @@ function addThousandSeparators(numberStr) {
     return integerPart + fractionPart;
 }
 
-//// public - ik denk dat deze weg kan
-//function removeThousandSeparators(numberStr) {
-//    var re = new RegExp(thousandsSeparatorChar, "g");
-//    return numberStr.replace(re, '');
-//}
-
-//// public, this is the localised version   - Kan weg?
-//function containsDecimalPart(numberStr) {
-//    return numberStr.indexOf(decimalSeparatorChar) >= 0;
-//}
 
 // public
 function containsPeriodChar(numberStr) {
     return numberStr.indexOf('.') >= 0;
 }
 
-// private, public aangeboden via $rootScope
-// converts number into a string with max nr of decimals
-// returns error if the number is nan or infinite
-// deze naam is eigenlijk niet goed. Display is gereserveerd voor de calculatorTab
-// TODO: convertNumberToString zou beter zijn
-function convertNumberToDisplay(number, nrOfDecimals) {
+
+function convertNumberForRendering(number, nrOfDecimals) {
     // het probleem is dat onderstaande test/assert niet voldoende is,
     // als number een string is komt ie er toch door heen en gaat later fout op toFixed()
     if (isNaN(number) || !isFinite(number)) {
@@ -161,19 +141,9 @@ function convertNumberToDisplay(number, nrOfDecimals) {
 }
 
 
-// calcResult is a number
-// we return a string with a us decimal separator so it can be used for js math, but the type is string
-function convertResultToDisplay(calcResult, nrOfDecimals) {
-    //return calcResult.toString();
-    return (+calcResult.toFixed(nrOfDecimals)).toString();
-}
-
-
-// MISSCHIEN MOET DIT naar Calculation
-// er ontbreekt een base class ExprItem voor deze functies
 // testen ontbreken
 // geeft de waarde voor een calcName en anders de literal zelf terug
-function getExprItemAsString(exprItem, nrOfDecimals, displayCalculationName) {
+function getExprItemForRendering(exprItem, nrOfDecimals, displayCalculationName) {
     if (exprItem === undefined  || exprItem === null) {
         throw new Error('assertion error, empty exprItem');
     } else if (isBinaryOperator(exprItem) || isBracket(exprItem)) {
@@ -182,12 +152,12 @@ function getExprItemAsString(exprItem, nrOfDecimals, displayCalculationName) {
         if (displayCalculationName) {
             return exprItem.name;
         } else {
-            return convertNumberToDisplay(exprItem.result, nrOfDecimals);
+            return convertNumberForRendering(exprItem.result, nrOfDecimals);
         }
     } else if (exprItem === '_') {
         return '-';  // unaire min
     } else {
-        return convertNumberToDisplay(exprItem, nrOfDecimals);
+        return convertNumberForRendering(exprItem, nrOfDecimals);
     }
 }
 

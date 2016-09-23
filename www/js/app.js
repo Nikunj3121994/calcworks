@@ -9,14 +9,12 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
 .run(function($ionicPlatform, $rootScope) {
 
     $rootScope.nrOfDecimals = 2;
-    $rootScope.convertNumberToDisplay = function(number) {
-        return convertNumberToDisplay(number, $rootScope.nrOfDecimals);
+    // we need to add these functions as global functions for the directives
+    $rootScope.convertNumberForRendering = function(number) {
+        return convertNumberForRendering(number, $rootScope.nrOfDecimals);
     };
-    $rootScope.convertResultToDisplay = function(number) {
-        return convertResultToDisplay(number, $rootScope.nrOfDecimals);
-    };
-    $rootScope.getExprItemAsString = function(exprItem, displayCalculationName) {
-        return getExprItemAsString(exprItem, $rootScope.nrOfDecimals, displayCalculationName);
+    $rootScope.getExprItemForRendering = function(exprItem, displayCalculationName) {
+        return getExprItemForRendering(exprItem, $rootScope.nrOfDecimals, displayCalculationName);
     };
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

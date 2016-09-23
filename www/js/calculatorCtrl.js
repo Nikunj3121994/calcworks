@@ -20,6 +20,9 @@ angular.module('calcworks.controllers')
 
     // use this function as a reset when bracket open or closed is entered
     var miniReset = function() {
+        // display acts as the input buffer and is thus a string. It
+        // it uses the period as decimal separator.
+        // only when *displayed* by a directive it is localised and displayed as a number.
         $scope.display = '0';
         $scope.numberEnteringState = false;
         $scope.plusMinusTyped = false;  // note: een negatief getal kan ook een uitkomst zijn, niet noodzakelijk plusmin
@@ -104,7 +107,7 @@ angular.module('calcworks.controllers')
         if ($scope.plusMinusTyped) {
             number = -number;
         }
-        $scope.display = $rootScope.convertNumberToDisplay(number);
+        $scope.display = number.toString();
         $scope.operatorStr = '';
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // make sure we start the expression (cause of the built-in delay)
@@ -228,7 +231,7 @@ angular.module('calcworks.controllers')
                 var exprItem = $scope.expression[length - 2];
                 if (exprItem instanceof Calculation) {
                     selectedCalc = exprItem;
-                    $scope.display = $rootScope.convertNumberToDisplay(exprItem.result);
+                    $scope.display = $rootScope.convertNumberForRendering(exprItem.result); //TODO: niet goed, fixed to two decimals
                     $scope.numberEnteringState = false;
                 } else {
                     $scope.display = exprItem.toString();
@@ -423,7 +426,7 @@ angular.module('calcworks.controllers')
         // als twee keer achter elkaar = wordt ingedrukt dan is dit een short cut voor de remember functie
         // doordat een nieuw getal niet meteen expressionEnteringStart() aanroept kan result en display out of sync zijn
         // we eisen dat ze wel hetzelfde zijn voor de remember functie
-        if ($scope.result && $rootScope.convertNumberToDisplay($scope.result) === $scope.display) {
+        if ($scope.result && $rootScope.convertNumberForRendering($scope.result) === $scope.display) { //TODO: niet goed
             this.touchRemember();
         } else {
             var calc = createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
@@ -448,7 +451,7 @@ angular.module('calcworks.controllers')
             if (calc.result === null) throw new Error('Invalid calculation');   // e.g. cycle in calculations
             if (!isFinite(calc.result)) throw new Error('Invalid calculation'); // e.g. divide by zero
             $scope.result = calc.result;                 // type is number
-            $scope.display = $rootScope.convertResultToDisplay(calc.result);     // type is string
+            $scope.display = calc.result.toString();     // type is string
             sheetService.saveSheet($scope.sheet);
             selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
         } catch (e) {

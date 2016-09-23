@@ -872,14 +872,14 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(3);
         scope.touchEqualsOperator();
         expect(scope.expression).toEqual([1, '/', 3]);
-        expect(scope.display).toBe('0.33');
+        expect(scope.display).toContain('0.33333333');
 
         scope.touchDigit(2);
         scope.touchOperator('+');
         scope.processSelectedCalculation(getActiveSheet().calculations[0]);
-        expect(scope.display).toBe('0.33');
+        expect(scope.display).toContain('0.333333333');
         scope.touchEqualsOperator();
-        expect(scope.display).toBe('2.33');
+        expect(scope.display).toContain('2.33333333');
     });
 
 
@@ -944,7 +944,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchOperator('/');
         scope.touchDigit(3);
         scope.touchEqualsOperator();
-        expect(scope.display).toBe('0.33');
+        expect(scope.display).toContain('0.333333333');
         expect(scope.result).toEqual(1 / 3);
     });
 
@@ -1046,7 +1046,6 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     it('verify just-make-sure display', function() {
-        // setup fixture
         scope.touchDigit(1);
         scope.touchDigit(0);
         scope.touchDigit(0);
@@ -1066,19 +1065,30 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
-//    //TODO: het afronden op twee decimalen moet in het directief, niet in de display
-//    it('verify zero bug in display', function() {
-//        // setup fixture
-//        scope.touchDecimalSeparator();
-//        scope.touchDigit(0);
-//        scope.touchDigit(0);
-//        scope.touchDigit(0);
-//        scope.touchDigit(3);
-//        scope.touchOperator('x');
-//        scope.touchDigit(2);
-//        scope.touchEqualsOperator();
-//        expect(scope.display).toEqual('0.0006');
-//    });
+    it('verify zero bug in display', function() {
+        scope.touchDecimalSeparator();
+        scope.touchDigit(0);
+        scope.touchDigit(0);
+        scope.touchDigit(0);
+        scope.touchDigit(3);
+        scope.touchOperator('x');
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.display).toEqual('0.0006');
+    });
+
+
+    it('verify rounding', function() {
+        scope.touchDigit(1);
+        scope.touchOperator('/');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.display).toContain('0.3333');
+        scope.touchOperator('*');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.display).toEqual('1');
+    });
 
 
 });

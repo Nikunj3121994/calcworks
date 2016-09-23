@@ -21,11 +21,11 @@ angular.module('calcworks.controllers')
                     var template = '';
                     template = '<table class="expressionTable">';
                     template = template + '<tr>';
-                    template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberToDisplay(calculation.result) + '</td>';
+                    template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberForRendering(calculation.result) + '</td>';
                     template = template + '<td class="itemExpr">  &nbsp;=&nbsp;  </td>';
                     var arrayLength = expression.length;
                     for (var i = 0; i < arrayLength; i++) {
-                        template = template + '<td class="itemExpr">' + $rootScope.getExprItemAsString(expression[i]) + '</td>';
+                        template = template + '<td class="itemExpr">' + $rootScope.getExprItemForRendering(expression[i]) + '</td>';
                     }
                     template = template + '</tr>';
                     // second row
@@ -66,11 +66,11 @@ angular.module('calcworks.controllers')
                     var arrayLength = scope.expression.length;
                     for (var i = 0; i < arrayLength; i++) {
                         template = template + '<span class="itemExpr">';
-                        template = template + $rootScope.getExprItemAsString(scope.expression[i], scope.displayCalculationName);
+                        template = template + $rootScope.getExprItemForRendering(scope.expression[i], scope.displayCalculationName);
                         template = template + '</span>';
                     }
                     if (scope.result !== undefined && scope.result !== null) {
-                        template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberToDisplay(scope.result) + '</span>';
+                        template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberForRendering(scope.result) + '</span>';
                     }
                     // since we resolve the parameters above there is no need to compile
                     element.html(template);
@@ -89,8 +89,8 @@ angular.module('calcworks.controllers')
             scope.$watch('numberstr', function(newValue, oldValue) {
                 if (newValue) {
                     // since we resolve the parameters above there is no need to compile
-                    // we cannot string.tolocale function because that would remove dec separator and trailing zero's
-                    element.html(addThousandSeparators(scope.numberstr));
+                    // we cannot use string.tolocale function because that would remove dec separator and trailing zero's
+                    element.html(convertNumberForDisplay(scope.numberstr));
                 }
             }, false);
         }
@@ -117,7 +117,7 @@ angular.module('calcworks.controllers')
 // compilation of the template
 //
 // Notice $root instead of rootScope
-// template = template + '<span>{{$root.getExprItemAsString(expression[' + i + '], sheet)}}</span>';
+// template = template + '<span>{{$root.getExprItemForRendering(expression[' + i + '], sheet)}}</span>';
 //
 // in this case we also have to compile the template:
 //
