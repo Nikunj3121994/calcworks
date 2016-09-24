@@ -231,7 +231,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDelete();
         expect(scope.operatorStr).toBe('');
         expect(scope.expression).toEqual([]);
-        expect(scope.display).toBe('0.33');
+        expect(scope.display).toContain('0.33333');
         scope.touchOperator('x');
         expect(scope.expression).toEqual([calc1, 'x']);
         scope.touchDigit(3);

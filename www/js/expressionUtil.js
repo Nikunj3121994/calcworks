@@ -110,6 +110,8 @@ var thousandsSeparatorChar =  (decimalSeparatorChar==='.') ? ',' : '.';
 
 
 // deze functie behoudt de decimal separator, trailing zero's e.d.
+// numberStr is een getal als string met us decimal separator
+// result is een localised getal (thousand and decimal seps) as string
 function convertNumberForDisplay(numberStr) {
     // je kan hier niet toLocaleString gebruiken omdat je dan trailing zero's e.d. kan kwijt raken
     var parts = numberStr.split('.');   // numberStr is not localised

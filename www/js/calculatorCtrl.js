@@ -231,7 +231,7 @@ angular.module('calcworks.controllers')
                 var exprItem = $scope.expression[length - 2];
                 if (exprItem instanceof Calculation) {
                     selectedCalc = exprItem;
-                    $scope.display = $rootScope.convertNumberForRendering(exprItem.result); //TODO: niet goed, fixed to two decimals
+                    $scope.display = exprItem.result.toString();
                     $scope.numberEnteringState = false;
                 } else {
                     $scope.display = exprItem.toString();
@@ -426,7 +426,7 @@ angular.module('calcworks.controllers')
         // als twee keer achter elkaar = wordt ingedrukt dan is dit een short cut voor de remember functie
         // doordat een nieuw getal niet meteen expressionEnteringStart() aanroept kan result en display out of sync zijn
         // we eisen dat ze wel hetzelfde zijn voor de remember functie
-        if ($scope.result && $rootScope.convertNumberForRendering($scope.result) === $scope.display) { //TODO: niet goed
+        if ($scope.result && $scope.result.toString() === $scope.display) {
             this.touchRemember();
         } else {
             var calc = createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
