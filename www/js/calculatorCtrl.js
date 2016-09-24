@@ -22,7 +22,8 @@ angular.module('calcworks.controllers')
     var miniReset = function() {
         // display acts as the input buffer and is thus a string. It
         // it uses the period as decimal separator.
-        // only when *displayed* by a directive it is localised and displayed as a number.
+        // only when *displayed* by a directive it is rendered localised
+        // display can have many decimals, the expression panel is limited to 2
         $scope.display = '0';
         $scope.numberEnteringState = false;
         $scope.plusMinusTyped = false;  // note: een negatief getal kan ook een uitkomst zijn, niet noodzakelijk plusmin
@@ -47,7 +48,6 @@ angular.module('calcworks.controllers')
     };
 
     function init() {
-        //console.log('init');
         $scope.sheet = sheetService.getActiveSheet();
         // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
         // 'calc' is used in renameDialog, so keep them in sync. Consider using Angular's constant service.
@@ -88,7 +88,6 @@ angular.module('calcworks.controllers')
 
     // nu kan sheetsUpdated zich  voordoen door deleteAllSheets en change van activeSheet
     $scope.$on('sheetsUpdated', function(e, value) {
-        //console.log('sheetsUpdated: ' + value);
         init();
     });
 

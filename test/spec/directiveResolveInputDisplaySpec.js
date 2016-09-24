@@ -37,6 +37,13 @@ describe('Test directives', function () {
         scope.$digest();
         expect(element.eq(0).text()).toBe('0.00');
 
+        // the user should be able to enter this and see this in the display
+        scope.number = '0.0033';
+        compile(element)(scope);
+        mockBackEnd();
+        scope.$digest();
+        expect(element.eq(0).text()).toBe('0.0033');
+
         scope.number = '1234.';
         compile(element)(scope);
         mockBackEnd();

@@ -282,11 +282,6 @@ observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 Bugs
 -------
 
-100 + 2.1 dan verschijnt de . niet
-
-Onderstaande gaat fout bij localisation aan
-if ($scope.result && $rootScope.convertNumberToDisplayWithoutThousandsSeparator($scope.result) === $scope.display) {
-
 
 
 
@@ -309,6 +304,9 @@ Improvements
 --------------
 a trash icon bij settings
 moet de button met de . ook niet localised worden?
+
+- 'undo' ipv icon?
+
 
 Feedback Carolien
 -----------------

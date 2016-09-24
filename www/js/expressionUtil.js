@@ -116,7 +116,7 @@ function convertNumberForDisplay(numberStr) {
     // je kan hier niet toLocaleString gebruiken omdat je dan trailing zero's e.d. kan kwijt raken
     var parts = numberStr.split('.');   // numberStr is not localised
     var integerPart = parts[0];
-    var fractionPart = parts.length > 1 ? decimalSeparatorChar + parts[1].substring(0, 2) : '';
+    var fractionPart = parts.length > 1 ? decimalSeparatorChar + parts[1] : '';
     var rgx = /(\d+)(\d{3})/;
     while (rgx.test(integerPart)) {
         integerPart = integerPart.replace(rgx, '$1' + thousandsSeparatorChar + '$2');
