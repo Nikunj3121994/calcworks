@@ -24,6 +24,8 @@ angular.module('calcworks.controllers')
         // it uses the period as decimal separator.
         // only when *displayed* by a directive it is rendered localised
         // display can have many decimals, the expression panel is limited to 2
+        // we zouden display moeten hernoemen tot inputDisplay
+        // de expression als outputDisplay of expressionDisplay
         $scope.display = '0';
         $scope.numberEnteringState = false;
         $scope.plusMinusTyped = false;  // note: een negatief getal kan ook een uitkomst zijn, niet noodzakelijk plusmin

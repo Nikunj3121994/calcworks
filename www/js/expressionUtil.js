@@ -109,7 +109,7 @@ var decimalSeparatorChar = getDecimalSeparator();
 var thousandsSeparatorChar =  (decimalSeparatorChar==='.') ? ',' : '.';
 
 
-// deze functie behoudt de decimal separator, trailing zero's e.d.
+// deze functie behoudt de decimal separator, trailing zero's e.d. zodat ie in het inpput display panel getoond kan worden
 // numberStr is een getal als string met us decimal separator
 // result is een localised getal (thousand and decimal seps) as string
 function convertNumberForDisplay(numberStr) {
@@ -131,6 +131,8 @@ function containsPeriodChar(numberStr) {
 }
 
 
+// deze functie geeft number als string localised terug zodat ie getoond kan worden
+// deze functie kan overal gebruikt worden voor display/rendering doeleiden, behalve de input display
 function convertNumberForRendering(number, nrOfDecimals) {
     // het probleem is dat onderstaande test/assert niet voldoende is,
     // als number een string is komt ie er toch door heen en gaat later fout op toFixed()
