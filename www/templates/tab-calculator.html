@@ -14,10 +14,10 @@
               <div class="expression">
                   <span class="expression-inline-text">
                       Result {{sheet.outputCalculation.name}} based on {{sheet.inputCalculation.name}} = {{sheet.inputCalculation.result|toFixedDecimals}}
-                  </span><span class="expression-macro-value">
-                        <span class="expression-left">   <!--- expression-left en expression-right bestaan niet in css file -->
+                  </span><span class="expression-macro-panel">
+                        <span class="expression-macro-value">
                             {{sheet.outputCalculation.result|toFixedDecimals}}
-                        </span><span class="expression-right">
+                        </span><span class="expression-button">
                             <button class="button button-clear button-assertive ion-stop macro-stop-button" ng-click="cancelMacroMode()"></button>
                         </span>
                     </span>
@@ -35,12 +35,10 @@
                                 </resolve-expression>
                             </ion-scroll>
                             <!--geen spaties tussen de span elements hieronder !! -->
-                        </span><span class="expression-button">
                             <!--de spans zijn nodig om hide/show flikker te beteugelen-->
-                            <span ng-hide="result === null || editMode">
+                        </span><span class="expression-button"><span ng-hide="result === null || editMode">
                                 <button class="button button-clear button-positive ion-pin rename-calc-button" ng-click="touchRemember()"></button>
-                            </span>
-                            <span ng-show="editMode">
+                            </span><span ng-show="editMode">
                                 <button class="button button-clear button-assertive ion-close cancel-edit-button" ng-click="cancelEditMode()"></button>
                             </span>
                         <!--deze span hoort er wel bij-->
@@ -79,7 +77,7 @@
         <div class="row calc-row">
           <div class="col"><button class="calculator-btn calculator-btn-small-text" ng-click="touchOpenBracket()">(</button></div>
           <div class="col"><button class="calculator-btn calculator-btn-small-text" ng-click="touchCloseBracket()">)</button></div>
-          <div class="col"><button class="calculator-btn calculator-btn-small-text" ng-click="touchPlusMinOperator()">±</button></div>
+          <div class="col"><button class="calculator-btn" ng-click="touchPlusMinOperator()">±</button></div>
           <div class="col"><button class="calculator-btn" ng-click="touchOperator('/')">/</button></div>
         </div>
 

@@ -145,9 +145,10 @@ Opvragen welke devices er zijn (shell script):
 $ platforms/ios/cordova/lib/list-emulator-images
 
 Ionic op specifiek device runnen:
+$ ionic emulate ios --target="iPhone-5s"
 $ ionic emulate ios --target="iPhone-6s"
-$ ionic emulate ios --target="iPad-Air, 9.3"
-$ ionic emulate ios --target="iPad-Pro, 9.3"
+$ ionic emulate ios --target="iPad-Air"
+$ ionic emulate ios --target="iPad-Pro"
 
 
 $ ionic emulate ios
@@ -283,17 +284,9 @@ Bugs
 -------
 
 
-
-
 iPad:
 
 <TODO: we moeten voor de ipad nog een setting zetten ivm splitscreen>
-
-je moet een class / container toevoegen tussen de tekst en de container zodat je align bottom kan doen
-- expressie in bovenste regel moet iets lager.
-- de inline regels in pakken teveel hoogte, of de inline tekst moet in het verticale midden.
-
-- is de ruimte tussen de buttons teveel? - zeker tov van de tabs
 
 
 ik heb t idee dat je een close bracket kan doen terwijl er nog geen open is geweest
@@ -302,9 +295,9 @@ ik heb t idee dat je een close bracket kan doen terwijl er nog geen open is gewe
 
 Improvements
 --------------
-a trash icon bij settings
-moet de button met de . ook niet localised worden?
-
+- a trash icon bij settings
+- moet de button met de . ook niet localised worden?
+- misschien zou de remember btn link bij display moeten, heb je meer ruimte in de eerste panel
 - 'undo' ipv icon?
 
 

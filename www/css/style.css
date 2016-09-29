@@ -45,15 +45,19 @@
     height: 100%;
     background-color: #e4e4e4;
     box-shadow: inset 1px 1px 3px #999;
-    /*zorg ervoor dat de expressie items (span elements) op dezelfde regel blijven echter gaf problemen, nog fixen
-    overflow: hidden;
-    white-space: nowrap;*/
+    position: relative;  /* dit is nodig voor de children !! zodat die weer absoluut gepositioneerd kunnen worden */
 }
 
 
+.expression-macro-panel,
+.expression-normal-value {
+    display: inline-block;
+    width: 100%;
+    padding-left: 1%;
+}
+
 .expression-inline-text {
     display: inline-block;
-    /* height: 40%; */
     width: 100%;
     padding-left: 1%;
     font-size: small;
@@ -63,79 +67,30 @@
     vertical-align: bottom;
 }
 
-.expression-macro-value,
-.expression-normal-value {
-    display: inline-block;
-    width: 100%;
-    padding-left: 1%;
-    /* line-height is nodig om de twee inline blocks vertical aligned te krijgen */
-    line-height: 300%;
-}
-
-/* ipad; maak een aantal css classes die hierboven staan en een paar algemene wat groter */
-@media (min-width: 700px)  {
-
-    /* maak de tabs wat hoger (van 49 naar 53 pixels en de titel font wat groter */
-    .tabs {
-        height: 53px;
-    }
-
-    .tab-title {
-        font-size: 140%;
-    }
-
-    /* zorg dat de teksten iets later zitten omdat de hoogte van de inline bar hoger is.
-       Deze oplossing voelt niet goed aan; de teksten moeten een vaste hoogte tov de onderkant hebben */
-    .expression-inline-text {
-    }
-
-    .expression-normal-value {
-        height: 100%;
-        font-size: 240%;
-    }
-
-    /* maak de iconen groter en zorg dat ze verticaal halverwege op de row staat  */
-    .cancel-edit-button,
-    .rename-calc-button {
-        font-size: 120%;
-        /* vertical positioning  (ik heb  top: 50%;  weggehaald, was niet nodig */
-         position: relative;
-         transform: translateY(50%);
-    }
-
-}
-
-@media (max-width: 700px)  {
-    .expression-normal-value {
-        height: 100%;
-        font-size: 120%;
-    }
+/* leeg */
+.expression-macro-panel {
 }
 
 .expression-macro-value {
-    height: 70%;
     text-align: right;
-    /* door het font groter te maken, neemt het block meer verticale ruimte in
-       bij 150% overlapt ie al */
     font-size: 140%;
-    line-height: 200%;
+    line-height: 100%; /* voor de zekerheid gedaan omdat t font groter is*/
+    position: absolute;
+    right: 20%;
+    bottom: 5%;
 }
 
-/* ipad - macro mode; groter font bij de expressie en groter stop icon */
-@media (min-width: 700px)  {
-
-    .expression-macro-value {
-        font-size: 240%;
-    }
-
-    .macro-stop-button {
-        font-size: 120%;
-    }
-
+.expression-normal-value {
+    font-size: 140%;
+    line-height: 100%; /* nodig anders wordt de tekst afgeplat door t grote font */
 }
 
 
-
+.macro-stop-button,
+.cancel-edit-button,
+.rename-calc-button {
+    font-size: 140%;
+}
 
 .wide-as-needed {
   overflow: scroll;
@@ -144,22 +99,21 @@
 
 .expression-items {
     display: inline-block;
-    width: 85%;
+    width: 88%;  /* dit is een best effort, mooier zou zijn tot aan de button */
+    position:absolute;
+    left: 1%;
+    bottom: 10%;
 }
 
 .expression-button {
     display: inline-block;
-    width: 15%;
-    /* this vertical-align:top; is important otherwise text baseline is used to vertically align
-       resulting in a shift down for the buttons */
-    vertical-align:top;
-    /* voor de ipad moet de pin btn zoveel naar rechts */
-    text-align: right;
+    position:absolute;
+    right: 1%;
+    bottom: 3%;
 }
 
 .display-inline {
     display: inline-block;
-    height: 30%;
     width: 100%;
     vertical-align: top;
     font-size: small;
@@ -176,51 +130,77 @@
 
 .display-inline-text {
     display: inline-block;
-    width: 91%;
     padding-left: 1%;
 }
 
 .display-inline-operator {
     display: inline-block;
-    width: 9%;
-    padding-right: 1%;
-    text-align: right;
+    position:absolute;
+    right: 1%;
+    top: 0px;
 }
 
+/* leeg */
 .display-input {
+}
+
+.display-input-text {
     display: inline-block;
-    /*bij meer dan 62% wordt dit blok te hoog en overlapt ie aan de onderkant*/
-    height: 62%;
-    text-align: right;
-    width: 100%;
-    padding-right: 1%;
-    padding-bottom: 1%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    position:absolute;
+    right: 1%;
+    bottom: 5%;
+    line-height: 100%; /* nodig anders wordt de tekst afgeplat door t grote font */
+    font-size: 240%;
+    text-align: right;
 }
 
-/* deze class zorgt ervoor dat de input verticaal goed gepositioneerd wordt*/
-/* ipad */
+
+/* ipad; maak een aantal css classes die hierboven staan en een paar algemene wat groter */
 @media (min-width: 700px)  {
 
-    .display-input-text {
-        position: relative;
-        top: 40%;
+    /* maak de tabs wat hoger (van 49 naar 53 pixels en de titel font wat groter */
+    .tabs {
+        height: 53px;
+    }
+
+    .tab-title {
+        font-size: 140%;
+    }
+
+    /* leeg */
+    .expression-inline-text {
+    }
+
+    .expression-normal-value {
+        font-size: 240%;
+    }
+
+
+    /* macro mode; groter font bij de expressie  */
+    .expression-macro-panel {
         font-size: 300%;
-        padding-top: 2%;
     }
 
-
-}
-
-@media (max-width: 700px)  {
     .display-input-text {
-        position: relative;
-        top: 10%;
-        font-size: 200%;
+        font-size: 300%;
     }
+
+    /* maak de button iconen groter. De verticale positie hangt af van het element ervoor...
+       ik kies ervoor om de buttons halverwege te zetten en niet op dezelfde hoogte als het expression element omdat
+       het expression element misschien nog wel een superscript gaat krijgen
+    .macro-stop-button,
+    .cancel-edit-button,
+    .rename-calc-button {
+        font-size: 120%;
+    }
+    */
+
 }
+
+
 
 .calculator-btn {
     display: inline-block;
@@ -237,7 +217,7 @@
     font-size: x-large;
 }
 
-/* voor de iphone passen  (  )   ±  niet goed, dus kleiner font. Voor iPad definieren we deze class niet */
+/* voor de iphone passen sommige caption van buttons niet goed, dus kleiner font. Voor iPad definieren we deze class niet */
 @media (max-width: 700px)  {
     .calculator-btn-small-text {
         font-size: large;
