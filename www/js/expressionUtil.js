@@ -70,7 +70,7 @@ function isString(str) {
 function isBinaryOperator(exprItem) {
     if (isString(exprItem)) {
         var char = exprItem.charAt(0);
-        return char === '+' || char === '-' || char === 'x' || char === '/' || char === '%';
+        return char === '+' || char === '-' || char === 'x' || char === '/' || char === '%' || char === '^';
     } else {
         return false;
     }

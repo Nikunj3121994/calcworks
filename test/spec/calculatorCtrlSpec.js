@@ -140,6 +140,20 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
+    it('verify power', function () {
+        scope.reset();
+        scope.touchDigit(2);
+        scope.touchOperator('^');
+        expect(scope.operatorStr).toBe('^');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('8');
+        expect(scope.operatorStr).toBe('');
+        expect(scope.expression).toEqual([2, '^', 3]);
+        expect(scope.result).toEqual(8);
+
+    });
+
     it('verify override touchOperator', function () {
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('');

@@ -49,8 +49,8 @@ angular.module('calcworks.services')
                 //$log.log('calcCalculation: and ' + calculation.name + ' resolved into: ' + expression);
                 var outcome;
                 try {
-                    expression = this.replaceMultiplyPercentageOperators(expression);
-                    outcome = eval(expression);
+                    expression = this.replacePlaceholderOperators(expression);
+                    outcome = math.eval(expression);
                     //$log.log('  calcCalculation, eval ' + calculation.name  + ' : ' + expression + ' = ' + outcome);
                 } catch (e) {
                     if (e instanceof SyntaxError) {
@@ -66,11 +66,13 @@ angular.module('calcworks.services')
         };
 
         //private, made this function a method to enable unit testing - maybe not needed
-        this.replaceMultiplyPercentageOperators= function(expression) {
+        this.replacePlaceholderOperators= function(expression) {
             // replace percentage operator with divide by 100 and multiply
-            expression = expression.replace(/x/g, '*');
-            expression = expression.replace(/%/g, '/ 100 *');
-            expression = expression.replace(/_/g, '-');
+            // replace _ (unary plus/min operator) with minus
+            var replaceChars= { "x":"*" , "_":"-", "%":"/ 100 *" };
+            var regex = new RegExp( Object.keys(replaceChars).join("|"), "g");
+            expression = expression.replace(regex,function(match) {return replaceChars[match];})
+
             return expression;
         };
 

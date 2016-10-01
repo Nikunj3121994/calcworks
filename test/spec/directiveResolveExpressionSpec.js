@@ -59,6 +59,23 @@ describe('Test directives', function () {
         expect(spanElement.eq(3).text()).toBe(' = 0');
     });
 
+    it('verify directive power', function () {
+        scope.expression = [2, "^", 3];
+        var calculation = new Calculation('id', 'name', scope.expression);
+        calculation.result = 8;
+        scope.result = 8;
+        scope.sheet = new Sheet('id', 'name', [calculation]);
+        compile(element)(scope);
+        mockBackEnd();
+        scope.$digest();
+        var spanElement = element.find('span');
+        expect(spanElement.length).toBe(4);
+        expect(spanElement.eq(0).text()).toBe('2');
+        expect(spanElement.eq(1).text()).toBe('^');
+        expect(spanElement.eq(2).text()).toBe('3');
+        expect(spanElement.eq(3).text()).toBe(' = 8');
+    });
+
     it('verify directive with zero result', function () {
         scope.expression = [3, "-", 3];
         var calculation = new Calculation('id', 'name', scope.expression);

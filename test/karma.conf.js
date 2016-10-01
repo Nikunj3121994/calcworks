@@ -23,6 +23,7 @@ module.exports = function(config) {
       'www/lib/angular-mocks/angular-mocks.js',
       'www/lib/ionic/js/ionic.js',
       'www/lib/ionic/js/ionic-angular.js',
+      'www/lib/mathjs/dist/math.js',
       'www/js/*.js',
       'www/js/**/*.js',
         // die test files staan ook al in de gulp file...

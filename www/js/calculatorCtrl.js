@@ -7,7 +7,7 @@ angular.module('calcworks.controllers')
 // de display(s) bijwerken
 //  en
 // de expressie opbouwen
-.controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout, calcService, sheetService, renameDialogs) {
+.controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout, calcService, sheetService, renameDialogs, selectFunctionDialog) {
 
 
     var lastVarName = '';
@@ -101,6 +101,13 @@ angular.module('calcworks.controllers')
         $scope.reset();
     };
 
+    $scope.selectOperator = function() {
+        var processFunctionSelected = function(operator) {
+            $scope.touchOperator(operator);
+        }
+        selectFunctionDialog.showSelectFunctionDialog(processFunctionSelected);
+    }
+
     // hier een scope functie van gemaakt om te kunnen testen
     $scope.processSelectedCalculation = function(calc) {
         selectedCalc = calc;  // onthoud welke calc is gekozen zodat we deze later kunnen gebruiken bij t bouwen vd expression
@@ -130,8 +137,7 @@ angular.module('calcworks.controllers')
         }
     };
 
-    // als we nog ooit met een eigen controller willen werken voor deze popup,
-    // zie http://stackoverflow.com/questions/27434262/pass-a-controller-to-ionicmodal
+    // dit kunnen we herschrijven zoals select-function-dialog
     $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
         scope: null,
         animation: 'slide-in-up'

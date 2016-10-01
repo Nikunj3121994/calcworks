@@ -8,5 +8,8 @@
     "angular-animate": "1.5.3",
     "angular": "1.5.3",
     "angular-sanitize": "1.5.3"
+  },
+  "dependencies": {
+    "mathjs": "^3.5.3"
   }
 }

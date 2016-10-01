@@ -270,7 +270,6 @@ XCode opties bij een Distributie maken
 Roadmap
 =======
 
-ipad support
 
 
 Issues
@@ -283,6 +282,7 @@ observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 Bugs
 -------
 
+- als er nog een eerste operand is, dan zou operator niets moeten doen
 
 iPad:
 

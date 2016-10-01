@@ -1,0 +1,22 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Select a function</h1>
+    </ion-header-bar>
+    <ion-content>
+        <ion-list>
+            <ion-item ng-click="clickSelectFunction('%')">
+                    <span> % </span>
+                    <span> (percentage) </span>
+            </ion-item>
+            <ion-item ng-click="clickSelectFunction('^')">
+                    <span> ^ </span>
+                    <span> (power) </span>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar bar-light">
+        <div class="buttons">
+            <button class="button button-assertive" ng-click="clickSelectFunction('')" >Cancel</button>
+        </div>
+    </ion-footer-bar>
+</ion-modal-view>
