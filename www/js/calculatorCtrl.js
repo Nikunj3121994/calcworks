@@ -7,7 +7,8 @@ angular.module('calcworks.controllers')
 // de display(s) bijwerken
 //  en
 // de expressie opbouwen
-.controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout, calcService, sheetService, renameDialogs, selectFunctionDialog) {
+.controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout,
+    calcService, sheetService, renameDialogs, selectFunctionDialog, selectCalculationDialog) {
 
 
     var lastVarName = '';
@@ -128,64 +129,6 @@ angular.module('calcworks.controllers')
         selectFunctionDialog.showSelectFunctionDialog($scope.processFunctionSelected);
     }
 
-    // hier een scope functie van gemaakt om te kunnen testen
-    $scope.processSelectedCalculation = function(calc) {
-        selectedCalc = calc;  // onthoud welke calc is gekozen zodat we deze later kunnen gebruiken bij t bouwen vd expression
-        var number = calc.result
-        if ($scope.plusMinusTyped) {
-            number = -number;
-        }
-        $scope.display = number.toString();
-        $scope.operatorStr = '';
-        $scope.numberEnteringState = false;  // er is niet een getal ingetikt
-        // make sure we start the expression (cause of the built-in delay)
-        if (!$scope.expressionEnteringState) {
-            expressionEnteringStart();
-        }
-    };
-
-    var selectCalculationModalClicked = function(calc) {
-        if (calc) {
-            if ($scope.editCalc !== calc) {
-                // OK clicked
-                $scope.processSelectedCalculation(calc);
-                $scope.closeModal();
-            }
-        } else {
-            // cancel clicked
-            $scope.closeModal();
-        }
-    };
-
-    // dit kunnen we herschrijven zoals select-function-dialog
-    $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
-        scope: null,
-        animation: 'slide-in-up'
-    }).then(function(modal) {
-        $scope.selectCalculationModal = modal;
-        modal.scope.sheet = undefined; // wait till openModal
-        modal.scope.notAllowedCalc = undefined; // wait till openModal
-        modal.scope.clickCalculation = selectCalculationModalClicked;
-    });
-
-    $scope.openModal = function() {
-        $scope.selectCalculationModal.scope.sheet = sheetService.getActiveSheet();
-        if ($scope.editMode === true) {
-            // we cannot allow the calc that is being edited to pick itself
-            $scope.selectCalculationModal.scope.notAllowedCalc = $scope.editCalc;
-        }
-        $scope.selectCalculationModal.show();
-    };
-
-    $scope.closeModal = function() {
-        $scope.selectCalculationModal.hide();
-    };
-
-    //Cleanup the modal when we're done with it!
-    $scope.$on('$destroy', function() {
-        $scope.selectCalculationModal.remove();
-    });
-
 
     $scope.touchDigit = function(n) {
         // merk op dat bij een nieuw getal we de expression niet wissen, inconsequent maar wel handig dat je
@@ -211,7 +154,6 @@ angular.module('calcworks.controllers')
     };
 
 
-
     $scope.touchDecimalSeparator = function() {
         $scope.numberEnteringState = true; // needed if someone starts with period char
         // make sure you can only add decimal separator once
@@ -221,6 +163,7 @@ angular.module('calcworks.controllers')
             $scope.display = ($scope.display) + '.';
         } // consider: else show/give error signal - however not sure if we can do this in every error situation
     };
+
 
     // de delete is tegelijkertijd ook een undo-operator
     // het zou beter zijn geweest om deze te implementeren door de states op een stack te zetten
@@ -292,8 +235,26 @@ angular.module('calcworks.controllers')
         }
     };
 
+    // hier een scope functie van gemaakt om te kunnen testen
+    $scope.processSelectedCalculation = function(calc) {
+        selectedCalc = calc;  // onthoud welke calc is gekozen zodat we deze later kunnen gebruiken bij t bouwen vd expression
+        var number = calc.result
+        if ($scope.plusMinusTyped) {
+            number = -number;
+        }
+        $scope.display = number.toString();
+        $scope.operatorStr = '';
+        $scope.numberEnteringState = false;  // er is niet een getal ingetikt
+        // make sure we start the expression (cause of the built-in delay)
+        if (!$scope.expressionEnteringState) {
+            expressionEnteringStart();
+        }
+    };
+
+
     $scope.touchRecall = function() {
-        $scope.openModal();
+        var notAllowedCalc = $scope.editMode === true ?  $scope.editCalc : null;
+        selectCalculationDialog.showSelectCalculationDialog($scope.sheet, notAllowedCalc, $scope.processSelectedCalculation);
     };
 
         //todo: de parameter wordt niet gebruikt....
