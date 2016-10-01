@@ -101,11 +101,31 @@ angular.module('calcworks.controllers')
         $scope.reset();
     };
 
-    $scope.selectOperator = function() {
-        var processFunctionSelected = function(operator) {
+    // private, but added to scope for unit testing
+    $scope.processFunctionSelected = function(operator) {
+        if (operator === 'inch-to-centimeters') {
+            // wat we nu in de display of als expression hebben daar maken we een calculatie van
+            // die voegen we toe aan de sheet met een unieke naam
+            var calc = createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
+            $scope.sheet.add(calc);
+            if (!$scope.processCalc(calc)) {
+                // the calculation gave an error so let's remove the calc
+                $scope.sheet.deleteCalculation(0);
+            } else {
+                var calcToCentimeters = createNewCalculation();
+                calcToCentimeters.name = calc.name + 'toCentimeters';
+                calcToCentimeters.expression = [ calc, 'x', 2.54];
+                $scope.expression = calcToCentimeters.expression;
+                $scope.sheet.add(calcToCentimeters);
+                doProcessCalc(calcToCentimeters)
+            }
+        } else {
             $scope.touchOperator(operator);
         }
-        selectFunctionDialog.showSelectFunctionDialog(processFunctionSelected);
+    }
+
+    $scope.selectAdvancedOperator = function() {
+        selectFunctionDialog.showSelectFunctionDialog($scope.processFunctionSelected);
     }
 
     // hier een scope functie van gemaakt om te kunnen testen
@@ -454,13 +474,7 @@ angular.module('calcworks.controllers')
         updateDisplayAndExpression();
         calc.expression = $scope.expression;
         try {
-            calcService.calculate($scope.sheet);
-            if (calc.result === null) throw new Error('Invalid calculation');   // e.g. cycle in calculations
-            if (!isFinite(calc.result)) throw new Error('Invalid calculation'); // e.g. divide by zero
-            $scope.result = calc.result;                 // type is number
-            $scope.display = calc.result.toString();     // type is string
-            sheetService.saveSheet($scope.sheet);
-            selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
+            doProcessCalc(calc);
         } catch (e) {
             //console.log('error exception: ' + e);
             result = false;
@@ -489,6 +503,18 @@ angular.module('calcworks.controllers')
          $scope.plusMinusTyped = false;
          return result;
     };
+
+    // assumes that calc is already added to sheet - needed for edit mode
+    // this function will calculate the sheet and display the result of calc
+    function doProcessCalc(calc) {
+        calcService.calculate($scope.sheet);
+        if (calc.result === null) throw new Error('Invalid calculation');   // e.g. cycle in calculations
+        if (!isFinite(calc.result)) throw new Error('Invalid calculation'); // e.g. divide by zero
+        $scope.result = calc.result;                 // type is number
+        $scope.display = calc.result.toString();     // type is string
+        sheetService.saveSheet($scope.sheet);
+        selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
+    }
 
 
 });

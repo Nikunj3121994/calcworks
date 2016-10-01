@@ -1104,5 +1104,15 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toEqual('1');
     });
 
+    it('verify processFunctionSelected', function() {
+        scope.touchDigit(2);
+        scope.touchDigit(5);
+        scope.processFunctionSelected('inch-to-centimeters');
+        expect(getActiveSheet().calculations[0].expression.length).toBe(3);
+        expect(getActiveSheet().calculations[0].result).toBe(25 * 2.54);
+        expect(getActiveSheet().calculations[1].expression.length).toBe(1);
+        expect(getActiveSheet().calculations[1].result).toBe(25);
+    });
+
 
 });
