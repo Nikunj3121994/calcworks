@@ -1,6 +1,6 @@
 'use strict';
 
-
+// a sheet has a name and contains an array of calculations
 var Sheet = function(par, name, calculations) {
     if (par === null) throw 'undefined parameter for Sheet constructor';
     if (typeof(par) === 'string') {
@@ -71,7 +71,7 @@ Sheet.prototype.getValueFor = function(calcName) {
     return this.getCalculationFor(calcName).result;
 };
 
-// unfortenately this is a pretty expensive operation, we need to go through each expression item
+// unfortunately this is a pretty expensive operation, we need to go through each expression item
 // to keep the referential integrity
 Sheet.prototype.deleteCalculation = function(index) {
     if (index >= this.calculations.length) throw new Error('Illegal argument, index: ' + index);
