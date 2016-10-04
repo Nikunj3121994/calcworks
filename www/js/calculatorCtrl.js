@@ -281,8 +281,7 @@ angular.module('calcworks.controllers')
         selectCalculationDialog.showSelectCalculationDialog($scope.sheet, notAllowedCalc, $scope.processSelectedCalculation);
     };
 
-        //todo: de parameter wordt niet gebruikt....
-    $scope.touchRemember = function(calc) {
+    $scope.touchRemember = function() {
         renameDialogs.showRenameCalculationDialog(selectedCalc, $scope.sheet);
     };
 
