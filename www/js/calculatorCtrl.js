@@ -104,7 +104,7 @@ angular.module('calcworks.controllers')
 
     // private, but added to scope for unit testing
     $scope.processFunctionSelected = function(operator) {
-        if (operator === 'inch-to-centimeters') {
+        if (operator.length > 1) {
             // wat we nu in de display of als expression hebben daar maken we een calculatie van
             // die voegen we toe aan de sheet met een unieke naam
             var calc = createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
@@ -113,12 +113,36 @@ angular.module('calcworks.controllers')
                 // the calculation gave an error so let's remove the calc
                 $scope.sheet.deleteCalculation(0);
             } else {
-                var calcToCentimeters = createNewCalculation();
-                calcToCentimeters.name = calc.name + 'toCentimeters';
-                calcToCentimeters.expression = [ calc, 'x', 2.54];
-                $scope.expression = calcToCentimeters.expression;
-                $scope.sheet.add(calcToCentimeters);
-                doProcessCalc(calcToCentimeters)
+                var conversionCalc = createNewCalculation();
+                if (operator === 'inch-to-centimeters') {
+                    conversionCalc.name = calc.name + 'toCentimeters';
+                    conversionCalc.expression = [ calc, 'x', 2.54];
+                } else
+                if (operator === 'centimeters-to-inch') {
+                    conversionCalc.name = calc.name + 'toInches';
+                    conversionCalc.expression = [ calc, '/', 2.54];
+                } else
+                if (operator === 'kilometers-to-miles') {
+                    conversionCalc.name = calc.name + 'toMiles';
+                    conversionCalc.expression = [ calc, '/', 1.609344];
+                } else
+                if (operator === 'miles-to-kilometers') {
+                    conversionCalc.name = calc.name + 'toKilometers';
+                    conversionCalc.expression = [ calc, 'x', 1.609344];
+                } else
+                if (operator === 'fahrenheit-to-celcius') {
+                    conversionCalc.name = calc.name + 'toCelcius';
+                    conversionCalc.expression = [ '(', calc, '-', 32.0, ')', '/', 1.80];
+                } else
+                if (operator === 'celcius-to-fahrenheit') {
+                    conversionCalc.name = calc.name + 'toFahrenheit';
+                    conversionCalc.expression = [ calc, 'x', 1.8, '+', 32.0];
+                } else {
+                    alert('invalid function: ' + operator);
+                }
+                $scope.expression = conversionCalc.expression;
+                $scope.sheet.add(conversionCalc);
+                doProcessCalc(conversionCalc)
             }
         } else {
             $scope.touchOperator(operator);

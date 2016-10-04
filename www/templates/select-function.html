@@ -4,6 +4,9 @@
     </ion-header-bar>
     <ion-content>
         <ion-list>
+            <ion-item class="select-function-header">
+                    <span> Basic </span>
+            </ion-item>
             <ion-item ng-click="clickSelectFunction('%')">
                     <span> % </span>
                     <span> (percentage) </span>
@@ -12,8 +15,31 @@
                     <span> ^ </span>
                     <span> (power) </span>
             </ion-item>
+            <ion-item class="select-function-header">
+                <span> Conversion </span>
+            </ion-item>
             <ion-item ng-click="clickSelectFunction('inch-to-centimeters')">
                     <span> inch to centimeters </span>
+                    <span> </span>
+            </ion-item>
+            <ion-item ng-click="clickSelectFunction('centimeters-to-inch')">
+                    <span> centimeters to inch </span>
+                    <span> </span>
+            </ion-item>
+            <ion-item ng-click="clickSelectFunction('miles-to-kilometers')">
+                    <span> miles to kilometers </span>
+                    <span> </span>
+            </ion-item>
+            <ion-item ng-click="clickSelectFunction('kilometers-to-miles')">
+                    <span> kilometers to miles </span>
+                    <span> </span>
+            </ion-item>
+            <ion-item ng-click="clickSelectFunction('celcius-to-fahrenheit')">
+                    <span> Celcius to Fahrenheit </span>
+                    <span> </span>
+            </ion-item>
+            <ion-item ng-click="clickSelectFunction('fahrenheit-to-celcius')">
+                    <span> Fahrenheit to Celcius </span>
                     <span> </span>
             </ion-item>
         </ion-list>

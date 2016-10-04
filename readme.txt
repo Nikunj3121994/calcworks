@@ -281,7 +281,7 @@ observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 
 Bugs
 -------
-
+- afbeelden van een getal in expressie toont geen 1000 sep
 - editen met een expressie gaat niet goed. Ik denk circulaire expressie
 - Het is ook niet helemaal duidelijk wat de OK is als je een edit actie doet...
 - als er nog een eerste operand is, dan zou operator niets moeten doen

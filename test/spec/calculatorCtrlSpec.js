@@ -1112,6 +1112,31 @@ describe('Test controller CalculatorCtrl', function () {
         expect(getActiveSheet().calculations[0].result).toBe(25 * 2.54);
         expect(getActiveSheet().calculations[1].expression.length).toBe(1);
         expect(getActiveSheet().calculations[1].result).toBe(25);
+        scope.reset();
+        scope.touchDigit(2);
+        scope.touchDigit(0);
+        scope.processFunctionSelected('centimeters-to-inch');
+        expect(getActiveSheet().calculations[0].result).toBe(7.874015748031496);
+        scope.reset();
+        scope.touchDigit(2);
+        scope.touchDigit(5);
+        scope.processFunctionSelected('miles-to-kilometers');
+        expect(getActiveSheet().calculations[0].result).toBe(40.2336);
+        scope.reset();
+        scope.touchDigit(2);
+        scope.touchDigit(5);
+        scope.processFunctionSelected('kilometers-to-miles');
+        expect(getActiveSheet().calculations[0].result).toBe(15.534279805933348);
+        scope.reset();
+        scope.touchDigit(6);
+        scope.touchDigit(0);
+        scope.processFunctionSelected('fahrenheit-to-celcius');
+        expect(getActiveSheet().calculations[0].result).toBe(15.555555555555555);
+        scope.reset();
+        scope.touchDigit(1);
+        scope.touchDigit(8);
+        scope.processFunctionSelected('celcius-to-fahrenheit');
+        expect(getActiveSheet().calculations[0].result).toBe(64.4);
     });
 
 

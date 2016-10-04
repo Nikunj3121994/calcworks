@@ -236,6 +236,10 @@ em,i{
     color: #d3d3d3;
 }
 
+.select-function-header {
+    background-color: lightgrey;
+}
+
 
 /* favorite icon color when selected */
 .favoriteOn {
