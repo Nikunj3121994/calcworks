@@ -34,6 +34,7 @@ describe('calculator', function() {
     expect(historyTab.getFirstSheetNumberOfCalcs()).toBe(0);
   });
 
+
   it('test demo scenario', function() {
     var calculatorTab = new pageobjects.CalculatorTab();
 
@@ -58,7 +59,10 @@ describe('calculator', function() {
     var nameDialog = new pageobjects.RenameDialog();
     nameDialog.giveName('amount');
 
-    calculatorTab.clickBtnPercentage();
+    calculatorTab.clickBtnFunction();
+    var selectFunctionDialog = new pageobjects.SelectFunctionDialog();
+    selectFunctionDialog.selectPercentage();
+
     calculatorTab.recall('interest rate');
     calculatorTab.clickBtnEquals();
     expect(calculatorTab.getDisplay()).toEqual('8,400');

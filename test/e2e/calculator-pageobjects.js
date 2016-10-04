@@ -28,7 +28,8 @@ var CalculatorTab = function() {
     var btn8 = element(by.buttonText('8'));
     var btn9 = element(by.buttonText('9'));
     var btnPlus =  element(by.buttonText('+'));
-    var btnPercentage =  element(by.buttonText('%'));
+    //var btnPercentage =  element(by.buttonText('%'));
+    var btnFunction =  element(by.buttonText('f(x)'));
     var btnPlusMin =  element(by.buttonText('±'));
     var btnEquals = element(by.buttonText('='));
     var btnClear = element(by.buttonText('Clear'));
@@ -79,6 +80,10 @@ var CalculatorTab = function() {
 
     this.clickBtnPercentage = function() {
         btnPercentage.click();
+    }
+
+    this.clickBtnFunction = function() {
+        btnFunction.click();
     }
 
     this.clickBtnPlusMin = function() {
@@ -182,7 +187,7 @@ var HistoryTab = function() {
 
 }
 
-// assumes an already open rename dialog, can be used for calculations and sheets
+// assumes an already open rename dialog, dialog can be used for calculations and sheets
 var RenameDialog = function() {
     // by model does not work
     var inputField =  element(By.xpath('//input[@ng-model="data.name"]'));
@@ -195,7 +200,18 @@ var RenameDialog = function() {
 };
 
 
+// assumes an already open select function dialog
+var SelectFunctionDialog = function() {
+    var percentageItem =  element(By.id('percentage'));
+
+    this.selectPercentage = function(name) {
+        percentageItem.click();
+    }
+};
+
+
 module.exports.CalculatorTab = CalculatorTab;
 module.exports.ActiveSheetTab = ActiveSheetTab;
 module.exports.HistoryTab = HistoryTab;
 module.exports.RenameDialog = RenameDialog;
+module.exports.SelectFunctionDialog = SelectFunctionDialog;
