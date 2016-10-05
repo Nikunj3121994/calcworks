@@ -8,17 +8,23 @@ angular.module('calcworks.services')
         // we use the deferred pattern to make the sync operations also async
         var deferred = $q.defer();
         var conversionCalc = sheet.createNewCalculation();
-        var processExchangeRateResponse = function(rate) {
+        var processExchangeRateResponseEURtoUSD = function(rate) {
             console.log('rate: ' + rate);
                 conversionCalc.expression = [ calc, 'x', Number(rate) ];
                 deferred.resolve(conversionCalc);
             };
+        var processExchangeRateResponseUSDtoEUR = function(rate) {
+            console.log('rate: ' + rate);
+                var inverseRate = 1 / rate;
+                conversionCalc.expression = [ calc, 'x', Number(inverseRate) ];
+                deferred.resolve(conversionCalc);
+            };
         if (operator === 'usd-to-eur') {
             conversionCalc.name = calc.name + 'toUSD';
-            this.getUSDtoEUR(processExchangeRateResponse);
+            this.getUSD_EUR(processExchangeRateResponseUSDtoEUR);
         } else if (operator === 'eur-to-usd') {
             conversionCalc.name = calc.name + 'toEUR';
-            this.getEURtoUSD(processExchangeRateResponse);
+            this.getUSD_EUR(processExchangeRateResponseEURtoUSD);
         } else {
             if (operator === 'inch-to-centimeters') {
                 conversionCalc.name = calc.name + 'toCentimeters';
@@ -54,7 +60,7 @@ angular.module('calcworks.services')
 
 
 
-    this.getUSDtoEUR = function(callback) {
+    this.getUSD_EUR = function(callback) {
         var processError = function(response) {
             console.log('processError: ' + JSON.stringify(response));
         }
@@ -77,27 +83,6 @@ angular.module('calcworks.services')
     };
 
 
-    this.getEURtoUSD = function(callback) {
-        var processError = function(response) {
-            console.log('processError: ' + JSON.stringify(response));
-        }
-
-        var processResponse = function(response) {
-            var rate = response.data.dataSets[0].series['0:0:0:0:0'].observations['0'][0];
-            callback(rate);
-        }
-
-        var request = {
-            method: 'GET',
-            // D: daily,  SP00.A is een code voor exchange rate service
-            url: 'https://sdw-wsrest.ecb.europa.eu/service/data/FX/D.EUR.USD.SP00.A?lastNObservations=1',
-            headers: {
-                'Accept'  : 'application/vnd.sdmx.data+json;version=1.0.0-cts',
-            }
-        }
-        $http(request)
-            .then(processResponse, processError);
-    };
 
 
 
