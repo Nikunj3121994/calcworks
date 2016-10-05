@@ -8,6 +8,8 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     var CalculatorCtrl,
+        conversionService,
+        httpBackend,
         scope,
         sheet = new Sheet('id', 'foo', []);
 
@@ -16,9 +18,10 @@ describe('Test controller CalculatorCtrl', function () {
     }
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope, calcService, sheetService) {
+    beforeEach(inject(function ($controller, $rootScope, $q, $httpBackend, calcService, sheetService, _conversionService_) {
         scope = $rootScope.$new();
-        //rootScope = $rootScope;
+        conversionService = _conversionService_;
+        httpBackend = $httpBackend;
         // we need to supply an empty sheet for each test to make sure everything is 'clean'
         // however, strictly speaking this should not be necessary, I suspect that one failing test is a bug
         // on the other hand some tests require that the first variable is 'calc1'
@@ -33,6 +36,14 @@ describe('Test controller CalculatorCtrl', function () {
         // loaded from storage
         scope._test_reset();
     }));
+
+
+    function mockBackEnd() {
+        httpBackend.expectGET('templates/tab-sheets.html').respond(200); //mimicking the AJAX call
+        httpBackend.expectGET('templates/sheet-detail.html').respond(200);
+        httpBackend.expectGET('templates/tab-calculator.html').respond(200);
+        httpBackend.expectGET('templates/tabs.html').respond(200);
+    }
 
 
     it('verify touch digit', function () {
@@ -1104,39 +1115,18 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toEqual('1');
     });
 
+
     it('verify processFunctionSelected', function() {
         scope.touchDigit(2);
         scope.touchDigit(5);
+        var calc = sheet.createNewCalculation();
         scope.processFunctionSelected('inch-to-centimeters');
+        mockBackEnd();
+        scope.$digest(); // needed to trigger the then()
         expect(getActiveSheet().calculations[0].expression.length).toBe(3);
         expect(getActiveSheet().calculations[0].result).toBe(25 * 2.54);
         expect(getActiveSheet().calculations[1].expression.length).toBe(1);
         expect(getActiveSheet().calculations[1].result).toBe(25);
-        scope.reset();
-        scope.touchDigit(2);
-        scope.touchDigit(0);
-        scope.processFunctionSelected('centimeters-to-inch');
-        expect(getActiveSheet().calculations[0].result).toBe(7.874015748031496);
-        scope.reset();
-        scope.touchDigit(2);
-        scope.touchDigit(5);
-        scope.processFunctionSelected('miles-to-kilometers');
-        expect(getActiveSheet().calculations[0].result).toBe(40.2336);
-        scope.reset();
-        scope.touchDigit(2);
-        scope.touchDigit(5);
-        scope.processFunctionSelected('kilometers-to-miles');
-        expect(getActiveSheet().calculations[0].result).toBe(15.534279805933348);
-        scope.reset();
-        scope.touchDigit(6);
-        scope.touchDigit(0);
-        scope.processFunctionSelected('fahrenheit-to-celcius');
-        expect(getActiveSheet().calculations[0].result).toBe(15.555555555555555);
-        scope.reset();
-        scope.touchDigit(1);
-        scope.touchDigit(8);
-        scope.processFunctionSelected('celcius-to-fahrenheit');
-        expect(getActiveSheet().calculations[0].result).toBe(64.4);
     });
 
 

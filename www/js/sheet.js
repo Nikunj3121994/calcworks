@@ -57,6 +57,20 @@ Sheet.prototype.getLastNumberFromCalcName = function() {
     return result;
 };
 
+Sheet.prototype.getLastCalcName = function() {
+    return 'calc' + this.getLastNumberFromCalcName();
+};
+
+
+Sheet.prototype.createNewCalculation = function() {
+    var name = generateCalcName(this.getLastCalcName());
+    //lastVarName = name;
+    var id = generateUUID();
+    var calc = new Calculation(id, name, []);
+    return calc;
+}
+
+
 Sheet.prototype.getCalculationFor = function(calcName) {
     var arrayLength = this.calculations.length;
     for (var i = 0; i < arrayLength; i++) {

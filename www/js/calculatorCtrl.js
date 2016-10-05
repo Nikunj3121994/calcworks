@@ -8,10 +8,10 @@ angular.module('calcworks.controllers')
 //  en
 // de expressie opbouwen
 .controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout,
-    calcService, sheetService, renameDialogs, selectFunctionDialog, selectCalculationDialog) {
+    calcService, sheetService, conversionService, renameDialogs, selectFunctionDialog, selectCalculationDialog) {
 
 
-    var lastVarName = '';
+    //var lastVarName = '';
     var selectedCalc;  // een geselecteerde calc - via recall of een ander tabblad of de vorige uitkomst
     var state = $stateParams;  // dit moeten we in app.js in de rootscope stoppen
 
@@ -54,7 +54,7 @@ angular.module('calcworks.controllers')
         $scope.sheet = sheetService.getActiveSheet();
         // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
         // 'calc' is used in renameDialog, so keep them in sync. Consider using Angular's constant service.
-        lastVarName = 'calc' + $scope.sheet.getLastNumberFromCalcName();
+        //lastVarName = 'calc' + $scope.sheet.getLastNumberFromCalcName();
         selectedCalc = null;
         $scope.reset();
     }
@@ -62,7 +62,7 @@ angular.module('calcworks.controllers')
     // test utility method to reset the var names
     $scope._test_reset = function() {
         $scope.sheet.calculations = [];
-        lastVarName = '';
+        //lastVarName = '';
         selectedCalc = null;
         $scope.reset();
     };
@@ -102,47 +102,27 @@ angular.module('calcworks.controllers')
         $scope.reset();
     };
 
+
     // private, but added to scope for unit testing
+    // an advanced operator like % or ^ or a conversion function has been selected by the user in the dialog
     $scope.processFunctionSelected = function(operator) {
         if (operator.length > 1) {
             // wat we nu in de display of als expression hebben daar maken we een calculatie van
             // die voegen we toe aan de sheet met een unieke naam
-            var calc = createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
+            var calc = $scope.sheet.createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
             $scope.sheet.add(calc);
             if (!$scope.processCalc(calc)) {
                 // the calculation gave an error so let's remove the calc
                 $scope.sheet.deleteCalculation(0);
             } else {
-                var conversionCalc = createNewCalculation();
-                if (operator === 'inch-to-centimeters') {
-                    conversionCalc.name = calc.name + 'toCentimeters';
-                    conversionCalc.expression = [ calc, 'x', 2.54];
-                } else
-                if (operator === 'centimeters-to-inch') {
-                    conversionCalc.name = calc.name + 'toInches';
-                    conversionCalc.expression = [ calc, '/', 2.54];
-                } else
-                if (operator === 'kilometers-to-miles') {
-                    conversionCalc.name = calc.name + 'toMiles';
-                    conversionCalc.expression = [ calc, '/', 1.609344];
-                } else
-                if (operator === 'miles-to-kilometers') {
-                    conversionCalc.name = calc.name + 'toKilometers';
-                    conversionCalc.expression = [ calc, 'x', 1.609344];
-                } else
-                if (operator === 'fahrenheit-to-celcius') {
-                    conversionCalc.name = calc.name + 'toCelcius';
-                    conversionCalc.expression = [ '(', calc, '-', 32.0, ')', '/', 1.80];
-                } else
-                if (operator === 'celcius-to-fahrenheit') {
-                    conversionCalc.name = calc.name + 'toFahrenheit';
-                    conversionCalc.expression = [ calc, 'x', 1.8, '+', 32.0];
-                } else {
-                    alert('invalid function: ' + operator);
-                }
-                $scope.expression = conversionCalc.expression;
-                $scope.sheet.add(conversionCalc);
-                doProcessCalc(conversionCalc)
+                var conversionCalcPromise = conversionService.convert(operator, $scope.sheet, calc);
+                conversionCalcPromise
+                    .then(function(conversionCalc) {
+                            $scope.sheet.add(conversionCalc);
+                            $scope.expression = conversionCalc.expression;
+                            doProcessCalc(conversionCalc)
+                           },
+                           function() { alert('Exchange rate service is not available')});
             }
         } else {
             $scope.touchOperator(operator);
@@ -399,15 +379,6 @@ angular.module('calcworks.controllers')
             // (close bracket can trigger this path)
     }
 
-    // we could move this function to Sheet
-    function createNewCalculation() {
-        var name = generateCalcName(lastVarName);
-        lastVarName = name;
-        var id = generateUUID();
-        var calc = new Calculation(id, name, []);
-        return calc;
-    }
-
 
     // in tegenstelling tot andere 'touches' bestaat de equals uit 2 zaken:
     // verwerkerking van de input tot aan de '=' en daarna het resultaat uitrekenen/tonen
@@ -440,7 +411,7 @@ angular.module('calcworks.controllers')
         if ($scope.result && $scope.result.toString() === $scope.display) {
             this.touchRemember();
         } else {
-            var calc = createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
+            var calc = $scope.sheet.createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
             $scope.sheet.add(calc);
             if (!$scope.processCalc(calc)) {
                 // the calculation gave an error so let's remove the calc
