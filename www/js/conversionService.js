@@ -5,23 +5,29 @@ angular.module('calcworks.services')
 
     // returns a promise
     this.convert = function(operator, sheet, calc) {
-        // we use the deferred pattern to make the sync operations also async
+        // we use the deferred pattern to make the sync operations also to be treated async
         var deferred = $q.defer();
         var conversionCalc = sheet.createNewCalculation();
         var processExchangeRateResponseEURtoUSD = function(rate) {
-                var rateCalc = sheet.createNewCalculation('euro to usd rate');
-                rateCalc.expression = [Number(rate)];
-                rateCalc.result = Number(rate);
-                sheet.addCalculation(rateCalc);
+                var rateCalc = sheet.searchCalculation('euro to usd rate');
+                if (!rateCalc) {
+                    rateCalc = sheet.createNewCalculation('euro to usd rate');
+                    rateCalc.expression = [Number(rate)];
+                    rateCalc.result = Number(rate);
+                    sheet.addCalculation(rateCalc);
+                }
                 conversionCalc.expression = [ calc, 'x', rateCalc ];
                 deferred.resolve(conversionCalc);
             };
         var processExchangeRateResponseUSDtoEUR = function(rate) {
-                var rateCalc = sheet.createNewCalculation('usd to euro rate');
-                var inverseRate = 1 / rate;
-                rateCalc.expression = [Number(inverseRate)];
-                rateCalc.result = Number(inverseRate);
-                sheet.addCalculation(rateCalc);
+                var rateCalc = sheet.searchCalculation('usd to euro rate');
+                if (!rateCalc) {
+                    rateCalc = sheet.createNewCalculation('usd to euro rate');
+                    var inverseRate = 1 / rate;
+                    rateCalc.expression = [Number(inverseRate)];
+                    rateCalc.result = Number(inverseRate);
+                    sheet.addCalculation(rateCalc);
+                }
                 conversionCalc.expression = [ calc, 'x', rateCalc ];
                 deferred.resolve(conversionCalc);
             };

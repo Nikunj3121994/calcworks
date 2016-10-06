@@ -44,6 +44,15 @@ describe('Test sheet', function () {
     });
 
 
+    it('verify searchCalculation', function() {
+        var sheet = new Sheet('id', 'foo', []);
+        var calc1 = new Calculation('id', 'calc1', []);
+        sheet.addCalculation(calc1);
+        expect(sheet.searchCalculation('calc1')).toEqual(calc1);
+        expect(sheet.searchCalculation('calcdsfsd')).toBeNull;
+    });
+
+
     it('verify getCalculationFor', function() {
         var sheet = new Sheet('id', 'foo', []);
         var calc1 = new Calculation('id', 'calc1', []);

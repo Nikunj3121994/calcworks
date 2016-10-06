@@ -110,14 +110,26 @@ describe('Test conversionService', function () {
             });
         mockBackEnd();
         httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
+        // scope.$digest(); is not needed because of the flush()
         httpBackend.flush();
-        // scope.$digest(); is not needed, probably because of the flush()
+        // verify a new calculation is added to the sheet
+        expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
         expect(rateCalc.name).toBe('usd to euro rate');
         expect(rateCalc.expression).toEqual([ 0.8333333333333334]);
         expect(rateCalc.result).toBe( 0.8333333333333334);
         expect(convertedCalc.result).toBeNull();
         expect(convertedCalc.expression).toEqual([calc, 'x', rateCalc ]);
+
+        // now we do it for a second time and the rate calculation should be re-used
+        convertedCalcPromise = conversionService.convert('usd-to-eur', sheet2, calc);
+        convertedCalcPromise
+            .then(function(returned) {
+                convertedCalc = returned;
+            });
+        httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
+        httpBackend.flush();
+        expect(sheet2.calculations.length).toBe(1);
     });
 
 
@@ -131,12 +143,34 @@ describe('Test conversionService', function () {
         mockBackEnd();
         httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
                 httpBackend.flush();
+        expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
         expect(rateCalc.name).toBe('euro to usd rate');
         expect(rateCalc.expression).toEqual([1.2]);
         expect(rateCalc.result).toBe(1.2);
         expect(convertedCalc.result).toBeNull();
         expect(convertedCalc.expression).toEqual([calc, 'x', rateCalc ]);
+
+        // now we do it for a second time and the rate calculation should be re-used
+        convertedCalcPromise = conversionService.convert('eur-to-usd', sheet2, calc);
+        convertedCalcPromise
+            .then(function(returned) {
+                convertedCalc = returned;
+            });
+        httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
+        httpBackend.flush();
+        expect(sheet2.calculations.length).toBe(1);
+        expect(convertedCalc.expression).toEqual([calc, 'x', rateCalc]);
+
+        // now we do it for other conversion
+        convertedCalcPromise = conversionService.convert('usd-to-eur', sheet2, calc);
+        convertedCalcPromise
+            .then(function(returned) {
+                convertedCalc = returned;
+            });
+        httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
+        httpBackend.flush();
+        expect(sheet2.calculations.length).toBe(2);
     });
 
 

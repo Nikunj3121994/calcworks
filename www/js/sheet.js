@@ -75,14 +75,21 @@ Sheet.prototype.createNewCalculation = function(optionalName) {
 }
 
 
-Sheet.prototype.getCalculationFor = function(calcName) {
+// returns null if not found
+Sheet.prototype.searchCalculation = function(calcName) {
     var arrayLength = this.calculations.length;
     for (var i = 0; i < arrayLength; i++) {
         if (this.calculations[i].name === calcName) {
             return this.calculations[i];
         }
     }
-    throw new Error('Calculation name "' + calcName + '" not found');
+    return null;
+};
+
+// throws exception if not found
+Sheet.prototype.getCalculationFor = function(calcName) {
+    var calc = this.searchCalculation(calcName);
+    if (calc) { return calc } else throw new Error('Calculation name "' + calcName + '" not found');
 };
 
 Sheet.prototype.getValueFor = function(calcName) {
