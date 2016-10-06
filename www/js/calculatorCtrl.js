@@ -110,7 +110,7 @@ angular.module('calcworks.controllers')
             // wat we nu in de display of als expression hebben daar maken we een calculatie van
             // die voegen we toe aan de sheet met een unieke naam
             var calc = $scope.sheet.createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
-            $scope.sheet.add(calc);
+            $scope.sheet.addCalculation(calc);
             if (!$scope.processCalc(calc)) {
                 // the calculation gave an error so let's remove the calc
                 $scope.sheet.deleteCalculation(0);
@@ -118,7 +118,7 @@ angular.module('calcworks.controllers')
                 var conversionCalcPromise = conversionService.convert(operator, $scope.sheet, calc);
                 conversionCalcPromise
                     .then(function(conversionCalc) {
-                            $scope.sheet.add(conversionCalc);
+                            $scope.sheet.addCalculation(conversionCalc);
                             $scope.expression = conversionCalc.expression;
                             doProcessCalc(conversionCalc)
                            },
@@ -412,7 +412,7 @@ angular.module('calcworks.controllers')
             this.touchRemember();
         } else {
             var calc = $scope.sheet.createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
-            $scope.sheet.add(calc);
+            $scope.sheet.addCalculation(calc);
             if (!$scope.processCalc(calc)) {
                 // the calculation gave an error so let's remove the calc
                 $scope.sheet.deleteCalculation(0);

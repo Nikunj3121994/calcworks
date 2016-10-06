@@ -40,8 +40,7 @@ Sheet.prototype.nrOfCalcs = function() {
     return this.calculations.length;
 };
 
-//todo: rename to addCalculation for consistency and clearity
-Sheet.prototype.add = function(calculation) {
+Sheet.prototype.addCalculation = function(calculation) {
     this.calculations.splice(0, 0, calculation);
 };
 

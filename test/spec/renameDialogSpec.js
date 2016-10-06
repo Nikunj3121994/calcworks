@@ -26,7 +26,7 @@ describe('Test renameDialog', function () {
     it('verify rename calculation', function() {
         var calc = new Calculation('id', 'calc1', []);
         var sheet = sheetService.getActiveSheet();
-        sheet.add(calc);
+        sheet.addCalculation(calc);
         renameDialogs.showRenameCalculationDialog(calc, sheet);
         deferred.resolve('newcalcvalue');
         $scope.$apply();  // dit is nodig om de resolve een zetje te geven, deze gaat door de angular digest cycle

@@ -89,7 +89,7 @@ describe('Test storageService', function () {
     it('verify _sheetToJSON', function() {
         var sheet = new Sheet('id1', 'Sheet 1', []);
         var calc1 = new Calculation('idc1', "calc1", [123]);
-        sheet.add(calc1);
+        sheet.addCalculation(calc1);
         var json = storageService._sheetToJSON(sheet);
         expect(json).toContain('"id":"id1","name":"Sheet 1","calculations":[{"id":"idc1","name":"calc1","expression":[123]');
         var returnedSheet = storageService._jsonToSheet(json);
@@ -97,7 +97,7 @@ describe('Test storageService', function () {
         expect(returnedSheet.calculations.length).toEqual(1);
 
         var calc2 = new Calculation('idc2', "calc2", [calc1, '+', 3]);
-        sheet.add(calc2);
+        sheet.addCalculation(calc2);
         json = storageService._sheetToJSON(sheet);
         returnedSheet = storageService._jsonToSheet(json);
         expect(returnedSheet.name).toEqual('Sheet 1');

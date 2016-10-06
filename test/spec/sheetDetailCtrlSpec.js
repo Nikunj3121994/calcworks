@@ -31,7 +31,7 @@ describe('Test sheetDetailCtrl', function () {
         var sheet1 = sheetService.getActiveSheet();
         sheet1.name = 'sheet1';
         var calc = new Calculation('id', 'calc1', []);
-        sheet1.add(calc);
+        sheet1.addCalculation(calc);
         scope.deleteCalculation(0);
         expect(sheetService.saveSheet).toHaveBeenCalled();
         var returnedSheet = sheetService.saveSheet.calls.argsFor(0)[0];
@@ -44,9 +44,9 @@ describe('Test sheetDetailCtrl', function () {
         var sheet1 = sheetService.getActiveSheet();
         sheet1.name = 'sheet1';
         var calc1 = new Calculation('id1', 'calc1', []);
-        sheet1.add(calc1);
+        sheet1.addCalculation(calc1);
         var calc2 = new Calculation('id2', 'calc2', []);
-        sheet1.add(calc2);
+        sheet1.addCalculation(calc2);
         scope.reorderItem(null, 0, 1);
         expect(sheetService.saveSheet).toHaveBeenCalled();
         var returnedSheet = sheetService.saveSheet.calls.argsFor(0)[0];

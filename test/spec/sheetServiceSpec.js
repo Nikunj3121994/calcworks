@@ -24,7 +24,7 @@ describe('Test sheetService', function () {
         expect(sheet1.name).toBe('sheet1');
         expect(sheet1.calculations.length).toBe(0);
         var calc = new Calculation('id', 'varname', []);
-        sheet1.add(calc);
+        sheet1.addCalculation(calc);
 
         sheet1 = sheetService.getSheet(sheet1.id);
         expect(sheet1.calculations.length).toBe(1);

@@ -95,7 +95,7 @@ describe('Test directives', function () {
         scope.sheet = new Sheet('id', 'name', [calc1]);
         var calc2 = new Calculation('id', 'calc1', [10, "-", calc1]);
         calc2.result = 2;
-        scope.sheet.add(calc2);
+        scope.sheet.addCalculation(calc2);
         scope.index = 0;
         element = angular.element(
             '<resolve-sheet index="index" sheet="sheet"></resolve-sheet>');

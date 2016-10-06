@@ -12,7 +12,7 @@ angular.module('calcworks.services')
                 var rateCalc = sheet.createNewCalculation('euro to usd rate');
                 rateCalc.expression = [Number(rate)];
                 rateCalc.result = Number(rate);
-                sheet.add(rateCalc);
+                sheet.addCalculation(rateCalc);
                 conversionCalc.expression = [ calc, 'x', rateCalc ];
                 deferred.resolve(conversionCalc);
             };
@@ -21,7 +21,7 @@ angular.module('calcworks.services')
                 var inverseRate = 1 / rate;
                 rateCalc.expression = [Number(inverseRate)];
                 rateCalc.result = Number(inverseRate);
-                sheet.add(rateCalc);
+                sheet.addCalculation(rateCalc);
                 conversionCalc.expression = [ calc, 'x', rateCalc ];
                 deferred.resolve(conversionCalc);
             };
