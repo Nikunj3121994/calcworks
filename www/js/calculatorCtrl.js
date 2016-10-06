@@ -463,8 +463,14 @@ angular.module('calcworks.controllers')
     // this function will calculate the sheet and display the result of calc
     function doProcessCalc(calc) {
         calcService.calculate($scope.sheet);
-        if (calc.result === null) throw new Error('Invalid calculation');   // e.g. cycle in calculations
-        if (!isFinite(calc.result)) throw new Error('Invalid calculation'); // e.g. divide by zero
+        if (calc.result === null) {
+            console.log('result null for ' + calc.name + ' with expression '+ JSON.stringify(calc.expression));
+            throw new Error('Invalid calculation');   // e.g. cycle in calculations
+        }
+        if (!isFinite(calc.result)) {
+            console.log('result not isFinite for ' + calc.name + ' with expression '+ JSON.stringify(calc.expression));
+            throw new Error('Invalid calculation'); // e.g. divide by zero
+        }
         $scope.result = calc.result;                 // type is number
         $scope.display = calc.result.toString();     // type is string
         sheetService.saveSheet($scope.sheet);

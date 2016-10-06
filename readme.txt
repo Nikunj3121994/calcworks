@@ -132,6 +132,10 @@ $ karma start --single-run
 Of via de termimal de testen continue runnen:
 $ karma start karma.conf.js --auto-watch
 
+De testen debuggen:
+$ karma start karma.conf.js --auto-watch --debug
+Klik dan op de karma DEBUG knop in de page. Open Chrome dev tools en zet een breakpoint en reload de page.
+
 Mbv IntelliJ kan ook, karma plugin installeren en via rechtermuistoets runnen als je op karma file staat
 
 

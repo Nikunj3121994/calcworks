@@ -17,6 +17,13 @@ describe('Test sheet', function () {
 
     });
 
+    it('verify createNewCalculation', function(){
+        var sheet = new Sheet('id', 'foo', []);
+        var calc = sheet.createNewCalculation();
+        expect(calc.name).toBe('calc1');
+        var calc = sheet.createNewCalculation('a name');
+        expect(calc.name).toBe('a name');
+    });
 
     it('verify getValueFor', function() {
         var sheet = new Sheet('id', 'foo', []);

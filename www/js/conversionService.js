@@ -9,14 +9,20 @@ angular.module('calcworks.services')
         var deferred = $q.defer();
         var conversionCalc = sheet.createNewCalculation();
         var processExchangeRateResponseEURtoUSD = function(rate) {
-            console.log('rate: ' + rate);
-                conversionCalc.expression = [ calc, 'x', Number(rate) ];
+                var rateCalc = sheet.createNewCalculation('euro to usd rate');
+                rateCalc.expression = [Number(rate)];
+                rateCalc.result = Number(rate);
+                sheet.add(rateCalc);
+                conversionCalc.expression = [ calc, 'x', rateCalc ];
                 deferred.resolve(conversionCalc);
             };
         var processExchangeRateResponseUSDtoEUR = function(rate) {
-            console.log('rate: ' + rate);
+                var rateCalc = sheet.createNewCalculation('usd to euro rate');
                 var inverseRate = 1 / rate;
-                conversionCalc.expression = [ calc, 'x', Number(inverseRate) ];
+                rateCalc.expression = [Number(inverseRate)];
+                rateCalc.result = Number(inverseRate);
+                sheet.add(rateCalc);
+                conversionCalc.expression = [ calc, 'x', rateCalc ];
                 deferred.resolve(conversionCalc);
             };
         if (operator === 'usd-to-eur') {

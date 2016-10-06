@@ -1116,7 +1116,7 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
-    it('verify processFunctionSelected', function() {
+    it('verify processFunctionSelected inch-to-centimeters', function() {
         scope.touchDigit(2);
         scope.touchDigit(5);
         var calc = sheet.createNewCalculation();
@@ -1127,6 +1127,26 @@ describe('Test controller CalculatorCtrl', function () {
         expect(getActiveSheet().calculations[0].result).toBe(25 * 2.54);
         expect(getActiveSheet().calculations[1].expression.length).toBe(1);
         expect(getActiveSheet().calculations[1].result).toBe(25);
+    });
+
+    // copied response from console, you need to drop "data:" and the curly brackets
+    var responseUSD_EUR = '{"header":{"id":"9b936b3b-4b42-4613-83f4-53d68f98b56c","test":false,"prepared":"2016-10-05T20:41:28.380+02:00","sender":{"id":"ECB"}},"dataSets":[{"action":"Replace","validFrom":"2016-10-05T20:41:28.380+02:00","series":{"0:0:0:0:0":{"attributes":[null,null,0,null,null,null,null,null,null,null,0,null,0,null,0,0,0,0],"observations":{"0":[1.2,0,null,null,null]}}}}],"structure":{"links":[{"title":"Exchange Rates","rel":"dataflow","href":"https://sdw-wsrest.ecb.europa.eu:443null/service/dataflow/ECB/EXR/1.0"}],"name":"Exchange Rates","dimensions":{"series":[{"id":"FREQ","name":"Frequency","values":[{"id":"D","name":"Daily"}]},{"id":"CURRENCY","name":"Currency","values":[{"id":"USD","name":"US dollar"}]},{"id":"CURRENCY_DENOM","name":"Currency denominator","values":[{"id":"EUR","name":"Euro"}]},{"id":"EXR_TYPE","name":"Exchange rate type","values":[{"id":"SP00","name":"Spot"}]},{"id":"EXR_SUFFIX","name":"Series variation - EXR context","values":[{"id":"A","name":"Average"}]}],"observation":[{"id":"TIME_PERIOD","name":"Time period or range","role":"time","values":[{"id":"2016-10-05","name":"2016-10-05","start":"2016-10-05T00:00:00.000+02:00","end":"2016-10-05T23:59:59.999+02:00"}]}]},"attributes":{"series":[{"id":"TIME_FORMAT","name":"Time format code","values":[]},{"id":"BREAKS","name":"Breaks","values":[]},{"id":"COLLECTION","name":"Collection indicator","values":[{"id":"A","name":"Average of observations through period"}]},{"id":"DOM_SER_IDS","name":"Domestic series ids","values":[]},{"id":"PUBL_ECB","name":"Source publication (ECB only)","values":[]},{"id":"PUBL_MU","name":"Source publication (Euro area only)","values":[]},{"id":"PUBL_PUBLIC","name":"Source publication (public)","values":[]},{"id":"UNIT_INDEX_BASE","name":"Unit index base","values":[]},{"id":"COMPILATION","name":"Compilation","values":[]},{"id":"COVERAGE","name":"Coverage","values":[]},{"id":"DECIMALS","name":"Decimals","values":[{"id":"4","name":"Four"}]},{"id":"NAT_TITLE","name":"National language title","values":[]},{"id":"SOURCE_AGENCY","name":"Source agency","values":[{"id":"4F0","name":"European Central Bank (ECB)"}]},{"id":"SOURCE_PUB","name":"Publication source","values":[]},{"id":"TITLE","name":"Title","values":[{"name":"US dollar/Euro"}]},{"id":"TITLE_COMPL","name":"Title complement","values":[{"name":"ECB reference exchange rate, US dollar/Euro, 2:15 pm (C.E.T.)"}]},{"id":"UNIT","name":"Unit","values":[{"id":"USD","name":"US dollar"}]},{"id":"UNIT_MULT","name":"Unit multiplier","values":[{"id":"0","name":"Units"}]}],"observation":[{"id":"OBS_STATUS","name":"Observation status","values":[{"id":"A","name":"Normal value"}]},{"id":"OBS_CONF","name":"Observation confidentiality","values":[]},{"id":"OBS_PRE_BREAK","name":"Pre-break observation value","values":[]},{"id":"OBS_COM","name":"Observation comment","values":[]}]}},"status":200,"config":{"method":"GET","transformRequest":[null],"transformResponse":[null],"url":"https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1","headers":{"Accept":"application/vnd.sdmx.data+json;version=1.0.0-cts"}},"statusText":"OK"}';
+
+    it('verify processFunctionSelected euro-to-usd', function() {
+        scope.touchDigit(4);
+        scope.touchDigit(0);
+        var calc = sheet.createNewCalculation();
+        scope.processFunctionSelected('eur-to-usd');
+        mockBackEnd();
+        httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
+        httpBackend.flush();
+        expect(getActiveSheet().calculations.length).toBe(3);
+        expect(getActiveSheet().calculations[0].expression.length).toBe(3);
+        expect(getActiveSheet().calculations[0].result).toBe(40 * 1.2);
+        expect(getActiveSheet().calculations[1].expression.length).toBe(1);
+        expect(getActiveSheet().calculations[1].result).toBe(1.2);
+        expect(getActiveSheet().calculations[2].expression.length).toBe(1);
+        expect(getActiveSheet().calculations[2].result).toBe(40);
     });
 
 

@@ -40,6 +40,7 @@ Sheet.prototype.nrOfCalcs = function() {
     return this.calculations.length;
 };
 
+//todo: rename to addCalculation for consistency and clearity
 Sheet.prototype.add = function(calculation) {
     this.calculations.splice(0, 0, calculation);
 };
@@ -62,9 +63,13 @@ Sheet.prototype.getLastCalcName = function() {
 };
 
 
-Sheet.prototype.createNewCalculation = function() {
-    var name = generateCalcName(this.getLastCalcName());
-    //lastVarName = name;
+Sheet.prototype.createNewCalculation = function(optionalName) {
+    var name;
+    if (optionalName) {
+        name = optionalName
+    } else {
+        name = generateCalcName(this.getLastCalcName());
+    }
     var id = generateUUID();
     var calc = new Calculation(id, name, []);
     return calc;
