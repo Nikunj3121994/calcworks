@@ -118,11 +118,15 @@ angular.module('calcworks.controllers')
                 var conversionCalcPromise = conversionService.convert(operator, $scope.sheet, calc);
                 conversionCalcPromise
                     .then(function(conversionCalc) {
-                            $scope.sheet.addCalculation(conversionCalc);
-                            $scope.expression = conversionCalc.expression;
-                            doProcessCalc(conversionCalc)
-                           },
-                           function() { alert('Exchange rate service is not available')});
+                        $scope.sheet.addCalculation(conversionCalc);
+                        $scope.expression = conversionCalc.expression;
+                        doProcessCalc(conversionCalc)
+                        $scope.hideWaitingIcon();
+                   },
+                   function(reason) {
+                        // all error handling is within the conversionService
+                        console.log('internal error, not expected ' + reason);
+                   });
             }
         } else {
             $scope.touchOperator(operator);

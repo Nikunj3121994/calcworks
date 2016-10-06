@@ -6,16 +6,33 @@ angular.module('calcworks.controllers', []);
 
 angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controllers'])
 
-.run(function($ionicPlatform, $rootScope) {
+.run(function($ionicPlatform, $rootScope, $ionicLoading) {
 
     $rootScope.nrOfDecimals = 2;
+
     // we need to add these functions as global functions for the directives
     $rootScope.convertNumberForRendering = function(number) {
         return convertNumberForRendering(number, $rootScope.nrOfDecimals);
     };
+
     $rootScope.getExprItemForRendering = function(exprItem, displayCalculationName) {
         return getExprItemForRendering(exprItem, $rootScope.nrOfDecimals, displayCalculationName);
     };
+
+    $rootScope.showWaitingIcon = function() {
+        $ionicLoading.show({
+          template: 'Please wait...'
+        }).then(function(){
+           //console.log("The loading indicator is now displayed");
+        });
+    };
+
+    $rootScope.hideWaitingIcon = function(){
+        $ionicLoading.hide().then(function(){
+           //console.log("The loading indicator is now hidden");
+        });
+    };
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

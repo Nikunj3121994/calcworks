@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('calcworks.services')
-    .service('conversionService', function ($http, $q) {
+    .service('conversionService', function ($http, $q, $rootScope, $ionicPopup) {
 
     // returns a promise
     this.convert = function(operator, sheet, calc) {
@@ -32,9 +32,11 @@ angular.module('calcworks.services')
                 deferred.resolve(conversionCalc);
             };
         if (operator === 'usd-to-eur') {
+            $rootScope.showWaitingIcon();
             conversionCalc.name = calc.name + 'toUSD';
             this.getUSD_EUR(processExchangeRateResponseUSDtoEUR);
         } else if (operator === 'eur-to-usd') {
+            $rootScope.showWaitingIcon();
             conversionCalc.name = calc.name + 'toEUR';
             this.getUSD_EUR(processExchangeRateResponseEURtoUSD);
         } else {
@@ -73,13 +75,19 @@ angular.module('calcworks.services')
 
 
     this.getUSD_EUR = function(callback) {
-        var processError = function(response) {
-            console.log('processError: ' + JSON.stringify(response));
+        var processError = function(reason) {
+            $rootScope.hideWaitingIcon();
+            $ionicPopup.alert({
+              title: 'Error',
+              template: 'Failed to retrieve exchange rate'
+            });
+
         }
 
         var processResponse = function(response) {
             var rate = response.data.dataSets[0].series['0:0:0:0:0'].observations['0'][0];
             callback(rate);
+            $rootScope.hideWaitingIcon();
         }
 
         var request = {
