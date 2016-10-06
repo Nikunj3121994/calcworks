@@ -303,16 +303,6 @@ ik heb t idee dat je een close bracket kan doen terwijl er nog geen open is gewe
 Improvements
 --------------
 
-van https://sdw-wsrest.ecb.europa.eu/:
-
-curl -k   --header "Accept:application/vnd.sdmx.structurespecificdata+xml;version=2.1" https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1
-De eerste D slaat op day. Dan krijg je de data van gisteren
-EXR slaat op exchange rates
-Foreign exchange reference rates - code SP00
-series variation (such as average or standardised measure for given frequency, code A).
-
-
-https://sdw-wsrest.ecb.europa.eu/
 
 - a trash icon bij settings
 - moet de button met de . ook niet localised worden?

@@ -1,5 +1,7 @@
 "use strict";
 
+// for usd-eur conversion see https://sdw-wsrest.ecb.europa.eu/:
+
 angular.module('calcworks.services')
     .service('conversionService', function ($http, $q, $rootScope, $ionicPopup) {
 
