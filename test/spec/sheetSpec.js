@@ -74,6 +74,14 @@ describe('Test sheet', function () {
 
     it('verify deleteCalculation', function() {
         var sheet = new Sheet('id', 'foo', []);
+        expect(sheet.getMostRecentCalculation()).toBeNull();
+        sheet.addCalculation(sheet.createNewCalculation());
+        expect(sheet.getMostRecentCalculation()).toBeTruthy();
+    });
+
+
+    it('verify deleteCalculation', function() {
+        var sheet = new Sheet('id', 'foo', []);
         expect( function(){ sheet.deleteCalculation(0); } ).toThrow(new Error('Illegal argument, index: 0'));
 
         var calc1 = new Calculation('id', 'calc1', [5, 'x', 3]);

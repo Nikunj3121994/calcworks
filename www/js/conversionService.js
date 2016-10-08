@@ -35,11 +35,11 @@ angular.module('calcworks.services')
             };
         if (operator === 'usd-to-eur') {
             $rootScope.showWaitingIcon();
-            conversionCalc.name = calc.name + 'toUSD';
+            conversionCalc.name = calc.name + ' in euros';
             this.getUSD_EUR(processExchangeRateResponseUSDtoEUR);
         } else if (operator === 'eur-to-usd') {
             $rootScope.showWaitingIcon();
-            conversionCalc.name = calc.name + 'toEUR';
+            conversionCalc.name = calc.name + ' in usd';
             this.getUSD_EUR(processExchangeRateResponseEURtoUSD);
         } else {
             if (operator === 'inch-to-centimeters') {

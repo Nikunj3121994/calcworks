@@ -61,6 +61,12 @@ Sheet.prototype.getLastCalcName = function() {
     return 'calc' + this.getLastNumberFromCalcName();
 };
 
+Sheet.prototype.getMostRecentCalculation = function() {
+    if (this.calculations.length === 0)
+        return null
+    else return this.calculations[this.calculations.length-1];
+};
+
 
 Sheet.prototype.createNewCalculation = function(optionalName) {
     var name;

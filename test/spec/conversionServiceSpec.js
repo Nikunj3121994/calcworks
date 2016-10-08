@@ -119,6 +119,7 @@ describe('Test conversionService', function () {
         expect(rateCalc.expression).toEqual([ 0.8333333333333334]);
         expect(rateCalc.result).toBe( 0.8333333333333334);
         expect(convertedCalc.result).toBeNull();
+        expect(convertedCalc.name).toEqual('varname in euros');
         expect(convertedCalc.expression).toEqual([calc, 'x', rateCalc ]);
 
         // now we do it for a second time and the rate calculation should be re-used
@@ -149,6 +150,7 @@ describe('Test conversionService', function () {
         expect(rateCalc.expression).toEqual([1.2]);
         expect(rateCalc.result).toBe(1.2);
         expect(convertedCalc.result).toBeNull();
+        expect(convertedCalc.name).toEqual('varname in usd');
         expect(convertedCalc.expression).toEqual([calc, 'x', rateCalc ]);
 
         // now we do it for a second time and the rate calculation should be re-used
