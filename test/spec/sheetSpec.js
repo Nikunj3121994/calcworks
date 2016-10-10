@@ -72,11 +72,18 @@ describe('Test sheet', function () {
     });
 
 
-    it('verify deleteCalculation', function() {
+    it('verify getMostRecentCalculation', function() {
         var sheet = new Sheet('id', 'foo', []);
         expect(sheet.getMostRecentCalculation()).toBeNull();
+
         sheet.addCalculation(sheet.createNewCalculation());
-        expect(sheet.getMostRecentCalculation()).toBeTruthy();
+
+        var calc1 = sheet.getMostRecentCalculation();
+        expect(calc1).toBeTruthy();
+
+        var calc2 = sheet.createNewCalculation()
+        sheet.addCalculation(calc2);
+        expect(sheet.getMostRecentCalculation()).toEqual(calc2);
     });
 
 

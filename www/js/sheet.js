@@ -41,6 +41,7 @@ Sheet.prototype.nrOfCalcs = function() {
 };
 
 Sheet.prototype.addCalculation = function(calculation) {
+    if (!calculation) throw "parameter calculation is null";
     this.calculations.splice(0, 0, calculation);
 };
 
@@ -64,7 +65,7 @@ Sheet.prototype.getLastCalcName = function() {
 Sheet.prototype.getMostRecentCalculation = function() {
     if (this.calculations.length === 0)
         return null
-    else return this.calculations[this.calculations.length-1];
+    else return this.calculations[0];
 };
 
 
