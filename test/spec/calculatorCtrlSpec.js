@@ -95,6 +95,11 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(getActiveSheet().calculations.length).toBe(1);
         expect(getActiveSheet().calculations[0].result).toBe(5);
+
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(getActiveSheet().calculations.length).toBe(2);
+        expect(getActiveSheet().calculations[0].result).toBe(3);
     });
 
     it('verify plus, min, reset', function () {
@@ -151,7 +156,7 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
-    it('verify power', function () {
+    it('verify power function', function () {
         scope.reset();
         scope.touchDigit(2);
         scope.touchOperator('^');
@@ -427,7 +432,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.operatorStr).toBe('-');
         expect(scope.plusMinusTyped).toBeTruthy();
         scope.touchDigit(4);
-        expect(scope.display).toBe('-4');  // dit is eigenlijk niet goed, zou gewoon 4 moeten zijn
+        expect(scope.display).toBe('-4');  // mooier zou zijn als dit 4 is en het directive -4 afbeeldt
         expect(scope.plusMinusTyped).toBeTruthy();
         expect(scope.operatorStr).toBe('');
         scope.touchPlusMinOperator();
@@ -489,12 +494,16 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(4);
         scope.touchEqualsOperator();
         var calc = sheet.calculations[0];
+        expect(calc.expression).toEqual([4]);
 
         scope.touchDigit(3);
-        scope.touchOperator('*');
+        scope.touchOperator('x');
+        expect(scope.expression).toEqual([3 , 'x']);
         scope.touchPlusMinOperator();
         scope.processSelectedCalculation(calc);
+        expect(scope.expression).toEqual([3 , 'x']);
         scope.touchEqualsOperator();
+        expect(sheet.calculations[0].expression).toEqual([3 , 'x', '_', calc]);
         expect(scope.display).toBe('-12');
 
         scope.reset();
@@ -539,7 +548,7 @@ describe('Test controller CalculatorCtrl', function () {
         // scope.expression is - - 9, niet mooi, maar ook wel weer eenduidig
         expect(scope.display).toBe('9');
 
-        // test met haakjes
+        // test met haakjes en plusmin
         scope.reset();
         scope.touchPlusMinOperator();
         scope.touchOpenBracket();
@@ -548,6 +557,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(1);
         scope.touchCloseBracket();
         scope.touchEqualsOperator();
+        expect(scope.expression).toEqual(['_' ,'(', 9, '+', 1, ')']);
         expect(scope.display).toBe('-10');
 
         scope.reset();
@@ -562,7 +572,19 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(2);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('6');
+    });
 
+    it('verify touchPlusMin with previous result', function() {
+        scope.touchDigit(4);
+        scope.touchEqualsOperator();
+        var calc = sheet.calculations[0];
+        expect(calc.expression).toEqual([4]);
+
+        scope.touchPlusMinOperator();
+        scope.touchOperator('x');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.expression).toEqual(['_' , calc, 'x', 3]);
     });
 
 
@@ -844,14 +866,14 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(5);
         scope.touchOperator('+');
         expect(scope.operatorStr).toBe('+');
-        scope.touchCloseBracket();
+        scope.touchCloseBracket();  // skip second operand
         // expect error signal
         expect(scope.display).toBe('0');
         expect(scope.expression).toEqual(['(', 5, '+']);
     });
 
 
-    it('verify behavior with equals', function () {
+    it('verify behavior with default 0 operand', function () {
         scope.touchDigit(5);
         scope.touchOperator('+');
         scope.touchEqualsOperator();
@@ -860,6 +882,17 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.result).toEqual(5);
 
         scope.reset();
+        scope.touchOperator('+');
+        scope.touchDigit(5);
+        scope.touchEqualsOperator();
+        expect(scope.numberEnteringState).toBeFalsy();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.display).toBe('5');
+        expect(scope.expression).toEqual([0, '+', 5]);
+        expect(scope.result).toEqual(5);
+    });
+
+    it('verify behavior with brackets and equals', function () {
         scope.touchOpenBracket();
         scope.touchDigit(5);
         scope.touchOperator('+');
@@ -917,8 +950,8 @@ describe('Test controller CalculatorCtrl', function () {
         var calc1 = scope.sheet.calculations[0];
 
         scope.processSelectedCalculation(getActiveSheet().calculations[0]);
-        expect(scope.expression).toEqual([]); // een nieuwe expressie is door een variabele gestart
         scope.touchOperator('+');
+        expect(scope.expression).toEqual([calc1, '+']);
         scope.touchDigit(4);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('9');
@@ -1019,8 +1052,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(getActiveSheet().calculations[0].result).toBe(9);
         // go to edit mode
-        scope.editMode = true;
-        scope.editCalc = getActiveSheet().calculations[0];
+        scope.gotoEditMode(getActiveSheet().calculations[0]);
         scope.touchDigit(7);
         scope.touchEqualsOperator();
         expect(getActiveSheet().calculations[0].result).toBe(7);
@@ -1109,6 +1141,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(3);
         scope.touchEqualsOperator();
         expect(scope.display).toContain('0.3333');
+        expect((!scope.expressionEnteringState && scope.sheet.nrOfCalcs() > 0)).toBeTruthy();
         scope.touchOperator('*');
         scope.touchDigit(3);
         scope.touchEqualsOperator();
@@ -1119,7 +1152,6 @@ describe('Test controller CalculatorCtrl', function () {
     it('verify processFunctionSelected inch-to-centimeters', function() {
         scope.touchDigit(2);
         scope.touchDigit(5);
-        var calc = sheet.createNewCalculation();
         scope.processFunctionSelected('inch-to-centimeters');
         mockBackEnd();
         scope.$digest(); // needed to trigger the then()
@@ -1128,6 +1160,92 @@ describe('Test controller CalculatorCtrl', function () {
         expect(getActiveSheet().calculations[1].expression.length).toBe(1);
         expect(getActiveSheet().calculations[1].result).toBe(25);
     });
+
+    it('verify processFunctionSelected conversion without intermediate calculation', function() {
+        scope.touchDigit(2);
+        scope.touchOperator('x');
+        scope.touchDigit(5);
+        scope.touchEqualsOperator();
+        expect(scope.numberEnteringState).toBeFalsy();
+        expect(scope.expressionEnteringState).toBeFalsy();
+        scope.processFunctionSelected('inch-to-centimeters');
+        mockBackEnd();
+        scope.$digest(); // needed to trigger the then()
+        expect(getActiveSheet().calculations.length).toBe(2);
+        expect(getActiveSheet().calculations[0].result).toBe(25.4);
+        expect(getActiveSheet().calculations[1].result).toBe(10);
+    });
+
+
+    // het huidige gedrag met een 'lege 0' calculatie zou beter moeten, maar voor nu even goed genoeg
+    it('verify processFunctionSelected conversion without input', function() {
+        scope.processFunctionSelected('inch-to-centimeters');
+        mockBackEnd();   // vanwege onderstaande digest moeten we dit doen :-(
+        scope.$digest(); // needed to trigger the then()
+        expect(getActiveSheet().calculations.length).toBe(2);
+        var calc0 = getActiveSheet().calculations[1];
+        expect(calc0.result).toBe(0);
+        expect(calc0.expression).toEqual([0]);
+
+        expect(getActiveSheet().calculations[0].expression).toEqual([calc0, 'x', 2.54]);
+        expect(getActiveSheet().calculations[0].result).toBe(0);
+    });
+
+
+    it('verify processFunctionSelected conversion with selected calc', function() {
+        scope.touchDigit(5);
+        scope.touchPlusMinOperator();
+        scope.touchEqualsOperator();
+        var calc = getActiveSheet().calculations[0];
+
+        scope.reset();
+        scope.processSelectedCalculation(calc);
+        scope.processFunctionSelected('inch-to-centimeters');
+        mockBackEnd();   // vanwege onderstaande digest moeten we dit doen :-(
+        scope.$digest(); // needed to trigger the then()
+        expect(getActiveSheet().calculations.length).toBe(2);
+        expect(getActiveSheet().calculations[0].expression).toEqual([calc, 'x', 2.54]);
+        expect(getActiveSheet().calculations[0].result).toBe(-12.7);
+    });
+
+
+    it('verify processFunctionSelected conversion with plus/min operand', function() {
+        scope.touchDigit(5);
+        scope.touchPlusMinOperator();
+        scope.processFunctionSelected('inch-to-centimeters');
+        mockBackEnd();   // vanwege onderstaande digest moeten we dit doen :-(
+        scope.$digest(); // needed to trigger the then()
+        expect(getActiveSheet().calculations.length).toBe(2);
+        var calc1 = getActiveSheet().calculations[1];
+        expect(calc1.result).toBe(-5);
+        expect(calc1.expression).toEqual(['_', 5]);
+
+        expect(getActiveSheet().calculations[0].expression).toEqual([calc1, 'x', 2.54]);
+        expect(getActiveSheet().calculations[0].result).toBe(-12.7);
+    });
+
+
+    it('verify processFunctionSelected conversion with following plus/min operand', function() {
+        scope.touchDigit(5);
+        scope.processFunctionSelected('inch-to-centimeters');
+        mockBackEnd();   // vanwege onderstaande digest moeten we dit doen :-(
+        scope.$digest(); // needed to trigger the then()
+        expect(getActiveSheet().calculations.length).toBe(2);
+        var calc1 = getActiveSheet().calculations[1];
+        var conversionResultCalc = getActiveSheet().calculations[0];
+        expect(calc1.result).toBe(5);
+        expect(conversionResultCalc.result).toBe(12.7);
+        // start the real test
+        scope.touchPlusMinOperator();
+        scope.touchOperator('+')
+        scope.touchDigit(1);
+        scope.touchEqualsOperator();
+        // verify
+        expect(getActiveSheet().calculations[0].expression).toEqual(['_', conversionResultCalc, '+', 1]);
+        expect(getActiveSheet().calculations[0].result).toBe(-11.7);
+    });
+
+
 
     // copied response from console, you need to drop "data:" and the curly brackets
     var responseUSD_EUR = '{"header":{"id":"9b936b3b-4b42-4613-83f4-53d68f98b56c","test":false,"prepared":"2016-10-05T20:41:28.380+02:00","sender":{"id":"ECB"}},"dataSets":[{"action":"Replace","validFrom":"2016-10-05T20:41:28.380+02:00","series":{"0:0:0:0:0":{"attributes":[null,null,0,null,null,null,null,null,null,null,0,null,0,null,0,0,0,0],"observations":{"0":[1.2,0,null,null,null]}}}}],"structure":{"links":[{"title":"Exchange Rates","rel":"dataflow","href":"https://sdw-wsrest.ecb.europa.eu:443null/service/dataflow/ECB/EXR/1.0"}],"name":"Exchange Rates","dimensions":{"series":[{"id":"FREQ","name":"Frequency","values":[{"id":"D","name":"Daily"}]},{"id":"CURRENCY","name":"Currency","values":[{"id":"USD","name":"US dollar"}]},{"id":"CURRENCY_DENOM","name":"Currency denominator","values":[{"id":"EUR","name":"Euro"}]},{"id":"EXR_TYPE","name":"Exchange rate type","values":[{"id":"SP00","name":"Spot"}]},{"id":"EXR_SUFFIX","name":"Series variation - EXR context","values":[{"id":"A","name":"Average"}]}],"observation":[{"id":"TIME_PERIOD","name":"Time period or range","role":"time","values":[{"id":"2016-10-05","name":"2016-10-05","start":"2016-10-05T00:00:00.000+02:00","end":"2016-10-05T23:59:59.999+02:00"}]}]},"attributes":{"series":[{"id":"TIME_FORMAT","name":"Time format code","values":[]},{"id":"BREAKS","name":"Breaks","values":[]},{"id":"COLLECTION","name":"Collection indicator","values":[{"id":"A","name":"Average of observations through period"}]},{"id":"DOM_SER_IDS","name":"Domestic series ids","values":[]},{"id":"PUBL_ECB","name":"Source publication (ECB only)","values":[]},{"id":"PUBL_MU","name":"Source publication (Euro area only)","values":[]},{"id":"PUBL_PUBLIC","name":"Source publication (public)","values":[]},{"id":"UNIT_INDEX_BASE","name":"Unit index base","values":[]},{"id":"COMPILATION","name":"Compilation","values":[]},{"id":"COVERAGE","name":"Coverage","values":[]},{"id":"DECIMALS","name":"Decimals","values":[{"id":"4","name":"Four"}]},{"id":"NAT_TITLE","name":"National language title","values":[]},{"id":"SOURCE_AGENCY","name":"Source agency","values":[{"id":"4F0","name":"European Central Bank (ECB)"}]},{"id":"SOURCE_PUB","name":"Publication source","values":[]},{"id":"TITLE","name":"Title","values":[{"name":"US dollar/Euro"}]},{"id":"TITLE_COMPL","name":"Title complement","values":[{"name":"ECB reference exchange rate, US dollar/Euro, 2:15 pm (C.E.T.)"}]},{"id":"UNIT","name":"Unit","values":[{"id":"USD","name":"US dollar"}]},{"id":"UNIT_MULT","name":"Unit multiplier","values":[{"id":"0","name":"Units"}]}],"observation":[{"id":"OBS_STATUS","name":"Observation status","values":[{"id":"A","name":"Normal value"}]},{"id":"OBS_CONF","name":"Observation confidentiality","values":[]},{"id":"OBS_PRE_BREAK","name":"Pre-break observation value","values":[]},{"id":"OBS_COM","name":"Observation comment","values":[]}]}},"status":200,"config":{"method":"GET","transformRequest":[null],"transformResponse":[null],"url":"https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1","headers":{"Accept":"application/vnd.sdmx.data+json;version=1.0.0-cts"}},"statusText":"OK"}';

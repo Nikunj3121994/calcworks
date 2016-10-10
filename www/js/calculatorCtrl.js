@@ -7,12 +7,22 @@ angular.module('calcworks.controllers')
 // de display(s) bijwerken
 //  en
 // de expressie opbouwen
+
+// the order is:
+//
+//   display   ->           expression         ->        calc
+//             operator                        equals
+//             bracket
+
+
+//   start  ; lege sheet, lege display, geen vorige calculatie
+//   expressionEnteringStart ; lege display, wel vorige calculatie
+//   clear -> start or waiting
+
 .controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout,
     calcService, sheetService, conversionService, renameDialogs, selectFunctionDialog, selectCalculationDialog) {
 
-
-    //var lastVarName = '';
-    var selectedCalc;  // een geselecteerde calc - via recall of een ander tabblad of de vorige uitkomst
+    var selectedCalc;  // een geselecteerde calc - via recall of een ander tabblad. Dit zou een flag/boolean moeten zijn
     var state = $stateParams;  // dit moeten we in app.js in de rootscope stoppen
 
     var resetDataMode = function() {
@@ -34,6 +44,7 @@ angular.module('calcworks.controllers')
 
     };
 
+    // dit komt overeen met de 'start' mode, initieel of na een clear, stop macro, stop edit
     $scope.reset = function() {
         miniReset();
         $scope.expression = [];     // array of Calculations, operators as string and numbers
@@ -43,6 +54,7 @@ angular.module('calcworks.controllers')
         $scope.macroMode = false;   // an enum for the modes would be nicer
         $scope.editMode = false;
         $scope.editCalc = undefined; // the calc that is edited
+        selectedCalc = null;            // de geselecteerde calc die bij pas bij operator of equals verwerkt wordt
         resetDataMode();
         /* if you want to play around with some preset data:
             $scope.expression = [2, '+', 3];
@@ -52,17 +64,12 @@ angular.module('calcworks.controllers')
 
     function init() {
         $scope.sheet = sheetService.getActiveSheet();
-        // we should not use varName, but last number, would be a lot easier. Perhaps store this number in Sheet
-        // 'calc' is used in renameDialog, so keep them in sync. Consider using Angular's constant service.
-        //lastVarName = 'calc' + $scope.sheet.getLastNumberFromCalcName();
-        selectedCalc = null;
         $scope.reset();
     }
 
     // test utility method to reset the var names
     $scope._test_reset = function() {
         $scope.sheet.calculations = [];
-        //lastVarName = '';
         selectedCalc = null;
         $scope.reset();
     };
@@ -75,14 +82,19 @@ angular.module('calcworks.controllers')
             $scope.macroMode = true;
             // consider: display the inputCalculation.result as a placeholder somehow to make first edit easier
         } else if ($state.current.data.mode === 'edit') {
-            $scope.reset();  // whipe out left overs
-            $scope.editMode = true;
-            $scope.editCalc = $state.current.data.calc;
+            $scope.gotoEditMode($state.current.data.calc);
         } else if ($state.current.data.mode === 'use') {
             resetDataMode();  // we do not call reset() since we want to keep intermediate expression
             $scope.processSelectedCalculation($state.current.data.calc);
         }
     });
+
+    // private
+    $scope.gotoEditMode = function(calc) {
+        $scope.reset();  // whipe out left overs
+        $scope.editMode = true;
+        $scope.editCalc = calc;
+    }
 
     // de calculator controller heeft altijd een active sheet nodig om zijn rekenwerk in te doen
     // (de filter gaat variabelen resolven)
@@ -103,47 +115,79 @@ angular.module('calcworks.controllers')
     };
 
 
-    // private, but added to scope for unit testing
-    // an advanced operator like % or ^ or a conversion function has been selected by the user in the dialog
-    $scope.processFunctionSelected = function(operator) {
-        if (operator.length > 1) {
-            // wat we nu in de display of als expression hebben daar maken we een calculatie van
-            // die voegen we toe aan de sheet met een unieke naam
-            var calc = $scope.sheet.createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
-            $scope.sheet.addCalculation(calc);
-            if (!$scope.processCalc(calc)) {
-                // the calculation gave an error so let's remove the calc
-                $scope.sheet.deleteCalculation(0);
-            } else {
-                var conversionCalcPromise = conversionService.convert(operator, $scope.sheet, calc);
-                conversionCalcPromise
-                    .then(function(conversionCalc) {
-                        $scope.sheet.addCalculation(conversionCalc);
-                        $scope.expression = conversionCalc.expression;
-                        doProcessCalc(conversionCalc)
-                        $scope.hideWaitingIcon();
-                   },
-                   function(reason) {
-                        // all error handling is within the conversionService
-                        console.log('internal error, not expected ' + reason);
-                   });
+    // detect whether an operand has been entered: a number or expression
+    function operandEntered() {
+       if ($scope.expression[$scope.expression.length-1] === ')') return true;
+       else if (selectedCalc) return true;
+       else return $scope.numberEnteringState === true;
+    }
+
+
+    function expressionEnteringStart() {
+        $scope.expressionEnteringState = true;
+        $scope.expression = [];
+        $scope.result = null;
+    }
+
+
+    // copies the content from the display or selected calc to expression
+    function updateScopeExpression() {
+        // het kan zijn dat alleen een getal is ingetikt (de uitgestelde operatie), in dit geval
+        // moeten we wel met een lege expressie starten
+        if ($scope.numberEnteringState === true && $scope.expressionEnteringState===false) {
+            expressionEnteringStart();
+        }
+
+        if (selectedCalc) {
+            if ($scope.plusMinusTyped) {
+                $scope.expression.push('_');
             }
-        } else {
-            $scope.touchOperator(operator);
+            $scope.expression.push(selectedCalc);
+            // reset flags below
+        }
+        // als de operator meteen wordt ingetikt na een vorige berekening, dan nemen we die berekening als input
+        // de clear operatie onderbreekt dit, vandaar de test op display  (== test op start mode)
+        else if (!operandEntered() && $scope.display!='0' && $scope.sheet.getMostRecentCalculation()) {
+            // pas de vorige calculatie toe
+            if ($scope.plusMinusTyped) {
+                $scope.expression.push('_');
+            }
+            $scope.expression.push($scope.sheet.getMostRecentCalculation());
+        }
+        else if (!operandEntered()) {
+            $scope.expression.push(0); // voeg getal 0 toe zodat de expressie altijd een operand heeft na de operator
+        }
+        else {
+            // if a number is added to the display then we should add it to the expression
+            if ($scope.plusMinusTyped) {
+                $scope.expression.push('_'); // unaire min operator toevoegen
+            }
+            if ($scope.numberEnteringState === true) {
+                // dit is een hack, doordat we display zowel als buffer als voor display doeleinden gebruiken moeten we het minteken
+                // dat we voor display doeleinden hebben toegevoegd er weer afhalen
+                if ($scope.plusMinusTyped) {
+                    $scope.expression.push(Math.abs(+$scope.display));
+                } else {
+                    $scope.expression.push(+$scope.display);
+                }
+            } // else een close bracket is hiervoor uitgevoerd en die heeft al t werk gedaan
         }
     }
+
+    // copies expression to calc
+    function copyScopeExpressionToCalc(calc) {
+        calc.expression = $scope.expression;
+    }
+
 
     $scope.selectAdvancedOperator = function() {
         selectFunctionDialog.showSelectFunctionDialog($scope.processFunctionSelected);
     }
 
-
     $scope.touchDigit = function(n) {
-        // merk op dat bij een nieuw getal we de expression niet wissen, inconsequent maar wel handig dat je
-        // nog het resultaat van de vorige keer ziet
-        // eigenlijk zouden we dit moeten doen:
-        // expressionEnteringStart();
-        // nu doen we dit pas bij de eerste operator
+        // merk op dat bij een nieuw getal we de vorige expression niet wissen!
+        // inconsequent maar wel handig dat je de expressie van de vorige keer ziet
+        // nu doen we dit pas bij de eerste operator expressionEnteringStart()
         if ($scope.numberEnteringState === false) {
             // de eerste keer dat een digit wordt ingetikt
             $scope.display = '' + n;
@@ -245,30 +289,36 @@ angular.module('calcworks.controllers')
 
     // hier een scope functie van gemaakt om te kunnen testen
     $scope.processSelectedCalculation = function(calc) {
-        selectedCalc = calc;  // onthoud welke calc is gekozen zodat we deze later kunnen gebruiken bij t bouwen vd expression
-        var number = calc.result
+        var number = calc.result;
         if ($scope.plusMinusTyped) {
             number = -number;
         }
         $scope.display = number.toString();
         $scope.operatorStr = '';
+        // state overgang
+        selectedCalc = calc;  // zet vlag
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // make sure we start the expression (cause of the built-in delay)
         if (!$scope.expressionEnteringState) {
             expressionEnteringStart();
         }
+        // les geleerd: je kan niet hier (makkelijk) al de calc toevoegen aan de expressie omdat je plus/min nog niet kan
+        // verwerken. Je kan de calc pas toevoegen aan de expressie bij de operator of equals
     };
 
 
     $scope.touchRecall = function() {
+        // notAllowedCalc is een beetje simpele benadering om een cycle (maar alleen eerstegraads) te vermijden
         var notAllowedCalc = $scope.editMode === true ?  $scope.editCalc : null;
         selectCalculationDialog.showSelectCalculationDialog($scope.sheet, notAllowedCalc, $scope.processSelectedCalculation);
     };
 
     $scope.touchRemember = function() {
-        renameDialogs.showRenameCalculationDialog(selectedCalc, $scope.sheet);
+        renameDialogs.showRenameCalculationDialog($scope.sheet.getMostRecentCalculation(), $scope.sheet);
     };
 
+    // plus/min kan niet meteen zijn operator in expressie schrijven omdat je de plus/min ook na de operand kan doen
+    // je moet daarom een vlag zetten en pas bij een state overgang de plus/min toevoegen
     $scope.touchPlusMinOperator = function() {
         // een plusmin resulteert in een _ in de expressie (niet een -)
         if ($scope.numberEnteringState === false  && selectedCalc === null) {
@@ -294,22 +344,87 @@ angular.module('calcworks.controllers')
 
     // binary operator
     $scope.touchOperator = function(operator) {
+        // uitzoeken waarom nog steeds nodig terwijl we dit in updateScopeExpression doen
+        if (!$scope.expressionEnteringState) {
+            expressionEnteringStart();
+        }
+
         // we should detect if an intermediate expression has been entered, situations:
-        // 1)  d
-        // 2)  variable
-        // 3)  ... (d * d)
-        // 4)  0   but there is a previous answer
-        if ($scope.numberEnteringState || selectedCalc || $scope.expression[$scope.expression.length-1]=== ')' || (!$scope.expressionEnteringState && $scope.sheet.nrOfCalcs() > 0)) {
-            updateDisplayAndExpression();
+        // 1)  getal ingetikt
+        // 2)  variable gekozen
+        // 3)  meteen een operator gekozen  (er is een vorige calculatie of we moeten de nul tovoegen)
+        // 3)  haakje sluiten
+        if ($scope.numberEnteringState
+            || selectedCalc
+            || $scope.expression.length == 0 // meteen een operator invoeren
+            || ($scope.expression.length > 0 && $scope.expression[$scope.expression.length-1]=== ')')) {
+
+            updateScopeExpression();
             $scope.expression.push(operator);
+            if ($scope.numberEnteringState === true) {
+                $scope.display = '0';
+            }
         } else {
             // er was al een operator ingetikt, de (nieuwe) operator overschrijft de bestaande
             $scope.expression[$scope.expression.length-1] = operator;
         }
+        // state overgang:
         $scope.operatorStr = operator;
         $scope.numberEnteringState = false;
         $scope.plusMinusTyped = false;
+        selectedCalc = null;
     };
+
+
+    // private, but added to scope for unit testing
+    // an advanced operator like % or ^ or a conversion function has been selected by the user in the dialog
+    $scope.processFunctionSelected = function(operator) {
+        if (operator.length === 1) {
+            $scope.touchOperator(operator);
+        } else {
+            var calc;
+            // verify whether equal has just been executed
+            if ($scope.numberEnteringState || $scope.expressionEnteringState) {
+                if (selectedCalc) {
+                    calc = selectedCalc;
+                } else {
+                    // there is an intermediate display / expression that we need to put into a separate calc
+                    updateScopeExpression();
+                    calc = $scope.sheet.createNewCalculation();
+                    copyScopeExpressionToCalc(calc);
+                    $scope.sheet.addCalculation(calc);
+                    if (!$scope.processCalc(calc)) {
+                        // the calculation gave an error so let's remove the calc
+                        $scope.sheet.deleteCalculation(0);
+                        return; // exit
+                    }
+                }
+            } else if ($scope.sheet.calculations.length===0) {
+                // uitzonderingssituatie als er nog geen operand is ingevoerd
+                calc = $scope.sheet.createNewCalculation();
+                calc.expression.push(0);
+                $scope.sheet.addCalculation(calc);
+                $scope.processCalc(calc);
+            } else {
+                // we can reuse the previous calculation
+                calc = $scope.sheet.calculations[0];
+            }
+            var conversionCalcPromise = conversionService.convert(operator, $scope.sheet, calc);
+            conversionCalcPromise
+                .then(function(conversionCalc) {
+                    $scope.sheet.addCalculation(conversionCalc);
+                    $scope.expression = conversionCalc.expression;
+                    doProcessCalc(conversionCalc)
+                    $scope.hideWaitingIcon();
+               },
+               function(reason) {
+                    // all error handling is within the conversionService
+                    console.log('internal error, not expected ' + reason);
+               });
+            // TODO: touchOperator does some post processing that is missing here..
+        }
+    }
+
 
     $scope.touchOpenBracket = function() {
         if ($scope.plusMinusTyped) {
@@ -322,66 +437,30 @@ angular.module('calcworks.controllers')
             $scope.expressionEnteringState = true;
         }
         $scope.expression.push('(');
+        // state overgang:
+        // niets veranderd
     };
 
 
     // detect whether an operand has been entered: a number or expression closed with bracket
-    function operandEntered() {
+    function operandEnteredCLOSE() {
         return $scope.numberEnteringState === true || $scope.operatorStr === '';
     }
 
     $scope.touchCloseBracket = function() {
         var countOpenBrackets = countOccurencesInExpression('(', $scope.expression);
         var countCloseBrackets = countOccurencesInExpression(')', $scope.expression);
-        if (countOpenBrackets - countCloseBrackets >= 1  && operandEntered()) {
-            updateDisplayAndExpression();
+        if (countOpenBrackets - countCloseBrackets >= 1  && operandEnteredCLOSE()) {
+            updateScopeExpression();
             $scope.expression.push(')');
             // we closed an intermediate expression, now we start 'fresh', sort of mini reset
+            // state overgang:
             miniReset();
         } else {
+            // more close brackets as open brackets, we ignore this for now
             // todo: error signal
         }
     };
-
-    function expressionEnteringStart() {
-        $scope.expressionEnteringState = true;
-        $scope.expression = [];
-        $scope.result = null;
-    }
-
-    // na elke 'actie' moet expression en display bijgewerkt worden
-    // operator, close bracket, equalsOperator  call this function
-    // deze functie is brittle, er is een volgorde afhankelijkheid die niet goed is
-    // het probleem is dat we niet goed weten wat er gebeurt is en indirect dit bepalen / veronderstellen
-    // Misschien dat we de vlag/state expressionEnteringState kunnen gebruiken om dit beter te maken
-    function updateDisplayAndExpression() {
-        if (!$scope.expressionEnteringState) {
-            expressionEnteringStart();
-        }
-        // if a number is added to the display then we should add it to the expression
-        if ($scope.plusMinusTyped) {
-            $scope.expression.push('_'); // unaire min operator toevoegen
-        }
-        if ($scope.numberEnteringState === true) {
-            // dit is een hack, doordat we display zowel als buffer als voor display doeleinden gebruiken moeten we het minteken
-            // dat we voor display doeleinden hebben toegevoegd er weer afhalen
-            if ($scope.plusMinusTyped) {
-                $scope.expression.push(Math.abs(+$scope.display));
-            } else {
-                $scope.expression.push(+$scope.display);
-            }
-            $scope.display = '0';
-            selectedCalc = null;
-        } else if (selectedCalc) {
-            // er is niet een getal ingetikt, maar er is wel een calculatie gekozen
-            $scope.expression.push(selectedCalc);
-            $scope.display = '0';
-            selectedCalc = null;
-        } // else
-            // er is geen getal ingetikt maar er staat al wel wat in de expression
-            // we hoeven dan niets te doen.
-            // (close bracket can trigger this path)
-    }
 
 
     // in tegenstelling tot andere 'touches' bestaat de equals uit 2 zaken:
@@ -404,6 +483,8 @@ angular.module('calcworks.controllers')
     };
 
     $scope.equalsOperatorEditMode = function() {
+        updateScopeExpression();
+        copyScopeExpressionToCalc($scope.editCalc);
         $scope.processCalc($scope.editCalc);
         $scope.editMode = false;
     };
@@ -415,7 +496,9 @@ angular.module('calcworks.controllers')
         if ($scope.result && $scope.result.toString() === $scope.display) {
             this.touchRemember();
         } else {
-            var calc = $scope.sheet.createNewCalculation(); // consider to use editCalc instead and create this instance in reset()
+            updateScopeExpression();
+            var calc = $scope.sheet.createNewCalculation();
+            copyScopeExpressionToCalc(calc);
             $scope.sheet.addCalculation(calc);
             if (!$scope.processCalc(calc)) {
                 // the calculation gave an error so let's remove the calc
@@ -424,14 +507,10 @@ angular.module('calcworks.controllers')
         }
     };
 
+    // put the result into the calculation calc and show the result in display and expression panel
     // returns whether the calculation was valid
     $scope.processCalc = function(calc) {
         var result = true;
-        if (!operandEntered()) {
-            $scope.expression.push(0); // voeg getal 0 toe zodat de expressie altijd een operand heeft na de operator
-        }
-        updateDisplayAndExpression();
-        calc.expression = $scope.expression;
         try {
             doProcessCalc(calc);
         } catch (e) {
@@ -456,10 +535,12 @@ angular.module('calcworks.controllers')
                   alertPopup.close();
                }, 3000);
          }
+         // state overgang
          $scope.operatorStr = '';
          $scope.numberEnteringState = false;
          $scope.expressionEnteringState = false;
          $scope.plusMinusTyped = false;
+         selectedCalc = null;
          return result;
     };
 
@@ -478,7 +559,6 @@ angular.module('calcworks.controllers')
         $scope.result = calc.result;                 // type is number
         $scope.display = calc.result.toString();     // type is string
         sheetService.saveSheet($scope.sheet);
-        selectedCalc = calc;  // by default is de selectedCalc de laatste uitkomst
     }
 
 

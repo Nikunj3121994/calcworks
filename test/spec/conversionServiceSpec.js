@@ -31,6 +31,7 @@ describe('Test conversionService', function () {
             });
         mockBackEnd();
         scope.$digest();
+        expect(convertedCalc.name).toBe('varname to inches');
         expect(convertedCalc.result).toBeNull();
         expect(convertedCalc.expression).toEqual([calc, '/', 2.54]);
     });
@@ -43,6 +44,7 @@ describe('Test conversionService', function () {
             });
         mockBackEnd();
         scope.$digest();
+        expect(convertedCalc.name).toBe('varname to centimeters');
         expect(convertedCalc.result).toBeNull();
         expect(convertedCalc.expression).toEqual([calc, 'x', 2.54]);
     });
@@ -67,8 +69,9 @@ describe('Test conversionService', function () {
             });
         mockBackEnd();
         scope.$digest();
-                expect(convertedCalc.result).toBeNull();
-                expect(convertedCalc.expression).toEqual([calc, '/', 1.609344]);
+        expect(convertedCalc.name).toBe('varname to miles');
+        expect(convertedCalc.result).toBeNull();
+        expect(convertedCalc.expression).toEqual([calc, '/', 1.609344]);
     });
 
 

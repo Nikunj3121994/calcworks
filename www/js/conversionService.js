@@ -43,27 +43,27 @@ angular.module('calcworks.services')
             this.getUSD_EUR(processExchangeRateResponseEURtoUSD);
         } else {
             if (operator === 'inch-to-centimeters') {
-                conversionCalc.name = calc.name + 'toCentimeters';
+                conversionCalc.name = calc.name + ' to centimeters';
                 conversionCalc.expression = [ calc, 'x', 2.54];
             } else
             if (operator === 'centimeters-to-inch') {
-                conversionCalc.name = calc.name + 'toInches';
+                conversionCalc.name = calc.name + ' to inches';
                 conversionCalc.expression = [ calc, '/', 2.54];
             } else
             if (operator === 'kilometers-to-miles') {
-                conversionCalc.name = calc.name + 'toMiles';
+                conversionCalc.name = calc.name + ' to miles';
                 conversionCalc.expression = [ calc, '/', 1.609344];
             } else
             if (operator === 'miles-to-kilometers') {
-                conversionCalc.name = calc.name + 'toKilometers';
+                conversionCalc.name = calc.name + ' to kilometers';
                 conversionCalc.expression = [ calc, 'x', 1.609344];
             } else
             if (operator === 'fahrenheit-to-celcius') {
-                conversionCalc.name = calc.name + 'toCelcius';
+                conversionCalc.name = calc.name + ' to Celcius';
                 conversionCalc.expression = [ '(', calc, '-', 32.0, ')', '/', 1.80];
             } else
             if (operator === 'celcius-to-fahrenheit') {
-                conversionCalc.name = calc.name + 'toFahrenheit';
+                conversionCalc.name = calc.name + ' to Fahrenheit';
                 conversionCalc.expression = [ calc, 'x', 1.8, '+', 32.0];
             } else {
                 alert('invalid function: ' + operator);
