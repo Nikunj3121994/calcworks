@@ -60,8 +60,8 @@ angular.module('calcworks.controllers')
             displayCalculationName: '=' // optional, display calculation name instead of its result
         },
         link: function(scope, element) {
-            scope.$watch('expression', function(newValue, oldValue) {
-                if (newValue) {
+
+            function updateElement() {
                     var template = '';
                     var arrayLength = scope.expression.length;
                     for (var i = 0; i < arrayLength; i++) {
@@ -74,8 +74,18 @@ angular.module('calcworks.controllers')
                     }
                     // since we resolve the parameters above there is no need to compile
                     element.html(template);
+            }
+
+            // we need to deep watch expression and result
+            scope.$watch(
+                function() { return scope.expression.concat([scope.result]); },
+                function(newValue, oldValue) {
+                if (newValue) {
+                    updateElement();
                 }
-            }, true); // true is deep dirty checking
+            }, true); // true is deep dirty checking (so no reference check)
+
+
         }
     };
 })

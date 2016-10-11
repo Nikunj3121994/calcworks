@@ -29,7 +29,7 @@ angular.module('calcworks.controllers')
         $state.get('tab.calculator').data.mode = 'normal';
     }
 
-    // use this function as a reset when bracket open or closed is entered
+    // use this function as a reset when bracket closed is entered or equals
     var miniReset = function() {
         // display acts as the input buffer and is thus a string. It
         // it uses the period as decimal separator.
@@ -41,8 +41,15 @@ angular.module('calcworks.controllers')
         $scope.numberEnteringState = false;
         $scope.plusMinusTyped = false;  // note: een negatief getal kan ook een uitkomst zijn, niet noodzakelijk plusmin
         $scope.operatorStr = '';
-
     };
+
+
+    function expressionEnteringStart() {
+        $scope.expressionEnteringState = true;
+        $scope.expression = [];
+        $scope.result = null;
+    }
+
 
     // dit komt overeen met de 'start' mode, initieel of na een clear, stop macro, stop edit
     $scope.reset = function() {
@@ -123,13 +130,6 @@ angular.module('calcworks.controllers')
     }
 
 
-    function expressionEnteringStart() {
-        $scope.expressionEnteringState = true;
-        $scope.expression = [];
-        $scope.result = null;
-    }
-
-
     // copies the content from the display or selected calc to expression
     function updateScopeExpression() {
         // het kan zijn dat alleen een getal is ingetikt (de uitgestelde operatie), in dit geval
@@ -143,7 +143,6 @@ angular.module('calcworks.controllers')
                 $scope.expression.push('_');
             }
             $scope.expression.push(selectedCalc);
-            // reset flags below
         }
         // als de operator meteen wordt ingetikt na een vorige berekening, dan nemen we die berekening als input
         // de clear operatie onderbreekt dit, vandaar de test op display  (== test op start mode)
@@ -308,7 +307,7 @@ angular.module('calcworks.controllers')
 
 
     $scope.touchRecall = function() {
-        // notAllowedCalc is een beetje simpele benadering om een cycle (maar alleen eerstegraads) te vermijden
+        // notAllowedCalc is een beetje simpele benadering om een cycle (maar alleen eerste graads) te vermijden
         var notAllowedCalc = $scope.editMode === true ?  $scope.editCalc : null;
         selectCalculationDialog.showSelectCalculationDialog($scope.sheet, notAllowedCalc, $scope.processSelectedCalculation);
     };
@@ -344,7 +343,7 @@ angular.module('calcworks.controllers')
 
     // binary operator
     $scope.touchOperator = function(operator) {
-        // uitzoeken waarom nog steeds nodig terwijl we dit in updateScopeExpression doen
+        // uitzoeken waarom nog steeds nodig terwijl we dit ook iets later in updateScopeExpression doen
         if (!$scope.expressionEnteringState) {
             expressionEnteringStart();
         }
@@ -427,18 +426,17 @@ angular.module('calcworks.controllers')
 
 
     $scope.touchOpenBracket = function() {
+        if (!$scope.expressionEnteringState) {
+            expressionEnteringStart();
+            $scope.display = '0';
+        }
         if ($scope.plusMinusTyped) {
             $scope.expression.push('_');
         }
-        // we do not change $scope.operatorStr to bracket open, bracket is not an operator.
-        // also expression already shows the bracket
-        if (!$scope.expressionEnteringState) {
-            miniReset();
-            $scope.expressionEnteringState = true;
-        }
         $scope.expression.push('(');
+        $scope.operatorStr = ''; // we hebben alles verwerkt, dus geen plusmin / operator meer tonen
         // state overgang:
-        // niets veranderd
+        $scope.plusMinusTyped = false; // als er eentje was dan is ie nu gerest
     };
 
 

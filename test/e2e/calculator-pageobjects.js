@@ -27,6 +27,8 @@ var CalculatorTab = function() {
     var btn7 = element(by.buttonText('7'));
     var btn8 = element(by.buttonText('8'));
     var btn9 = element(by.buttonText('9'));
+    var btnBracketOpen =  element(by.buttonText('('));
+    var btnBracketClose =  element(by.buttonText(')'));
     var btnPlus =  element(by.buttonText('+'));
     //var btnPercentage =  element(by.buttonText('%'));
     var btnFunction =  element(by.buttonText('f(x)'));
@@ -73,6 +75,16 @@ var CalculatorTab = function() {
     this.clickBtn5 = function() {
         btn5.click();
     }
+
+    this.clickBracketOpen = function() {
+        btnBracketOpen.click();
+    }
+
+
+    this.clickBracketClose = function() {
+        btnBracketClose.click();
+    }
+
 
     this.clickBtnPlus = function() {
         btnPlus.click();

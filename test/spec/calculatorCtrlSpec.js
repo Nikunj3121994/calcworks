@@ -552,6 +552,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.reset();
         scope.touchPlusMinOperator();
         scope.touchOpenBracket();
+        expect(scope.expression).toEqual(['_' ,'(']);
+        expect(scope.operatorStr).toEqual(''); // de plusmin is verwerkt, dus niet meer tonen
         scope.touchDigit(9);
         scope.touchOperator('+');
         scope.touchDigit(1);
@@ -769,9 +771,26 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.expression).toEqual(['(', 4, ')', '+', 5]);
         expect(scope.operatorStr).toBe('');
         expect(scope.result).toEqual(9);
+
+        // 3 + (1)
+        scope.reset();
+        scope.touchDigit(3);
+        scope.touchOperator('+');
+        expect(scope.operatorStr).toBe('+');
+        scope.touchOpenBracket();
+        expect(scope.expression).toEqual([3, '+', '(']);
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('');
+        scope.touchDigit(1);
+        scope.touchCloseBracket();
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('4');
+        expect(scope.expression).toEqual([3, '+', '(', 1, ')']);
+        expect(scope.operatorStr).toBe('');
+        expect(scope.result).toEqual(4);
     });
 
-    it('verify open bracket after expression entered', function() {
+    it('verify open bracket after calculation entered', function() {
         // enter a dummy expression
         scope.touchDigit(5);
         scope.touchOperator('+');
@@ -782,9 +801,9 @@ describe('Test controller CalculatorCtrl', function () {
         // start with open bracket, this should reset the expression
         scope.touchOpenBracket();
         expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual([ 5, '+', 9, '(']);
+        expect(scope.expression).toEqual([ '(']);
         expect(scope.operatorStr).toBe('');
-        expect(scope.result).toEqual(14);
+        expect(scope.result).toBeNull();
     });
 
 

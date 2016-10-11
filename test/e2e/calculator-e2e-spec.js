@@ -146,6 +146,52 @@ describe('calculator', function() {
     expect(calculatorTab.getDisplay()).toEqual('100,002.1');
   });
 
+  it('simple calculation with brackets (1) + (2 + 3)', function() {
+    var calculatorTab = new pageobjects.CalculatorTab();
+    calculatorTab.clickBtnClear();
+
+    calculatorTab.clickBracketOpen();
+    calculatorTab.clickBtn1();
+    calculatorTab.clickBracketClose();
+    expect(calculatorTab.getDisplay()).toEqual('0');
+    expect(calculatorTab.getExpression()).toEqual('(1)');
+
+    calculatorTab.clickBtnPlus();
+    calculatorTab.clickBracketOpen();
+    calculatorTab.clickBtn2();
+    calculatorTab.clickBtnPlus();
+    calculatorTab.clickBtn3();
+    calculatorTab.clickBracketClose();
+
+    calculatorTab.clickBtnEquals();
+
+    expect(calculatorTab.getExpression()).toEqual('(1)+(2+3) = 6');
+  });
+
+
+
+  it('simple calculation with separators  100,000 + 2.1 = 100,002.1', function() {
+    var calculatorTab = new pageobjects.CalculatorTab();
+    calculatorTab.clickBtnClear();
+    expect(calculatorTab.getDisplay()).toEqual('0');
+
+    calculatorTab.clickBtn1();
+    calculatorTab.clickBtn0();
+    calculatorTab.clickBtn0();
+    calculatorTab.clickBtn0();
+    calculatorTab.clickBtn0();
+    calculatorTab.clickBtn0();
+    expect(calculatorTab.getDisplay()).toEqual('100,000');
+
+    calculatorTab.clickBtnPlus();
+    calculatorTab.clickBtn2();
+    calculatorTab.clickBtnDecimalSeparator();
+    calculatorTab.clickBtn1();
+    calculatorTab.clickBtnEquals();
+
+    expect(calculatorTab.getDisplay()).toEqual('100,002.1');
+  });
+
 
   it('test rename of calculation', function() {
     var calculatorTab = new pageobjects.CalculatorTab();
