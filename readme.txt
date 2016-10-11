@@ -286,24 +286,16 @@ observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 Bugs
 -------
 
+- undo met expressie ging fout  (12 = 4)
 - editen met een expressie gaat niet goed. Ik denk circulaire expressie
 - Het is ook niet helemaal duidelijk wat de OK is als je een edit actie doet...
-- als er nog een eerste operand is, dan zou operator niets moeten doen
-
-
-iPad:
-
-<TODO: we moeten voor de ipad nog een setting zetten ivm splitscreen>
-
-
-ik heb t idee dat je een close bracket kan doen terwijl er nog geen open is geweest
 
 
 
 Improvements
 --------------
 
-
+- we moeten voor de ipad nog een setting zetten ivm splitscreen
 - a trash icon bij settings
 - moet de button met de . ook niet localised worden?
 - misschien zou de remember btn link bij display moeten, heb je meer ruimte in de eerste panel
