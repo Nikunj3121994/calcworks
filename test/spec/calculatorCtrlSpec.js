@@ -1225,6 +1225,13 @@ describe('Test controller CalculatorCtrl', function () {
         expect(getActiveSheet().calculations.length).toBe(2);
         expect(getActiveSheet().calculations[0].expression).toEqual([calc, 'x', 2.54]);
         expect(getActiveSheet().calculations[0].result).toBe(-12.7);
+        expect(scope.operatorStr).toBe('');
+        // verify post state processing
+        scope.touchDigit(1);
+        scope.touchEqualsOperator();
+        expect(getActiveSheet().calculations[0].expression).toEqual([1]);
+        expect(getActiveSheet().calculations[0].result).toBe(1);
+
     });
 
 
@@ -1262,6 +1269,22 @@ describe('Test controller CalculatorCtrl', function () {
         // verify
         expect(getActiveSheet().calculations[0].expression).toEqual(['_', conversionResultCalc, '+', 1]);
         expect(getActiveSheet().calculations[0].result).toBe(-11.7);
+    });
+
+
+
+    it('verify processFunctionSelected conversion with following digit', function() {
+        scope.touchDigit(5);
+        scope.processFunctionSelected('inch-to-centimeters');
+        mockBackEnd();   // vanwege onderstaande digest moeten we dit doen :-(
+        scope.$digest(); // needed to trigger the then()
+        expect(getActiveSheet().calculations.length).toBe(2);
+        // start the real test
+        scope.touchDigit(1);
+        scope.touchEqualsOperator();
+        // verify
+        expect(getActiveSheet().calculations[0].expression).toEqual([1]);
+        expect(getActiveSheet().calculations[0].result).toBe(1);
     });
 
 

@@ -381,6 +381,7 @@ angular.module('calcworks.controllers')
         if (operator.length === 1) {
             $scope.touchOperator(operator);
         } else {
+            // first some logic to determine the calculation to do the conversion with
             var calc;
             // verify whether equal has just been executed
             if ($scope.numberEnteringState || $scope.expressionEnteringState) {
@@ -408,6 +409,7 @@ angular.module('calcworks.controllers')
                 // we can reuse the previous calculation
                 calc = $scope.sheet.calculations[0];
             }
+            // do the actual conversion
             var conversionCalcPromise = conversionService.convert(operator, $scope.sheet, calc);
             conversionCalcPromise
                 .then(function(conversionCalc) {
@@ -420,7 +422,12 @@ angular.module('calcworks.controllers')
                     // all error handling is within the conversionService
                     console.log('internal error, not expected ' + reason);
                });
-            // TODO: touchOperator does some post processing that is missing here..
+           // state overgang zou t zelfde na een equals moeten zijn
+           $scope.operatorStr = '';
+           $scope.numberEnteringState = false;
+           $scope.expressionEnteringState = false;
+           $scope.plusMinusTyped = false;
+           selectedCalc = null;
         }
     }
 
