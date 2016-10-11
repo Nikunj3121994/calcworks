@@ -54,11 +54,11 @@ angular.module('calcworks.services')
                     //$log.log('  calcCalculation, eval ' + calculation.name  + ' : ' + expression + ' = ' + outcome);
                 } catch (e) {
                     if (e instanceof SyntaxError) {
-                        $log.log('  calcCalculation; ' + calculation.name  + ' : ' + expression);
                         outcome = 'syntax error';
                     } else {
                         outcome = 'error';
                     }
+                    $log.log(outcome + ' in method calcCalculation; ' + calculation.name  + ' : ' + expression);
                 }
                 calculation.result = outcome;
                 delete state.varNamesInCalculation[calculation.name];
