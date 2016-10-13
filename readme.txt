@@ -279,20 +279,22 @@ Roadmap
 Issues
 ============
 
-test scenarios
-observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 
 
 Bugs
 -------
-
+- bij 2 keer clear visualiseren dat er een nieuwe sheet is
+- div bij zero moet een error calc worden, niet verwijderen
 - editen met een circulaire expressie testen
 - Het is ook niet helemaal duidelijk wat de OK is als je een edit actie doet...
+    // is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
+- is cordova minified bij een release?
 
 
 
 Improvements
 --------------
+- toon de expressie visueel duidelijker; de operator precedence zou je moeten visualiseren - meer/minder ruimte tussen. Deelstreep
 - we moeten voor de ipad nog een setting zetten ivm splitscreen
 - a trash icon bij settings
 - moet de button met de . ook niet localised worden?
@@ -328,7 +330,6 @@ Kleine features
  Better looking popup menus
  De notifications kunnen mooier. In het scherm sliden, time-out voor sluiten en ook met x kunnen closen
  better looking notifications (e.g. error message)
- beep of vibrate bij fout in calculator
 
 
 paste functionaliteit
