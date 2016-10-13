@@ -19,7 +19,7 @@ angular.module('calcworks.controllers')
 //   expressionEnteringStart ; lege display, wel vorige calculatie
 //   clear -> start or waiting
 
-.controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout,
+.controller('CalculatorCtrl', function($scope, $rootScope, $state, $stateParams, $log, $ionicModal, $ionicPopup, $timeout, $animate,
     calcService, sheetService, conversionService, renameDialogs, selectFunctionDialog, selectCalculationDialog) {
 
     var selectedCalc;  // een geselecteerde calc - via recall of een ander tabblad.
@@ -149,6 +149,16 @@ angular.module('calcworks.controllers')
         $scope.currentCalc.result = $scope.editCalcBackup.result;
         $scope.reset();
     };
+
+
+    function showErrorShake() {
+        var element = angular.element( document.querySelector( '#calculatorId' ) );
+        $animate.addClass(element, 'shake').then(
+            function() {
+                $animate.removeClass(element, 'shake');
+            })
+        ;
+    }
 
 
     function showAlertPopup(msg) {
@@ -281,7 +291,9 @@ angular.module('calcworks.controllers')
         // only when we display a number then we do it localised
         if (!containsPeriodChar($scope.display)) {
             $scope.display = ($scope.display) + '.';
-        } // consider: else show/give error signal - however not sure if we can do this in every error situation
+        } else {
+            showErrorShake();
+        }
     };
 
 
@@ -445,8 +457,7 @@ angular.module('calcworks.controllers')
             // state overgang:
             miniReset();
         } else {
-            // more close brackets as open brackets, we ignore this for now
-            // todo: error signal
+            showErrorShake();
         }
     };
 
@@ -596,9 +607,7 @@ angular.module('calcworks.controllers')
             restoreAction(lastAction);
             $scope.operatorStr = '';  // dit is een twijfel geval
         }
-
     }
-
 
 
 });

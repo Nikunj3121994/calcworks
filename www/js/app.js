@@ -4,7 +4,7 @@
 angular.module('calcworks.services', []);
 angular.module('calcworks.controllers', []);
 
-angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controllers'])
+angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controllers','ngAnimate' ])
 
 .run(function($ionicPlatform, $rootScope, $ionicLoading) {
 

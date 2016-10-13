@@ -293,12 +293,10 @@ Bugs
 
 Improvements
 --------------
-- bij een error shake: http://www.mircozeiss.com/shake-that-login-form-with-angularjs
 - we moeten voor de ipad nog een setting zetten ivm splitscreen
 - a trash icon bij settings
 - moet de button met de . ook niet localised worden?
 - misschien zou de remember btn link bij display moeten, heb je meer ruimte in de eerste panel
-- 'undo' ipv icon?
 
 
 Feedback Carolien
