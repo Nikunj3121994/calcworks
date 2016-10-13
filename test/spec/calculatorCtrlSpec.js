@@ -40,6 +40,22 @@ describe('Test controller CalculatorCtrl', function () {
         httpBackend.expectGET('templates/tabs.html').respond(200);
     }
 
+    it('verify clear', function() {
+        expect(scope.sheet.calculations.length).toBe(0);
+        scope.touchDigit(5);
+        scope.touchEqualsOperator();
+        expect(scope.sheet.calculations.length).toBe(1);
+        expect(scope.display).toBe('5');
+        // nu komt ie:
+        scope.reset();
+        expect(scope.display).toBe('0');
+        expect(scope.sheet.calculations.length).toBe(1);
+        // nieuwe sheet
+        scope.reset();
+        expect(scope.display).toBe('0');
+        expect(scope.sheet.calculations.length).toBe(0);
+
+    });
 
     it('verify touch digit', function () {
         expect(scope.display).toBe('0');

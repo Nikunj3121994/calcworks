@@ -24,11 +24,21 @@ angular.module('calcworks.controllers')
 
     var selectedCalc;  // een geselecteerde calc - via recall of een ander tabblad.
     var state = $stateParams;  // dit moeten we in app.js in de rootscope stoppen
-    var actionHistory;   // history of actions, needed for undo of an expression, first is most recent
+    // actions are for the calculation, commands for the sheet to avoid confusion between the two
+    var calcActionHistory;   // history of actions for current calculations, needed for undo of an expression, first is most recent
+    var sheetCommandHistory = [];   // history of commans in the context of current sheet; clear, delete, recall, etc
 
     var resetDataMode = function() {
         $state.get('tab.calculator').data.mode = 'normal';
     }
+
+
+    function init() {
+        $scope.sheet = sheetService.getActiveSheet();
+        $scope.reset();
+        sheetCommandHistory = [];
+    }
+
 
     // use this function as a reset when bracket closed is entered or equals
     var miniReset = function() {
@@ -45,7 +55,6 @@ angular.module('calcworks.controllers')
     };
 
 
-
     function startNewCalculation() {
         $scope.currentCalc = $scope.sheet.createNewCalculation();
     }
@@ -53,21 +62,23 @@ angular.module('calcworks.controllers')
 
     // dit komt overeen met de 'start' mode, initieel of na een clear, stop macro, stop edit
     $scope.reset = function() {
-        miniReset();
-        startNewCalculation();
-        $scope.macroMode = false;   // an enum for the modes would be nicer
-        $scope.editMode = false;
-        //$scope.editCalc = undefined; // the calc that is edited  TODO: kan currentCalc worden
-        selectedCalc = null;            // de geselecteerde calc die bij pas bij operator of equals verwerkt wordt
-        $scope.editCalcBackup = null;
-        actionHistory = [];
-        resetDataMode();
+        if (sheetCommandHistory.length > 0 && sheetCommandHistory[0].id === 'reset') {
+            sheetCommandHistory = [];
+            sheetService.createNewActiveSheet();
+            // this will trigger init() through event broadcast
+        } else {
+            addCommandToSheetHistory('reset');
+            miniReset();
+            startNewCalculation();
+            $scope.macroMode = false;   // an enum for the modes would be nicer
+            $scope.editMode = false;
+            selectedCalc = null;            // de geselecteerde calc die bij pas bij operator of equals verwerkt wordt
+            $scope.editCalcBackup = null;
+            calcActionHistory = [];
+            resetDataMode();
+        }
     };
 
-    function init() {
-        $scope.sheet = sheetService.getActiveSheet();
-        $scope.reset();
-    }
 
     // test utility method to also reset the sheet
     $scope._test_reset = function() {
@@ -76,18 +87,22 @@ angular.module('calcworks.controllers')
         $scope.reset();
     };
 
-    function addActionToHistory(actionId) {
+    function addActionToCalcHistory(actionId) {
         var action = { id: actionId,
             display: $scope.display,
             operatorStr : $scope.operatorStr,
             plusMinusTyped: $scope.plusMinusTyped,
             expression: $scope.currentCalc.expression.slice(0),
             numberEnteringState: $scope.numberEnteringState };
-        actionHistory.splice(0, 0, action);
+        calcActionHistory.splice(0, 0, action);
+    };
+
+    function addCommandToSheetHistory(actionId) {
+        var action = { id: actionId };
+        sheetCommandHistory.splice(0, 0, action);
     };
 
     $scope.$on('$ionicView.beforeEnter', function () {
-        //console.log('beforeEnter calcCtrl  state.mode: ' + $state.current.data.mode);
         if ($state.current.data.mode === 'run') {
             $scope.reset();  // whipe out left overs
             $scope.macroMode = true;
@@ -102,6 +117,7 @@ angular.module('calcworks.controllers')
 
     // private
     $scope.gotoEditMode = function(calc) {
+        addCommandToSheetHistory('edit');
         $scope.reset();  // whipe out left overs
         $scope.editMode = true;
         // maak een backup vd expression zodat je deze kan tonen in de calculator en voor de cancel
@@ -122,18 +138,33 @@ angular.module('calcworks.controllers')
     });
 
     $scope.cancelMacroMode = function() {
+        addCommandToSheetHistory('cancelMacro');
         $scope.reset();
     };
 
     $scope.cancelEditMode = function() {
         if (!$scope.editMode) throw "internal error, not in edit mode";
+        addCommandToSheetHistory('cancelEdit');
         $scope.currentCalc.expression = $scope.editCalcBackup.expression;
         $scope.currentCalc.result = $scope.editCalcBackup.result;
         $scope.reset();
     };
 
 
+    function showAlertPopup(msg) {
+       var alertPopup = $ionicPopup.alert({
+              title: 'Error',
+              template: msg
+            });
+         alertPopup.then(function(res) {  });
+         $timeout(function() {
+              alertPopup.close();
+           }, 3000);
+    }
+
+
     $scope.touchRecall = function() {
+        addCommandToSheetHistory('recall');
         // notAllowedCalc is een beetje simpele benadering om een cycle (maar alleen eerste graads) te vermijden
         // dit nog nader onderzoeken nu editCalc is weggevallen
         var notAllowedCalc = $scope.editMode === true ?  $scope.currentCalcalc : null;
@@ -141,6 +172,7 @@ angular.module('calcworks.controllers')
     };
 
     $scope.touchRemember = function() {
+        addCommandToSheetHistory('remember');
         renameDialogs.showRenameCalculationDialog($scope.sheet.getMostRecentCalculation(), $scope.sheet);
     };
 
@@ -179,6 +211,7 @@ angular.module('calcworks.controllers')
         }
         // als de operator meteen wordt ingetikt na een vorige berekening, dan nemen we die berekening als input
         // de clear operatie onderbreekt dit, vandaar de test op display  (== test op start mode)
+        // note: testen op display 0 is tricky, het kan ook een toevallig resultaat zijn....
         else if (!operandEntered() && $scope.display!='0' && $scope.sheet.getMostRecentCalculation()) {
             var mostRecentCalc = $scope.sheet.getMostRecentCalculation();
             // pas de vorige calculatie toe
@@ -221,7 +254,7 @@ angular.module('calcworks.controllers')
     }
 
     $scope.touchDigit = function(n) {
-        addActionToHistory('digit');
+        addActionToCalcHistory('digit');
         if ($scope.numberEnteringState === false) {
             // de eerste keer dat een digit wordt ingetikt
             $scope.display = '' + n;
@@ -241,7 +274,7 @@ angular.module('calcworks.controllers')
 
 
     $scope.touchDecimalSeparator = function() {
-        addActionToHistory('decimalSeparator');
+        addActionToCalcHistory('decimalSeparator');
         $scope.numberEnteringState = true; // needed if someone starts with period char
         // make sure you can only add decimal separator once
         // we always use the period char because js expression can only deal with US locale
@@ -273,7 +306,7 @@ angular.module('calcworks.controllers')
     // je hebt dit ook nodig bij een vorige calculatie
     // merk op dat een negatief resultaat ook een - teken heeft dat je met plus min ongedaan kan maken
     $scope.touchPlusMinOperator = function() {
-        addActionToHistory('plusMin');
+        addActionToCalcHistory('plusMin');
         // een plusmin resulteert in een _ in de expressie (niet een -)
         if ($scope.numberEnteringState === false  && selectedCalc === null) {
             // er zijn twee mogelijkheden: 1) resultaat van de vorige calculatie  2) in de start state
@@ -302,8 +335,7 @@ angular.module('calcworks.controllers')
 
     // binary operator
     $scope.touchOperator = function(operator) {
-        addActionToHistory('operator');
-
+        addActionToCalcHistory('operator');
         // we should detect if an intermediate expression has been entered, situations:
         // 1)  getal ingetikt
         // 2)  variable gekozen
@@ -337,6 +369,7 @@ angular.module('calcworks.controllers')
         if (operator.length === 1) {
             $scope.touchOperator(operator);
         } else {
+            addCommandToSheetHistory('conversion');
             // first some logic to determine the calculation to do the conversion with
             var calc;
             // verify whether equal has just been executed
@@ -383,7 +416,7 @@ angular.module('calcworks.controllers')
 
 
     $scope.touchOpenBracket = function() {
-        addActionToHistory('openBracket');
+        addActionToCalcHistory('openBracket');
         $scope.display = '0';
         if ($scope.plusMinusTyped) {
             $scope.currentCalc.expression.push('_');
@@ -402,7 +435,7 @@ angular.module('calcworks.controllers')
     }
 
     $scope.touchCloseBracket = function() {
-        addActionToHistory('closeBracket');
+        addActionToCalcHistory('closeBracket');
         var countOpenBrackets = countOccurencesInExpression('(', $scope.currentCalc.expression);
         var countCloseBrackets = countOccurencesInExpression(')', $scope.currentCalc.expression);
         if (countOpenBrackets - countCloseBrackets >= 1  && operandEnteredCLOSE()) {
@@ -421,6 +454,7 @@ angular.module('calcworks.controllers')
     // in tegenstelling tot andere 'touches' bestaat de equals uit 2 zaken:
     // verwerkerking van de input tot aan de '=' en daarna het resultaat uitrekenen/tonen
     $scope.touchEqualsOperator = function() {
+        addCommandToSheetHistory('equals'); // perhaps it would be wiser to have separate equals for each mode
         if ($scope.macroMode) {
             $scope.equalsOperatorMacroMode();
         } else if ($scope.editMode) {
@@ -434,7 +468,7 @@ angular.module('calcworks.controllers')
         $scope.sheet.inputCalculation.expression = [ +$scope.display ];
         calcService.calculate($scope.sheet);
         $scope.numberEnteringState = false;
-        actionHistory = [];
+        calcActionHistory = [];
     };
 
     $scope.equalsOperatorEditMode = function() {
@@ -453,7 +487,8 @@ angular.module('calcworks.controllers')
         // als twee keer achter elkaar = wordt ingedrukt dan is dit een short cut voor de remember functie
         // doordat een nieuw getal niet meteen expressionEnteringStart() aanroept kan result en display out of sync zijn
         // we eisen dat ze wel hetzelfde zijn voor de remember functie
-        if (actionHistory.length === 0) {
+        // perhaps we should throw in cmdHistory below as well
+        if (calcActionHistory.length === 0) {
             this.touchRemember();
         } else {
             updateCurrentCalcExpression();
@@ -466,18 +501,6 @@ angular.module('calcworks.controllers')
             setStatePostCalc();
         }
     };
-
-
-    function showAlertPopup(msg) {
-       var alertPopup = $ionicPopup.alert({
-              title: 'Error',
-              template: msg
-            });
-         alertPopup.then(function(res) {  });
-         $timeout(function() {
-              alertPopup.close();
-           }, 3000);
-    }
 
 
     // put the result into the calculation calc
@@ -507,7 +530,7 @@ angular.module('calcworks.controllers')
         $scope.numberEnteringState = false;
         $scope.plusMinusTyped = false;
         selectedCalc = null;
-        actionHistory = [];
+        calcActionHistory = [];
         startNewCalculation();
     };
 
@@ -552,7 +575,8 @@ angular.module('calcworks.controllers')
 
     // de delete is ook een undo-operator voor de huidige calc
     $scope.touchDelete = function() {
-        var lastAction = actionHistory.shift();
+        addCommandToSheetHistory('delete');
+        var lastAction = calcActionHistory.shift();
         if (!lastAction) {
             // het is mogelijk dat er wel wat in de display zit van vorige keer
             deleteCharFromDisplay();
