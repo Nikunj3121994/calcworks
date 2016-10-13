@@ -286,15 +286,14 @@ observer SheetsCtrl sheetsUpdated is waarschijnlijk overbodig
 Bugs
 -------
 
-- undo met expressie ging fout  (12 = 4)
-- editen met een expressie gaat niet goed. Ik denk circulaire expressie
+- editen met een circulaire expressie testen
 - Het is ook niet helemaal duidelijk wat de OK is als je een edit actie doet...
 
 
 
 Improvements
 --------------
-
+- twee keer clear is een new sheet
 - we moeten voor de ipad nog een setting zetten ivm splitscreen
 - a trash icon bij settings
 - moet de button met de . ook niet localised worden?

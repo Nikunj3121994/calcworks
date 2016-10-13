@@ -10,12 +10,7 @@ describe('Test controller CalculatorCtrl', function () {
     var CalculatorCtrl,
         conversionService,
         httpBackend,
-        scope,
-        sheet = new Sheet('id', 'foo', []);
-
-    var getActiveSheet = function() {
-        return sheet;
-    }
+        scope;
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope, $q, $httpBackend, calcService, sheetService, _conversionService_) {
@@ -25,7 +20,7 @@ describe('Test controller CalculatorCtrl', function () {
         // we need to supply an empty sheet for each test to make sure everything is 'clean'
         // however, strictly speaking this should not be necessary, I suspect that one failing test is a bug
         // on the other hand some tests require that the first variable is 'calc1'
-        sheetService.getActiveSheet = getActiveSheet;
+        //sheetService.getActiveSheet = getActiveSheet;
         sheetService.saveSheet = function(sheet) {}; // we kunnen beter spyOn gebruiken
         CalculatorCtrl = $controller('CalculatorCtrl', {
           $scope: scope,
@@ -93,13 +88,13 @@ describe('Test controller CalculatorCtrl', function () {
     it('verify very basic scenario', function() {
         scope.touchDigit(5);
         scope.touchEqualsOperator();
-        expect(getActiveSheet().calculations.length).toBe(1);
-        expect(getActiveSheet().calculations[0].result).toBe(5);
+        expect(scope.sheet.calculations.length).toBe(1);
+        expect(scope.sheet.calculations[0].result).toBe(5);
 
         scope.touchDigit(3);
         scope.touchEqualsOperator();
-        expect(getActiveSheet().calculations.length).toBe(2);
-        expect(getActiveSheet().calculations[0].result).toBe(3);
+        expect(scope.sheet.calculations.length).toBe(2);
+        expect(scope.sheet.calculations[0].result).toBe(3);
     });
 
     it('verify plus, min, reset', function () {
@@ -114,18 +109,20 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.numberEnteringState).toBe(true);
         scope.touchOperator('+');
         expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual([ 50, '+' ]);
+        expect(scope.currentCalc.expression).toEqual([ 50, '+' ]);
         expect(scope.operatorStr).toBe('+');
 
         scope.touchDigit(9);
         expect(scope.display).toBe('9');
-        expect(scope.expression).toEqual([ 50, '+' ]);
+        expect(scope.currentCalc.expression).toEqual([ 50, '+' ]);
 
         scope.touchEqualsOperator();
         expect(scope.display).toBe('59');
         expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([ 50, '+' , 9]);
-        expect(scope.result).toEqual(59);
+        expect(scope.currentCalc.expression).toEqual([]);
+        expect(scope.sheet.calculations[0].expression).toEqual([ 50, '+' , 9]);
+        expect(scope.sheet.calculations[0].result).toEqual(59);
+        expect(scope.currentCalc.result).toBeNull();
 
         scope.reset();
         expect(scope.display).toBe('0');
@@ -140,8 +137,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('-2');
         expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([91, '-', 93]);
-        expect(scope.result).toEqual(-2);
+        expect(scope.sheet.calculations[0].expression).toEqual([91, '-', 93]);
+        expect(scope.sheet.calculations[0].result).toEqual(-2);
 
         scope.reset();
         scope.touchDigit(9);
@@ -151,8 +148,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([9, '-', 9]);
-        expect(scope.result).toEqual(0);
+        expect(scope.sheet.calculations[0].expression).toEqual([9, '-', 9]);
+        expect(scope.sheet.calculations[0].result).toEqual(0);
     });
 
 
@@ -165,8 +162,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('8');
         expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([2, '^', 3]);
-        expect(scope.result).toEqual(8);
+        expect(scope.sheet.calculations[0].expression).toEqual([2, '^', 3]);
+        expect(scope.sheet.calculations[0].result).toEqual(8);
 
     });
 
@@ -181,247 +178,6 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(2);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('3');
-    });
-
-
-    it('verify touchDelete', function() {
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-        expect(scope.operatorStr).toBe('');
-    });
-
-    it('verify touchDelete numbers', function() {
-        scope.touchDigit(3);
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-
-        scope.reset();
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-
-        scope.reset();
-        scope.touchDigit(3);
-        scope.touchDecimalSeparator();
-        scope.touchDelete();
-        expect(scope.display).toBe('3');
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-
-        scope.reset();
-        scope.touchDigit(2);
-        scope.touchOperator('+');
-        scope.touchDigit(6);
-        scope.touchDelete();
-        scope.touchDigit(4);
-        expect(scope.expression).toEqual([2, '+']);
-        scope.touchEqualsOperator();
-        expect(scope.display).toBe('6');
-        expect(scope.result).toEqual(6);
-    });
-
-    it('verify touchDelete operator', function() {
-        scope.touchDigit(3);
-        scope.touchOperator('x');
-        scope.touchDelete();
-        expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([]);
-        expect(scope.display).toBe('3');
-
-        scope.reset();
-        scope.touchDigit(3);
-        scope.touchOperator('x');
-        scope.touchDigit(2);
-        scope.touchOperator('+');
-        scope.touchDelete();
-        expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([3, 'x']);
-        expect(scope.display).toBe('2');
-        scope.touchDigit(9);
-        expect(scope.display).toBe('29');
-
-        scope.reset();
-        scope.touchDigit(3);
-        scope.touchOperator('x');
-        scope.touchDigit(0);
-        scope.touchOperator('+');
-        scope.touchDelete();
-        expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([3, 'x']);
-        expect(scope.display).toBe('0');
-        scope.touchDigit(9);
-        expect(scope.display).toBe('9');
-
-        scope._test_reset()
-        scope.touchDigit(1);
-        scope.touchOperator('/');
-        scope.touchDigit(3);
-        scope.touchEqualsOperator();
-        var calc1 = scope.sheet.calculations[0];
-        scope.touchOperator('+');
-        scope.touchDelete();
-        expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([]);
-        expect(scope.display).toContain('0.33333');
-        scope.touchOperator('x');
-        expect(scope.expression).toEqual([calc1, 'x']);
-        scope.touchDigit(3);
-        scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([calc1, 'x', 3]);
-        expect(scope.display).toBe('1');
-    });
-
-
-    it('verify touchDelete open bracket', function() {
-        // open bracket
-        scope.reset();
-        scope.touchOpenBracket();
-        scope.touchDelete();
-        expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([]);
-        expect(scope.display).toBe('0');
-
-        scope.reset();
-        scope.touchDigit(1);
-        scope.touchOperator('+');
-        scope.touchOpenBracket();
-        scope.touchDelete();
-        scope.touchDigit(2);
-        scope.touchEqualsOperator();
-        expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([1, '+', 2]);
-        expect(scope.display).toBe('3');
-    });
-
-    it('verify touchDelete close bracket', function() {
-        scope.touchOpenBracket();
-        scope.touchDigit(1);
-        scope.touchOperator('+');
-        scope.touchDigit(3);
-        scope.touchCloseBracket();
-        scope.touchDelete();
-        expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual(['(', 1, '+']);
-        expect(scope.display).toBe('3');
-        // we gaan verder met edit
-        scope.touchOperator('x');
-        scope.touchDigit(4);
-        scope.touchCloseBracket();
-        scope.touchEqualsOperator();
-        expect(scope.expression).toEqual(['(', 1, '+', 3, 'x', 4, ')']);
-        expect(scope.display).toBe('13');
-    });
-
-
-    it('verify touchDelete extended', function() {
-        expect(scope.display).toBe('0');
-        scope.touchDigit(1);
-        scope.touchDigit(2);
-        scope.touchOperator('+');
-        scope.touchDigit(6);
-        scope.touchEqualsOperator();
-        expect(scope.display).toBe('18');
-
-        scope.touchDelete();
-        expect(scope.display).toBe('1');
-        scope.touchDigit(4);
-        expect(scope.display).toBe('14');
-        expect(scope.result).toEqual(18);
-    });
-
-
-    it('verify touchDelete extended with plusmin', function() {
-        expect(scope.display).toBe('0');
-        scope.touchDigit(4);
-        scope.touchOperator('x');
-        scope.touchPlusMinOperator();
-        scope.touchDigit(6);
-        scope.touchEqualsOperator();
-        expect(scope.display).toBe('-24');
-        expect(scope.plusMinusTyped).toBeFalsy();
-
-        scope.touchDelete();
-        expect(scope.display).toBe('-2');
-        scope.touchOperator('x');
-        expect(scope.expression).toEqual([-2, 'x']);
-        scope.touchDigit(4);
-        scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([-2, 'x', 4]);
-        expect(scope.display).toBe('-8');
-        expect(scope.result).toEqual(-8);
-    });
-
-
-    it('verify touchDelete plusmin', function() {
-        scope.touchPlusMinOperator();
-        scope.touchDigit(2);
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-        expect(scope.plusMinusTyped).toBeTruthy();
-        expect(scope.operatorStr).toBe('-');
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-        expect(scope.plusMinusTyped).toBeFalsy();
-        expect(scope.operatorStr).toBe('');
-
-        scope.reset();
-        scope.touchDigit(9);
-        scope.touchPlusMinOperator();
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-        expect(scope.plusMinusTyped).toBeTruthy();
-        expect(scope.operatorStr).toBe('-');
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-        expect(scope.plusMinusTyped).toBeFalsy();
-        expect(scope.operatorStr).toBe('');
-
-        // 1 + -2
-        scope.reset();
-        scope.touchDigit(2);
-        scope.touchOperator('+');
-        scope.touchPlusMinOperator();
-        scope.touchDigit(6);
-        scope.touchDelete();
-        expect(scope.expression).toEqual([2, '+']);
-        expect(scope.display).toBe('0');
-        expect(scope.operatorStr).toBe('-');
-        scope.touchDigit(9);
-        expect(scope.expression).toEqual([2, '+']);
-        expect(scope.display).toBe('-9');
-        expect(scope.operatorStr).toBe('');
-
-        // -(
-        scope.reset();
-        scope.touchPlusMinOperator();
-        scope.touchOpenBracket();
-        expect(scope.expression).toEqual(['_', '(']);
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual(['_']);
-        expect(scope.operatorStr).toBe('-');
-        expect(scope.plusMinusTyped).toBeTruthy();
-        scope.touchDelete();
-        expect(scope.expression).toEqual([]);
-        expect(scope.operatorStr).toBe('');
-        expect(scope.plusMinusTyped).toBeFalsy();
-        expect(scope.display).toBe('0');
-
-        // 5 + -(
-        scope.reset();
-        scope.touchDigit(5);
-        scope.touchOperator('+');
-        scope.touchPlusMinOperator();
-        scope.touchOpenBracket();
-        expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual([5, '+', '_', '(']);
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual([5, '+', '_']);
-        expect(scope.operatorStr).toBe('-');
-        scope.touchDelete();
-        expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual([5, '+' ]);
-        expect(scope.operatorStr).toBe('+');
     });
 
 
@@ -463,9 +219,9 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchOperator('*');
         scope.touchDigit(2);
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual(['_', 4, '*', 2]);
+        expect(scope.sheet.calculations[0].expression).toEqual(['_', 4, '*', 2]);
         expect(scope.display).toBe('-8');
-        expect(scope.result).toEqual(-8);
+        expect(scope.sheet.calculations[0].result).toEqual(-8);
 
         scope.reset();
         scope.touchDigit(4);
@@ -474,9 +230,9 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchPlusMinOperator();
         expect(scope.display).toBe('-2');
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([4, '*', '_', 2]);
+        expect(scope.sheet.calculations[0].expression).toEqual([4, '*', '_', 2]);
         expect(scope.display).toBe('-8');
-        expect(scope.result).toEqual(-8);
+        expect(scope.sheet.calculations[0].result).toEqual(-8);
 
         scope.reset();
         scope.touchDigit(4);
@@ -485,25 +241,58 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(2);
         expect(scope.display).toBe('-2');
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([4, '*', '_', 2]);
+        expect(scope.sheet.calculations[0].expression).toEqual([4, '*', '_', 2]);
         expect(scope.display).toBe('-8');
-        expect(scope.result).toEqual(-8);
+        expect(scope.sheet.calculations[0].result).toEqual(-8);
     });
+
+    it('verify touchPlusMin with negative result as first operand', function() {
+        scope.touchDigit(4);
+        scope.touchOperator('-');
+        scope.touchDigit(6);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-2');
+        var calc1 = scope.sheet.calculations[0];
+
+        scope.touchPlusMinOperator();
+        expect(scope.display).toBe('2');
+        expect(scope.operatorStr).toBe('');
+        scope.touchOperator('+');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        // we eisen haakjes om de calc1 omdat je anders - - calc1 krijgt
+        expect(scope.sheet.calculations[0].expression).toEqual(['_', '(', calc1, ')', '+', 3]);
+        expect(scope.sheet.calculations[0].result).toEqual(5);
+    });
+
+    it('verify touchPlusMin with negative recall', function() {
+        scope.touchPlusMinOperator();
+        scope.touchDigit(4);
+        scope.touchEqualsOperator();
+        var calc = scope.sheet.calculations[0];
+
+        scope.reset();
+        scope.processSelectedCalculation(calc);
+        scope.touchPlusMinOperator();
+        expect(scope.display).toBe('4');
+        expect(scope.operatorStr).toBe('');
+    });
+
 
     it('verify touchPlusMin with var', function() {
         scope.touchDigit(4);
         scope.touchEqualsOperator();
-        var calc = sheet.calculations[0];
+        var calc = scope.sheet.calculations[0];
         expect(calc.expression).toEqual([4]);
 
         scope.touchDigit(3);
         scope.touchOperator('x');
-        expect(scope.expression).toEqual([3 , 'x']);
+        expect(scope.currentCalc.expression).toEqual([3 , 'x']);
         scope.touchPlusMinOperator();
         scope.processSelectedCalculation(calc);
-        expect(scope.expression).toEqual([3 , 'x']);
+        expect(scope.currentCalc.expression).toEqual([3 , 'x']);
         scope.touchEqualsOperator();
-        expect(sheet.calculations[0].expression).toEqual([3 , 'x', '_', calc]);
+        expect(scope.sheet.calculations[0].expression).toEqual([3 , 'x', '_', calc]);
         expect(scope.display).toBe('-12');
 
         scope.reset();
@@ -532,7 +321,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(9);
         scope.touchPlusMinOperator();
         scope.touchEqualsOperator();
-        var calc = sheet.calculations[0];
+        var calc = scope.sheet.calculations[0];
         expect(calc.result).toBe(-9);
 
         scope.touchDigit(3);
@@ -545,21 +334,21 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchPlusMinOperator();
         scope.processSelectedCalculation(calc);
         scope.touchEqualsOperator();
-        // scope.expression is - - 9, niet mooi, maar ook wel weer eenduidig
+        // scope.currentCalc.expression is - - 9, niet mooi, maar ook wel weer eenduidig
         expect(scope.display).toBe('9');
 
         // test met haakjes en plusmin
         scope.reset();
         scope.touchPlusMinOperator();
         scope.touchOpenBracket();
-        expect(scope.expression).toEqual(['_' ,'(']);
+        expect(scope.currentCalc.expression).toEqual(['_' ,'(']);
         expect(scope.operatorStr).toEqual(''); // de plusmin is verwerkt, dus niet meer tonen
         scope.touchDigit(9);
         scope.touchOperator('+');
         scope.touchDigit(1);
         scope.touchCloseBracket();
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual(['_' ,'(', 9, '+', 1, ')']);
+        expect(scope.sheet.calculations[0].expression).toEqual(['_' ,'(', 9, '+', 1, ')']);
         expect(scope.display).toBe('-10');
 
         scope.reset();
@@ -579,14 +368,34 @@ describe('Test controller CalculatorCtrl', function () {
     it('verify touchPlusMin with previous result', function() {
         scope.touchDigit(4);
         scope.touchEqualsOperator();
-        var calc = sheet.calculations[0];
+        var calc = scope.sheet.calculations[0];
         expect(calc.expression).toEqual([4]);
 
         scope.touchPlusMinOperator();
         scope.touchOperator('x');
         scope.touchDigit(3);
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual(['_' , calc, 'x', 3]);
+        expect(scope.sheet.calculations[0].expression).toEqual(['_' , calc, 'x', 3]);
+        expect(scope.sheet.calculations[0].result).toEqual(-12);
+    });
+
+
+    it('verify touchPlusMin with previous negative result', function() {
+        scope.touchDigit(4);
+        scope.touchOperator('-');
+        scope.touchDigit(6);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-2');
+        var calc1 = scope.sheet.calculations[0];
+
+        scope.touchDigit(3);
+        scope.touchOperator('+');
+        scope.touchPlusMinOperator();
+        scope.processSelectedCalculation(calc1);
+        scope.touchEqualsOperator();
+        // we eisen haakjes om de calc1 omdat je anders - - calc1 krijgt
+        expect(scope.sheet.calculations[0].expression).toEqual([3, '+', '_', '(', calc1, ')']);
+        expect(scope.sheet.calculations[0].result).toEqual(5);
     });
 
 
@@ -596,41 +405,42 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchOperator('+');
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('+');
-        expect(scope.expression).toEqual([5, '+']);
+        expect(scope.currentCalc.expression).toEqual([5, '+']);
         // repeat, should not have effect on display
         scope.touchOperator('+');
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('+');
-        expect(scope.expression).toEqual([5, '+']);
+        expect(scope.currentCalc.expression).toEqual([5, '+']);
         // continue with normal sequence
         scope.touchDigit(3);
         scope.touchOperator('*');
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('*');
-        expect(scope.expression).toEqual([5, '+', 3, '*']);
+        expect(scope.currentCalc.expression).toEqual([5, '+', 3, '*']);
     });
 
 
+    // beetje overbodig test, was noodzakelijk omdat we in t verleden t result van de vorige zo lang mogelijk lieten zien
     it('verify result', function() {
         scope.touchDigit(4);
         scope.touchOperator('+');
         scope.touchDigit(2);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('6');
-        expect(scope.result).toBe(6);
+        expect(scope.sheet.calculations[0].result).toBe(6);
+        expect(scope.currentCalc.result).toBeNull();
 
         scope.touchDigit(3);
         expect(scope.display).toBe('3');
-        expect(scope.result).toBe(6); // weet niet zeker of je dit ook echt wilt
         scope.touchOperator('+');
         expect(scope.display).toBe('0');
-        expect(scope.result).toBe(null);
+        expect(scope.currentCalc.result).toBe(null);
         scope.touchDigit(5);
         expect(scope.display).toBe('5');
-        expect(scope.result).toBe(null);
+        expect(scope.currentCalc.result).toBeNull();
         scope.touchEqualsOperator();
         expect(scope.display).toBe('8');
-        expect(scope.result).toBe(8);
+        expect(scope.currentCalc.result).toBeNull();
     });
 
 
@@ -655,8 +465,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('45');
         expect(scope.operatorStr).toBe('');
-        expect(scope.expression).toEqual([5, 'x', 9]);
-        expect(scope.result).toEqual(45);
+        expect(scope.sheet.calculations[0].expression).toEqual([5, 'x', 9]);
+        expect(scope.sheet.calculations[0].result).toEqual(45);
     });
 
 
@@ -680,27 +490,27 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('5');
         expect(scope.operatorStr).toBe('');
-        expect(scope.result).toEqual(5);
+        expect(scope.sheet.calculations[0].result).toEqual(5);
 
-        scope.reset();
+        scope._test_reset();
         scope.touchDigit(0);
         scope.touchOperator('/');
         scope.touchDigit(5);
-        expect(scope.result).toBeNull();
+        scope.touchEqualsOperator();
+        expect(scope.sheet.calculations[0].result).toEqual(0);
     });
 
 
     // for now we do not keep an expression that results into an error
     it('verify division by zero', function () {
-        expect(getActiveSheet().calculations.length).toBe(0);
+        expect(scope.sheet.calculations.length).toBe(0);
         scope.touchDigit(1);
         scope.touchOperator('/');
         scope.touchDigit(0);
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([]);
+        expect(scope.currentCalc.expression).toEqual([]);
         expect(scope.display).toBe('0');
-        expect(scope.result).toBe(null);
-        expect(getActiveSheet().calculations.length).toBe(0);
+        expect(scope.sheet.calculations.length).toBe(0);
     });
 
 
@@ -722,72 +532,72 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.display).toBe('32');
         expect(scope.operatorStr).toBe('');
-        expect(scope.result).toEqual(32);
+        expect(scope.sheet.calculations[0].result).toEqual(32);
     });
 
     it('verify brackets', function() {
         // (4+5)=
         expect(scope.display).toBe('0');
         scope.touchOpenBracket();
-        expect(scope.expression).toEqual(['(']);
+        expect(scope.currentCalc.expression).toEqual(['(']);
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('');
         scope.touchDigit(4);
         expect(scope.display).toBe('4');
-        expect(scope.expression).toEqual(['(']);
+        expect(scope.currentCalc.expression).toEqual(['(']);
         scope.touchOperator('+');
         expect(scope.operatorStr).toBe('+');
-        expect(scope.expression).toEqual(['(', 4, '+']);
+        expect(scope.currentCalc.expression).toEqual(['(', 4, '+']);
         expect(scope.display).toBe('0');
         scope.touchDigit(5);
         scope.touchCloseBracket();
-        expect(scope.expression).toEqual(['(', 4, '+', 5, ')']);
+        expect(scope.currentCalc.expression).toEqual(['(', 4, '+', 5, ')']);
         expect(scope.operatorStr).toBe('');
         scope.touchEqualsOperator();
         expect(scope.display).toBe('9');
-        expect(scope.expression).toEqual(['(', 4, '+', 5, ')']);
+        expect(scope.sheet.calculations[0].expression).toEqual(['(', 4, '+', 5, ')']);
         expect(scope.operatorStr).toBe('');
-        expect(scope.result).toEqual(9);
+        expect(scope.sheet.calculations[0].result).toEqual(9);
 
         // (4) + 5
-        scope.reset();
+        scope._test_reset();
         expect(scope.operatorStr).toBe('');
         scope.touchOpenBracket();
-        expect(scope.expression).toEqual(['(']);
+        expect(scope.currentCalc.expression).toEqual(['(']);
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('');
         scope.touchDigit(4);
         scope.touchCloseBracket();
         expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual(['(', 4, ')']);
+        expect(scope.currentCalc.expression).toEqual(['(', 4, ')']);
         scope.touchOperator('+');
         expect(scope.operatorStr).toBe('+');
-        expect(scope.expression).toEqual(['(', 4, ')', '+']);
+        expect(scope.currentCalc.expression).toEqual(['(', 4, ')', '+']);
         scope.touchDigit(5);
-        expect(scope.expression).toEqual(['(', 4, ')', '+']);
+        expect(scope.currentCalc.expression).toEqual(['(', 4, ')', '+']);
         expect(scope.operatorStr).toBe('+');
         scope.touchEqualsOperator();
         expect(scope.display).toBe('9');
-        expect(scope.expression).toEqual(['(', 4, ')', '+', 5]);
+        expect(scope.sheet.calculations[0].expression).toEqual(['(', 4, ')', '+', 5]);
         expect(scope.operatorStr).toBe('');
-        expect(scope.result).toEqual(9);
+        expect(scope.sheet.calculations[0].result).toEqual(9);
 
         // 3 + (1)
-        scope.reset();
+        scope._test_reset();
         scope.touchDigit(3);
         scope.touchOperator('+');
         expect(scope.operatorStr).toBe('+');
         scope.touchOpenBracket();
-        expect(scope.expression).toEqual([3, '+', '(']);
+        expect(scope.currentCalc.expression).toEqual([3, '+', '(']);
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('');
         scope.touchDigit(1);
         scope.touchCloseBracket();
         scope.touchEqualsOperator();
         expect(scope.display).toBe('4');
-        expect(scope.expression).toEqual([3, '+', '(', 1, ')']);
         expect(scope.operatorStr).toBe('');
-        expect(scope.result).toEqual(4);
+        expect(scope.sheet.calculations[0].expression).toEqual([3, '+', '(', 1, ')']);
+        expect(scope.sheet.calculations[0].result).toEqual(4);
     });
 
     it('verify open bracket after calculation entered', function() {
@@ -797,13 +607,12 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(9);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('14');
-        expect(scope.result).toEqual(14);
+        expect(scope.sheet.calculations[0].result).toEqual(14);
         // start with open bracket, this should reset the expression
         scope.touchOpenBracket();
         expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual([ '(']);
+        expect(scope.currentCalc.expression).toEqual([ '(']);
         expect(scope.operatorStr).toBe('');
-        expect(scope.result).toBeNull();
     });
 
 
@@ -813,17 +622,17 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(9);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('14');
-        expect(scope.expression).toEqual([5, '+', 9]);
-        expect(scope.result).toEqual(14);
+        expect(scope.sheet.calculations[0].expression).toEqual([5, '+', 9]);
+        expect(scope.sheet.calculations[0].result).toEqual(14);
         var calc1 = scope.sheet.calculations[0];
 
         scope.touchOperator('-');
         scope.touchDigit(9);
-        expect(scope.expression).toEqual([calc1, '-']);  // directive should show '14 -'
+        expect(scope.currentCalc.expression).toEqual([calc1, '-']);  // directive should show '14 -'
         scope.touchEqualsOperator();
         expect(scope.display).toBe('5');
-        expect(scope.expression).toEqual([calc1, '-', 9]);
-        expect(scope.result).toEqual(5);
+        expect(scope.sheet.calculations[0].expression).toEqual([calc1, '-', 9]);
+        expect(scope.sheet.calculations[0].result).toEqual(5);
 
     });
 
@@ -844,8 +653,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(9);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('14');
-        expect(scope.expression).toEqual([5, '+', 9]);
-        expect(scope.result).toEqual(14);
+        expect(scope.sheet.calculations[0].expression).toEqual([5, '+', 9]);
+        expect(scope.sheet.calculations[0].result).toEqual(14);
 
         scope.touchDigit(0);
         expect(scope.display).toBe('0');
@@ -856,11 +665,11 @@ describe('Test controller CalculatorCtrl', function () {
 
     it('verify behavior with brackets', function () {
         expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual([]);
+        expect(scope.currentCalc.expression).toEqual([]);
         expect(scope.operatorStr).toBe('');
         scope.touchCloseBracket();
         expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual([]);
+        expect(scope.currentCalc.expression).toEqual([]);
         expect(scope.operatorStr).toBe('');
 
         scope.reset();
@@ -869,7 +678,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchCloseBracket();
         scope.touchCloseBracket();
         expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual(['(' , 5, ')']);
+        expect(scope.currentCalc.expression).toEqual(['(' , 5, ')']);
 
         scope.reset();
         scope.touchOpenBracket();
@@ -878,7 +687,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchCloseBracket();
         scope.touchCloseBracket();
         expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual(['(' , '(', 5, ')', ')']);
+        expect(scope.currentCalc.expression).toEqual(['(' , '(', 5, ')', ')']);
 
         scope.reset();
         scope.touchOpenBracket();
@@ -888,7 +697,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchCloseBracket();  // skip second operand
         // expect error signal
         expect(scope.display).toBe('0');
-        expect(scope.expression).toEqual(['(', 5, '+']);
+        expect(scope.currentCalc.expression).toEqual(['(', 5, '+']);
     });
 
 
@@ -897,8 +706,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchOperator('+');
         scope.touchEqualsOperator();
         expect(scope.display).toBe('5');
-        expect(scope.expression).toEqual([5, '+', 0]);
-        expect(scope.result).toEqual(5);
+        expect(scope.sheet.calculations[0].expression).toEqual([5, '+', 0]);
+        expect(scope.sheet.calculations[0].result).toEqual(5);
 
         scope.reset();
         scope.touchOperator('+');
@@ -907,8 +716,8 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.numberEnteringState).toBeFalsy();
         expect(scope.operatorStr).toBe('');
         expect(scope.display).toBe('5');
-        expect(scope.expression).toEqual([0, '+', 5]);
-        expect(scope.result).toEqual(5);
+        expect(scope.sheet.calculations[0].expression).toEqual([0, '+', 5]);
+        expect(scope.sheet.calculations[0].result).toEqual(5);
     });
 
     it('verify behavior with brackets and equals', function () {
@@ -919,8 +728,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchCloseBracket();
         scope.touchEqualsOperator();
         expect(scope.display).toBe('6');
-        expect(scope.expression).toEqual(['(', 5, '+', 1, ')']);
-        expect(scope.result).toEqual(6);
+        expect(scope.sheet.calculations[0].expression).toEqual(['(', 5, '+', 1, ')']);
+        expect(scope.sheet.calculations[0].result).toEqual(6);
     });
 
 
@@ -929,18 +738,18 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchOperator('+');
         scope.touchDigit(3);
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([2, '+', 3]);
-        expect(scope.result).toEqual(5);
+        expect(scope.sheet.calculations[0].expression).toEqual([2, '+', 3]);
+        expect(scope.sheet.calculations[0].result).toEqual(5);
         var calc1 = scope.sheet.calculations[0];
 
         scope.touchOperator('+');
-        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.processSelectedCalculation(scope.sheet.calculations[0]);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('10');
-        var name = sheet.calculations[0].name;
-        expect(scope.expression).toEqual([calc1, '+', calc1]);
-        expect(sheet.calculations[0].expression).toEqual([calc1, '+', calc1]);
-        expect(scope.result).toEqual(10);
+        var name = scope.sheet.calculations[0].name;
+        expect(scope.currentCalc.expression).toEqual([]);
+        expect(scope.sheet.calculations[0].expression).toEqual([calc1, '+', calc1]);
+        expect(scope.sheet.calculations[0].result).toEqual(10);
 
         // verify decimals
         scope._test_reset();
@@ -948,12 +757,12 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchOperator('/');
         scope.touchDigit(3);
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([1, '/', 3]);
+        expect(scope.sheet.calculations[0].expression).toEqual([1, '/', 3]);
         expect(scope.display).toContain('0.33333333');
 
         scope.touchDigit(2);
         scope.touchOperator('+');
-        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.processSelectedCalculation(scope.sheet.calculations[0]);
         expect(scope.display).toContain('0.333333333');
         scope.touchEqualsOperator();
         expect(scope.display).toContain('2.33333333');
@@ -965,18 +774,18 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchOperator('+');
         scope.touchDigit(3);
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([2, '+', 3]);
+        expect(scope.sheet.calculations[0].expression).toEqual([2, '+', 3]);
         var calc1 = scope.sheet.calculations[0];
 
-        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.processSelectedCalculation(scope.sheet.calculations[0]);
         scope.touchOperator('+');
-        expect(scope.expression).toEqual([calc1, '+']);
+        expect(scope.currentCalc.expression).toEqual([calc1, '+']);
         scope.touchDigit(4);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('9');
-        expect(scope.expression).toEqual([calc1, '+', 4]);
-        expect(sheet.calculations[0].expression).toEqual([calc1, '+', 4]);
-        expect(scope.result).toEqual(9);
+        expect(scope.sheet.calculations[0].expression).toEqual([calc1, '+', 4]);
+        expect(scope.sheet.calculations[0].expression).toEqual([calc1, '+', 4]);
+        expect(scope.sheet.calculations[0].result).toEqual(9);
     });
 
     it('verify behavior processSelectedCalculation 3', function () {
@@ -984,28 +793,27 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchOperator('+');
         scope.touchDigit(3);
         scope.touchEqualsOperator();
-        expect(scope.expression).toEqual([2, '+', 3]);
+        expect(scope.sheet.calculations[0].expression).toEqual([2, '+', 3]);
         var calc1 = scope.sheet.calculations[0];
 
-        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.processSelectedCalculation(scope.sheet.calculations[0]);
         scope.touchOperator('+');
-        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.processSelectedCalculation(scope.sheet.calculations[0]);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('10');
-        expect(sheet.calculations[0].expression).toEqual([calc1, '+', calc1]);
-        expect(scope.expression).toEqual([calc1, '+', calc1]);
+        expect(scope.sheet.calculations[0].expression).toEqual([calc1, '+', calc1]);
+        expect(scope.sheet.calculations[0].expression).toEqual([calc1, '+', calc1]);
         var calc2 = scope.sheet.calculations[0];
 
-        scope.processSelectedCalculation(getActiveSheet().calculations[1]);
+        scope.processSelectedCalculation(scope.sheet.calculations[1]);
         scope.touchOperator('+');
-        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.processSelectedCalculation(scope.sheet.calculations[0]);
         scope.touchOperator('+');
-        scope.processSelectedCalculation(getActiveSheet().calculations[0]);
+        scope.processSelectedCalculation(scope.sheet.calculations[0]);
         scope.touchEqualsOperator();
-        expect(sheet.calculations[0].expression).toEqual([calc1, '+', calc2, '+', calc2]);
-        expect(scope.expression).toEqual([calc1, '+', calc2, '+', calc2]);
+        expect(scope.sheet.calculations[0].expression).toEqual([calc1, '+', calc2, '+', calc2]);
         expect(scope.display).toBe('25');
-        expect(scope.result).toEqual(25);
+        expect(scope.sheet.calculations[0].result).toEqual(25);
     });
 
     it('verify behavior decimal rounding', function () {
@@ -1014,7 +822,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(1);
         scope.touchEqualsOperator();
         expect(scope.display).toBe('3');
-        expect(scope.result).toEqual(3);
+        expect(scope.sheet.calculations[0].result).toEqual(3);
 
         scope._test_reset();
         scope.touchDigit(1);
@@ -1022,77 +830,87 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(3);
         scope.touchEqualsOperator();
         expect(scope.display).toContain('0.333333333');
-        expect(scope.result).toEqual(1 / 3);
+        expect(scope.sheet.calculations[0].result).toEqual(1 / 3);
     });
 
     it('verify two times touch equal = remember', function() {
         spyOn(scope, 'touchRemember');
         expect(scope.touchRemember.calls.count()).toEqual(0);
-        expect(getActiveSheet().calculations.length).toBe(0);
+        expect(scope.sheet.calculations.length).toBe(0);
         scope.touchDigit(1);
         scope.touchOperator('+');
         scope.touchDigit(2);
         scope.touchEqualsOperator();
         expect(scope.touchRemember.calls.count()).toEqual(0);
-        expect(getActiveSheet().calculations.length).toBe(1);
+        expect(scope.sheet.calculations.length).toBe(1);
         scope.touchEqualsOperator();
         expect(scope.touchRemember.calls.count()).toEqual(1);
-        expect(getActiveSheet().calculations.length).toBe(1);
+        expect(scope.sheet.calculations.length).toBe(1);
         // nog een keer
         scope.touchEqualsOperator();
         expect(scope.touchRemember.calls.count()).toEqual(2);
-        expect(getActiveSheet().calculations.length).toBe(1);
+        expect(scope.sheet.calculations.length).toBe(1);
     });
 
     it('verify two times touch equal = remember - repeated', function() {
         spyOn(scope, 'touchRemember');
         expect(scope.touchRemember.calls.count()).toEqual(0);
-        expect(getActiveSheet().calculations.length).toBe(0);
+        expect(scope.sheet.calculations.length).toBe(0);
         scope.touchDigit(1);
         scope.touchEqualsOperator();
         expect(scope.touchRemember.calls.count()).toEqual(0);
-        expect(getActiveSheet().calculations.length).toBe(1);
+        expect(scope.sheet.calculations.length).toBe(1);
         scope.touchEqualsOperator();
-        expect(getActiveSheet().calculations.length).toBe(1);
+        expect(scope.sheet.calculations.length).toBe(1);
         expect(scope.touchRemember.calls.count()).toEqual(1);
         // nog een keer met een ander getal
         scope.touchDigit(2);
         scope.touchEqualsOperator();
         expect(scope.touchRemember.calls.count()).toEqual(1);
-        expect(getActiveSheet().calculations.length).toBe(2);
+        expect(scope.sheet.calculations.length).toBe(2);
         scope.touchEqualsOperator();
         expect(scope.touchRemember.calls.count()).toEqual(2);
-        expect(getActiveSheet().calculations.length).toBe(2);
+        expect(scope.sheet.calculations.length).toBe(2);
     });
 
     it('verify edit mode', function() {
         // setup fixture
         scope.touchDigit(9);
         scope.touchEqualsOperator();
-        expect(getActiveSheet().calculations[0].result).toBe(9);
+        expect(scope.sheet.calculations[0].result).toBe(9);
         // go to edit mode
-        scope.gotoEditMode(getActiveSheet().calculations[0]);
+        scope.gotoEditMode(scope.sheet.calculations[0]);
         scope.touchDigit(7);
         scope.touchEqualsOperator();
-        expect(getActiveSheet().calculations[0].result).toBe(7);
-        scope.cancelEditMode();
+        expect(scope.sheet.calculations[0].result).toBe(7);
 
         // again with bit more complex expression
         scope.touchDigit(1);
         scope.touchOperator('+');
         scope.touchDigit(2);
         scope.touchEqualsOperator();
-        expect(getActiveSheet().calculations.length).toBe(2);
+        expect(scope.sheet.calculations.length).toBe(2);
         // go to edit mode
-        scope.editMode = true;
-        scope.editCalc = getActiveSheet().calculations[0]; // most recent calc
+        scope.gotoEditMode(scope.sheet.calculations[0]);
         scope.touchDigit(4);
         scope.touchOperator('+');
         scope.touchDigit(4);
         scope.touchEqualsOperator();
-        expect(getActiveSheet().calculations.length).toBe(2);
-        expect(getActiveSheet().calculations[0].result).toBe(8);
-        expect(getActiveSheet().calculations[1].result).toBe(7);
+        expect(scope.sheet.calculations.length).toBe(2);
+        expect(scope.sheet.calculations[0].result).toBe(8);
+        expect(scope.sheet.calculations[1].result).toBe(7);
+    });
+
+    it('verify cancel edit mode', function() {
+        // setup fixture
+        scope.touchDigit(9);
+        scope.touchEqualsOperator();
+        expect(scope.sheet.calculations[0].result).toBe(9);
+        // go to edit mode
+        scope.gotoEditMode(scope.sheet.calculations[0]);
+        scope.touchDigit(7);
+        scope.cancelEditMode();
+        expect(scope.sheet.calculations[0].result).toBe(9);
     });
 
     it('verify edit mode virtual cycle', function() {
@@ -1111,12 +929,12 @@ describe('Test controller CalculatorCtrl', function () {
         // go to edit mode for calc2
         scope.reset();
         scope.editMode = true;
-        scope.editCalc = getActiveSheet().calculations[0];
-        scope.processSelectedCalculation(calc1);
+        scope.gotoEditMode(scope.sheet.calculations[0]); // calc2 in edit mode
+        scope.processSelectedCalculation(calc1);  // verwijs naar calc1
         scope.touchEqualsOperator();
         // the equals should reset
-        expect(calc2.expression).toEqual([]);
-        expect(calc2.result).toEqual(null);
+        expect(calc2.expression).toEqual([3]);
+        expect(calc2.result).toEqual(3);
         expect(scope.display).toEqual('0');
     });
 
@@ -1160,7 +978,7 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(3);
         scope.touchEqualsOperator();
         expect(scope.display).toContain('0.3333');
-        expect((!scope.expressionEnteringState && scope.sheet.nrOfCalcs() > 0)).toBeTruthy();
+        expect((!scope.currentCalc.expressionEnteringState && scope.sheet.nrOfCalcs() > 0)).toBeTruthy();
         scope.touchOperator('*');
         scope.touchDigit(3);
         scope.touchEqualsOperator();
@@ -1174,10 +992,10 @@ describe('Test controller CalculatorCtrl', function () {
         scope.processFunctionSelected('inch-to-centimeters');
         mockBackEnd();
         scope.$digest(); // needed to trigger the then()
-        expect(getActiveSheet().calculations[0].expression.length).toBe(3);
-        expect(getActiveSheet().calculations[0].result).toBe(25 * 2.54);
-        expect(getActiveSheet().calculations[1].expression.length).toBe(1);
-        expect(getActiveSheet().calculations[1].result).toBe(25);
+        expect(scope.sheet.calculations[0].expression.length).toBe(3);
+        expect(scope.sheet.calculations[0].result).toBe(25 * 2.54);
+        expect(scope.sheet.calculations[1].expression.length).toBe(1);
+        expect(scope.sheet.calculations[1].result).toBe(25);
     });
 
     it('verify processFunctionSelected conversion without intermediate calculation', function() {
@@ -1186,13 +1004,13 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(5);
         scope.touchEqualsOperator();
         expect(scope.numberEnteringState).toBeFalsy();
-        expect(scope.expressionEnteringState).toBeFalsy();
+        expect(scope.currentCalc.expressionEnteringState).toBeFalsy();
         scope.processFunctionSelected('inch-to-centimeters');
         mockBackEnd();
         scope.$digest(); // needed to trigger the then()
-        expect(getActiveSheet().calculations.length).toBe(2);
-        expect(getActiveSheet().calculations[0].result).toBe(25.4);
-        expect(getActiveSheet().calculations[1].result).toBe(10);
+        expect(scope.sheet.calculations.length).toBe(2);
+        expect(scope.sheet.calculations[0].result).toBe(25.4);
+        expect(scope.sheet.calculations[1].result).toBe(10);
     });
 
 
@@ -1201,13 +1019,13 @@ describe('Test controller CalculatorCtrl', function () {
         scope.processFunctionSelected('inch-to-centimeters');
         mockBackEnd();   // vanwege onderstaande digest moeten we dit doen :-(
         scope.$digest(); // needed to trigger the then()
-        expect(getActiveSheet().calculations.length).toBe(2);
-        var calc0 = getActiveSheet().calculations[1];
+        expect(scope.sheet.calculations.length).toBe(2);
+        var calc0 = scope.sheet.calculations[1];
         expect(calc0.result).toBe(0);
         expect(calc0.expression).toEqual([0]);
 
-        expect(getActiveSheet().calculations[0].expression).toEqual([calc0, 'x', 2.54]);
-        expect(getActiveSheet().calculations[0].result).toBe(0);
+        expect(scope.sheet.calculations[0].expression).toEqual([calc0, 'x', 2.54]);
+        expect(scope.sheet.calculations[0].result).toBe(0);
     });
 
 
@@ -1215,22 +1033,23 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(5);
         scope.touchPlusMinOperator();
         scope.touchEqualsOperator();
-        var calc = getActiveSheet().calculations[0];
+        var calc = scope.sheet.calculations[0];
 
         scope.reset();
         scope.processSelectedCalculation(calc);
         scope.processFunctionSelected('inch-to-centimeters');
         mockBackEnd();   // vanwege onderstaande digest moeten we dit doen :-(
         scope.$digest(); // needed to trigger the then()
-        expect(getActiveSheet().calculations.length).toBe(2);
-        expect(getActiveSheet().calculations[0].expression).toEqual([calc, 'x', 2.54]);
-        expect(getActiveSheet().calculations[0].result).toBe(-12.7);
+        expect(scope.sheet.calculations.length).toBe(2);
+        expect(scope.sheet.calculations[0].expression).toEqual([calc, 'x', 2.54]);
+        expect(scope.sheet.calculations[0].result).toBe(-12.7);
         expect(scope.operatorStr).toBe('');
+        expect(scope.currentCalc.expression).toEqual([]);
         // verify post state processing
         scope.touchDigit(1);
         scope.touchEqualsOperator();
-        expect(getActiveSheet().calculations[0].expression).toEqual([1]);
-        expect(getActiveSheet().calculations[0].result).toBe(1);
+        expect(scope.sheet.calculations[0].expression).toEqual([1]);
+        expect(scope.sheet.calculations[0].result).toBe(1);
 
     });
 
@@ -1241,13 +1060,13 @@ describe('Test controller CalculatorCtrl', function () {
         scope.processFunctionSelected('inch-to-centimeters');
         mockBackEnd();   // vanwege onderstaande digest moeten we dit doen :-(
         scope.$digest(); // needed to trigger the then()
-        expect(getActiveSheet().calculations.length).toBe(2);
-        var calc1 = getActiveSheet().calculations[1];
+        expect(scope.sheet.calculations.length).toBe(2);
+        var calc1 = scope.sheet.calculations[1];
         expect(calc1.result).toBe(-5);
         expect(calc1.expression).toEqual(['_', 5]);
 
-        expect(getActiveSheet().calculations[0].expression).toEqual([calc1, 'x', 2.54]);
-        expect(getActiveSheet().calculations[0].result).toBe(-12.7);
+        expect(scope.sheet.calculations[0].expression).toEqual([calc1, 'x', 2.54]);
+        expect(scope.sheet.calculations[0].result).toBe(-12.7);
     });
 
 
@@ -1256,9 +1075,9 @@ describe('Test controller CalculatorCtrl', function () {
         scope.processFunctionSelected('inch-to-centimeters');
         mockBackEnd();   // vanwege onderstaande digest moeten we dit doen :-(
         scope.$digest(); // needed to trigger the then()
-        expect(getActiveSheet().calculations.length).toBe(2);
-        var calc1 = getActiveSheet().calculations[1];
-        var conversionResultCalc = getActiveSheet().calculations[0];
+        expect(scope.sheet.calculations.length).toBe(2);
+        var calc1 = scope.sheet.calculations[1];
+        var conversionResultCalc = scope.sheet.calculations[0];
         expect(calc1.result).toBe(5);
         expect(conversionResultCalc.result).toBe(12.7);
         // start the real test
@@ -1267,8 +1086,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(1);
         scope.touchEqualsOperator();
         // verify
-        expect(getActiveSheet().calculations[0].expression).toEqual(['_', conversionResultCalc, '+', 1]);
-        expect(getActiveSheet().calculations[0].result).toBe(-11.7);
+        expect(scope.sheet.calculations[0].expression).toEqual(['_', conversionResultCalc, '+', 1]);
+        expect(scope.sheet.calculations[0].result).toBe(-11.7);
     });
 
 
@@ -1278,13 +1097,13 @@ describe('Test controller CalculatorCtrl', function () {
         scope.processFunctionSelected('inch-to-centimeters');
         mockBackEnd();   // vanwege onderstaande digest moeten we dit doen :-(
         scope.$digest(); // needed to trigger the then()
-        expect(getActiveSheet().calculations.length).toBe(2);
+        expect(scope.sheet.calculations.length).toBe(2);
         // start the real test
         scope.touchDigit(1);
         scope.touchEqualsOperator();
         // verify
-        expect(getActiveSheet().calculations[0].expression).toEqual([1]);
-        expect(getActiveSheet().calculations[0].result).toBe(1);
+        expect(scope.sheet.calculations[0].expression).toEqual([1]);
+        expect(scope.sheet.calculations[0].result).toBe(1);
     });
 
 
@@ -1295,19 +1114,280 @@ describe('Test controller CalculatorCtrl', function () {
     it('verify processFunctionSelected euro-to-usd', function() {
         scope.touchDigit(4);
         scope.touchDigit(0);
-        var calc = sheet.createNewCalculation();
+        var calc = scope.sheet.createNewCalculation();
         scope.processFunctionSelected('eur-to-usd');
         mockBackEnd();
         httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
         httpBackend.flush();
-        expect(getActiveSheet().calculations.length).toBe(3);
-        expect(getActiveSheet().calculations[0].expression.length).toBe(3);
-        expect(getActiveSheet().calculations[0].result).toBe(40 * 1.2);
-        expect(getActiveSheet().calculations[1].expression.length).toBe(1);
-        expect(getActiveSheet().calculations[1].result).toBe(1.2);
-        expect(getActiveSheet().calculations[2].expression.length).toBe(1);
-        expect(getActiveSheet().calculations[2].result).toBe(40);
+        expect(scope.sheet.calculations.length).toBe(3);
+        expect(scope.sheet.calculations[0].expression.length).toBe(3);
+        expect(scope.sheet.calculations[0].result).toBe(40 * 1.2);
+        expect(scope.sheet.calculations[1].expression.length).toBe(1);
+        expect(scope.sheet.calculations[1].result).toBe(1.2);
+        expect(scope.sheet.calculations[2].expression.length).toBe(1);
+        expect(scope.sheet.calculations[2].result).toBe(40);
     });
 
+
+
+    it('verify touchDelete', function() {
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('');
+    });
+
+    // is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
+
+
+    it('verify touchDelete numbers', function() {
+        scope.touchDigit(3);
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+
+        scope.reset();
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+
+        scope.reset();
+        scope.touchDigit(3);
+        scope.touchDecimalSeparator();
+        scope.touchDelete();
+        expect(scope.display).toBe('3');
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+    });
+
+// lijkt dubbel op
+//    it('verify touchDelete expression', function() {
+//        scope.touchDigit(2);
+//        scope.touchOperator('+');
+//        scope.touchDigit(6);
+//        scope.touchDelete();
+//        scope.touchDigit(4);
+//        expect(scope.currentCalc.expression).toEqual([2, '+']);
+//        scope.touchEqualsOperator();
+//        expect(scope.display).toBe('6');
+//        expect(scope.sheet.calculations[0].result).toEqual(6);
+//    });
+//
+    it('verify touchDelete operator', function() {
+        scope.touchDigit(3);
+        scope.touchOperator('x');
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.currentCalc.expression).toEqual([]);
+        expect(scope.display).toBe('3');
+
+        scope.reset();
+        scope.touchDigit(3);
+        scope.touchOperator('x');
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.currentCalc.expression).toEqual([3, 'x']);
+        expect(scope.display).toBe('2');
+        scope.touchDigit(9);
+        expect(scope.display).toBe('29');
+
+        scope.reset();
+        scope.touchDigit(3);
+        scope.touchOperator('x');
+        scope.touchDigit(0);
+        scope.touchOperator('+');
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.currentCalc.expression).toEqual([3, 'x']);
+        expect(scope.display).toBe('0');
+        scope.touchDigit(9);
+        expect(scope.display).toBe('9');
+
+        scope._test_reset()
+        scope.touchDigit(1);
+        scope.touchOperator('/');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        var calc1 = scope.sheet.calculations[0];
+        scope.touchOperator('+');
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.currentCalc.expression).toEqual([]);
+        expect(scope.display).toContain('0.33333');
+        scope.touchOperator('x');
+        expect(scope.currentCalc.expression).toEqual([calc1, 'x']);
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.sheet.calculations[0].expression).toEqual([calc1, 'x', 3]);
+        expect(scope.display).toBe('1');
+    });
+
+
+    it('verify touchDelete open bracket', function() {
+        // open bracket
+        scope.reset();
+        scope.touchOpenBracket();
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.currentCalc.expression).toEqual([]);
+        expect(scope.display).toBe('0');
+
+        scope.reset();
+        scope.touchDigit(1);
+        scope.touchOperator('+');
+        scope.touchOpenBracket();
+        scope.touchDelete();
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.sheet.calculations[0].expression).toEqual([1, '+', 2]);
+        expect(scope.display).toBe('3');
+    });
+
+    it('verify touchDelete close bracket', function() {
+        scope.touchOpenBracket();
+        scope.touchDigit(1);
+        scope.touchOperator('+');
+        scope.touchDigit(3);
+        scope.touchCloseBracket();
+        scope.touchDelete();
+        expect(scope.operatorStr).toBe('');
+        expect(scope.currentCalc.expression).toEqual(['(', 1, '+']);
+        expect(scope.display).toBe('3');
+        // we gaan verder met edit
+        scope.touchOperator('x');
+        scope.touchDigit(4);
+        scope.touchCloseBracket();
+        scope.touchEqualsOperator();
+        expect(scope.sheet.calculations[0].expression).toEqual(['(', 1, '+', 3, 'x', 4, ')']);
+        expect(scope.display).toBe('13');
+    });
+
+
+    it('verify touchDelete extended', function() {
+        expect(scope.display).toBe('0');
+        scope.touchDigit(1);
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchDigit(6);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('18');
+
+        scope.touchDelete();
+        expect(scope.display).toBe('1');
+        scope.touchDigit(4);
+        expect(scope.display).toBe('14');
+        expect(scope.sheet.calculations[0].result).toEqual(18);
+    });
+
+
+    it('verify touchDelete with plusmin', function() {
+        expect(scope.display).toBe('0');
+        scope.touchDigit(4);
+        scope.touchOperator('x');
+        scope.touchPlusMinOperator();
+        scope.touchDigit(6);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-24');
+        expect(scope.plusMinusTyped).toBeFalsy();
+
+        scope.touchDelete();
+        expect(scope.display).toBe('-2');
+        scope.touchOperator('x');
+        expect(scope.currentCalc.expression).toEqual([-2, 'x']);
+        scope.touchDigit(4);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('-8');
+        expect(scope.sheet.calculations[0].expression).toEqual([-2, 'x', 4]);
+        expect(scope.sheet.calculations[0].result).toEqual(-8);
+    });
+
+    it('verify touchDelete extended with plusmin', function() {
+        expect(scope.display).toBe('0');
+        scope.touchDigit(4);
+        scope.touchOperator('x');
+        scope.touchPlusMinOperator();
+        scope.touchDelete();
+        expect(scope.currentCalc.expression).toEqual([4, 'x']);
+        scope.touchDigit(6);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('24');
+        expect(scope.sheet.calculations[0].expression).toEqual([4, 'x', 6]);
+    });
+
+
+    it('verify touchDelete plusmin', function() {
+        scope.touchPlusMinOperator();
+        scope.touchDigit(2);
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.plusMinusTyped).toBeTruthy();
+        expect(scope.operatorStr).toBe('-');
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.plusMinusTyped).toBeFalsy();
+        expect(scope.operatorStr).toBe('');
+
+        scope.reset();
+        scope.touchDigit(9);
+        scope.touchPlusMinOperator();
+        scope.touchDelete();
+        expect(scope.display).toBe('9');
+        expect(scope.plusMinusTyped).toBeFalsy();
+        expect(scope.operatorStr).toBe('');
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.plusMinusTyped).toBeFalsy();
+        expect(scope.operatorStr).toBe('');
+
+        // 1 + -2
+        scope.reset();
+        scope.touchDigit(2);
+        scope.touchOperator('+');
+        scope.touchPlusMinOperator();
+        scope.touchDigit(6);
+        scope.touchDelete();
+        expect(scope.currentCalc.expression).toEqual([2, '+']);
+        expect(scope.display).toBe('0');
+        expect(scope.operatorStr).toBe('-');
+        expect(scope.plusMinusTyped).toBeTruthy();
+        scope.touchDigit(9);
+        expect(scope.currentCalc.expression).toEqual([2, '+']);
+        expect(scope.display).toBe('-9');
+        expect(scope.operatorStr).toBe('');
+
+        // -(
+        scope.reset();
+        scope.touchPlusMinOperator();
+        scope.touchOpenBracket();
+        expect(scope.currentCalc.expression).toEqual(['_', '(']);
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.currentCalc.expression).toEqual([]);  // leeg!
+        expect(scope.operatorStr).toBe('-');
+        expect(scope.plusMinusTyped).toBeTruthy();
+        scope.touchDelete();
+        expect(scope.currentCalc.expression).toEqual([]);
+        expect(scope.operatorStr).toBe('');
+        expect(scope.plusMinusTyped).toBeFalsy();
+        expect(scope.display).toBe('0');
+
+        // 5 + -(
+        scope.reset();
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        scope.touchPlusMinOperator();
+        scope.touchOpenBracket();
+        expect(scope.display).toBe('0');
+        expect(scope.currentCalc.expression).toEqual([5, '+', '_', '(']);
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.plusMinusTyped).toBeTruthy();
+        expect(scope.currentCalc.expression).toEqual([5, '+' ]);
+        expect(scope.operatorStr).toBe('-');
+        scope.touchDelete();
+        expect(scope.display).toBe('0');
+        expect(scope.currentCalc.expression).toEqual([5, '+' ]);
+        expect(scope.operatorStr).toBe('+');
+    });
 
 });

@@ -41,7 +41,8 @@ Sheet.prototype.nrOfCalcs = function() {
 };
 
 Sheet.prototype.addCalculation = function(calculation) {
-    if (!calculation) throw "parameter calculation is null";
+    if (!calculation)
+        throw "parameter calculation is null";
     this.calculations.splice(0, 0, calculation);
 };
 

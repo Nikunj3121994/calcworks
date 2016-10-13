@@ -31,7 +31,7 @@
                     <div class="expression-normal-value">
                         <span class="expression-items">
                             <ion-scroll direction="x" class="wide-as-needed">
-                                <resolve-expression expression="expression" result="result">
+                                <resolve-expression expression="getCalculationToDisplay().expression" result="getCalculationToDisplay().result">
                                 </resolve-expression>
                             </ion-scroll>
                             <!--geen spaties tussen de span elements hieronder !! -->
@@ -56,7 +56,7 @@
                         <!--no spaces between spans otherwise lay-out is broken-->
                         <span class="display-inline-text">
                             <span ng-if="macroMode">Enter new value for {{sheet.inputCalculation.name}}:</span>
-                            <span ng-if="editMode">Edit {{editCalc.name}}: <resolve-expression expression="editCalc.expression" result="" display-calculation-name="true"></resolve-expression></span>
+                            <span ng-if="editMode">Edit {{editCalcBackup.name}}: <resolve-expression expression="editCalcBackup.expression" result="" display-calculation-name="true"></resolve-expression></span>
                         </span><span class="display-inline-operator">{{operatorStr}}
                     </span>
                     </span><span class="display-input">

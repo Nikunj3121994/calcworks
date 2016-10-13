@@ -29,3 +29,12 @@ var Calculation = function(param, calcName, expression) {
     this.__type = 'Calculation';
 };
 
+// returns a copy with a new id, same name
+Calculation.prototype.copy = function() {
+    var id = generateUUID();
+    var calc = new Calculation(id, this.name, this.expression.slice(0));
+    calc.result = this.result;
+    calc.createdTimestamp = this.createdTimestamp;
+    return calc;
+};
+
