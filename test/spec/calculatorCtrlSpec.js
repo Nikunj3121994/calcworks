@@ -88,6 +88,8 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(3);
         scope.touchDecimalSeparator();
         expect(scope.display).toBe('3.');
+        // do not execute $animate.addClass
+        spyOn(scope, 'showErrorShake');
         scope.touchDecimalSeparator();
         expect(scope.display).toBe('3.');
     });
@@ -680,6 +682,8 @@ describe('Test controller CalculatorCtrl', function () {
 
 
     it('verify behavior with brackets', function () {
+        // do not execute $animate.addClass
+        spyOn(scope, 'showErrorShake');
         expect(scope.display).toBe('0');
         expect(scope.currentCalc.expression).toEqual([]);
         expect(scope.operatorStr).toBe('');

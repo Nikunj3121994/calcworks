@@ -151,14 +151,14 @@ angular.module('calcworks.controllers')
     };
 
 
-    function showErrorShake() {
+    // private, but needed for testing
+    $scope.showErrorShake = function() {
         var element = angular.element( document.querySelector( '#calculatorId' ) );
         $animate.addClass(element, 'shake').then(
             function() {
                 $animate.removeClass(element, 'shake');
-            })
-        ;
-    }
+            });
+    };
 
 
     function showAlertPopup(msg) {
@@ -292,7 +292,7 @@ angular.module('calcworks.controllers')
         if (!containsPeriodChar($scope.display)) {
             $scope.display = ($scope.display) + '.';
         } else {
-            showErrorShake();
+            $scope.showErrorShake();
         }
     };
 
@@ -457,7 +457,7 @@ angular.module('calcworks.controllers')
             // state overgang:
             miniReset();
         } else {
-            showErrorShake();
+            $scope.showErrorShake();
         }
     };
 
