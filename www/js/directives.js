@@ -55,33 +55,30 @@ angular.module('calcworks.controllers')
     return {
         restrict: 'E',
         scope: {
-            expression: '=',
-            result: '=',  //optional since might not be there yet
-            displayCalculationName: '=' // optional, display calculation name instead of its result
+            calculation: '=',
+            displayCalculationName: '=' // optional flag, display calculation name instead of its result
         },
         link: function(scope, element) {
 
-            function updateElement() {
+            function updateElement(calculation) {
                     var template = '';
-                    var arrayLength = scope.expression.length;
+                    var arrayLength = calculation.expression.length;
                     for (var i = 0; i < arrayLength; i++) {
                         template = template + '<span class="itemExpr">';
-                        template = template + $rootScope.getExprItemForRendering(scope.expression[i], scope.displayCalculationName);
+                        template = template + $rootScope.getExprItemForRendering(calculation.expression[i], scope.displayCalculationName);
                         template = template + '</span>';
                     }
-                    if (scope.result !== undefined && scope.result !== null) {
-                        template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberForRendering(scope.result) + '</span>';
+                    if (calculation.result !== undefined && calculation.result !== null) {
+                        template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberForRendering(calculation.result) + '</span>';
                     }
                     // since we resolve the parameters above there is no need to compile
                     element.html(template);
             }
 
             // we need to deep watch expression and result
-            scope.$watch(
-                function() { return scope.expression.concat([scope.result]); },
-                function(newValue, oldValue) {
+            scope.$watch('calculation', function(newValue, oldValue) {
                 if (newValue) {
-                    updateElement();
+                    updateElement(scope.calculation);
                 }
             }, true); // true is deep dirty checking (so no reference check)
 

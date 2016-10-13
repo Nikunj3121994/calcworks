@@ -11,7 +11,7 @@ describe('Test directives', function () {
         httpBackend = $httpBackend;
         scope = $rootScope.$new();
         element = angular.element(
-            '<resolve-expression expression="expression" result="result"></resolve-expression>');
+            '<resolve-expression calculation="calculation"></resolve-expression>');
 
     }));
 
@@ -26,11 +26,10 @@ describe('Test directives', function () {
     }
 
     it('verify directive', function () {
-        scope.expression = [2, "+", 3];
-        var calculation = new Calculation('id', 'name', scope.expression);
-        calculation.result = 5;
-        scope.result = 5;
-        scope.sheet = new Sheet('id', 'name', [calculation]);
+        var expression = [2, "+", 3];
+        scope.calculation = new Calculation('id', 'name', expression);
+        scope.calculation.result = 5;
+        scope.sheet = new Sheet('id', 'name', [scope.calculation]);
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
@@ -43,11 +42,10 @@ describe('Test directives', function () {
     });
 
     it('verify directive', function () {
-        scope.expression = [3, "-", 3];
-        var calculation = new Calculation('id', 'name', scope.expression);
-        calculation.result = 0;
-        scope.result = 0;
-        scope.sheet = new Sheet('id', 'name', [calculation]);
+        var expression = [3, "-", 3];
+        scope.calculation = new Calculation('id', 'name', expression);
+        scope.calculation.result = 0;
+        scope.sheet = new Sheet('id', 'name', [scope.calculation]);
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
@@ -60,11 +58,10 @@ describe('Test directives', function () {
     });
 
     it('verify directive power', function () {
-        scope.expression = [2, "^", 3];
-        var calculation = new Calculation('id', 'name', scope.expression);
-        calculation.result = 8;
-        scope.result = 8;
-        scope.sheet = new Sheet('id', 'name', [calculation]);
+        var expression = [2, "^", 3];
+        scope.calculation = new Calculation('id', 'name', expression);
+        scope.calculation.result = 8;
+        scope.sheet = new Sheet('id', 'name', [scope.calculation]);
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
@@ -77,11 +74,10 @@ describe('Test directives', function () {
     });
 
     it('verify directive with zero result', function () {
-        scope.expression = [3, "-", 3];
-        var calculation = new Calculation('id', 'name', scope.expression);
-        calculation.result = 0;
-        scope.result = 0;
-        scope.sheet = new Sheet('id', 'name', [calculation]);
+        var expression = [3, "-", 3];
+        scope.calculation = new Calculation('id', 'name', expression);
+        scope.calculation.result = 0;
+        scope.sheet = new Sheet('id', 'name', [scope.calculation]);
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
@@ -94,10 +90,9 @@ describe('Test directives', function () {
     });
 
     it('verify directive without resu;t', function () {
-        scope.expression = [3, "x", 3];
-        var calculation = new Calculation('id', 'name', scope.expression);
-        scope.result = null;
-        scope.sheet = new Sheet('id', 'name', [calculation]);
+        var expression = [3, "x", 3];
+        scope.calculation = new Calculation('id', 'name', expression);
+        scope.sheet = new Sheet('id', 'name', [scope.calculation]);
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();
@@ -106,10 +101,9 @@ describe('Test directives', function () {
     });
 
     it('verify directive with thousand separator', function () {
-        scope.expression = [1234];
-        var calculation = new Calculation('id', 'name', scope.expression);
-        scope.result = null;
-        scope.sheet = new Sheet('id', 'name', [calculation]);
+        var expression = [1234];
+        scope.calculation = new Calculation('id', 'name', expression);
+        scope.sheet = new Sheet('id', 'name', [scope.calculation]);
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();

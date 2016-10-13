@@ -59,7 +59,6 @@ The Sheets service returns an array of sheet data
                            <small>{{calc.createdTimestamp|toDate}}</small>
                        </span>
                        <span class="col col-60" ng-click="navigateToCalculator(calc)" style="text-align: right">
-                           <!--<resolve-expression sheet="sheet" expression="calc.expression" result="calc.result" display-calculation-name="false"></resolve-expression>-->
                            {{calc.result|toFixedDecimals}}
                        </span>
                        <span class="col col-10">
