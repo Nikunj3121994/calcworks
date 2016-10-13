@@ -200,7 +200,7 @@ angular.module('calcworks.controllers')
        if ($scope.currentCalc.expression[$scope.currentCalc.expression.length-1] === ')') return true;
        else if (selectedCalc) return true;
        else return $scope.numberEnteringState === true;
-    }
+    };
 
 
     // copies the content from the display or selected calc to expression
@@ -465,13 +465,19 @@ angular.module('calcworks.controllers')
     // in tegenstelling tot andere 'touches' bestaat de equals uit 2 zaken:
     // verwerkerking van de input tot aan de '=' en daarna het resultaat uitrekenen/tonen
     $scope.touchEqualsOperator = function() {
-        addCommandToSheetHistory('equals'); // perhaps it would be wiser to have separate equals for each mode
-        if ($scope.macroMode) {
-            $scope.equalsOperatorMacroMode();
-        } else if ($scope.editMode) {
-            $scope.equalsOperatorEditMode();
+        addCommandToSheetHistory('equals'); // perhaps it would be wiser to have separate equals-id for each mode
+        // we perform some basic validation on the validness of the expression so you do not loose the expression
+        // when a mistake is made
+        if ($scope.currentCalc.validExpression()) {
+            if ($scope.macroMode) {
+                $scope.equalsOperatorMacroMode();
+            } else if ($scope.editMode) {
+                $scope.equalsOperatorEditMode();
+            } else {
+                $scope.equalsOperatorNormalMode();
+            }
         } else {
-            $scope.equalsOperatorNormalMode();
+            $scope.showErrorShake();
         }
     };
 

@@ -1024,6 +1024,16 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
+    it('verify check before equals', function() {
+        spyOn(scope, 'showErrorShake');
+        scope.touchOpenBracket();
+        expect(scope.currentCalc.expression).toEqual(['(']);
+        scope.touchEqualsOperator();
+        expect(scope.currentCalc.expression).toEqual(['(']);
+        expect(scope.showErrorShake).toHaveBeenCalled();
+    });
+
+
     it('verify processFunctionSelected inch-to-centimeters', function() {
         scope.touchDigit(2);
         scope.touchDigit(5);
@@ -1042,7 +1052,6 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchDigit(5);
         scope.touchEqualsOperator();
         expect(scope.numberEnteringState).toBeFalsy();
-        expect(scope.currentCalc.expressionEnteringState).toBeFalsy();
         scope.processFunctionSelected('inch-to-centimeters');
         mockBackEnd();
         scope.$digest(); // needed to trigger the then()
@@ -1167,14 +1176,11 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
-
     it('verify touchDelete', function() {
         scope.touchDelete();
         expect(scope.display).toBe('0');
         expect(scope.operatorStr).toBe('');
     });
-
-    // is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
 
 
     it('verify touchDelete numbers', function() {
@@ -1195,19 +1201,7 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.display).toBe('0');
     });
 
-// lijkt dubbel op
-//    it('verify touchDelete expression', function() {
-//        scope.touchDigit(2);
-//        scope.touchOperator('+');
-//        scope.touchDigit(6);
-//        scope.touchDelete();
-//        scope.touchDigit(4);
-//        expect(scope.currentCalc.expression).toEqual([2, '+']);
-//        scope.touchEqualsOperator();
-//        expect(scope.display).toBe('6');
-//        expect(scope.sheet.calculations[0].result).toEqual(6);
-//    });
-//
+
     it('verify touchDelete operator', function() {
         scope.touchDigit(3);
         scope.touchOperator('x');

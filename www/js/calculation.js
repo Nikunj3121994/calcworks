@@ -38,3 +38,8 @@ Calculation.prototype.copy = function() {
     return calc;
 };
 
+Calculation.prototype.validExpression = function() {
+    var countOpenBrackets = countOccurencesInExpression('(', this.expression);
+    var countCloseBrackets = countOccurencesInExpression(')', this.expression);
+    return countOpenBrackets === countCloseBrackets;
+};
