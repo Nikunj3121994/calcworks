@@ -753,6 +753,24 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
+    it('verify behavior with brackets and selected var', function () {
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        var calc1 = scope.sheet.calculations[0];
+
+        scope.touchOpenBracket();
+        scope.touchDigit(5);
+        scope.touchOperator('+');
+        scope.processSelectedCalculation(scope.sheet.calculations[0]);
+        scope.touchCloseBracket();
+        expect(scope.currentCalc.expression).toEqual(['(', 5, '+', calc1, ')']);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('7');
+        expect(scope.sheet.calculations[0].expression).toEqual(['(', 5, '+', calc1, ')']);
+        expect(scope.sheet.calculations[0].result).toEqual(7);
+    });
+
+
     it('verify behavior processSelectedCalculation', function () {
         scope.touchDigit(2);
         scope.touchOperator('+');

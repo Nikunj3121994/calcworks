@@ -52,6 +52,7 @@ angular.module('calcworks.controllers')
         $scope.numberEnteringState = false;
         $scope.plusMinusTyped = false;  // note: een negatief getal kan ook een uitkomst zijn, niet noodzakelijk plusmin
         $scope.operatorStr = '';
+        selectedCalc = null;            // de geselecteerde calc die bij pas bij operator of equals verwerkt wordt
     };
 
 
@@ -72,7 +73,6 @@ angular.module('calcworks.controllers')
             startNewCalculation();
             $scope.macroMode = false;   // an enum for the modes would be nicer
             $scope.editMode = false;
-            selectedCalc = null;            // de geselecteerde calc die bij pas bij operator of equals verwerkt wordt
             $scope.editCalcBackup = null;
             calcActionHistory = [];
             resetDataMode();
