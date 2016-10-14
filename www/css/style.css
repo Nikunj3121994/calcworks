@@ -150,12 +150,10 @@ em,i{
 
 .display-input-text {
     display: inline-block;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
     position:absolute;
     right: 1%;
     bottom: 5%;
+    width: 98%;         /* iets eraf halen door de right hierboven */
     line-height: 100%; /* nodig anders wordt de tekst afgeplat door t grote font */
     font-size: 240%;
     text-align: right;
@@ -210,7 +208,7 @@ em,i{
     display: inline-block;
     margin:0;
     padding:0;
-    height: 95%;
+    height: 100%;
     width: 100%;
     transition: background-color 0.2s ease;
     color: #575757;
