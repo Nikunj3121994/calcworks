@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-    .controller('SheetsCtrl', function($scope, $ionicPlatform, $ionicPopup, $state, sheetService, sheetHtmlService, renameDialogs) {
+    .controller('SheetsCtrl', function($scope, $ionicPopup, $state, sheetService, sheetHtmlService, renameDialogs) {
         $scope.sheets = sheetService.getSheets();
 
         $scope.$on('sheetsUpdated', function(e, value) {

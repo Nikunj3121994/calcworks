@@ -97,7 +97,7 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
           controller: 'SheetsCtrl'
         }
       }
-    })
+  })
   .state('tab.settings', {
     url: '/settings',
     views: {

@@ -283,9 +283,7 @@ Issues
 
 Bugs
 -------
-- bij 2 keer clear visualiseren dat er een nieuwe sheet is
-- div bij zero moet een error calc worden, niet verwijderen
-- editen met een circulaire expressie testen
+- bij klik favorite gaat ie naar eerste tab
 - Het is ook niet helemaal duidelijk wat de OK is als je een edit actie doet...
     // is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
 - is cordova minified bij een release?
