@@ -60,11 +60,24 @@ angular.module('calcworks.controllers')
         $scope.currentCalc = $scope.sheet.createNewCalculation();
     }
 
-    $scope.touchClear = function() {
-        if (sheetCommandHistory.length > 0 && sheetCommandHistory[0].id === 'clear') {
+    function createNewSheetAfterConfirmation() {
+       var confirmPopup = $ionicPopup.confirm({
+         title: 'New sheet',
+         template: 'Are you sure you want to create a new sheet?'
+       });
+       confirmPopup.then(function(res) {
+         if(res) {
             sheetCommandHistory = [];
             sheetService.createNewActiveSheet();
             // this will trigger init() through event broadcast
+         }
+         // else ignore
+       });
+     };
+
+    $scope.touchClear = function() {
+        if (sheetCommandHistory.length > 0 && sheetCommandHistory[0].id === 'clear') {
+            createNewSheetAfterConfirmation();
         } else {
             addCommandToSheetHistory('clear');
             $scope.reset();
