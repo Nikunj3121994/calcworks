@@ -1,6 +1,5 @@
 'use strict';
 
-// todo: namespace
 
 // calculation object, should be serializable
 // expression zou een array van ExprItem moeten zijn. Dan kunnen we in ExprItem een hoop methods kwijt

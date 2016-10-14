@@ -49,6 +49,15 @@ describe('Test calcService', function () {
     });
 
 
+    it('verify calculate divide by zero', function() {
+        var calc1 = new Calculation('xxxx', 'var1', [10, '/', 0]);
+        var calculations = [ calc1 ];
+        var sheet = new Sheet('id','sheet', calculations);
+        calcService.calculate(sheet);
+        expect(calculations[0].result).toBe(Infinity);
+    });
+
+
     it('verify calculate power', function() {
         var calc1 = new Calculation('xxxx', 'var1', [2, '^', 3]);
         var calculations = [ calc1 ];

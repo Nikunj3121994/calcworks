@@ -4,10 +4,9 @@
     </ion-header-bar>
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="calc in sheet.calculations  track by $index" ng-click="clickSelectCalculation(calc)" ng-class="{ 'select-calc-disabled-row': notAllowedCalc===calc}">
-                    <div class="listVarName"> {{calc.name}} </div>
-                    <div class="listResolvedExpression" > <resolve-expression calculation="calc"></resolve-expression> = </div>
-                    <div class="listResult"> {{calc.result|toFixedDecimals}} </div>
+            <ion-item ng-repeat="calc in sheet.calculations | filter:allowedCalcFilter track by $index " ng-click="clickSelectCalculation(calc)">
+                <div class="listVarName"> {{calc.name}} </div>
+                <div class="listResolvedExpression" > <resolve-expression calculation="calc"></resolve-expression> </div>
             </ion-item>
         </ion-list>
     </ion-content>

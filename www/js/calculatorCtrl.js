@@ -60,23 +60,26 @@ angular.module('calcworks.controllers')
         $scope.currentCalc = $scope.sheet.createNewCalculation();
     }
 
-
-    // dit komt overeen met de 'start' mode, initieel of na een clear, stop macro, stop edit
-    $scope.reset = function() {
-        if (sheetCommandHistory.length > 0 && sheetCommandHistory[0].id === 'reset') {
+    $scope.touchClear = function() {
+        if (sheetCommandHistory.length > 0 && sheetCommandHistory[0].id === 'clear') {
             sheetCommandHistory = [];
             sheetService.createNewActiveSheet();
             // this will trigger init() through event broadcast
         } else {
-            addCommandToSheetHistory('reset');
-            miniReset();
-            startNewCalculation();
-            $scope.macroMode = false;   // an enum for the modes would be nicer
-            $scope.editMode = false;
-            $scope.editCalcBackup = null;
-            calcActionHistory = [];
-            resetDataMode();
+            addCommandToSheetHistory('clear');
+            $scope.reset();
         }
+    }
+
+    // dit komt overeen met de 'start' mode, initieel of na een clear, stop macro, stop edit
+    $scope.reset = function() {
+        miniReset();
+        startNewCalculation();
+        $scope.macroMode = false;   // an enum for the modes would be nicer
+        $scope.editMode = false;
+        $scope.editCalcBackup = null;
+        calcActionHistory = [];
+        resetDataMode();
     };
 
 
@@ -147,6 +150,7 @@ angular.module('calcworks.controllers')
         addCommandToSheetHistory('cancelEdit');
         $scope.currentCalc.expression = $scope.editCalcBackup.expression;
         $scope.currentCalc.result = $scope.editCalcBackup.result;
+        doProcessCalc(); // herbereken de boel in het geval een cycle was, dan hebben sommige calcs een lege waarde
         $scope.reset();
     };
 
@@ -177,7 +181,7 @@ angular.module('calcworks.controllers')
         addCommandToSheetHistory('recall');
         // notAllowedCalc is een beetje simpele benadering om een cycle (maar alleen eerste graads) te vermijden
         // dit nog nader onderzoeken nu editCalc is weggevallen
-        var notAllowedCalc = $scope.editMode === true ?  $scope.currentCalcalc : null;
+        var notAllowedCalc = $scope.editMode === true ?  $scope.currentCalc : null;
         selectCalculationDialog.showSelectCalculationDialog($scope.sheet, notAllowedCalc, $scope.processSelectedCalculation);
     };
 
@@ -188,7 +192,10 @@ angular.module('calcworks.controllers')
 
     $scope.getCalculationToDisplay = function() {
         var calc = $scope.currentCalc;
-        if ($scope.currentCalc.expression.length===0 && !$scope.numberEnteringState) {
+        if ($scope.currentCalc.expression.length===0   // er is nog niets ingetikt
+            && !$scope.numberEnteringState             // idem, er is nog niets ingetikt
+            //&& sheetCommandHistory.length > 0          // we zijn niet net opgestart, twijfelachtig of dit handig is
+            ) {
             var temp = $scope.sheet.getMostRecentCalculation();
             if (temp) calc = temp;
         }
@@ -490,14 +497,16 @@ angular.module('calcworks.controllers')
 
     $scope.equalsOperatorEditMode = function() {
         updateCurrentCalcExpression();
-        // als de nieuwe expressie invald is dan terug naar backup
+        // als de nieuwe expressie cycles heeft dan terug naar backup
         try {
             doProcessCalc();
+            $scope.reset();
         } catch (e) {
+            // we fall back to a complete reset. If we would have a proper editor we could keep the expression
+            // and let the user fix the expression.
             showAlertPopup('Invalid expression, reverting back to original expression');
             $scope.cancelEditMode();
         }
-        $scope.reset();
     };
 
     $scope.equalsOperatorNormalMode = function() {
@@ -527,14 +536,10 @@ angular.module('calcworks.controllers')
         try {
             doProcessCalc();
         } catch (e) {
+            // ik vermoed dat dit pad zich niet meer voordoet, alleen in edit mode kan je een cycle voor elkaar krijgen
             result = false;
-            // the initial idea was to implement a kind of undo, but the last action is not necessarily
-            // the one that triggers the error, e.g. 2 + cycle-calc + 3
-            // so we fall back to a complete reset. If we would have a proper editor we could keep the expression
-            // and let the user fix the expression. We could introduce an insert vs edit mode.
             miniReset();
             $scope.currentCalc = $scope.sheet.createNewCalculation();;
-            $scope.result = null;
             var msg = e.message;
             showAlertPopup(msg);
          }
@@ -561,11 +566,12 @@ angular.module('calcworks.controllers')
             throw new Error('Invalid calculation');   // e.g. cycle in calculations
         }
         if (!isFinite($scope.currentCalc.result)) {
-            console.log('result not isFinite for ' + $scope.currentCalc.name + ' with expression '+ JSON.stringify($scope.currentCalc.expression));
-            throw new Error('Invalid calculation'); // e.g. divide by zero
+            // we laten $scope.currentCalc.result op Infinity staan
+            $scope.display = '0';
+        } else {
+            $scope.display = $scope.currentCalc.result.toString();     // type is string
         }
-        $scope.display = $scope.currentCalc.result.toString();     // type is string
-        sheetService.saveSheet($scope.sheet);
+        sheetService.saveSheet($scope.sheet);  // deze moet misschien naar de aanroeper, wat netter
     }
 
 

@@ -134,10 +134,9 @@ function containsPeriodChar(numberStr) {
 // deze functie geeft number als string localised terug zodat ie getoond kan worden
 // deze functie kan overal gebruikt worden voor display/rendering doeleiden, behalve de input display
 function convertNumberForRendering(number, nrOfDecimals) {
-    // het probleem is dat onderstaande test/assert niet voldoende is,
-    // als number een string is komt ie er toch door heen en gaat later fout op toFixed()
-    if (isNaN(number) || !isFinite(number)) {
-        console.log('error, not a proper number: "'+ number + '"');
+    if (!number) {
+        return ''; // result is not known
+    } else if (isNaN(number) || !isFinite(number)) {
         return 'error';
     } else {
         return (+number.toFixed(nrOfDecimals)).toLocaleString();

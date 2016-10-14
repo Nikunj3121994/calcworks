@@ -294,6 +294,7 @@ Bugs
 
 Improvements
 --------------
+- toon ... als er meer dan 2 decimalen zijn en maak het evt mogelijk om erop te klikken
 - toon de expressie visueel duidelijker; de operator precedence zou je moeten visualiseren - meer/minder ruimte tussen. Deelstreep
 - we moeten voor de ipad nog een setting zetten ivm splitscreen
 - a trash icon bij settings

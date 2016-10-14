@@ -393,10 +393,6 @@ ion-item.calc-item div.item-content {
     margin-top: -5px;
 }
 
-.select-calc-disabled-row {
-    color: grey;
-}
-
 
 @keyframes shake {
   0% {transform: translateX(0);}

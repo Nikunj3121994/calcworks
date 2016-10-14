@@ -519,16 +519,19 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
-    // for now we do not keep an expression that results into an error
+    // we do keep an expression that results into an error
     it('verify division by zero', function () {
         expect(scope.sheet.calculations.length).toBe(0);
         scope.touchDigit(1);
         scope.touchOperator('/');
         scope.touchDigit(0);
         scope.touchEqualsOperator();
-        expect(scope.currentCalc.expression).toEqual([]);
-        expect(scope.display).toBe('0');
-        expect(scope.sheet.calculations.length).toBe(0);
+        expect(scope.sheet.calculations.length).toBe(1);
+        expect(scope.sheet.calculations[0].expression).toEqual([1 ,'/', 0]);
+        expect(scope.sheet.calculations[0].result).toBe(Infinity);
+        // ik kies ervoor om display niet gelijk te maken aan 'error' achtige tekst te tonen, dat heeft te veel gevolgen
+        // we kunnen in de toekomst nog wel een animatie tonen
+        expect(scope.display).toEqual('0');
     });
 
 

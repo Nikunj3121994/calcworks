@@ -15,12 +15,16 @@ angular.module('calcworks.services')
                 }).then(function(modal) {
 
                     modal.scope.sheet = sheet;
-                    modal.scope.notAllowedCalc = notAllowedCalc
 
                     var closeModal = function() {
                         modal.hide();
                         modal.remove();
                     };
+
+                    // deze wordt krankzinnig vaak aangeroepen, hopelijk dat angular2 dit oplost
+                    modal.scope.allowedCalcFilter = function(calc) {
+                        return calc != notAllowedCalc;
+                    }
 
                     modal.scope.clickSelectCalculation = function(calc) {
                         if (!calc) {
