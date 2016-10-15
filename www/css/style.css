@@ -1,5 +1,5 @@
 
-em,i{
+em,i {
     font-style:italic;
 }
 
@@ -19,6 +19,11 @@ em,i{
 }
 /* 6 x 12 = 72 */
 
+/* ionic heeft een padding van 5px */
+.col-smaller {
+    padding: 4px;
+}
+
 
 /* ipad; heeft meer ruimte aan de onderkant nodig - voordat de tabs beginnen
    dit komt doordat de ruimte tussen de rijen zo groot wordt dat de ruimte onder
@@ -35,6 +40,12 @@ em,i{
     .calc-row-bottom {
         height: 1%;
     }
+
+   /* maak t voor de ipad weer groter */
+   .col-smaller {
+       padding: 6px;
+   }
+
 }
 
 /* col z'n height moet gezet worden ivm children*/
@@ -212,7 +223,7 @@ em,i{
     width: 100%;
     transition: background-color 0.2s ease;
     color: #575757;
-    background-color: #ffffff;
+    background-color: #f8f8f8;  /* ietsje minder knal wit gemaakt */
     border: 1px solid #333;
     border-radius: 5px;
     top: 0%;
