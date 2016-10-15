@@ -47,14 +47,13 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.sheet.calculations.length).toBe(1);
         expect(scope.display).toBe('5');
         // nu komt ie:
-        scope.reset();
+        scope.touchClear();
         expect(scope.display).toBe('0');
         expect(scope.sheet.calculations.length).toBe(1);
         // nieuwe sheet
-        scope.reset();
-        expect(scope.display).toBe('0');
-        expect(scope.sheet.calculations.length).toBe(0);
-
+        spyOn(scope, 'createNewSheetAfterConfirmation');
+        scope.touchClear();
+        expect(scope.createNewSheetAfterConfirmation).toHaveBeenCalled();
     });
 
     it('verify touch digit', function () {

@@ -60,7 +60,8 @@ angular.module('calcworks.controllers')
         $scope.currentCalc = $scope.sheet.createNewCalculation();
     }
 
-    function createNewSheetAfterConfirmation() {
+    // scope because of testing
+    $scope.createNewSheetAfterConfirmation = function() {
        var confirmPopup = $ionicPopup.confirm({
          title: 'New sheet',
          template: 'Are you sure you want to create a new sheet?'
@@ -77,7 +78,7 @@ angular.module('calcworks.controllers')
 
     $scope.touchClear = function() {
         if (sheetCommandHistory.length > 0 && sheetCommandHistory[0].id === 'clear') {
-            createNewSheetAfterConfirmation();
+            $scope.createNewSheetAfterConfirmation();
         } else {
             addCommandToSheetHistory('clear');
             $scope.reset();
