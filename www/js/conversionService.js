@@ -5,13 +5,25 @@
 angular.module('calcworks.services')
     .service('conversionService', function ($http, $q, $rootScope, $ionicPopup) {
 
+
+    var acrCurrency = {
+      'eur' : 'euro',
+      'usd' : 'US dollar',
+      'gbp' : 'UK pound',
+      'chf' : 'Swiss franc',
+      'cny' : 'Chinese yuan renminbi',
+      'jpy' : 'Japanese yen',
+      'krw' : 'South Korean won'
+    };
+
+
     // returns a promise
     this.convert = function(operator, sheet, calc) {
         // we use the deferred pattern to make the sync operations also to be treated async
         var deferred = $q.defer();
         var conversionCalc = sheet.createNewCalculation();
         var processExchangeRateResponseToCurrency = function(currency, rate) {
-                var rateName = 'euro to ' + currency + ' rate'
+                var rateName = 'euro to ' + acrCurrency[currency] + ' rate';
                 var rateCalc = sheet.searchCalculation(rateName);
                 if (!rateCalc) {
                     rateCalc = sheet.createNewCalculation(rateName);
@@ -23,7 +35,7 @@ angular.module('calcworks.services')
                 deferred.resolve(conversionCalc);
             };
         var processExchangeRateResponseToEUR = function(currency, rate) {
-                var rateName = currency + ' to euro rate';
+                var rateName = acrCurrency[currency] + ' to euro rate';
                 var rateCalc = sheet.searchCalculation(rateName);
                 if (!rateCalc) {
                     rateCalc = sheet.createNewCalculation(rateName);
@@ -35,22 +47,24 @@ angular.module('calcworks.services')
                 conversionCalc.expression = [ calc, 'x', rateCalc ];
                 deferred.resolve(conversionCalc);
             };
-        if (operator === 'usd-to-eur') {
+        // dit moet wat mooier, je moet de string na de tweede - opzoeken, dan kan je ook de metrics e.d. doen
+        var toCurrency = operator.substring(7);
+        if (acrCurrency[toCurrency]) {
+            conversionCalc.name = calc.name + ' in ' + acrCurrency[toCurrency];
             $rootScope.showWaitingIcon();
-            conversionCalc.name = calc.name + ' in euros';
-            this.getExchangeRate('usd', processExchangeRateResponseToEUR);
-        } else if (operator === 'eur-to-usd') {
-            $rootScope.showWaitingIcon();
-            conversionCalc.name = calc.name + ' in usd';
-            this.getExchangeRate('usd', processExchangeRateResponseToCurrency);
-        } else if (operator === 'eur-to-gbp') {
-            $rootScope.showWaitingIcon();
-            conversionCalc.name = calc.name + ' in gbp';
-            this.getExchangeRate('gbp', processExchangeRateResponseToCurrency);
-        } else if (operator === 'gbp-to-eur') {
-            $rootScope.showWaitingIcon();
-            conversionCalc.name = calc.name + ' in euros';
-            this.getExchangeRate('gbp', processExchangeRateResponseToEUR);
+            if (operator === 'usd-to-eur') {
+                this.getExchangeRate('usd', processExchangeRateResponseToEUR);
+            } else if (operator === 'gbp-to-eur') {
+                this.getExchangeRate('gbp', processExchangeRateResponseToEUR);
+            } else if (operator === 'chf-to-eur') {
+                this.getExchangeRate('chf', processExchangeRateResponseToEUR);
+            } else if (operator === 'eur-to-usd') {
+                this.getExchangeRate('usd', processExchangeRateResponseToCurrency);
+            } else if (operator === 'eur-to-gbp') {
+                this.getExchangeRate('gbp', processExchangeRateResponseToCurrency);
+            } else if (operator === 'eur-to-chf') {
+                this.getExchangeRate('chf', processExchangeRateResponseToCurrency);
+            }
         } else {
             if (operator === 'inch-to-centimeters') {
                 conversionCalc.name = calc.name + ' to centimeters';
@@ -87,7 +101,11 @@ angular.module('calcworks.services')
     // D: daily,  SP00.A is een code voor exchange rate service
     var ecbURLs = {
       'usd' : 'https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1',
-      'gbp' : 'https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.GBP.EUR.SP00.A?lastNObservations=1'
+      'gbp' : 'https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.GBP.EUR.SP00.A?lastNObservations=1', // UK pound sterling
+      'chf' : 'https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.CHF.EUR.SP00.A?lastNObservations=1', // Swiss franc
+      'cny' : 'https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.CNY.EUR.SP00.A?lastNObservations=1', // Chinese yuan renminbi
+      'jpy' : 'https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.JPY.EUR.SP00.A?lastNObservations=1', // Japanese yen
+      'krw' : 'https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.KRW.EUR.SP00.A?lastNObservations=1', // South Korean won
     };
 
     this.getExchangeRate = function(currency, callback) {
@@ -116,39 +134,6 @@ angular.module('calcworks.services')
         $http(request)
             .then(processResponse, processError);
     };
-
-
-
-    this.getUSD_EUR = function(callback) {
-        var processError = function(reason) {
-            $rootScope.hideWaitingIcon();
-            $ionicPopup.alert({
-              title: 'Error',
-              template: 'Failed to retrieve exchange rate'
-            });
-
-        }
-
-        var processResponse = function(response) {
-            var rate = response.data.dataSets[0].series['0:0:0:0:0'].observations['0'][0];
-            callback(rate);
-            $rootScope.hideWaitingIcon();
-        }
-
-        var request = {
-            method: 'GET',
-            // D: daily,  SP00.A is een code voor exchange rate service
-            url: 'https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1',
-            headers: {
-                'Accept'  : 'application/vnd.sdmx.data+json;version=1.0.0-cts',
-            }
-        }
-        $http(request)
-            .then(processResponse, processError);
-    };
-
-
-
 
 
 });
