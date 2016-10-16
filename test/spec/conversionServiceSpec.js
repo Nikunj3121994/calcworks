@@ -8,6 +8,7 @@ describe('Test conversionService', function () {
     var convertedCalc;
     var sheet = new Sheet('id', 'foo', []);
     var calc = new Calculation('id', 'varname', [ 2 ]);
+    var scope;
 
     // the underscore at both sides is a convention by AngularJS to get the right service
     beforeEach(inject(function ($rootScope, _conversionService_, $httpBackend) {
@@ -127,14 +128,12 @@ describe('Test conversionService', function () {
         expect(convertedCalc.expression).toEqual([calc, 'x', rateCalc ]);
 
         // now we do it for a second time and the rate calculation should be re-used
-//******* FOUT: er zou niet nog een aanroep moeten plaats vinden!!!!!!!!!!!!!
         convertedCalcPromise = conversionService.convert('usd-to-eur', sheet2, calc);
         convertedCalcPromise
             .then(function(returned) {
                 convertedCalc = returned;
             });
-        httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
-        httpBackend.flush();
+        //scope.$digest();
         expect(sheet2.calculations.length).toBe(1);
     });
 
@@ -148,7 +147,7 @@ describe('Test conversionService', function () {
             });
         mockBackEnd();
         httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
-                httpBackend.flush();
+        httpBackend.flush();
         expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
         expect(rateCalc.name).toBe('euro to US dollar rate');
@@ -164,9 +163,13 @@ describe('Test conversionService', function () {
             .then(function(returned) {
                 convertedCalc = returned;
             });
-        httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
-        httpBackend.flush();
+        //httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
+        // httpBackend.flush();
+        scope.$digest();
         expect(sheet2.calculations.length).toBe(1);
+        expect(sheet2.calculations[0].name).toBe('euro to US dollar rate');
+        expect(sheet2.calculations[0].expression).toEqual([1.234]);
+        expect(sheet2.calculations[0].result).toBe(1.234);
         expect(convertedCalc.expression).toEqual([calc, 'x', rateCalc]);
 
         // now we do it for other conversion
@@ -175,9 +178,14 @@ describe('Test conversionService', function () {
             .then(function(returned) {
                 convertedCalc = returned;
             });
+        // dit snap ik niet, de test geeft als fout:  No pending request to flush !
+        // maar dit is een andere conversie, hij moet een rest call doen....
         httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
         httpBackend.flush();
         expect(sheet2.calculations.length).toBe(2);
+        expect(sheet2.calculations[0].name).toBe('US dollar to euro rate');
+        expect(sheet2.calculations[0].expression).toEqual([ 0.8103727714748784 ]);
+        expect(sheet2.calculations[0].result).toBe( 0.8103727714748784);
     });
 
 
