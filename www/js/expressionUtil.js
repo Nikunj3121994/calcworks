@@ -134,7 +134,7 @@ function containsPeriodChar(numberStr) {
 // deze functie geeft number als string localised terug zodat ie getoond kan worden
 // deze functie kan overal gebruikt worden voor display/rendering doeleiden, behalve de input display
 function convertNumberForRendering(number, nrOfDecimals) {
-    if (!number) {
+    if (number===null) {
         return ''; // result is not known
     } else if (isNaN(number) || !isFinite(number)) {
         return 'error';
