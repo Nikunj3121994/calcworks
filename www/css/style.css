@@ -241,6 +241,12 @@ em,i {
     background-color: #9d9d9d;
 }
 
+
+.calculator-btn-edit-macro-mode {
+    color: green;
+    font-size: xx-large;
+}}
+
 .calculator-btn:disabled {
     color: #d3d3d3;
 }

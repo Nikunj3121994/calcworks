@@ -106,7 +106,7 @@
         <div class="row calc-row">
           <div class="col col-50  col-smaller"><button class="calculator-btn" ng-click="touchDigit(0)">0</button></div>
           <div class="col col-smaller"><button class="calculator-btn" ng-click="touchDecimalSeparator()">.</button></div>
-          <div class="col col-smaller"><button class="calculator-btn" ng-click="touchEqualsOperator()">=</button></div>
+          <div class="col col-smaller"><button class="calculator-btn"  ng-class="{'calculator-btn-edit-macro-mode ': editMode || macroMode}"  ng-click="touchEqualsOperator()">=</button></div>
         </div>
 
         <div class="row calc-row-bottom">
