@@ -77,7 +77,9 @@ angular.module('calcworks.controllers')
      };
 
     $scope.touchClear = function() {
-        if (sheetCommandHistory.length > 0 && sheetCommandHistory[0].id === 'clear') {
+        if (sheetCommandHistory.length > 0
+            && sheetCommandHistory[0].id === 'clear'        // vorige command was clear
+            && calcActionHistory.length === 0) {               // geen digit oid tussendoor
             $scope.createNewSheetAfterConfirmation();
         } else {
             addCommandToSheetHistory('clear');

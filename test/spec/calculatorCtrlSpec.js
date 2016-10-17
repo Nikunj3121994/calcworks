@@ -56,6 +56,21 @@ describe('Test controller CalculatorCtrl', function () {
         expect(scope.createNewSheetAfterConfirmation).toHaveBeenCalled();
     });
 
+    it('verify clear extended', function() {
+        scope.touchDigit(5);
+        scope.touchEqualsOperator();
+        expect(scope.sheet.calculations.length).toBe(1);
+        expect(scope.display).toBe('5');
+        // nu komt ie:
+        scope.touchClear();
+        scope.touchDigit(1);
+        // nieuwe sheet
+        //spyOn(scope, 'createNewSheetAfterConfirmation');
+        scope.touchClear();
+        expect(scope.display).toBe('0');
+        //expect(scope.createNewSheetAfterConfirmation).toHaveBeenCalled();
+    });
+
     it('verify touch digit', function () {
         expect(scope.display).toBe('0');
         scope.touchDigit(5);
