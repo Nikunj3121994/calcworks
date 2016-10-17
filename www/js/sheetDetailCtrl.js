@@ -104,6 +104,7 @@ angular.module('calcworks.controllers')
 
         var btns = [
             { text: 'New' },
+            { text: 'Rename' },
             { text: 'Share' }
         ];
         // based on conditions we add more menu buttons, the order is important!
@@ -125,13 +126,16 @@ angular.module('calcworks.controllers')
                 if (index===0) {
                     newSheet();
                 }
-                if (index===1) {
+                else if (index===1) {
+                    $scope.renameSheet();
+                }
+                else if (index===2) {
                     sheetHtmlService.emailSheet($scope.sheet);
                 }
-                if (index===2) {
+                else if (index===3) {
                     configureMacroDialog.showConfigureMacroDialog($scope.sheet);
                 }
-                if (index===3) {
+                else if (index===4) {
                     $state.get('tab.calculator').data.mode = 'run';
                     $state.go('tab.calculator');
                 }
