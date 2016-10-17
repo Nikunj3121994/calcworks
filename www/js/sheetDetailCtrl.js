@@ -2,7 +2,7 @@
 
 angular.module('calcworks.controllers')
 
-.controller('SheetDetailCtrl', function($scope, $rootScope, $state, $ionicActionSheet, $stateParams, $ionicModal,
+.controller('SheetDetailCtrl', function($scope, $rootScope, $state, $ionicActionSheet, $stateParams, $ionicModal, $ionicPopover,
                                         renameDialogs, configureMacroDialog, sheetService, calcService, sheetHtmlService) {
 
     var state = $stateParams;
@@ -53,37 +53,39 @@ angular.module('calcworks.controllers')
     };
 
 
-    $scope.showEditMenu = function(calc) {
-        var btns = [
-            { text: 'Edit' },
-            { text: 'Rename' }
-        ];
-        $ionicActionSheet.show({
-            buttons: btns,
-            cancelText: 'Cancel',
-            cancel: function() {
-                // nothing to do
-            },
-            buttonClicked: function(index) {
-                if (index===0) {
-                    $scope.editCalc(calc);
-                }
-                if (index===1) {
-                    $scope.showRenamePopup(calc);
-                }
-                return true; // close the sheet
-            }
-        });
+    // this popup code is based on http://codepen.io/vladius/pen/VLEOQo
+    $ionicPopover.fromTemplateUrl('templates/calcMenuPopup.html', {
+        scope: $scope
+    }).then(function(popover) {
+        $scope.calcMenuPopover = popover;
+    });
+
+
+    $scope.openCalcMenuPopover = function($event, calc) {
+        $scope.calcMenuPopover.show($event);
+        $scope.calcMenuPopover.calc = calc;
     };
 
-    $scope.editCalc = function(calc) {
+    $scope.closeCalcMenuPopover = function() {
+        $scope.calcMenuPopover.hide();
+    };
+
+      //Cleanup the popover when we're done with it!
+    $scope.$on('$destroy', function()  {
+        $scope.calcMenuPopover.remove();
+    });
+
+
+    $scope.editCalc = function() {
+        $scope.closeCalcMenuPopover();
         $state.get('tab.calculator').data.mode = 'edit';
-        $state.get('tab.calculator').data.calc = calc;
+        $state.get('tab.calculator').data.calc = $scope.calcMenuPopover.calc;
         $state.go('tab.calculator');
     };
 
-    $scope.showRenamePopup = function(calc) {
-        renameDialogs.showRenameCalculationDialog(calc, $scope.sheet);
+    $scope.showCalcRenamePopup = function() {
+        $scope.closeCalcMenuPopover();
+        renameDialogs.showRenameCalculationDialog($scope.calcMenuPopover.calc, $scope.sheet);
     };
 
 
@@ -116,8 +118,6 @@ angular.module('calcworks.controllers')
         }
         $ionicActionSheet.show({
             buttons: btns,
-            //destructiveText: 'Delete Sheet',
-            //titleText: 'Modify your album',
             cancelText: 'Cancel',
             cancel: function() {
                 // nothing to do

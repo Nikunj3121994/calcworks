@@ -415,3 +415,13 @@ ion-item.calc-item div.item-content {
 .shake {
   animation: shake 400ms ease-in-out;
 }
+
+
+ion-popover-view.fit {
+  height: auto;
+}
+
+ion-popover-view.fit ion-content {
+  position: relative;
+}
+
