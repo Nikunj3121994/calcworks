@@ -208,8 +208,8 @@ describe('Test conversionService', function () {
 
     it('verify EUR to GBP', function() {
         var responseGBP_EUR = responseUSD_EUR;
-        responseGBP_EUR = responseGBP_EUR.replace('USD', 'GBP');
-        responseGBP_EUR = responseGBP_EUR.replace('1.234', '1.7');  // 1.7 is random value
+        responseGBP_EUR = responseGBP_EUR = responseGBP_EUR.replace('USD', 'GBP');
+        responseGBP_EUR = responseGBP_EUR = responseGBP_EUR.replace('1.234', '1.7');  // 1.7 is random value
         var sheet2 = new Sheet('id', 'foo', []);
         var convertedCalcPromise = conversionService.convert('eur-to-gbp', sheet2, calc);
         convertedCalcPromise
@@ -229,8 +229,8 @@ describe('Test conversionService', function () {
 
     it('verify CHF to EUR', function() {
         var responseCHF_EUR = responseUSD_EUR;
-        responseCHF_EUR.replace('USD', 'CHF');
-        responseCHF_EUR.replace('1.234', '2.2');  // 2.2 is random value
+        responseCHF_EUR = responseCHF_EUR.replace('USD', 'CHF');
+        responseCHF_EUR =responseCHF_EUR.replace('1.234', '2.2');  // 2.2 is random value
         var sheet2 = new Sheet('id', 'foo', []);
         var convertedCalcPromise = conversionService.convert('chf-to-eur', sheet2, calc);
         convertedCalcPromise
@@ -242,7 +242,7 @@ describe('Test conversionService', function () {
                 httpBackend.flush();
         expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
-        expect(rateCalc.expression).toEqual([0.8103727714748784]);
+        expect(rateCalc.expression).toEqual([0.45454545454545453]);
         expect(rateCalc.name).toEqual('Swiss franc to euro rate');
     });
 
@@ -267,6 +267,79 @@ describe('Test conversionService', function () {
         expect(convertedCalc.name).toEqual('varname in Swiss franc');
     });
 
+    //      'cny' : 'Chinese yuan renminbi',
+    
+    it('verify CNY to EUR', function() {
+        var responseCNY_EUR = responseUSD_EUR;
+        responseCNY_EUR = responseCNY_EUR.replace('USD', 'CNY');
+        responseCNY_EUR = responseCNY_EUR.replace('1.234', '3.3');  // 2.5 is random value
+        var sheet2 = new Sheet('id', 'foo', []);
+        var convertedCalcPromise = conversionService.convert('cny-to-eur', sheet2, calc);
+        convertedCalcPromise
+            .then(function(returned) {
+                convertedCalc = returned;
+            });
+        mockBackEnd();
+        httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.CNY.EUR.SP00.A?lastNObservations=1').respond(200, responseCNY_EUR);
+                httpBackend.flush();
+        expect(sheet2.calculations.length).toBe(1);
+        var rateCalc = sheet2.calculations[0];
+        expect(rateCalc.expression).toEqual([ 0.30303030303030304]);
+        expect(rateCalc.name).toEqual('Chinese yuan renminbi to euro rate');
+    });
+
+
+    it('verify EUR to CNY', function() {
+        var responseCNY_EUR = responseUSD_EUR;
+        responseCNY_EUR = responseCNY_EUR.replace('USD', 'CNY');
+        responseCNY_EUR = responseCNY_EUR.replace('1.234', '2.5');  // 2.5 is random value
+        var sheet2 = new Sheet('id', 'foo', []);
+        var convertedCalcPromise = conversionService.convert('eur-to-cny', sheet2, calc);
+        convertedCalcPromise
+            .then(function(returned) {
+                convertedCalc = returned;
+            });
+        mockBackEnd();
+        httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.CNY.EUR.SP00.A?lastNObservations=1').respond(200, responseCNY_EUR);
+                httpBackend.flush();
+        expect(sheet2.calculations.length).toBe(1);
+        var rateCalc = sheet2.calculations[0];
+        expect(rateCalc.expression).toEqual([2.5]);
+        expect(rateCalc.name).toEqual('euro to Chinese yuan renminbi rate');
+        expect(convertedCalc.name).toEqual('varname in Chinese yuan renminbi');
+    });
+    
+    //  'jpy' : 'Japanese yen',
+    it('verify EUR to JPY', function() {
+        var sheet = new Sheet('id', 'foo', []);
+        var convertedCalcPromise = conversionService.convert('eur-to-jpy', sheet, calc);
+        convertedCalcPromise
+            .then(function(returned) {
+                convertedCalc = returned;
+            });
+        mockBackEnd();
+        httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.JPY.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
+                httpBackend.flush();
+        expect(sheet.calculations.length).toBe(1);
+        expect(convertedCalc.name).toEqual('varname in Japanese yen');
+    });
+
+
+    
+    //  'krw' : 'South Korean won'
+    it('verify EUR to JPY', function() {
+        var sheet = new Sheet('id', 'foo', []);
+        var convertedCalcPromise = conversionService.convert('eur-to-krw', sheet, calc);
+        convertedCalcPromise
+            .then(function(returned) {
+                convertedCalc = returned;
+            });
+        mockBackEnd();
+        httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.KRW.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
+                httpBackend.flush();
+        expect(sheet.calculations.length).toBe(1);
+        expect(convertedCalc.name).toEqual('varname in South Korean won');
+    });
 
 
 });
