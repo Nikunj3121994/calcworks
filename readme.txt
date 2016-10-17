@@ -292,6 +292,7 @@ Improvements
 - toon ... als er meer dan 2 decimalen zijn en maak het evt mogelijk om erop te klikken
 - toon de expressie visueel duidelijker; de operator precedence zou je moeten visualiseren - meer/minder ruimte tussen. Deelstreep
 - we moeten voor de ipad nog een setting zetten ivm splitscreen
+- gebruik ÷ ipv /
 - a trash icon bij settings
 - moet de button met de . ook niet localised worden?
 - misschien zou de remember btn link bij display moeten, heb je meer ruimte in de eerste panel
