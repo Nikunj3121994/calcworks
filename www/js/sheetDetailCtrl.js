@@ -142,7 +142,7 @@ angular.module('calcworks.controllers')
 
                 return true; // close the sheet
             }
-            //todo destructiveButtonClicked
+            // we could implement destructiveButtonClicked - delete sheet
         });
     };
 
