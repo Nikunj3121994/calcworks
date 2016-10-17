@@ -54,7 +54,7 @@ angular.module('calcworks.controllers')
 
 
     // this popup code is based on http://codepen.io/vladius/pen/VLEOQo
-    $ionicPopover.fromTemplateUrl('templates/calcMenuPopup.html', {
+    $ionicPopover.fromTemplateUrl('templates/calc-menu-popup.html', {
         scope: $scope
     }).then(function(popover) {
         $scope.calcMenuPopover = popover;
