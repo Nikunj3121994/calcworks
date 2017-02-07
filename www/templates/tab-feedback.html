@@ -1,0 +1,13 @@
+<ion-view view-title="Feedback">
+    <ion-content>
+        <div style="padding: 3%;">
+            <h3>What can be improved?</h3>
+            Missing features? Bugs?
+            <textarea ng-model="feedback.text" rows="10" class="feedbacktextarea"></textarea>
+            I welcome feedback, so don't hesitate!
+            <br>
+            <br>
+            <button class="button button-positive" ng-click="sendFeedback()">Send feedback</button>
+        </div>
+    </ion-content>
+</ion-view>

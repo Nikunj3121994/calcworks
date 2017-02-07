@@ -106,6 +106,15 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
         controller: 'SettingsCtrl'
       }
     }
+  })
+  .state('tab.feedback', {
+    url: '/feedback',
+    views: {
+      'tab-feedback': {
+        templateUrl: 'templates/tab-feedback.html',
+        controller: 'FeedbackCtrl'
+      }
+    }
   });
 
   // if none of the above states are matched, use this as the fallback

@@ -431,3 +431,7 @@ ion-popover-view.fit ion-content {
   position: relative;
 }
 
+.feedbacktextarea {
+    border:solid 1px orange;
+    width: 100%;
+}

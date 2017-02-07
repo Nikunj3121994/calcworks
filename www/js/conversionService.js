@@ -80,7 +80,7 @@ angular.module('calcworks.services')
         var processError = function(reason) {
             $rootScope.hideWaitingIcon();
             $ionicPopup.alert({
-              title: 'Error',
+              title: 'Error occurred',
               template: 'Failed to retrieve exchange rate'
             });
 

@@ -177,7 +177,7 @@ Protractor
 
 installeren
 $ sudo npm install -g protractor
-$ webdriver-manager update
+$ webdriver-manager update     (later: ik denk dat dit ook met -g moet)
 
 Instructies om te runnen:
 
@@ -310,13 +310,11 @@ In de Active Sheet staat de uitkomst van de calculatie links en maar bij Sum en 
 
 
 Opschonen
- iphone 4s support met css media queries
  branch maken en uitproberen
  zet t project lokaal in een dir calcgems. Evt ook de git repo renamen. Dit stellen we uit tot Ionic 2.
  use the using the controllerAs syntax
- upgrade naar ionic 1.2
-   gebruik de nieuwe checkbox ipv de toggle: <ion-checkbox ng-model="test" ng-checked="test" ng-disabled="test">Disabled Directive</ion-checkbox>
- upgrade cordova
+ upgrade naar ionic 2
+ gebruik de nieuwe checkbox ipv de toggle: <ion-checkbox ng-model="test" ng-checked="test" ng-disabled="test">Disabled Directive</ion-checkbox>
  plaats files mbt feature bij elkaar
 
 
@@ -459,3 +457,16 @@ cordova ios platform verwijderen en weer toevoegen
 wat doet deze:  "ionic-plugin-keyboard"  - kan ie handig zijn?
 
 toevoegen  "karma": "^1.2.0"
+
+
+
+Onbekende wijziging in de history:
+ "cordovaPlugins": [
+    "cordova-plugin-whitelist",
+    "cordova-plugin-email-composer",
+    "cordova-plugin-device",
+    "cordova-plugin-console",
+    "cordova-plugin-statusbar",
+    "ionic-plugin-keyboard",
+    "cordova-plugin-splashscreen"
+  ],

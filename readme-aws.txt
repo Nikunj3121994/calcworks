@@ -1,9 +1,10 @@
 Instructions for the AWS API gate way and SES (simple email service)
 
 There are three important parts:
-A- defining the right role
-B- defining the api with the right mapping towards ses
-C- deploying to the proper stage
+A- defining the right role in the IAM console
+B- defining the api with the right mapping towards ses in the API gateway
+C- enable cors. Otherwise you will get an error message when used within calcgems
+D- deploying to the proper stage
 
 
 A belangrijk is de role die je  bij de Get mail request doet. Hierbij moet:

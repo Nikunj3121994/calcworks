@@ -15,8 +15,8 @@
     "ionic-minify": "^2.0.10",
     "jasmine": "^2.5.0",
     "karma-chrome-launcher": "^2.0.0",
-    "karma-jasmine": "^1.0.2",
-    "shelljs": "^0.3.0"
+    "karma-jasmine": "^1.1.0",
+    "shelljs": "^0.7.0"
   },
   "cordovaPlugins": [
     "cordova-plugin-email-composer@0.8.3"
