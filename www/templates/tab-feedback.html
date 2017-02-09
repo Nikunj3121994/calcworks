@@ -3,11 +3,16 @@
         <div style="padding: 3%;">
             <h3>What can be improved?</h3>
             Missing features? Bugs?
-            <textarea ng-model="feedback.text" rows="10" class="feedbacktextarea"></textarea>
-            I welcome feedback, so don't hesitate!
+            <textarea ng-model="feedback.text" rows="10" class="feedbacktextarea" maxlength="2000"></textarea>
+            <br>
+            I welcome feedback, so don't hesitate!  If you want a reply, please include your email address.
             <br>
             <br>
-            <button class="button button-positive" ng-click="sendFeedback()">Send feedback</button>
+            <button class="button button-positive" ng-show="showButton" ng-disabled="!feedback.text" ng-click="sendFeedback()">Send feedback</button>
+
+            <div class="ng-hide positive"  ng-show="showSendingMessage">Sending feedback &nbsp;&nbsp;<ion-spinner icon="ios"></ion-spinner></div>
+            <div class="ng-hide positive" ng-show="showOkMessage">Thank you!</div>
+            <div class="ng-hide assertive" ng-show="showErrorMessage">I'm sorry, could not sent the feedback, please try again later!</div>
         </div>
     </ion-content>
 </ion-view>

@@ -2,50 +2,47 @@
 
 angular.module('calcworks.controllers')
 
-.controller('FeedbackCtrl', function($scope, $http, $rootScope, $ionicPopup) {
+.controller('FeedbackCtrl', function($scope, $http, $rootScope, $timeout, $ionicPopup) {
 
     $scope.feedback = { text : '' };
+    $scope.showButton = true;
+    $scope.showOkMessage = false;
+    $scope.showErrorMessage = false;
 
     $scope.sendFeedback = function() {
-        console.log($scope.feedback.text);
-        // e-mail adres
-        // min lengte
-        // todo: max lenght of 500 chars??
-        // encode
-        // https - ook voor die conversie web service
+
+        // note: max lenght is defined in html / textarea
 
         var request = {
             method: 'GET',
-            //url: 'https://klxuazbd4b.execute-api.us-east-1.amazonaws.com/test/pets'
             url: 'https://jk3m09hy4g.execute-api.us-east-1.amazonaws.com/prod/mail?message=' + encodeURIComponent($scope.feedback.text)
-//            headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json'
-//            }
         }
 
 
-        var processError = function(reason) {
-            console.log('error reason' + JSON.stringify(reason));
-            $rootScope.hideWaitingIcon();
-            $ionicPopup.alert({
-              title: 'Error occurred',
-              template: 'I\'m sorry, could not sent the feedback, please try again later!'
-            });
-
+        var processError = function(response) {
+            $scope.showSendingMessage = false;
+            $scope.showErrorMessage = true;
+            hideMessage();
         }
 
         var processResponse = function(response) {
-            $rootScope.hideWaitingIcon();
-            $ionicPopup.alert({
-              title: 'OK',
-              template: 'thanks!'
-            });
-            $scope.feedback.text = '';
+            $scope.showSendingMessage = false;
+            $scope.showOkMessage = true;
+            hideMessage();
         }
 
+        var hideMessage = function() {
+            $timeout(function () {
+                $scope.showErrorMessage = false;
+                $scope.showOkMessage = false;
+                $scope.showSendingMessage = false;
+                $scope.showButton = true;
+                $scope.feedback.text = '';
+            }, 2000);
+        }
 
-        $rootScope.showWaitingIcon();
+        $scope.showSendingMessage = true;
+        $scope.showButton = false;
         $http(request)
             .then(processResponse, processError);
     };
