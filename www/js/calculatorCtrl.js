@@ -64,7 +64,7 @@ angular.module('calcworks.controllers')
     $scope.createNewSheetAfterConfirmation = function() {
        var confirmPopup = $ionicPopup.confirm({
          title: 'New sheet',
-         template: 'Are you sure you want to create a new sheet?'
+         template: 'Create a new sheet?'
        });
        confirmPopup.then(function(res) {
          if(res) {
@@ -74,7 +74,13 @@ angular.module('calcworks.controllers')
          }
          // else ignore
        });
-     };
+    };
+
+
+    $scope.renameSheet = function() {
+        renameDialogs.showRenameSheetDialog($scope.sheet);
+    };
+
 
     $scope.touchClear = function() {
         if (sheetCommandHistory.length > 0
