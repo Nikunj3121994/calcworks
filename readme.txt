@@ -66,6 +66,8 @@ gulp-karma package verwijderen - ik denk dat gulp helemaal niet meer gebruik
 
 Update van libraries
 =============================
+Gebruik $ionic info om te kijken op welke versies je zit
+
 1) $ sudo npm update -g
 
 2) $ bower list
@@ -145,11 +147,11 @@ Ionic runnen
 $ ionic serve
 (gebruik 'c' om de logs te zien)
 
-Opvragen welke devices er zijn (shell script):
+Opvragen welke devices er zijn (dit is een shell script):
 $ platforms/ios/cordova/lib/list-emulator-images
 
-Ionic op specifiek device runnen:
-$ ionic emulate ios --target="iPhone-5s"
+Ionic op specifiek device runnen (de = gaf een probleem bij versie 1.2.17) :
+$ ionic emulate ios --target="iPhone-5s, 10.2"  (laatste kan natuurlijk veranderen)
 $ ionic emulate ios --target="iPhone-6s"
 $ ionic emulate ios --target="iPad-Air"
 $ ionic emulate ios --target="iPad-Pro"
