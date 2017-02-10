@@ -1,8 +1,13 @@
 <ion-view view-title="Settings">
     <ion-content>
-        <div style="padding: 3%;padding-bottom: 40px; border-bottom: thin dotted #ffe031;">
+        <div style="padding: 3%;padding-bottom: 80px">
             <small style="float:right">Version 1.01.05</small>
-            <h3>Trash</h3>
+            <h3><i class="icon ion-ios-trash"></i> Trash</h3>
+            <div style="display:inline-block;float: left;padding-bottom: 20px">
+                A sheet is automatically removed after 30 days unless the sheet is marked as favorite.
+                Mark a sheet as favorite in case you do not want to loose it.
+            </div>
+
             <!--consider to show the number of sheets in use-->
             <button class="button button-assertive" ng-click="deleteAllSheets()" style="display:inline-block">
                 Delete sheets
@@ -10,18 +15,15 @@
             <br>&nbsp;
             <ion-toggle ng-model="settings.includeFavoriteSheets" toggle-class="toggle-assertive"
                         style="display:inline-block;float: left; border: none">
-                Include favorite sheets
+                Also delete favorite sheets
             </ion-toggle>
             <!--empty div for toggle text-->
             <div></div>
-            <div style="display:inline-block;float: left;">
-            <i class="icon ion-ios-information-outline"></i>
-            A sheet is automatically removed after 30 days unless the sheet is marked as favorite.
-            Mark a sheet as favorite in case you do not want to loose it.
-            <br>
-            <br>
-            Example of a localised number: {{1234.56|toFixedDecimals}}
-
         </div>
+
+        <div style="padding: 3%;">
+        Example of a localised number: {{1234.56|toFixedDecimals}}
+        </div>
+
     </ion-content>
 </ion-view>
