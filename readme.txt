@@ -286,7 +286,8 @@ Issues
 Bugs
 -------
 - is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
-
+- Bij edit wordt bovenste regel niet leeg. Je mist de OK btn.
+- De pin button zou disabled moeten zijn als er niets te onthouden valt.
 
 
 Improvements
