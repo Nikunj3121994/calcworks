@@ -207,6 +207,7 @@ angular.module('calcworks.controllers')
         selectCalculationDialog.showSelectCalculationDialog($scope.sheet, notAllowedCalc, $scope.processSelectedCalculation);
     };
 
+
     $scope.touchRemember = function() {
         addCommandToSheetHistory('remember');
         renameDialogs.showRenameCalculationDialog($scope.sheet.getMostRecentCalculation(), $scope.sheet);
@@ -327,7 +328,12 @@ angular.module('calcworks.controllers')
 
 
     // hier een scope functie van gemaakt om te kunnen testen
+    // dit is de callback vanuit showSelectCalculationDialog
+    //TODO: schrijf unit test
     $scope.processSelectedCalculation = function(calc) {
+        //if (!sheet || !calc) throw Error('pars undefined');
+        // als de calc uit een andere sheet komt dan moeten we de calc (waarde) kopieren omdat
+        // als je een verwijzing opneemt en deze container sheet wordt verwijderd dan werkt deze verwijzing niet
         var number = calc.result;
         if ($scope.plusMinusTyped) {
             number = -number;
@@ -416,6 +422,8 @@ angular.module('calcworks.controllers')
             // verify whether equal has just been executed
             if ($scope.numberEnteringState || $scope.currentCalc.expression.length > 0) {
                 if (selectedCalc) {
+                    // hier moeten we kijken of de selectedCalc uit een andere sheet komt, zo ja dan moeten we een clone maken
+                    // als we dit niet doen dan kan de calc niet meer bestaan als zijn sheet verwijderd wordt
                     calc = selectedCalc;
                 } else {
                     // add the current calc to the sheet

@@ -3,20 +3,29 @@
 
 angular.module('calcworks.services')
 
-    .factory('selectCalculationDialog', function($ionicModal) {
+    // we zitten hier een beetje op de grens van een controller / service
+    // angular staat alleen toe dat een controller een $scope krijgt, vandaar dat we een nieuwe scope moeten maken
+    // het is ook netter ivm isolatie
+    .factory('selectCalculationDialog', function($rootScope, $ionicModal, sheetService) {
 
         return {
             // notAllowedCalc is the calc that is under edit, can be null
+            //TODO: notAllowedCalc lijkt niet te werken
             showSelectCalculationDialog: function(sheet, notAllowedCalc, processCalculationSelected) {
 
                 $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
-                    scope: null,
+                    scope: $rootScope.$new(),   // we maken ivm isolatie een niewe scope
                     animation: 'slide-in-up'
                 }).then(function(modal) {
 
-                    modal.scope.sheet = sheet;
+                    // dit is cruciaal, zonder die 'data' container werkt het niet
+                    modal.scope.data = {
+                        selectedSheet : sheet,
+                        // TODO: hier zouden we nog de favorites boven aan kunnen zetten
+                        availableSheets : sheetService.getSheets()
+                    };
 
-                    var closeModal = function() {
+                    modal.scope.closeModal = function() {
                         modal.hide();
                         modal.remove();
                     };
@@ -28,12 +37,11 @@ angular.module('calcworks.services')
 
                     modal.scope.clickSelectCalculation = function(calc) {
                         if (!calc) {
-                            // cancel clicked
-                            closeModal();
+                            modal.scope.closeModal();
                         } else {
                             if (calc !== notAllowedCalc) {
-                                processCalculationSelected(calc);
-                                closeModal();
+                                processCalculationSelected(modal.scope.data.selectedSheet, calc);
+                                modal.scope.closeModal();
                             }
                         }
                     };
