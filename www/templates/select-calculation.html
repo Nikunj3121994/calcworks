@@ -2,16 +2,17 @@
     <ion-header-bar>
         <h1 class="title">Select a calculation</h1>
     </ion-header-bar>
-    <ion-content>
-
-        <!--TODO: probleem deze label en select scrollt mee, niet mooi-->
+    <ion-header-bar class="bar-subheader bar-stable">
         <label class="item item-input item-select">
-            <div class="input-label">
+            <span class="input-label">
                 Sheet:
-            </div>
-            <select ng-model="data.selectedSheet" ng-options="sheet as sheet.name for sheet in data.availableSheets">
+            </span>
+            <select ng-model="data.selectedSheet" ng-options="sheet as sheet.name for sheet in data.availableSheets | orderBy:['!favorite','updatedTimestamp']">
             </select>
         </label>
+    </ion-header-bar>
+
+    <ion-content>
 
         <ion-list>
             <ion-item ng-repeat="calc in data.selectedSheet.calculations | filter:allowedCalcFilter track by $index " ng-click="clickSelectCalculation(calc)">

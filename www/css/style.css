@@ -435,3 +435,7 @@ ion-popover-view.fit ion-content {
     border:solid 1px orange;
     width: 100%;
 }
+
+/* added to get the select box and the label to cover full width */
+.bar-header label {
+  width: 100%; }
