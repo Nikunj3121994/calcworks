@@ -26,7 +26,7 @@ angular.module('calcworks.controllers')
     var state = $stateParams;  // dit moeten we in app.js in de rootscope stoppen
     // actions are for the calculation, commands for the sheet to avoid confusion between the two
     var calcActionHistory;   // history of actions for current calculations, needed for undo of an expression, first is most recent
-    var sheetCommandHistory = [];   // history of commans in the context of current sheet; clear, delete, recall, etc
+    var sheetCommandHistory = [];   // history of commands in the context of current sheet; clear, delete, recall, etc
 
     var resetDataMode = function() {
         $state.get('tab.calculator').data.mode = 'normal';
@@ -207,6 +207,9 @@ angular.module('calcworks.controllers')
         selectCalculationDialog.showSelectCalculationDialog($scope.sheet, notAllowedCalc, $scope.processSelectedCalculation);
     };
 
+    $scope.pinIconEnabled = function() {
+        return sheetCommandHistory.length > 0 && sheetCommandHistory[0].id == 'equals' && calcActionHistory.length == 0 && !$scope.editMode;
+    }
 
     $scope.touchRemember = function() {
         addCommandToSheetHistory('remember');
@@ -329,11 +332,8 @@ angular.module('calcworks.controllers')
 
     // hier een scope functie van gemaakt om te kunnen testen
     // dit is de callback vanuit showSelectCalculationDialog
-    //TODO: schrijf unit test
-    $scope.processSelectedCalculation = function(calc) {
-        //if (!sheet || !calc) throw Error('pars undefined');
-        // als de calc uit een andere sheet komt dan moeten we de calc (waarde) kopieren omdat
-        // als je een verwijzing opneemt en deze container sheet wordt verwijderd dan werkt deze verwijzing niet
+    // sheet is an optional parameter, if undefined then calc must be contained within activeSheet
+    $scope.processSelectedCalculation = function(calc, sheet) {
         var number = calc.result;
         if ($scope.plusMinusTyped) {
             number = -number;
@@ -341,7 +341,16 @@ angular.module('calcworks.controllers')
         $scope.display = number.toString();
         $scope.operatorStr = '';
         // state overgang
-        selectedCalc = calc;  // zet vlag
+        // set flag that selection has been made
+        if (sheet && sheet !== $scope.sheet) {
+            // calc comes from a different sheet, so we need to make a copy. A reference would not work
+            // because the containing sheet can be deleted one day
+            // NOTE: this is very tricky, because for the very first time a calculation occurs within an expression
+            // but is not a calculation defined on its own within a sheet
+            selectedCalc = calc.copy();
+        } else {
+            selectedCalc = calc;
+        }
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // les geleerd: je kan niet hier (makkelijk) al de calc toevoegen aan de expressie omdat je plus/min nog niet kan
         // verwerken. Je kan de calc pas toevoegen aan de expressie bij de operator of equals

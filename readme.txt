@@ -287,11 +287,12 @@ Bugs
 -------
 - is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
 - Bij edit wordt bovenste regel niet leeg. Je mist de OK btn.
-- De pin button zou disabled moeten zijn als er niets te onthouden valt.
 
 
 Improvements
 --------------
+- toon een derde manier van displayen in detail view die op een bon/factuur lijkt
+- grijze grafieklijntje zou 100% moeten zijn, op device controleren wat ie nu precies doet.
 - toon ... als er meer dan 2 decimalen zijn en maak het evt mogelijk om erop te klikken
 - toon de expressie visueel duidelijker; de operator precedence zou je moeten visualiseren - meer/minder ruimte tussen. Deelstreep
 - we moeten voor de ipad nog een setting zetten ivm splitscreen
@@ -452,10 +453,6 @@ $ for package in `ls node_modules`; do npm uninstall $package; done;
 Ik heb t met de hand gedaan voor de global packages (sudo gaf problemen)
 $ npm list -g --depth=0
 en dan sudo uninstall -g <pck>
-
-cordova, ionic, de simular bijwerken,
-
-cordova ios platform verwijderen en weer toevoegen
 
 wat doet deze:  "ionic-plugin-keyboard"  - kan ie handig zijn?
 

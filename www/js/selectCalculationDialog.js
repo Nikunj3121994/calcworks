@@ -40,7 +40,7 @@ angular.module('calcworks.services')
                             modal.scope.closeModal();
                         } else {
                             if (calc !== notAllowedCalc) {
-                                processCalculationSelected(modal.scope.data.selectedSheet, calc);
+                                processCalculationSelected(calc, modal.scope.data.selectedSheet);
                                 modal.scope.closeModal();
                             }
                         }
