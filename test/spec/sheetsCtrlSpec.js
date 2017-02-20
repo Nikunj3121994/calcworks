@@ -7,6 +7,7 @@ describe('Test sheetsCtrl', function () {
     var SheetsCtrl,
         scope,
         sheetService,
+        renameDialogs,
         sheets = [];
 
     // mock implementations
@@ -20,8 +21,9 @@ describe('Test sheetsCtrl', function () {
     }
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope, _sheetService_) {
+    beforeEach(inject(function ($controller, $rootScope, _sheetService_, _renameDialogs_) {
         sheetService = _sheetService_;
+        renameDialogs = _renameDialogs_;
         scope = $rootScope.$new();
         // we need to supply an empty set of sheets for each test to make sure everything is 'clean'
         sheetService.getSheets = getSheets;
@@ -41,6 +43,16 @@ describe('Test sheetsCtrl', function () {
 
         scope.toggleSheetFavorite(sheet1);
         expect(sheet1.favorite).toBeFalsy();
+    });
+
+
+    it('verify favorite rename', function() {
+        spyOn(renameDialogs, 'showRenameSheetDialog');
+        var sheet1 = new Sheet('id', '', []);
+        sheet1.name = sheet1.defaultName;
+        sheets.push(sheet1);
+        scope.toggleSheetFavorite(sheet1);
+        expect(renameDialogs.showRenameSheetDialog).toHaveBeenCalled();
     });
 
 
