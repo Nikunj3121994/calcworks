@@ -336,9 +336,9 @@ em,i {
     right: 0px;
 }
 
-/*geef de rows in de active sheet geen padding*/
+/*geef de rows in de active sheet geen padding, de !important is nodig voor de rechter kant*/
 ion-item.calc-item div.item-content {
-    padding: 0px
+    padding: 0 !important;
 }
 
 
