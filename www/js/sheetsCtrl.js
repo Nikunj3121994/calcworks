@@ -39,12 +39,13 @@ angular.module('calcworks.controllers')
                 sheet.favorite = false;
                 sheetService.saveSheet(sheet);
             } else if (!sheetService.maxFavoritesReached()) {
-                // a favorite sheet must have a name for later use (selection)
+                // a favorite sheet must have a name for later use (during sheet selection)
                 if (sheet.name == sheet.defaultName) {
-                    renameDialogs.showRenameSheetDialog(sheet);
+                    renameDialogs.showRenameFavoriteSheetDialog(sheet);
+                } else {
+                    sheet.favorite = true;
+                    sheetService.saveSheet(sheet);
                 }
-                sheet.favorite = true;
-                sheetService.saveSheet(sheet);
             } else {
                 var alertPopup = $ionicPopup.alert({
                      title: 'Max number of favorites reached',

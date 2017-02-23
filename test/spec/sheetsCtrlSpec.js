@@ -47,12 +47,12 @@ describe('Test sheetsCtrl', function () {
 
 
     it('verify favorite rename', function() {
-        spyOn(renameDialogs, 'showRenameSheetDialog');
+        spyOn(renameDialogs, 'showRenameFavoriteSheetDialog');
         var sheet1 = new Sheet('id', '', []);
         sheet1.name = sheet1.defaultName;
         sheets.push(sheet1);
         scope.toggleSheetFavorite(sheet1);
-        expect(renameDialogs.showRenameSheetDialog).toHaveBeenCalled();
+        expect(renameDialogs.showRenameFavoriteSheetDialog).toHaveBeenCalled();
     });
 
 
