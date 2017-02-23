@@ -2,7 +2,7 @@
   <ion-content>
     <ion-list>
         <!--een href gebruiken maakt de lay-out niet goed, vandaar een ng-click-->
-      <ion-item class="list card" style="padding: 0px"  ng-repeat="sheet in sheets track by $index">
+      <ion-item class="list card" style="padding: 0px"  ng-repeat="sheet in sheets track by sheet.id">
 
           <div class="item item-divider"
                ng-class="{activeSheet: getActiveSheetId() === sheet.id, inactiveSheet: getActiveSheetId() !== sheet.id}"

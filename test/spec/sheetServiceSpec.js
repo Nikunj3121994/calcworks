@@ -78,14 +78,32 @@ describe('Test sheetService', function () {
         sheetService.createNewActiveSheet();
         sheetService.getActiveSheet().name = 'sheet2';
         expect(sheetService.getActiveSheet().name).toBe('sheet2');
+        expect(sheetService.getSheets().length).toBe(2);
 
         // delete de active (sheet2) sheet, de vorige wordt actief
         sheetService.deleteSheet(sheetService.getActiveSheet().id);
         expect(sheetService.getActiveSheet().name).toBe('sheet1');
+        expect(sheetService.getSheets().length).toBe(1);
 
         sheetService.deleteSheet(sheetService.getActiveSheet().id);
         // er zijn geen sheets meer, nu wordt een nieuwe aangemaakt
         expect(sheetService.getActiveSheet().name).toBe('Untitled Sheet');
+        expect(sheetService.getSheets().length).toBe(1);
+    });
+
+    it('delete non active sheet', function() {
+        sheetService.getActiveSheet().name = 'sheet1';
+        var sheet2 = sheetService.createNewActiveSheet();
+        sheet2.name = 'sheet2';
+        sheetService.createNewActiveSheet();
+        sheetService.getActiveSheet().name = 'sheet3';
+
+        expect(sheetService.getSheets().length).toBe(3);
+        expect(sheetService.getActiveSheet().name).toBe('sheet3');
+
+        sheetService.deleteSheet(sheet2.id);
+        expect(sheetService.getActiveSheet().name).toBe('sheet3');
+        expect(sheetService.getSheets().length).toBe(2);
     });
 
     it('delete all sheets', function() {
