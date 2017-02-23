@@ -48,7 +48,7 @@ angular.module('calcworks.services')
                 renamePopup.then(function (res) {
                     if (res) {
                         calc.name = res;
-                        sheetService.saveSheet(sheet);
+                        sheetService.saveSheet(sheet); // mmm, misschien is het beter om de caller de save te laten doen
                     }
                 });
             },
@@ -61,6 +61,20 @@ angular.module('calcworks.services')
                 var renamePopup = $ionicPopup.show(renamePopupData);
                 renamePopup.then(function (res) {
                     if (res) {
+                        sheet.name = res;
+                        // mmm, misschien is het beter om de caller de save te laten doen, maar dat is door de promise nog niet zo makkelijk
+                        sheetService.saveSheet(sheet);
+                    }
+                });
+            },
+            // this function is for a very special use-case when a sheet is marked as favorite and needs a name
+            showRenameFavoriteSheetDialog: function(sheet) {
+                renamePopupData.title = 'A favorite sheet must have a name:';
+                $scope.reset();
+                var renamePopup = $ionicPopup.show(renamePopupData);
+                renamePopup.then(function (res) {
+                    if (res) {
+                        sheet.favorite = true;
                         sheet.name = res;
                         sheetService.saveSheet(sheet);
                     }
