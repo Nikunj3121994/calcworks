@@ -2,7 +2,10 @@
 
 angular.module('calcworks.controllers')
 
-// zou eigenlijk ook resolveExpression moeten heten, dit is de twee-regel variant
+// zou eigenlijk ook resolveExpression moeten heten, dit is de twee-regel variant, volgende vorm:
+//
+//     result    =   ...expression...
+//      name               name
 .directive('resolveSheet', function($rootScope) {
     return {
         restrict: 'E',
@@ -56,7 +59,8 @@ angular.module('calcworks.controllers')
         restrict: 'E',
         scope: {
             calculation: '=',
-            displayCalculationName: '=' // optional flag, display calculation name instead of its result
+            displayCalculationName: '=',   // optional flag, display calculation name instead of its result
+            showResult: '='                // optional flag, display result, default true
         },
         link: function(scope, element) {
 
@@ -68,7 +72,9 @@ angular.module('calcworks.controllers')
                         template = template + $rootScope.getExprItemForRendering(calculation.expression[i], scope.displayCalculationName);
                         template = template + '</span>';
                     }
-                    if (calculation.result !== undefined && calculation.result !== null) {
+                    var showResult = scope.showResult;
+                    if (showResult == undefined) { showResult = true; }
+                    if (calculation.result !== undefined && calculation.result !== null  && showResult) {
                         template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberForRendering(calculation.result) + '</span>';
                     }
                     // since we resolve the parameters above there is no need to compile

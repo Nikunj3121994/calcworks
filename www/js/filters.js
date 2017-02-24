@@ -12,8 +12,17 @@ angular.module('calcworks.controllers')
         }
     };
 
-//toTimestamp zou betere naam zijn
+}).filter('toFixedTwoDecimals', function($log, $rootScope) {
+    return function (input) {
+        if (input === undefined || input === null) {
+            return null;
+        } else {
+            return $rootScope.convertNumberToAmountForRendering(input);
+        }
+    };
+
 }).filter('toDate', function($filter) {
+//toTimestamp zou betere naam zijn
 
     function areDaysEqual(day1, day2) {
         return day2.getDate() === day1.getDate() && day2.getMonth() === day1.getMonth() && day2.getFullYear() === day1.getFullYear();

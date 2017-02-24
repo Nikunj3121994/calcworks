@@ -15,6 +15,10 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
         return convertNumberForRendering(number, $rootScope.nrOfDecimals);
     };
 
+    $rootScope.convertNumberToAmountForRendering = function(number) {
+        return convertNumberToAmountForRendering(number);
+    };
+
     $rootScope.getExprItemForRendering = function(exprItem, displayCalculationName) {
         return getExprItemForRendering(exprItem, $rootScope.nrOfDecimals, displayCalculationName);
     };

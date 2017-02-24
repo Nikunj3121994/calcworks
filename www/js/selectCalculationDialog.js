@@ -8,6 +8,7 @@ angular.module('calcworks.services')
     // het is ook netter ivm isolatie
     .factory('selectCalculationDialog', function($rootScope, $ionicModal, sheetService) {
 
+        var selection;
         return {
             // notAllowedCalc is the calc that is under edit, can be null
             //TODO: notAllowedCalc lijkt niet te werken
@@ -19,11 +20,16 @@ angular.module('calcworks.services')
                 }).then(function(modal) {
 
                     // dit is cruciaal, zonder die 'data' container werkt het niet
+
                     modal.scope.data = {
                         selectedSheet : sheet,
-                        // TODO: hier zouden we nog de favorites boven aan kunnen zetten
                         availableSheets : sheetService.getSheets()
                     };
+                    //todo: test of selection nog bestaat
+                    //todo: betere naam
+                    if (selection) {
+                        modal.scope.data.selectedSheet = selection;
+                    }
 
                     modal.scope.closeModal = function() {
                         modal.hide();
@@ -40,6 +46,7 @@ angular.module('calcworks.services')
                             modal.scope.closeModal();
                         } else {
                             if (calc !== notAllowedCalc) {
+                                selection = modal.scope.data.selectedSheet;
                                 processCalculationSelected(calc, modal.scope.data.selectedSheet);
                                 modal.scope.closeModal();
                             }

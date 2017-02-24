@@ -112,9 +112,10 @@ var thousandsSeparatorChar =  (decimalSeparatorChar==='.') ? ',' : '.';
 // deze functie behoudt de decimal separator, trailing zero's e.d. zodat ie in het inpput display panel getoond kan worden
 // numberStr is een getal als string met us decimal separator
 // result is een localised getal (thousand and decimal seps) as string
+// deze functie zou eigenlijk convertNumberStrForDisplay moeten heten
 function convertNumberForDisplay(numberStr) {
     // je kan hier niet toLocaleString gebruiken omdat je dan trailing zero's e.d. kan kwijt raken
-    var parts = numberStr.split('.');   // numberStr is not localised
+    var parts = numberStr.split('.');   // find decimal separator, note that numberStr is not localised
     var integerPart = parts[0];
     var fractionPart = parts.length > 1 ? decimalSeparatorChar + parts[1] : '';
     var rgx = /(\d+)(\d{3})/;
@@ -124,14 +125,13 @@ function convertNumberForDisplay(numberStr) {
     return integerPart + fractionPart;
 }
 
-
 // public
 function containsPeriodChar(numberStr) {
     return numberStr.indexOf('.') >= 0;
 }
 
 
-// deze functie geeft number als string localised terug zodat ie getoond kan worden
+// deze functie geeft number (float) als string localised terug zodat ie getoond kan worden
 // deze functie kan overal gebruikt worden voor display/rendering doeleiden, behalve de input display
 function convertNumberForRendering(number, nrOfDecimals) {
     if (number===null) {
@@ -142,6 +142,30 @@ function convertNumberForRendering(number, nrOfDecimals) {
         return (+number.toFixed(nrOfDecimals)).toLocaleString();
     }
 }
+
+
+// deze functie geeft number (float) als bedrag als string localised terug zodat ie getoond kan worden
+// deze functie kan overal gebruikt worden voor display/rendering doeleiden, behalve de input display
+function convertNumberToAmountForRendering(number) {
+    if (number===null) {
+        return ''; // result is not known
+    } else if (isNaN(number) || !isFinite(number)) {
+        return 'error';
+    } else {
+        return convertNumberToAmountStr(number);
+}
+
+
+
+function convertNumberToAmountStr(number) {
+    var integerPart = Math.floor(number);
+    var fractionPart = number % 1;
+    var temp1 = integerPart.toLocaleString();
+    var temp2 = fractionPart.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return temp1 + decimalSeparatorChar + temp2.slice(2);
+}
+
+
 
 
 // testen ontbreken

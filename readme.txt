@@ -287,17 +287,15 @@ Bugs
 -------
 - is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
 - Bij edit wordt bovenste regel niet leeg. Je mist de OK btn.
-
+- bij expense view zou de sum ook met 2 digits moeten zijn, je kan dan max achterwege laten. Of zorg ervoor dat je sum en max los van elkaar kan instellen
+- onthoudt de laatst gekozen sheet in selectCalc dialog
 
 Improvements
 --------------
-- toon een derde manier van displayen in detail view die op een bon/factuur lijkt
-- grijze grafieklijntje zou 100% moeten zijn, op device controleren wat ie nu precies doet.
 - toon ... als er meer dan 2 decimalen zijn en maak het evt mogelijk om erop te klikken
 - toon de expressie visueel duidelijker; de operator precedence zou je moeten visualiseren - meer/minder ruimte tussen. Deelstreep
 - we moeten voor de ipad nog een setting zetten ivm splitscreen
 - gebruik ÷ ipv /
-- a trash icon bij settings
 - moet de button met de . ook niet localised worden?
 - misschien zou de remember btn link bij display moeten, heb je meer ruimte in de eerste panel
 

@@ -11,7 +11,7 @@ angular.module('calcworks.controllers')
     $scope.showReorder = false;
     $scope.listCanSwipe = true;
     $scope.sheet = sheetService.getActiveSheet();
-    $scope.showCalcCreatedTime = false;
+    $scope.sheetDisplayOption = 'n'; // normal
 
     $scope.$on('$ionicView.beforeEnter', function (e) {
         if (state.sheetId) {
@@ -52,6 +52,13 @@ angular.module('calcworks.controllers')
         $scope.sheet.hasSum = !$scope.sheet.hasSum;
     };
 
+    //TODO: deze popups op onshow aanmaken zodat opstarten applicatie niet trager gaat
+
+    // with this approach the popup is always initialized on startup
+    // we can optimize this by initializing in the show, however in this case we need to wait till
+    // the promise in the then() is resolved
+    // init $scope.macroModalPopup:
+
 
     // this popup code is based on http://codepen.io/vladius/pen/VLEOQo
     $ionicPopover.fromTemplateUrl('templates/calc-menu-popup.html', {
@@ -60,6 +67,26 @@ angular.module('calcworks.controllers')
         $scope.calcMenuPopover = popover;
     });
 
+    // this popup code is based on http://codepen.io/vladius/pen/VLEOQo
+    $ionicPopover.fromTemplateUrl('templates/sheet-display-options-popup.html', {
+        scope: $scope
+    }).then(function(popover) {
+        $scope.sheetDisplayOptionsPopover = popover;
+    });
+
+
+    $scope.openSheetDisplayOptionsPopover = function($event) {
+        $scope.sheetDisplayOptionsPopover.show($event);
+    };
+
+    $scope.setSheetDisplayOption = function(option) {
+        $scope.sheetDisplayOption = option;
+    }
+
+
+    $scope.closeSheetDisplayOptionsPopover= function() {
+        $scope.sheetDisplayOptionsPopover.hide();
+    };
 
     $scope.openCalcMenuPopover = function($event, calc) {
         $scope.calcMenuPopover.show($event);
@@ -73,6 +100,7 @@ angular.module('calcworks.controllers')
       //Cleanup the popover when we're done with it!
     $scope.$on('$destroy', function()  {
         $scope.calcMenuPopover.remove();
+        $scope.sheetDisplayOptionsPopover.remove();
     });
 
 
@@ -87,12 +115,6 @@ angular.module('calcworks.controllers')
         $scope.closeCalcMenuPopover();
         renameDialogs.showRenameCalculationDialog($scope.calcMenuPopover.calc, $scope.sheet);
     };
-
-
-    // with this approach the popup is always initialized on startup
-    // we can optimize this by initializing in the show, however in this case we need to wait till
-    // the promise in the then() is resolved
-    // init $scope.macroModalPopup:
 
 
     function newSheet() {

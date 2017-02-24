@@ -31,9 +31,8 @@ The Sheets service returns an array of sheet data
                 show-reorder="showReorder"
                 can-swipe="true">
 
-
-          <!--consider ionic's collection-repeat-->
-          <div ng-if="!showCalcCreatedTime">
+          <!--normal-->
+          <div ng-if="sheetDisplayOption == 'n'">
               <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id"  >
                    <span class="row rowCalc">
                        <span class="col col-90" ng-click="navigateToCalculator(calc)">
@@ -51,7 +50,29 @@ The Sheets service returns an array of sheet data
               </ion-item>
           </div>
 
-          <div ng-if="showCalcCreatedTime">
+          <div ng-if="sheetDisplayOption == 'i'">
+              <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id"  >
+                   <span class="row rowCalc">
+                       <span class="col col-80" ng-click="navigateToCalculator(calc)" style="text-align: left">
+                           <resolve-expression calculation="calc" display-calculation-name="true" show-result="false"></resolve-expression>
+                       </span>
+                       <span class="col col-10" ng-click="navigateToCalculator(calc)" style="text-align: right">
+                           {{calc.result|toFixedTwoDecimals}}
+                       </span>
+                       <span class="col col-10">
+                            <!-- button-dark toegevoegd om de button zichtbaar te krijgen, lijkt een ionic bug -->
+                            <button class="button button-clear button-dark ion-ios-more" ng-click="openCalcMenuPopover($event, calc)"></button>
+                       </span>
+                  </span>
+                  <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
+                  </ion-delete-button>
+                  <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
+                  </ion-reorder-button>
+              </ion-item>
+          </div>
+
+          <!--expense report-->
+          <div ng-if="sheetDisplayOption == 'e'">
               <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id">
                    <span class="row rowCalc">
                        <span class="col col-30" ng-click="navigateToCalculator(calc)">
@@ -90,7 +111,9 @@ The Sheets service returns an array of sheet data
   </ion-content>
 
     <ion-footer-bar align-title="center" class="bar-light">
-        <ion-toggle id="btn-bar-toggle" ng-model="showCalcCreatedTime" style="border:none;" toggle-class="toggle-energized"></ion-toggle>
+        <div class="buttons">
+            <button class="button button-clear ion-eye" ng-click="openSheetDisplayOptionsPopover($event)"></button>
+        </div>
         <span class="title">
             <button class="button button-clear ion-ios-more" ng-click="showDelete = false; showReorder = false; showActionSheet()"></button>
         </span>
