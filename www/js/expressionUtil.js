@@ -153,16 +153,24 @@ function convertNumberToAmountForRendering(number) {
         return 'error';
     } else {
         return convertNumberToAmountStr(number);
+    }
 }
 
 
-
 function convertNumberToAmountStr(number) {
+    // problem is that locale parameter in toLocaleString () call is unknown
+    // so this is a big workaround
     var integerPart = Math.floor(number);
-    var fractionPart = number % 1;
     var temp1 = integerPart.toLocaleString();
-    var temp2 = fractionPart.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    return temp1 + decimalSeparatorChar + temp2.slice(2);
+    var temp2;
+    if (Number.isInteger(number)) {
+        temp2 = '00';
+    } else {
+        var fractionPart = number % 1;
+        // default to US locale and drop the '0.' sub string
+        temp2 = fractionPart.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).slice(2);
+    }
+    return temp1 + decimalSeparatorChar + temp2;
 }
 
 
