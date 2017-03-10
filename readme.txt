@@ -289,6 +289,7 @@ Bugs
 - Bij edit wordt bovenste regel niet leeg. Je mist de OK btn.
 - bij expense view zou de sum ook met 2 digits moeten zijn, je kan dan max achterwege laten. Of zorg ervoor dat je sum en max los van elkaar kan instellen
 - onthoudt de laatst gekozen sheet in selectCalc dialog
+- de export houdt geen rekening met de rendering display options
 
 Improvements
 --------------

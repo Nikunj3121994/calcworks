@@ -72,15 +72,25 @@ describe('Test Expression Utilities', function () {
 
     //
     it('convertNumberForRendering', function () {
-        expect(convertNumberForRendering(123, 2)).toEqual('123');
-        expect(convertNumberForRendering(123, 0)).toEqual('123');
-        expect(convertNumberForRendering(1 / 3, 2)).toEqual('0.33');
-        expect(convertNumberForRendering(1 / 3, 3)).toEqual('0.333');
-        expect(convertNumberForRendering('abc', 2)).toEqual('error');
-        expect(convertNumberForRendering(1 / 0, 2)).toEqual('error');
-        expect(convertNumberForRendering(1234, 2)).toEqual('1,234');
-        expect(convertNumberForRendering(1234567, 2)).toEqual('1,234,567');
-        expect(convertNumberForRendering(1234567.34, 2)).toEqual('1,234,567.34');
+        expect(convertNumberForRendering(123)).toEqual('123');
+        expect(convertNumberForRendering(123, null)).toEqual('123');
+        expect(convertNumberForRendering(123, {})).toEqual('123');
+        expect(convertNumberForRendering(123, {maximumFractionDigits : null})).toEqual('123');
+        expect(convertNumberForRendering(1 / 3, {maximumFractionDigits : 2})).toEqual('0.33');
+        expect(convertNumberForRendering(1 / 3, {maximumFractionDigits : null})).toEqual('0.33');
+        expect(convertNumberForRendering('abc')).toEqual('error');
+        expect(convertNumberForRendering('abc', {maximumFractionDigits : 2})).toEqual('error');
+        expect(convertNumberForRendering(1 / 0)).toEqual('error');
+        expect(convertNumberForRendering(1 / 0, {maximumFractionDigits : 2})).toEqual('error');
+        expect(convertNumberForRendering(1234)).toEqual('1,234');
+        expect(convertNumberForRendering(1234, {})).toEqual('1,234');
+        expect(convertNumberForRendering(1234, {maximumFractionDigits : 2})).toEqual('1,234.00');
+        expect(convertNumberForRendering(1234567)).toEqual('1,234,567');
+        expect(convertNumberForRendering(1234567, {maximumFractionDigits : 2})).toEqual('1,234,567.00');
+        expect(convertNumberForRendering(1234567.1)).toEqual('1,234,567.1');
+        expect(convertNumberForRendering(1234567.1, {maximumFractionDigits : 2})).toEqual('1,234,567.10');
+        expect(convertNumberForRendering(1234567.34)).toEqual('1,234,567.34');
+        expect(convertNumberForRendering(1234567.34, {maximumFractionDigits : 2})).toEqual('1,234,567.34');
     });
 
 
@@ -111,15 +121,15 @@ describe('Test Expression Utilities', function () {
 
 
     it('getExprItemForRendering', function() {
-        expect(getExprItemForRendering(1, 1)).toEqual('1');
-        expect(getExprItemForRendering(0, 1)).toEqual('0');
-        expect(getExprItemForRendering('(', 1)).toEqual('(');
-        expect(getExprItemForRendering('x', 1)).toEqual('x');
-        expect(getExprItemForRendering('_', 1)).toEqual('-');
+        expect(getExprItemForRendering(1)).toEqual('1');
+        expect(getExprItemForRendering(0)).toEqual('0');
+        expect(getExprItemForRendering('(')).toEqual('(');
+        expect(getExprItemForRendering('x')).toEqual('x');
+        expect(getExprItemForRendering('_')).toEqual('-');
         var calc = new Calculation('id', 'name', '1 + 2');
         calc.result = 3;
-        expect(getExprItemForRendering(calc, 1, false)).toEqual('3');
-        expect(getExprItemForRendering(calc, 1, true)).toEqual('name');
+        expect(getExprItemForRendering(calc, null, false)).toEqual('3');
+        expect(getExprItemForRendering(calc, null, true)).toEqual('name');
     });
 
     it('calcDayBeforeAtMidnight', function() {

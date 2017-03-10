@@ -2,17 +2,25 @@
     <ion-content scroll="false">
         <div class="list">
             <span class="item" >
-                <b>Select a view style</b>
+                <b>Select display options</b>
             </span>
+            <!--todo: vinkje ervoor plaatsen-->
             <a class="item" ng-click="setSheetDisplayOption('n')"  target="_blank">
-                Normal
-            </a>
-            <a class="item" ng-click="setSheetDisplayOption('e')" target="_blank">
-                Name: value
+                Full
             </a>
             <a class="item" ng-click="setSheetDisplayOption('i')" target="_blank">
-                Epxression : value
+                Epxression style
             </a>
+            <a class="item" ng-click="setSheetDisplayOption('e')" target="_blank">
+                Expense style
+            </a>
+            <a class="item" ng-click="setSheetDisplayOption('00')" target="_blank">
+                <span ng-class="(sheet.numberDisplayOption.maximumFractionDigits)?'':'disabled-class'">
+                .00
+                </span>
+            </a>
+            <!--todo: de grafiek lijntjes ook een optie maken-->
+            <!--todo: de sum ook een optie maken-->
         </div>
     </ion-content>
 </ion-popover-view>

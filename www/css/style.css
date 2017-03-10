@@ -378,6 +378,10 @@ ion-item.calc-item div.item-content {
     height: 1px
 }
 
+.disabled-class {
+    color:gray;
+}
+
 
 /* copied from ionic's .item-input-inset without the padding.
    this (display) style is needed to get the input field and clear (x) button on the same row

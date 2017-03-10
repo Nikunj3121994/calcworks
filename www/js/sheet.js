@@ -16,6 +16,7 @@ var Sheet = function(par, name, calculations) {
         this.outputCalculation = undefined;
         this.sum = undefined;
         this.max = undefined;
+        this.numberDisplayOption = {};
     } else {
         // reconstruct object from json
         this.id = par.id;
@@ -28,10 +29,16 @@ var Sheet = function(par, name, calculations) {
         this.sum = par.sum;
         this.max = par.max;
         this.inputCalculation = par.inputCalculation;
+        // added field numberDisplayOption
         this.outputCalculation = par.outputCalculation;
+        if (par.numberDisplayOption) {
+            this.numberDisplayOption = par.numberDisplayOption;
+        } else {
+            this.numberDisplayOption = {};
+        }
     }
     this.__type = 'Sheet';
-    this.version = '1.0'; // we will use this for versioning and potential updating of storage format
+    this.version = '1.0'; // added numberDisplayOption after 1.0.....
 };
 
 Sheet.prototype.defaultName = 'Untitled Sheet';

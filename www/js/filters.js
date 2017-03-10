@@ -3,23 +3,31 @@
 angular.module('calcworks.controllers')
 
 // filter that expects a number (not a string!) and converts it to a string with the localised decimals and thousands separator
+// options is defined in convertNumberForRendering
 .filter('toFixedDecimals', function($log, $rootScope) {
-    return function (input) {
+    return function (input, options) {
         if (input === undefined || input === null) {
             return null;
         } else {
-            return $rootScope.convertNumberForRendering(input);
+            return $rootScope.convertNumberForRendering(input, options);
         }
     };
-
-}).filter('toFixedTwoDecimals', function($log, $rootScope) {
-    return function (input) {
-        if (input === undefined || input === null) {
-            return null;
-        } else {
-            return $rootScope.convertNumberToAmountForRendering(input);
-        }
-    };
+////todo: delete filter below
+//}).filter('toFixedTwoDecimals', function($log, $rootScope) {
+//    // displayOption optional, default to  n
+//    // displayOption = n    number   - max 2 digits
+//    // displayOption = c    currency - always 2 digits
+//    return function (input, displayOption) {
+//        if (input === undefined || input === null) {
+//            return null;
+//        } else {
+//            if (displayOption == 'c') {
+//                return $rootScope.convertNumberForRendering(input, {maximumFractionDigits : 2});
+//            } else {
+//                return $rootScope.convertNumberForRendering(input);
+//            }
+//        }
+//    };
 
 }).filter('toDate', function($filter) {
 //toTimestamp zou betere naam zijn

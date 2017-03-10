@@ -31,12 +31,12 @@ The Sheets service returns an array of sheet data
                 show-reorder="showReorder"
                 can-swipe="true">
 
-          <!--normal-->
+          <!--normal / full style-->
           <div ng-if="sheetDisplayOption == 'n'">
               <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id"  >
                    <span class="row rowCalc">
                        <span class="col col-90" ng-click="navigateToCalculator(calc)">
-                            <resolve-sheet sheet="sheet" index="$index"></resolve-sheet>
+                            <resolve-sheet sheet="sheet" index="$index" number-display-option="numberDisplayOption"></resolve-sheet>
                        </span>
                        <span class="col col-10">
                             <!-- button-dark toegevoegd om de button zichtbaar te krijgen, lijkt een ionic bug -->
@@ -57,7 +57,7 @@ The Sheets service returns an array of sheet data
                            <resolve-expression calculation="calc" display-calculation-name="true" show-result="false"></resolve-expression>
                        </span>
                        <span class="col col-10" ng-click="navigateToCalculator(calc)" style="text-align: right">
-                           {{calc.result|toFixedTwoDecimals}}
+                           {{calc.result|toFixedDecimals:sheet.numberDisplayOption}}
                        </span>
                        <span class="col col-10">
                             <!-- button-dark toegevoegd om de button zichtbaar te krijgen, lijkt een ionic bug -->
@@ -71,7 +71,7 @@ The Sheets service returns an array of sheet data
               </ion-item>
           </div>
 
-          <!--expense report-->
+          <!--expense report; name : result -->
           <div ng-if="sheetDisplayOption == 'e'">
               <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id">
                    <span class="row rowCalc">
@@ -80,7 +80,7 @@ The Sheets service returns an array of sheet data
                            <small>{{calc.createdTimestamp|toDate}}</small>
                        </span>
                        <span class="col col-60" ng-click="navigateToCalculator(calc)" style="text-align: right">
-                           {{calc.result|toFixedDecimals}}
+                           {{calc.result|toFixedDecimals:sheet.numberDisplayOption}}
                        </span>
                        <span class="col col-10">
                             <button class="button button-clear button-dark ion-ios-more"  ng-click="openCalcMenuPopover($event, calc)"></button>
@@ -99,11 +99,11 @@ The Sheets service returns an array of sheet data
           <ion-item ng-if="sheet.hasSum" class="calc-item" style="padding: 0px">
                   <span class="row rowSum">
                       <span class="col col-30">Sum</span>
-                      <span class="col col-70" style="text-align: right">{{sheet.sum|toFixedDecimals}}</span>
+                      <span class="col col-70" style="text-align: right">{{sheet.sum|toFixedDecimals:sheet.numberDisplayOption}}</span>
                   </span>
                   <span class="row rowSum">
                       <span class="col col-30">Max</span>
-                      <span class="col col-70" style="text-align: right">{{sheet.max|toFixedDecimals}}</span>
+                      <span class="col col-70" style="text-align: right">{{sheet.max|toFixedDecimals:sheet.numberDisplayOption}}</span>
                   </span>
           </ion-item>
 

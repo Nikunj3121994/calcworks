@@ -133,17 +133,28 @@ function containsPeriodChar(numberStr) {
 
 // deze functie geeft number (float) als string localised terug zodat ie getoond kan worden
 // deze functie kan overal gebruikt worden voor display/rendering doeleiden, behalve de input display
-function convertNumberForRendering(number, nrOfDecimals) {
-    if (number===null) {
+// options is null - meaning that the required number of digits is shown up to max 2. E.g.:  0 ,  0.1  ,  0.23
+// this is the same as minimumFractionDigits: 0, maximumFractionDigits=2
+// or options.maximumFractionDigits = 2 - meaning that always 2 digits are shown. E.g. 0.00 , 0.10  , 0.23
+// this is the same as minimumFractionDigits: 2, maximumFractionDigits=2
+// similar to Intl.NumberFormat
+function convertNumberForRendering(number, options) {
+    if (number === null) {
         return ''; // result is not known
     } else if (isNaN(number) || !isFinite(number)) {
         return 'error';
     } else {
-        return (+number.toFixed(nrOfDecimals)).toLocaleString();
+        if (options == null || !options.maximumFractionDigits) {
+                return (+number.toFixed(2)).toLocaleString();
+            } else {
+                if (options.maximumFractionDigits && options.maximumFractionDigits !==2) throw Error('invalid argument options: ' + JSON.stringify(options));
+                return convertNumberToAmountForRendering(number);
+            }
     }
 }
 
 
+//TODO: delete this function
 // deze functie geeft number (float) als bedrag als string localised terug zodat ie getoond kan worden
 // deze functie kan overal gebruikt worden voor display/rendering doeleiden, behalve de input display
 function convertNumberToAmountForRendering(number) {
@@ -156,7 +167,7 @@ function convertNumberToAmountForRendering(number) {
     }
 }
 
-
+// internal use only, use convertNumberForRendering instead
 function convertNumberToAmountStr(number) {
     // problem is that locale parameter in toLocaleString () call is unknown
     // so this is a big workaround
@@ -177,8 +188,10 @@ function convertNumberToAmountStr(number) {
 
 
 // testen ontbreken
-// geeft de waarde voor een calcName en anders de literal zelf terug
-function getExprItemForRendering(exprItem, nrOfDecimals, displayCalculationName) {
+// geeft de waarde voor een calcName en anders de literal zelf terug depending on displayCalculationName
+// numberDisplayOption are explained in convertNumberForRendering
+// all parameters are required
+function getExprItemForRendering(exprItem, numberDisplayOption, displayCalculationName) {
     if (exprItem === undefined  || exprItem === null) {
         throw new Error('assertion error, empty exprItem');
     } else if (isBinaryOperator(exprItem) || isBracket(exprItem)) {
@@ -187,12 +200,12 @@ function getExprItemForRendering(exprItem, nrOfDecimals, displayCalculationName)
         if (displayCalculationName) {
             return exprItem.name;
         } else {
-            return convertNumberForRendering(exprItem.result, nrOfDecimals);
+            return convertNumberForRendering(exprItem.result, numberDisplayOption);
         }
     } else if (exprItem === '_') {
         return '-';  // unaire min
     } else {
-        return convertNumberForRendering(exprItem, nrOfDecimals);
+        return convertNumberForRendering(exprItem, numberDisplayOption);
     }
 }
 

@@ -29,6 +29,22 @@ describe('Test filters', function () {
     });
 
 
+    it('verify toFixedDecimals filter with two digits', function () {
+        var toFixedDecimalsFilter = $filter('toFixedDecimals');
+        var result = toFixedDecimalsFilter(0, {maximumFractionDigits : 2});
+        expect(result).toBe('0.00');
+
+        result = toFixedDecimalsFilter(null, {maximumFractionDigits : 2});
+        expect(result).toBe(null);
+
+        result = toFixedDecimalsFilter(1234, {maximumFractionDigits : 2});
+        expect(result).toBe('1,234.00');
+
+        result = toFixedDecimalsFilter(0.333333, {maximumFractionDigits : 2});
+        expect(result).toBe('0.33');
+    });
+
+
     it('verify toDate filter', function () {
         var dateFilter = $filter('toDate');
         var today = new Date();

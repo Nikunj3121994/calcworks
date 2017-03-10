@@ -17,11 +17,11 @@
           <div ng-click="gotoSheet(sheet)">
               <div class="row"  ng-repeat="calc in sheet.calculations" style="background-color: white">
                   <div class="col sheetsCol" style="text-align: left">{{calc.name}}</div>
-                  <div class="col sheetsCol" style="text-align: right">{{calc.result|toFixedDecimals}}</div>
+                  <div class="col sheetsCol" style="text-align: right">{{calc.result|toFixedDecimals:sheet.numberDisplayOption}}</div>
               </div>
               <div class="row rowSum" ng-if="sheet.hasSum">
                   <div class="col sheetsCol" style="text-align: left"></div>
-                  <div class="col sheetsCol" style="text-align: right">Sum: {{sheet.sum|toFixedDecimals}}</div>
+                  <div class="col sheetsCol" style="text-align: right">Sum: {{sheet.sum|toFixedDecimals:sheet.numberDisplayOption}}</div>
               </div>
           </div>
 

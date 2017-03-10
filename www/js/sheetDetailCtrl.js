@@ -13,6 +13,7 @@ angular.module('calcworks.controllers')
     $scope.sheet = sheetService.getActiveSheet();
     $scope.sheetDisplayOption = 'n'; // normal
 
+
     $scope.$on('$ionicView.beforeEnter', function (e) {
         if (state.sheetId) {
             sheetService.setActiveSheet($stateParams.sheetId);
@@ -79,8 +80,18 @@ angular.module('calcworks.controllers')
         $scope.sheetDisplayOptionsPopover.show($event);
     };
 
+    // called from the popup html
     $scope.setSheetDisplayOption = function(option) {
-        $scope.sheetDisplayOption = option;
+        // beetje hacky code, moet netter
+        if (option == '00') {
+            if ($scope.sheet.numberDisplayOption.maximumFractionDigits === 2) {
+                $scope.sheet.numberDisplayOption.maximumFractionDigits = null;
+            } else {
+                $scope.sheet.numberDisplayOption.maximumFractionDigits = 2;
+            }
+         } else {
+            $scope.sheetDisplayOption = option;
+         }
     }
 
 
