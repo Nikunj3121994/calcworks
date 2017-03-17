@@ -53,10 +53,10 @@ The Sheets service returns an array of sheet data
           <div ng-if="sheetDisplayOption == 'i'">
               <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id"  >
                    <span class="row rowCalc">
-                       <span class="col col-80" ng-click="navigateToCalculator(calc)" style="text-align: left">
+                       <span class="col col-70" ng-click="navigateToCalculator(calc)" style="text-align: left">
                            <resolve-expression calculation="calc" display-calculation-name="true" show-result="false"></resolve-expression>
                        </span>
-                       <span class="col col-10" ng-click="navigateToCalculator(calc)" style="text-align: right">
+                       <span class="col col-20" ng-click="navigateToCalculator(calc)" style="text-align: right">
                            {{calc.result|toFixedDecimals:sheet.numberDisplayOption}}
                        </span>
                        <span class="col col-10">
@@ -117,8 +117,5 @@ The Sheets service returns an array of sheet data
         <span class="title">
             <button class="button button-clear ion-ios-more" ng-click="showDelete = false; showReorder = false; showActionSheet()"></button>
         </span>
-        <div class="buttons">
-            <div class="button button-clear" ng-class="{'button-energized': sheet.hasSum}" ng-click="toggleSum()">Sum</div>
-        </div>
     </ion-footer-bar>
 </ion-view>

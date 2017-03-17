@@ -4,15 +4,22 @@
             <span class="item" >
                 <b>Select display options</b>
             </span>
-            <!--todo: vinkje ervoor plaatsen-->
             <a class="item" ng-click="setSheetDisplayOption('n')"  target="_blank">
                 Full
+                <i ng-show="sheetDisplayOption=='n'" class="icon ion-checkmark"></i>
             </a>
             <a class="item" ng-click="setSheetDisplayOption('i')" target="_blank">
                 Epxression style
+                <i ng-show="sheetDisplayOption=='i'" class="icon ion-checkmark"></i>
             </a>
             <a class="item" ng-click="setSheetDisplayOption('e')" target="_blank">
                 Expense style
+                <i ng-show="sheetDisplayOption=='e'" class="icon ion-checkmark"></i>
+            </a>
+            <a class="item" ng-click="toggleSum()" target="_blank">
+                <span ng-class="(sheet.hasSum)?'':'disabled-class'">
+                Sum
+                </span>
             </a>
             <a class="item" ng-click="setSheetDisplayOption('00')" target="_blank">
                 <span ng-class="(sheet.numberDisplayOption.maximumFractionDigits)?'':'disabled-class'">
@@ -20,7 +27,6 @@
                 </span>
             </a>
             <!--todo: de grafiek lijntjes ook een optie maken-->
-            <!--todo: de sum ook een optie maken-->
         </div>
     </ion-content>
 </ion-popover-view>
