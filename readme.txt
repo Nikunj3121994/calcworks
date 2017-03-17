@@ -280,16 +280,16 @@ Roadmap
 
 Issues
 ============
-
+- rename maximumFractionDigits -> minimumFractionDigits
 
 
 Bugs
 -------
 - is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
-- Bij edit wordt bovenste regel niet leeg. Je mist de OK btn.
-- bij expense view zou de sum ook met 2 digits moeten zijn, je kan dan max achterwege laten. Of zorg ervoor dat je sum en max los van elkaar kan instellen
-- onthoudt de laatst gekozen sheet in selectCalc dialog
+- Bij edit calc wordt bovenste regel niet leeg. Je mist de OK btn.
 - de export houdt geen rekening met de rendering display options
+- zorg ervoor dat je sum en max los van elkaar kan instellen
+
 
 Improvements
 --------------

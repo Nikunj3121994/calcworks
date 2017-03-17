@@ -16,8 +16,9 @@
 
         <ion-list>
             <ion-item ng-repeat="calc in data.selectedSheet.calculations | filter:allowedCalcFilter track by $index " ng-click="clickSelectCalculation(calc)">
-                <div class="listVarName"> {{calc.name}} </div>
-                <div class="listResolvedExpression" > <resolve-expression calculation="calc"></resolve-expression> </div>
+                <span class="listCalcName"> {{calc.name}} </span>
+                <span class="listCalcResult">{{calc.result|toFixedDecimals:data.selectedSheet.numberDisplayOption}}</span>
+                <span class="listResolvedExpression" > <resolve-expression calculation="calc" number-display-option="data.selectedSheet.numberDisplayOption" show-result="false"></resolve-expression> </span>
             </ion-item>
         </ion-list>
 

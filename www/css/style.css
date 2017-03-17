@@ -262,10 +262,17 @@ em,i {
 }
 
 /* select calculation dialog */
-.listVarName {
+.listCalcName {
     display:inline-block;
-    width: 30%;
+    width: 25%;
     text-align: left
+}
+
+.listCalcResult {
+    display:inline-block;
+    width: 20%;
+    text-align: right;
+    padding-right: 2%;
 }
 
 .listResolvedExpression {
@@ -273,7 +280,7 @@ em,i {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: 50%;
+    width: 55%;
     text-align: right
 }
 

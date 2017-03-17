@@ -2,6 +2,8 @@
 
 // a sheet has a name and contains an array of calculations
 var Sheet = function(par, name, calculations) {
+    // version 1.0 - start version
+    // version 1.1 - added numberDisplayOption field
     if (par === null) throw 'undefined parameter for Sheet constructor';
     if (typeof(par) === 'string') {
         //console.log('build from all parameters');
@@ -16,7 +18,7 @@ var Sheet = function(par, name, calculations) {
         this.outputCalculation = undefined;
         this.sum = undefined;
         this.max = undefined;
-        this.numberDisplayOption = {};
+        this.numberDisplayOption = {}; // field minimumFractionDigits: 0 or 2
     } else {
         // reconstruct object from json
         this.id = par.id;
@@ -37,8 +39,8 @@ var Sheet = function(par, name, calculations) {
             this.numberDisplayOption = {};
         }
     }
+    this.version = '1.1'; // we can look at this value when we reconstruct from json
     this.__type = 'Sheet';
-    this.version = '1.0'; // added numberDisplayOption after 1.0.....
 };
 
 Sheet.prototype.defaultName = 'Untitled Sheet';

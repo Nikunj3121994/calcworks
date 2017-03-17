@@ -12,23 +12,6 @@ angular.module('calcworks.controllers')
             return $rootScope.convertNumberForRendering(input, options);
         }
     };
-////todo: delete filter below
-//}).filter('toFixedTwoDecimals', function($log, $rootScope) {
-//    // displayOption optional, default to  n
-//    // displayOption = n    number   - max 2 digits
-//    // displayOption = c    currency - always 2 digits
-//    return function (input, displayOption) {
-//        if (input === undefined || input === null) {
-//            return null;
-//        } else {
-//            if (displayOption == 'c') {
-//                return $rootScope.convertNumberForRendering(input, {maximumFractionDigits : 2});
-//            } else {
-//                return $rootScope.convertNumberForRendering(input);
-//            }
-//        }
-//    };
-
 }).filter('toDate', function($filter) {
 //toTimestamp zou betere naam zijn
 

@@ -89,6 +89,7 @@ angular.module('calcworks.controllers')
             } else {
                 $scope.sheet.numberDisplayOption.maximumFractionDigits = 2;
             }
+            sheetService.saveSheet($scope.sheet);
          } else {
             $scope.sheetDisplayOption = option;
          }
