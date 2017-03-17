@@ -245,7 +245,7 @@ em,i {
 .calculator-btn-edit-macro-mode {
     color: green;
     font-size: xx-large;
-}}
+}
 
 .calculator-btn:disabled {
     color: #d3d3d3;
@@ -397,7 +397,6 @@ ion-item.calc-item div.item-content {
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
-    display: -moz-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;

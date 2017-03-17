@@ -54,7 +54,7 @@ angular.module('calcworks.services')
                 template = template + '</tr>';
             }
             template = template + '</table>';
-            if (sheet.hasSum) {
+            if (sheet.displayOption.showSum) {
                 template = template + '<tr>';
                 template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberForRendering(sheet.sum) + '</td>';
                 template = template + '</tr>';

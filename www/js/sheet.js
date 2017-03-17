@@ -3,7 +3,7 @@
 // a sheet has a name and contains an array of calculations
 var Sheet = function(par, name, calculations) {
     // version 1.0 - start version
-    // version 1.1 - added numberDisplayOption field
+    // version 1.1 - added numberDisplayOption field and moved hasSum to displayOption
     if (par === null) throw 'undefined parameter for Sheet constructor';
     if (typeof(par) === 'string') {
         //console.log('build from all parameters');
@@ -13,12 +13,15 @@ var Sheet = function(par, name, calculations) {
         this.createdTimestamp = new Date();
         this.updatedTimestamp = this.createdTimestamp;
         this.favorite = false;
-        this.hasSum = false;  // waarom deze flag? je kan toch naar undefined waarde kijken van .sum
         this.inputCalculation = undefined;
         this.outputCalculation = undefined;
         this.sum = undefined;
         this.max = undefined;
-        this.numberDisplayOption = {}; // field minimumFractionDigits: 0 or 2
+        this.numberDisplayOption = {}; // fields: minimumFractionDigits: 0 or 2
+        // fields: style {ext, expr, cond} , showGraphBar bool, showSum bool
+        // style: ext (extended), expr (expression), (cond) condensed
+        // if style is not set then the view will display extended
+        this.displayOption = {};
     } else {
         // reconstruct object from json
         this.id = par.id;
@@ -27,7 +30,6 @@ var Sheet = function(par, name, calculations) {
         this.createdTimestamp = new Date(par.createdTimestamp);
         this.updatedTimestamp = new Date(par.updatedTimestamp);
         this.favorite = par.favorite;
-        this.hasSum = par.hasSum;
         this.sum = par.sum;
         this.max = par.max;
         this.inputCalculation = par.inputCalculation;
@@ -37,6 +39,14 @@ var Sheet = function(par, name, calculations) {
             this.numberDisplayOption = par.numberDisplayOption;
         } else {
             this.numberDisplayOption = {};
+        }
+        if (par.displayOption) {
+            this.displayOption = par.displayOption;
+        } else {
+            this.displayOption = {};
+            if (par.hasSum) {
+                this.displayOption.showSum = true;
+            }
         }
     }
     this.version = '1.1'; // we can look at this value when we reconstruct from json

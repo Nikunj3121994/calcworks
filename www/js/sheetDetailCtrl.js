@@ -11,7 +11,7 @@ angular.module('calcworks.controllers')
     $scope.showReorder = false;
     $scope.listCanSwipe = true;
     $scope.sheet = sheetService.getActiveSheet();
-    $scope.sheetDisplayOption = 'n'; // normal
+    //$scope.sheetDisplayOption = 'n'; // ext (extended), expr (expression), (cond) condensed
 
 
     $scope.$on('$ionicView.beforeEnter', function (e) {
@@ -50,7 +50,20 @@ angular.module('calcworks.controllers')
     };
 
     $scope.toggleSum = function() {
-        $scope.sheet.hasSum = !$scope.sheet.hasSum;
+        $scope.sheet.displayOption.showSum = !$scope.sheet.displayOption.showSum;
+    };
+
+    $scope.toggleShowGraphBar = function() {
+        $scope.sheet.displayOption.showGraphBar = !$scope.sheet.displayOption.showGraphBar;
+    };
+
+    $scope.toggleDecimals = function() {
+        if ($scope.sheet.numberDisplayOption.maximumFractionDigits === 2) {
+            $scope.sheet.numberDisplayOption.maximumFractionDigits = null;
+        } else {
+            $scope.sheet.numberDisplayOption.maximumFractionDigits = 2;
+        }
+        sheetService.saveSheet($scope.sheet);
     };
 
     //TODO: deze popups op onshow aanmaken zodat opstarten applicatie niet trager gaat
@@ -82,19 +95,8 @@ angular.module('calcworks.controllers')
 
     // called from the popup html
     $scope.setSheetDisplayOption = function(option) {
-        // beetje hacky code, moet netter
-        if (option == '00') {
-            if ($scope.sheet.numberDisplayOption.maximumFractionDigits === 2) {
-                $scope.sheet.numberDisplayOption.maximumFractionDigits = null;
-            } else {
-                $scope.sheet.numberDisplayOption.maximumFractionDigits = 2;
-            }
-            sheetService.saveSheet($scope.sheet);
-         } else {
-            $scope.sheetDisplayOption = option;
-         }
-    }
-
+        $scope.sheet.displayOption.style = option;
+    };
 
     $scope.closeSheetDisplayOptionsPopover= function() {
         $scope.sheetDisplayOptionsPopover.hide();
