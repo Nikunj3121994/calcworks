@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe('Test directives', function () {
+describe('Test resolve-sheet directive', function () {
     var element, scope, compile, httpBackend;
 
     beforeEach(module('calcworks'));
@@ -49,7 +49,7 @@ describe('Test directives', function () {
         calculation.result = 5;
         scope.sheet = new Sheet('id', 'name', [calculation]);
         scope.index = 0;
-        scope.sheet.numberDisplayOption = { maximumFractionDigits: 2 };
+        scope.sheet.numberDisplayOption = { minimumFractionDigits: 2 };
         compile(element)(scope);
         mockBackEnd();
         scope.$digest();

@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe('Test directives', function () {
+describe('Test resolve-expression directive', function () {
     var element, scope, compile, httpBackend;
 
     beforeEach(module('calcworks'));
@@ -42,7 +42,7 @@ describe('Test directives', function () {
     });
 
     it('verify directive with decimals', function () {
-        scope.numberDisplayOption = { maximumFractionDigits: 2};
+        scope.numberDisplayOption = { minimumFractionDigits: 2};
         element = angular.element(
             '<resolve-expression calculation="calculation" number-display-option="numberDisplayOption"></resolve-expression>');
         var expression = [2, "+", 3];

@@ -75,22 +75,22 @@ describe('Test Expression Utilities', function () {
         expect(convertNumberForRendering(123)).toEqual('123');
         expect(convertNumberForRendering(123, null)).toEqual('123');
         expect(convertNumberForRendering(123, {})).toEqual('123');
-        expect(convertNumberForRendering(123, {maximumFractionDigits : null})).toEqual('123');
-        expect(convertNumberForRendering(1 / 3, {maximumFractionDigits : 2})).toEqual('0.33');
-        expect(convertNumberForRendering(1 / 3, {maximumFractionDigits : null})).toEqual('0.33');
+        expect(convertNumberForRendering(123, {minimumFractionDigits : null})).toEqual('123');
+        expect(convertNumberForRendering(1 / 3, {minimumFractionDigits : 2})).toEqual('0.33');
+        expect(convertNumberForRendering(1 / 3, {minimumFractionDigits : null})).toEqual('0.33');
         expect(convertNumberForRendering('abc')).toEqual('error');
-        expect(convertNumberForRendering('abc', {maximumFractionDigits : 2})).toEqual('error');
+        expect(convertNumberForRendering('abc', {minimumFractionDigits : 2})).toEqual('error');
         expect(convertNumberForRendering(1 / 0)).toEqual('error');
-        expect(convertNumberForRendering(1 / 0, {maximumFractionDigits : 2})).toEqual('error');
+        expect(convertNumberForRendering(1 / 0, {minimumFractionDigits : 2})).toEqual('error');
         expect(convertNumberForRendering(1234)).toEqual('1,234');
         expect(convertNumberForRendering(1234, {})).toEqual('1,234');
-        expect(convertNumberForRendering(1234, {maximumFractionDigits : 2})).toEqual('1,234.00');
+        expect(convertNumberForRendering(1234, {minimumFractionDigits : 2})).toEqual('1,234.00');
         expect(convertNumberForRendering(1234567)).toEqual('1,234,567');
-        expect(convertNumberForRendering(1234567, {maximumFractionDigits : 2})).toEqual('1,234,567.00');
+        expect(convertNumberForRendering(1234567, {minimumFractionDigits : 2})).toEqual('1,234,567.00');
         expect(convertNumberForRendering(1234567.1)).toEqual('1,234,567.1');
-        expect(convertNumberForRendering(1234567.1, {maximumFractionDigits : 2})).toEqual('1,234,567.10');
+        expect(convertNumberForRendering(1234567.1, {minimumFractionDigits : 2})).toEqual('1,234,567.10');
         expect(convertNumberForRendering(1234567.34)).toEqual('1,234,567.34');
-        expect(convertNumberForRendering(1234567.34, {maximumFractionDigits : 2})).toEqual('1,234,567.34');
+        expect(convertNumberForRendering(1234567.34, {minimumFractionDigits : 2})).toEqual('1,234,567.34');
     });
 
 

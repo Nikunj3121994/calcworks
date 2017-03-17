@@ -287,11 +287,11 @@ Bugs
 - is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
 - Bij edit calc wordt bovenste regel niet leeg. Je mist de OK btn.
 - de export houdt geen rekening met de rendering display options
-- zorg ervoor dat je sum en max los van elkaar kan instellen
 
 
 Improvements
 --------------
+- zorg ervoor dat je sum en max los van elkaar kan instellen
 - toon ... als er meer dan 2 decimalen zijn en maak het evt mogelijk om erop te klikken
 - toon de expressie visueel duidelijker; de operator precedence zou je moeten visualiseren - meer/minder ruimte tussen. Deelstreep
 - we moeten voor de ipad nog een setting zetten ivm splitscreen

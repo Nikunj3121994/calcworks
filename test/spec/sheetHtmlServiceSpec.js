@@ -31,18 +31,41 @@ describe('Test sheetHtmlService', function () {
         //console.log(html);
     });
 
-    it('verify generateHtml', function() {
+    it('verify generateHtml with sum', function() {
         var sheet = new Sheet('id', 'foo', []);
         var calc1 = new Calculation('id', 'calc1', [200 , '+' , 300]);
         calc1.result = 500;
         sheet.addCalculation(calc1);
-        sheet.hasSum = true;
+        sheet.displayOption.showSum = true;
         sheet.sum = 1000;
         var html = sheetHtmlService.generateHtml(sheet);
         expect(html).toContain('<style>');
         expect(html).toContain('<table');
         expect(html).toContain('Sum');
         expect(html).toContain('1,000');
+    });
+
+
+    it('verify generateHtml with decimals', function() {
+        var sheet = new Sheet('id', 'foo', []);
+        var calc1 = new Calculation('id', 'calc1', [2.12 , '+' , 3]);
+        calc1.result = 5.00; // invalid for testing purposes
+        sheet.addCalculation(calc1);
+        sheet.displayOption.showSum = true;
+        sheet.sum = 10;
+
+        var html = sheetHtmlService.generateHtml(sheet);
+        expect(html).toContain('2.12');
+        expect(html).toContain('3');
+        expect(html).toContain('5');
+        expect(html).toContain('10');
+
+        sheet.numberDisplayOption.minimumFractionDigits = 2;
+        var html = sheetHtmlService.generateHtml(sheet);
+        expect(html).toContain('2.12');
+        expect(html).toContain('3.00');
+        expect(html).toContain('5.00');
+        expect(html).toContain('10.00');
     });
 
 
