@@ -280,13 +280,13 @@ Roadmap
 
 Issues
 ============
-
+- sheet.displayOption -> sheet.displayOptions
+- is wel zo'n goed om numberDisplayOption apart te nemen?
 
 Bugs
 -------
 - is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
 - Bij edit calc wordt bovenste regel niet leeg. Je mist de OK btn.
-- de export houdt geen rekening met de rendering display options
 
 
 Improvements
