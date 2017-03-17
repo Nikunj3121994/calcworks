@@ -18,7 +18,7 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
     $rootScope.getExprItemForRendering = function(exprItem, numberDisplayOption, displayCalculationName) {
         var ndo = numberDisplayOption;
         if (!ndo) {
-            ndo = { maximumFractionDigits: null };
+            ndo = { minimumFractionDigits: null };
         }
         return getExprItemForRendering(exprItem, ndo, displayCalculationName);
     };

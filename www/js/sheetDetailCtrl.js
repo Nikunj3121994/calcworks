@@ -58,10 +58,10 @@ angular.module('calcworks.controllers')
     };
 
     $scope.toggleDecimals = function() {
-        if ($scope.sheet.numberDisplayOption.maximumFractionDigits === 2) {
-            $scope.sheet.numberDisplayOption.maximumFractionDigits = null;
+        if ($scope.sheet.numberDisplayOption.minimumFractionDigits === 2) {
+            $scope.sheet.numberDisplayOption.minimumFractionDigits = null;
         } else {
-            $scope.sheet.numberDisplayOption.maximumFractionDigits = 2;
+            $scope.sheet.numberDisplayOption.minimumFractionDigits = 2;
         }
         sheetService.saveSheet($scope.sheet);
     };

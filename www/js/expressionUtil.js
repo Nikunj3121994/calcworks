@@ -135,7 +135,7 @@ function containsPeriodChar(numberStr) {
 // deze functie kan overal gebruikt worden voor display/rendering doeleiden, behalve de input display
 // options is null - meaning that the required number of digits is shown up to max 2. E.g.:  0 ,  0.1  ,  0.23
 // this is the same as minimumFractionDigits: 0, maximumFractionDigits=2
-// or options.maximumFractionDigits = 2 - meaning that always 2 digits are shown. E.g. 0.00 , 0.10  , 0.23
+// or options.minimumFractionDigits = 2 - meaning that always 2 digits are shown. E.g. 0.00 , 0.10  , 0.23
 // this is the same as minimumFractionDigits: 2, maximumFractionDigits=2
 // similar to Intl.NumberFormat
 function convertNumberForRendering(number, options) {
@@ -144,10 +144,10 @@ function convertNumberForRendering(number, options) {
     } else if (isNaN(number) || !isFinite(number)) {
         return 'error';
     } else {
-        if (options == null || !options.maximumFractionDigits) {
+        if (options == null || !options.minimumFractionDigits) {
                 return (+number.toFixed(2)).toLocaleString();
             } else {
-                if (options.maximumFractionDigits && options.maximumFractionDigits !==2) throw Error('invalid argument options: ' + JSON.stringify(options));
+                if (options.minimumFractionDigits && options.minimumFractionDigits !==2) throw Error('invalid argument options: ' + JSON.stringify(options));
                 return convertNumberToAmountForRendering(number);
             }
     }

@@ -280,7 +280,6 @@ Roadmap
 
 Issues
 ============
-- rename maximumFractionDigits -> minimumFractionDigits
 
 
 Bugs
