@@ -51,10 +51,12 @@ angular.module('calcworks.controllers')
 
     $scope.toggleSum = function() {
         $scope.sheet.displayOption.showSum = !$scope.sheet.displayOption.showSum;
+        sheetService.saveSheet($scope.sheet);  //TODO: do savesheet on exit of view instead of each change
     };
 
     $scope.toggleShowGraphBar = function() {
         $scope.sheet.displayOption.showGraphBar = !$scope.sheet.displayOption.showGraphBar;
+        sheetService.saveSheet($scope.sheet);
     };
 
     $scope.toggleDecimals = function() {
