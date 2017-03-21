@@ -37,6 +37,16 @@ describe('Test sheetService', function () {
     });
 
 
+    it('verify find sheet', function() {
+        var sheet1 = sheetService.getActiveSheet();
+        var found = sheetService.findSheetById(sheet1.id);
+        expect(found).toEqual(sheet1);
+
+        var found = sheetService.findSheetById(123);
+        expect(found).toBeNull();
+    });
+
+
     it('verify activate old sheet', function() {
         sheetService.getActiveSheet().name = 'sheet1';
         expect(sheetService.getActiveSheet().name).toBe('sheet1');

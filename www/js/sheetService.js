@@ -88,6 +88,15 @@ angular.module('calcworks.services')
                 sheets.splice(index, 1);
                 sheets.splice(0, 0, sheet);
             },
+            // return sheet or null if not found
+            findSheetById: function(sheetId) {
+                try {
+                    return sheets[getIndex(sheetId)];
+                } catch (exception)  {
+                    return null;
+                }
+            },
+            // throws exception if sheetId is not found. Also see findSheetById
             getSheet: function(sheetId) {
                 return sheets[getIndex(sheetId)];
             },

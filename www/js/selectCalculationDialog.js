@@ -8,28 +8,33 @@ angular.module('calcworks.services')
     // het is ook netter ivm isolatie
     .factory('selectCalculationDialog', function($rootScope, $ionicModal, sheetService) {
 
-        var selection;
+        var prevSelectedSheet;
         return {
-            // notAllowedCalc is the calc that is under edit, can be null
-            //TODO: notAllowedCalc lijkt niet te werken
-            showSelectCalculationDialog: function(sheet, notAllowedCalc, processCalculationSelected) {
 
+            determineSelectedSheet: function(currentSheet, prevSelectedSheet) {
+                if (prevSelectedSheet) {
+                    // make sure the sheet still exists
+                    if (sheetService.findSheetById(prevSelectedSheet.id)) {
+                        return prevSelectedSheet;
+                    } else {
+                        return currentSheet;
+                    }
+                } else {
+                    return currentSheet;
+                }
+            },
+            // notAllowedCalc is the calc that is under edit, can be null
+            showSelectCalculationDialog: function(currentSheet, notAllowedCalc, processCalculationSelected) {
+                var selectedSheet = this.determineSelectedSheet(currentSheet, prevSelectedSheet);
                 $ionicModal.fromTemplateUrl('templates/select-calculation.html', {
                     scope: $rootScope.$new(),   // we maken ivm isolatie een niewe scope
                     animation: 'slide-in-up'
                 }).then(function(modal) {
-
-                    // dit is cruciaal, zonder die 'data' container werkt het niet
-
+                    // note that the 'data' container is needed to make mvc work
                     modal.scope.data = {
-                        selectedSheet : sheet,
+                        selectedSheet : selectedSheet,
                         availableSheets : sheetService.getSheets()
                     };
-                    //todo: test of selection nog bestaat
-                    //todo: betere naam
-                    if (selection) {
-                        modal.scope.data.selectedSheet = selection;
-                    }
 
                     modal.scope.closeModal = function() {
                         modal.hide();
@@ -46,7 +51,7 @@ angular.module('calcworks.services')
                             modal.scope.closeModal();
                         } else {
                             if (calc !== notAllowedCalc) {
-                                selection = modal.scope.data.selectedSheet;
+                                prevSelectedSheet = modal.scope.data.selectedSheet;
                                 processCalculationSelected(calc, modal.scope.data.selectedSheet);
                                 modal.scope.closeModal();
                             }
