@@ -347,6 +347,7 @@ angular.module('calcworks.controllers')
             // because the containing sheet can be deleted one day
             // NOTE: this is very tricky, because for the very first time a calculation occurs within an expression
             // but is not a calculation defined on its own within a sheet
+            // Note that we want to copy the calculation, not just its value, because its name can be meaningful
             selectedCalc = calc.copy();
         } else {
             selectedCalc = calc;
