@@ -94,24 +94,24 @@ describe('Test Expression Utilities', function () {
     });
 
 
-    it('convertNumberToAmountForRendering', function() {
-        expect(convertNumberToAmountForRendering(123)).toEqual('123.00');
-        expect(convertNumberToAmountForRendering(123456789)).toEqual('123,456,789.00');
-        expect(convertNumberToAmountForRendering(9.5)).toEqual('9.50');
-        expect(convertNumberToAmountForRendering(9.01)).toEqual('9.01');
-        expect(convertNumberToAmountForRendering(13.25)).toEqual('13.25');
-        expect(convertNumberToAmountForRendering(9.013)).toEqual('9.01');
-        expect(convertNumberToAmountForRendering(9.003)).toEqual('9.00');
+    it('convertNumberToAmountStr', function() {
+        expect(convertNumberToAmountStr(123)).toEqual('123.00');
+        expect(convertNumberToAmountStr(123456789)).toEqual('123,456,789.00');
+        expect(convertNumberToAmountStr(9.5)).toEqual('9.50');
+        expect(convertNumberToAmountStr(9.01)).toEqual('9.01');
+        expect(convertNumberToAmountStr(13.25)).toEqual('13.25');
+        expect(convertNumberToAmountStr(9.013)).toEqual('9.01');
+        expect(convertNumberToAmountStr(9.003)).toEqual('9.00');
 
         decimalSeparatorChar = ',';
         thousandsSeparatorChar = '.';
 
-        expect(convertNumberToAmountForRendering(9)).toEqual('9,00');
+        expect(convertNumberToAmountStr(9)).toEqual('9,00');
 
         // we cannot test and do not need to test the scenarios below because in these scenarios
         // localeString will set the decimal separator
-        // expect(convertNumberToAmountForRendering(9.01)).toEqual('9,01');
-        // expect(convertNumberToAmountForRendering(5.1)).toEqual('5,10');
+        // expect(convertNumberToAmountStr(9.01)).toEqual('9,01');
+        // expect(convertNumberToAmountStr(5.1)).toEqual('5,10');
 
         // reset
         decimalSeparatorChar = '.';

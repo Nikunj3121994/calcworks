@@ -148,22 +148,8 @@ function convertNumberForRendering(number, options) {
                 return (+number.toFixed(2)).toLocaleString();
             } else {
                 if (options.minimumFractionDigits && options.minimumFractionDigits !==2) throw Error('invalid argument options: ' + JSON.stringify(options));
-                return convertNumberToAmountForRendering(number);
+                return convertNumberToAmountStr(number);
             }
-    }
-}
-
-
-//TODO: delete this function
-// deze functie geeft number (float) als bedrag als string localised terug zodat ie getoond kan worden
-// deze functie kan overal gebruikt worden voor display/rendering doeleiden, behalve de input display
-function convertNumberToAmountForRendering(number) {
-    if (number===null) {
-        return ''; // result is not known
-    } else if (isNaN(number) || !isFinite(number)) {
-        return 'error';
-    } else {
-        return convertNumberToAmountStr(number);
     }
 }
 
