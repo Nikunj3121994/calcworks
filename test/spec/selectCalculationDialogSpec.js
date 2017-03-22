@@ -11,11 +11,6 @@ describe('Test renameDialog', function () {
         $scope = _$rootScope_.$new();
         selectCalculationDialog = _selectCalculationDialog_;
         sheetService = _sheetService_;
-        // angular gaat door $scope.apply de templates ophalen
-        _$httpBackend_.expectGET('templates/tab-sheets.html').respond(200);
-        _$httpBackend_.expectGET('templates/sheet-detail.html').respond(200);
-        _$httpBackend_.expectGET('templates/tab-calculator.html').respond(200);
-        _$httpBackend_.expectGET('templates/tabs.html').respond(200);
     }));
 
     it('verify determine selected sheet', function() {
