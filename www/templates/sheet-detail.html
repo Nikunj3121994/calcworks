@@ -32,7 +32,7 @@ The Sheets service returns an array of sheet data
                 can-swipe="true">
 
           <!-- default, normal / extended style-->
-          <div ng-if="!sheet.displayOption.style || sheet.displayOption.style == 'ext'">
+          <div ng-if="!sheet.displayOptions.style || sheet.displayOptions.style == 'ext'">
               <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id"  >
                    <span class="row rowCalc">
                        <span class="col col-90" ng-click="navigateToCalculator(calc)">
@@ -43,7 +43,7 @@ The Sheets service returns an array of sheet data
                             <button class="button button-clear button-dark ion-ios-more" ng-click="openCalcMenuPopover($event, calc)"></button>
                        </span>
                   </span>
-                  <span ng-if="sheet.displayOption.showGraphBar" class="row rowBar">
+                  <span ng-if="sheet.displayOptions.showGraphBar" class="row rowBar">
                        <div ng-style="{'width': '{{calc.result/sheet.max * 100}}%', 'background-color': 'blue'}"></div>
                    </span>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
@@ -54,7 +54,7 @@ The Sheets service returns an array of sheet data
           </div>
 
           <!--expression style-->
-          <div ng-if="sheet.displayOption.style == 'expr'">
+          <div ng-if="sheet.displayOptions.style == 'expr'">
               <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id"  >
                    <span class="row rowCalc">
                        <span class="col col-70" ng-click="navigateToCalculator(calc)" style="text-align: left">
@@ -68,7 +68,7 @@ The Sheets service returns an array of sheet data
                             <button class="button button-clear button-dark ion-ios-more" ng-click="openCalcMenuPopover($event, calc)"></button>
                        </span>
                   </span>
-                  <span ng-if="sheet.displayOption.showGraphBar" class="row rowBar">
+                  <span ng-if="sheet.displayOptions.showGraphBar" class="row rowBar">
                        <div ng-style="{'width': '{{calc.result/sheet.max * 100}}%', 'background-color': 'blue'}"></div>
                    </span>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
@@ -79,7 +79,7 @@ The Sheets service returns an array of sheet data
           </div>
 
           <!--condensed report; name : result -->
-          <div ng-if="sheet.displayOption.style == 'cond'">
+          <div ng-if="sheet.displayOptions.style == 'cond'">
               <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id">
                    <span class="row rowCalc">
                        <span class="col col-30" ng-click="navigateToCalculator(calc)">
@@ -93,7 +93,7 @@ The Sheets service returns an array of sheet data
                             <button class="button button-clear button-dark ion-ios-more"  ng-click="openCalcMenuPopover($event, calc)"></button>
                        </span>
                   </span>
-                   <span ng-if="sheet.displayOption.showGraphBar" class="row rowBar">
+                   <span ng-if="sheet.displayOptions.showGraphBar" class="row rowBar">
                        <div ng-style="{'width': '{{calc.result/sheet.max * 100}}%', 'background-color': 'blue'}"></div>
                    </span>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
@@ -103,7 +103,7 @@ The Sheets service returns an array of sheet data
               </ion-item>
           </div>
 
-          <ion-item ng-if="sheet.displayOption.showSum" class="calc-item" style="padding: 0px">
+          <ion-item ng-if="sheet.displayOptions.showSum" class="calc-item" style="padding: 0px">
                   <span class="row rowSum">
                       <span class="col col-20">Sum</span>
                       <span class="col col-70" style="text-align: right">{{sheet.sum|toFixedDecimals:sheet.numberDisplayOption}}</span>

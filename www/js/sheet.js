@@ -3,7 +3,7 @@
 // a sheet has a name and contains an array of calculations
 var Sheet = function(par, name, calculations) {
     // version 1.0 - start version
-    // version 1.1 - added numberDisplayOption field and moved hasSum to displayOption
+    // version 1.1 - added numberDisplayOption field and moved hasSum to displayOptions
     if (par === null) throw 'undefined parameter for Sheet constructor';
     if (typeof(par) === 'string') {
         //console.log('build from all parameters');
@@ -21,7 +21,7 @@ var Sheet = function(par, name, calculations) {
         // fields: style {ext, expr, cond} , showGraphBar bool, showSum bool
         // style: ext (extended), expr (expression), (cond) condensed
         // if style is not set then the view will display extended
-        this.displayOption = {};
+        this.displayOptions = {};
     } else {
         // reconstruct object from json
         this.id = par.id;
@@ -40,12 +40,12 @@ var Sheet = function(par, name, calculations) {
         } else {
             this.numberDisplayOption = {};
         }
-        if (par.displayOption) {
-            this.displayOption = par.displayOption;
+        if (par.displayOptions) {
+            this.displayOptions = par.displayOptions;
         } else {
-            this.displayOption = {};
+            this.displayOptions = {};
             if (par.hasSum) {
-                this.displayOption.showSum = true;
+                this.displayOptions.showSum = true;
             }
         }
     }

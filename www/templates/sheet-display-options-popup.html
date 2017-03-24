@@ -6,19 +6,19 @@
             </span>
             <a class="item" ng-click="setSheetDisplayOption('ext')"  target="_blank">
                 Extended style
-                <i ng-show="!sheet.displayOption.style || sheet.displayOption.style=='ext'" class="icon ion-checkmark"></i>
+                <i ng-show="!sheet.displayOptions.style || sheet.displayOptions.style=='ext'" class="icon ion-checkmark"></i>
             </a>
             <a class="item" ng-click="setSheetDisplayOption('expr')" target="_blank">
                 Expression style
-                <i ng-show="sheet.displayOption.style=='expr'" class="icon ion-checkmark"></i>
+                <i ng-show="sheet.displayOptions.style=='expr'" class="icon ion-checkmark"></i>
             </a>
             <a class="item" ng-click="setSheetDisplayOption('cond')" target="_blank">
                 Condensed style
-                <i ng-show="sheet.displayOption.style=='cond'" class="icon ion-checkmark"></i>
+                <i ng-show="sheet.displayOptions.style=='cond'" class="icon ion-checkmark"></i>
             </a>
             <a class="item" ng-click="toggleSum()" target="_blank">
                 Sum
-                <i ng-show="sheet.displayOption.showSum" class="icon ion-checkmark"></i>
+                <i ng-show="sheet.displayOptions.showSum" class="icon ion-checkmark"></i>
             </a>
             <a class="item" ng-click="toggleDecimals()" target="_blank">
                 .00
@@ -26,7 +26,7 @@
             </a>
             <a class="item" ng-click="toggleShowGraphBar()" target="_blank">
                 Bar
-                <i ng-show="sheet.displayOption.showGraphBar" class="icon ion-checkmark"></i>
+                <i ng-show="sheet.displayOptions.showGraphBar" class="icon ion-checkmark"></i>
             </a>
         </div>
     </ion-content>

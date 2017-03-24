@@ -19,7 +19,7 @@
                   <div class="col sheetsCol" style="text-align: left">{{calc.name}}</div>
                   <div class="col sheetsCol" style="text-align: right">{{calc.result|toFixedDecimals:sheet.numberDisplayOption}}</div>
               </div>
-              <div class="row rowSum" ng-if="sheet.displayOption.showSum">
+              <div class="row rowSum" ng-if="sheet.displayOptions.showSum">
                   <div class="col sheetsCol" style="text-align: left">Sum</div>
                   <div class="col sheetsCol" style="text-align: right">{{sheet.sum|toFixedDecimals:sheet.numberDisplayOption}}</div>
               </div>

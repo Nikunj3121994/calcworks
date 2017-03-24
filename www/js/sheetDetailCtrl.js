@@ -50,12 +50,12 @@ angular.module('calcworks.controllers')
     };
 
     $scope.toggleSum = function() {
-        $scope.sheet.displayOption.showSum = !$scope.sheet.displayOption.showSum;
+        $scope.sheet.displayOptions.showSum = !$scope.sheet.displayOptions.showSum;
         sheetService.saveSheet($scope.sheet);  //TODO: do savesheet on exit of view instead of each change
     };
 
     $scope.toggleShowGraphBar = function() {
-        $scope.sheet.displayOption.showGraphBar = !$scope.sheet.displayOption.showGraphBar;
+        $scope.sheet.displayOptions.showGraphBar = !$scope.sheet.displayOptions.showGraphBar;
         sheetService.saveSheet($scope.sheet);
     };
 
@@ -97,7 +97,7 @@ angular.module('calcworks.controllers')
 
     // called from the popup html
     $scope.setSheetDisplayOption = function(option) {
-        $scope.sheet.displayOption.style = option;
+        $scope.sheet.displayOptions.style = option;
     };
 
     $scope.closeSheetDisplayOptionsPopover= function() {
