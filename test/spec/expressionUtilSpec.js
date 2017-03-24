@@ -150,5 +150,9 @@ describe('Test Expression Utilities', function () {
     })
 
 
+    it('getNameOfMonth', function() {
+        expect(getNameOfMonth(0)).toEqual('January');
+    });
+
 });
 

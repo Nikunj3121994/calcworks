@@ -75,14 +75,16 @@ describe('Test sheetService', function () {
         storageService.loadSheets = function() { return [oldSheet]; };
         sheetService._test_init();
         var sheet1 = sheetService.getActiveSheet();
-        expect(sheet1.name).toBe('Untitled Sheet');
+        var d = new Date();
+        var expectedName = 'Untitled Sheet, ' + getNameOfMonth(d.getMonth()) + ' ' + d.getDay()
+        expect(sheet1.name).toBe(expectedName);
         expect(sheetService.getSheets().length).toEqual(2);
-        expect(sheetService.getSheets()[0].name).toEqual('Untitled Sheet');
+        expect(sheetService.getSheets()[0].name).toEqual(expectedName);
     });
 
 
     it('delete Active sheet', function() {
-        expect(sheetService.getActiveSheet().name).toBe('Untitled Sheet');
+        expect(sheetService.getActiveSheet().name).toContain('Untitled Sheet, ');
         sheetService.getActiveSheet().name = 'sheet1';
         expect(sheetService.getActiveSheet().name).toBe('sheet1');
         sheetService.createNewActiveSheet();
@@ -97,7 +99,7 @@ describe('Test sheetService', function () {
 
         sheetService.deleteSheet(sheetService.getActiveSheet().id);
         // er zijn geen sheets meer, nu wordt een nieuwe aangemaakt
-        expect(sheetService.getActiveSheet().name).toBe('Untitled Sheet');
+        expect(sheetService.getActiveSheet().name).toContain('Untitled Sheet, ');
         expect(sheetService.getSheets().length).toBe(1);
     });
 
@@ -149,7 +151,7 @@ describe('Test sheetService', function () {
         expect(arg[0].length).toEqual(3);
         // test ook dat sheets idd alleen een nieuwe active sheet heeft
         expect(sheetService.getSheets().length).toEqual(1);
-        expect(sheetService.getSheets()[0].name).toEqual('Untitled Sheet');
+        expect(sheetService.getSheets()[0].name).toContain('Untitled Sheet, ');
 
         // test zonder favorites
         sheet2.favorite = false;
@@ -163,7 +165,7 @@ describe('Test sheetService', function () {
         expect(arg[0].length).toEqual(3);
         // test ook dat sheets idd leeg is
         expect(sheetService.getSheets().length).toEqual(1);
-        expect(sheetService.getSheets()[0].name).toEqual('Untitled Sheet');
+        expect(sheetService.getSheets()[0].name).toContain('Untitled Sheet, ');
 
     });
 

@@ -281,7 +281,6 @@ Roadmap
 Issues
 ============
 Pin ontbreekt na naamgeving
-De ordening vd sheet dropdown lijkt niet goed in selectcalc
 3 x 1,1 ronde niet mooi af
 - is wel zo'n goed om numberDisplayOption apart te nemen?
 

@@ -44,7 +44,7 @@ angular.module('calcworks.services')
                     // deze wordt krankzinnig vaak aangeroepen, hopelijk dat angular2 dit oplost
                     modal.scope.allowedCalcFilter = function(calc) {
                         return calc != notAllowedCalc;
-                    }
+                    };
 
                     modal.scope.clickSelectCalculation = function(calc) {
                         if (!calc) {

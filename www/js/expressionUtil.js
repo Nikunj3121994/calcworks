@@ -216,3 +216,11 @@ function calcDayBeforeAtMidnight(today) {
     return yesterday;
 }
 
+// Safari does not support ECMAScript Internationalization API
+// monthIndex is zero based
+function getNameOfMonth(monthIndex) {
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    return monthNames[monthIndex];
+}
