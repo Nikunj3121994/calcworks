@@ -36,7 +36,7 @@ describe('Test sheetHtmlService', function () {
         var calc1 = new Calculation('id', 'calc1', [200 , '+' , 300]);
         calc1.result = 500;
         sheet.addCalculation(calc1);
-        sheet.displayOption.showSum = true;
+        sheet.displayOptions.showSum = true;
         sheet.sum = 1000;
         var html = sheetHtmlService.generateHtml(sheet);
         expect(html).toContain('<style>');
@@ -51,7 +51,7 @@ describe('Test sheetHtmlService', function () {
         var calc1 = new Calculation('id', 'calc1', [2.12 , '+' , 3]);
         calc1.result = 5.00; // invalid for testing purposes
         sheet.addCalculation(calc1);
-        sheet.displayOption.showSum = true;
+        sheet.displayOptions.showSum = true;
         sheet.sum = 10;
 
         var html = sheetHtmlService.generateHtml(sheet);
