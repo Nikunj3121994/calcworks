@@ -55,7 +55,7 @@ angular.module('calcworks.services')
             showRenameSheetDialog: function(sheet) {
                 renamePopupData.title = 'Name this sheet';
                 $scope.reset();
-                if (!sheet.name === sheet.defaultName) {
+                if (!sheet.name.startsWith(sheet.defaultName)) {
                     $scope.data.name = sheet.name;
                 }
                 var renamePopup = $ionicPopup.show(renamePopupData);
