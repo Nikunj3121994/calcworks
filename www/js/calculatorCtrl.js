@@ -208,7 +208,9 @@ angular.module('calcworks.controllers')
     };
 
     $scope.pinIconEnabled = function() {
-        return sheetCommandHistory.length > 0 && sheetCommandHistory[0].id == 'equals' && calcActionHistory.length == 0 && !$scope.editMode;
+        return calcActionHistory.length == 0
+        && sheetCommandHistory.length > 0 && (sheetCommandHistory[0].id == 'equals' || sheetCommandHistory[0].id == 'remember')
+            && !$scope.editMode;
     }
 
     $scope.touchRemember = function() {

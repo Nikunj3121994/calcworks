@@ -280,9 +280,8 @@ Roadmap
 
 Issues
 ============
-Pin ontbreekt na naamgeving
-3 x 1,1 ronde niet mooi af
-- is wel zo'n goed om numberDisplayOption apart te nemen?
+- 3 x 1,1 ronde niet mooi af
+- is wel zo'n goed om sheet.numberDisplayOption apart te nemen?
 
 
 
