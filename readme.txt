@@ -249,17 +249,8 @@ controleer of alle console log statements in comment staan
 
 $ ionic build --release    (ivm uglify)
 
-Waarschijnlijk niet meer nodig:
-In xcode moest ik t header path aanpassen om build errors te omzeilen.
- Add this line to your Build Settings -> Header Search Paths:
- "$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include"
- Don't replace the existing line that looks similar, that is still needed to be backwards compatible with Xcode 7 and Xcode 6.4.
-Zie ook het screenshot in de ./screenshots folder
-
 Maak een archive via Product | Archive
-
-Ik kreeg via email een warning mbt push notifications. Dit is een (oud) probleem in Cordova, zou opgelost moeten worden.
-zie http://stackoverflow.com/questions/26168713/cordova-app-that-doesnt-use-push-notifications-missing-push-notification-enti
+(zorg dat je Generic IOS Device geselecteerd hebt in de dropdown in de main menu bar)
 
 
 
@@ -280,6 +271,8 @@ Roadmap
 
 Issues
 ============
+- foutmedling: calcgems needs to be updated
+- de puntjes op de sheet tab zitten teveel naar rechts
 - 3 x 1,1 ronde niet mooi af
 - is wel zo'n goed om sheet.numberDisplayOption apart te nemen?
 

@@ -108,12 +108,12 @@ function getDecimalSeparator() {
 var decimalSeparatorChar = getDecimalSeparator();
 var thousandsSeparatorChar =  (decimalSeparatorChar==='.') ? ',' : '.';
 
-
+// This function localises numberStr
 // deze functie behoudt de decimal separator, trailing zero's e.d. zodat ie in het inpput display panel getoond kan worden
 // numberStr is een getal als string met us decimal separator
 // result is een localised getal (thousand and decimal seps) as string
-// deze functie zou eigenlijk convertNumberStrForDisplay moeten heten
-function convertNumberForDisplay(numberStr) {
+// deze functie zou eigenlijk localiseDisplayNumberStr moeten heten
+function localiseDisplayNumberStr(numberStr) {
     // je kan hier niet toLocaleString gebruiken omdat je dan trailing zero's e.d. kan kwijt raken
     var parts = numberStr.split('.');   // find decimal separator, note that numberStr is not localised
     var integerPart = parts[0];
@@ -124,6 +124,17 @@ function convertNumberForDisplay(numberStr) {
     }
     return integerPart + fractionPart;
 }
+
+
+// this function is to round the result such that rounding errors like .9999999999 or .0000000003 are removed
+// there are about 14 digits after the decimal digit
+// we only use 10 digits so toFixed can do its rounding
+// toFixed is not completely correct, sometimes there are trailing zero's, these are removed by the reg-exp
+function convertDisplayNumberToString(number) {
+    // do not combine this with above function so we can unit test without localised and thousand separator
+    return number.toFixed(10).replace(/\.?0*$/,'');
+}
+
 
 // public
 function containsPeriodChar(numberStr) {
@@ -169,8 +180,6 @@ function convertNumberToAmountStr(number) {
     }
     return temp1 + decimalSeparatorChar + temp2;
 }
-
-
 
 
 // testen ontbreken

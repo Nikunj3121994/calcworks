@@ -17,22 +17,32 @@ describe('Test Expression Utilities', function () {
     });
 
     it('convertNumberForDisplay', function() {
-        expect(convertNumberForDisplay('123')).toEqual('123');
-        expect(convertNumberForDisplay('123.4567')).toEqual('123.4567');
-        expect(convertNumberForDisplay('123456789')).toEqual('123,456,789');
-        expect(convertNumberForDisplay('123456789.01')).toEqual('123,456,789.01');
+        expect(localiseDisplayNumberStr('123')).toEqual('123');
+        expect(localiseDisplayNumberStr('123.4567')).toEqual('123.4567');
+        expect(localiseDisplayNumberStr('123456789')).toEqual('123,456,789');
+        expect(localiseDisplayNumberStr('123456789.01')).toEqual('123,456,789.01');
 
         decimalSeparatorChar = ',';
         thousandsSeparatorChar = '.';
 
-        expect(convertNumberForDisplay('123456789.01')).toEqual('123.456.789,01');
-        expect(convertNumberForDisplay('12345678912345')).toEqual('12.345.678.912.345');
+        expect(localiseDisplayNumberStr('123456789.01')).toEqual('123.456.789,01');
+        expect(localiseDisplayNumberStr('12345678912345')).toEqual('12.345.678.912.345');
 
         // reset
         decimalSeparatorChar = '.';
         thousandsSeparatorChar = ',';
 
     });
+
+    it('convertDisplayNumberToString', function() {
+        expect(convertDisplayNumberToString(5)).toEqual('5');
+        expect(convertDisplayNumberToString(5.1)).toEqual('5.1');
+        expect(convertDisplayNumberToString(5.00001)).toEqual('5.00001');
+        expect(convertDisplayNumberToString(5.9999)).toEqual('5.9999');
+        expect(convertDisplayNumberToString(15.629999999999999)).toEqual('15.63');
+        // some situations still give rounding errors like 1 billion (miljard) + 2.1
+    });
+
 
     it('generateVarName', function () {
         expect(generateCalcName('')).toBe('calc1');
@@ -116,7 +126,6 @@ describe('Test Expression Utilities', function () {
         // reset
         decimalSeparatorChar = '.';
         thousandsSeparatorChar = ',';
-
     });
 
 

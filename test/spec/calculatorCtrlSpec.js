@@ -185,6 +185,31 @@ describe('Test controller CalculatorCtrl', function () {
     });
 
 
+    it('verify multiply rounding function', function () {
+        scope.reset();
+        scope.touchDigit(1);
+        scope.touchDecimalSeparator();
+        scope.touchDigit(1);
+        scope.touchOperator('*');
+        scope.touchDigit(3);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('3.3');
+
+
+        scope.reset();
+        scope.touchDigit(2);
+        scope.touchDigit(3);
+        scope.touchOperator('-');
+        scope.touchDigit(7);
+        scope.touchDecimalSeparator();
+        scope.touchDigit(3);
+        scope.touchDigit(7);
+        scope.touchEqualsOperator();
+        expect(scope.display).toBe('15.63');
+
+
+    });
+
     it('verify power function', function () {
         scope.reset();
         scope.touchDigit(2);

@@ -105,7 +105,7 @@ angular.module('calcworks.controllers')
                 if (newValue) {
                     // since we resolve the parameters above there is no need to compile
                     // we cannot use string.tolocale function because that would remove dec separator and trailing zero's
-                    element.html(convertNumberForDisplay(scope.numberstr));
+                    element.html(localiseDisplayNumberStr(scope.numberstr));
                 }
             }, false);
         }

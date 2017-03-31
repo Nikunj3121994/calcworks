@@ -581,7 +581,7 @@ angular.module('calcworks.controllers')
             // ik vermoed dat dit pad zich niet meer voordoet, alleen in edit mode kan je een cycle voor elkaar krijgen
             result = false;
             miniReset();
-            $scope.currentCalc = $scope.sheet.createNewCalculation();;
+            $scope.currentCalc = $scope.sheet.createNewCalculation();
             var msg = e.message;
             showAlertPopup(msg);
          }
@@ -611,7 +611,7 @@ angular.module('calcworks.controllers')
             // we laten $scope.currentCalc.result op Infinity staan
             $scope.display = '0';
         } else {
-            $scope.display = $scope.currentCalc.result.toString();     // type is string
+            $scope.display = convertDisplayNumberToString($scope.currentCalc.result);     // type is string
         }
         sheetService.saveSheet($scope.sheet);  // deze moet misschien naar de aanroeper, wat netter
     }
