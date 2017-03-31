@@ -18,7 +18,7 @@ var Sheet = function(par, name, calculations) {
         this.sum = undefined;
         this.max = undefined;
         this.numberDisplayOption = {}; // fields: minimumFractionDigits: 0 or 2
-        // fields: style {ext, expr, cond} , showGraphBar bool, showSum bool
+        // fields: style enum, showGraphBar bool, showSum bool
         // style: ext (extended), expr (expression), (cond) condensed
         // if style is not set then the view will display extended
         this.displayOptions = {};
