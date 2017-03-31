@@ -184,7 +184,7 @@ $ webdriver-manager update     (later: ik denk dat dit ook met -g moet)
 Instructies om te runnen:
 
 1) Start de calcworks applicatie zodat er naar port 8100 geluisterd wordt
-$ ionic serve
+$ ionic serve   (is deze nog wel nodig? ik zie dat een nieuwe browser opgestart wordt)
 
 2) nieuwe shell, start selenium/webdriver server:
 $ webdriver-manager start

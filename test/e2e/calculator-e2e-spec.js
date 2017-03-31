@@ -23,6 +23,19 @@ describe('calculator', function() {
   });
 
 
+    function getNameOfMonth(monthIndex) {
+        var monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        return monthNames[monthIndex];
+    }
+
+  function getUntitledSheetName() {
+    var d = new Date();
+    var expectedName = 'Untitled Sheet, ' + getNameOfMonth(d.getMonth()) + ' ' + d.getDay() + ' (active)';
+    return expectedName;
+  }
+
   it('test new sheet', function() {
     var activeSheetTab = new pageobjects.ActiveSheetTab();
     activeSheetTab.gotoTab();
@@ -30,7 +43,7 @@ describe('calculator', function() {
 
     var historyTab = new pageobjects.HistoryTab();
     historyTab.gotoTab();
-    expect(historyTab.getFirstSheetName()).toBe('Untitled Sheet (active)');
+    expect(historyTab.getFirstSheetName()).toBe(getUntitledSheetName());
     expect(historyTab.getFirstSheetNumberOfCalcs()).toBe(0);
   });
 
@@ -79,7 +92,7 @@ describe('calculator', function() {
 
     var historyTab = new pageobjects.HistoryTab();
     historyTab.gotoTab();
-    expect(historyTab.getFirstSheetName()).toBe('Untitled Sheet (active)');
+    expect(historyTab.getFirstSheetName()).toBe(getUntitledSheetName());
     expect(historyTab.getFirstSheetFirstCalcName()).toBe('interest');
     expect(historyTab.getFirstSheetNumberOfCalcs()).toBe(3);
 
@@ -216,7 +229,7 @@ describe('calculator', function() {
 
     var historyTab = new pageobjects.HistoryTab();
     historyTab.gotoTab();
-    expect(historyTab.getFirstSheetName()).toBe('Untitled Sheet (active)');
+    expect(historyTab.getFirstSheetName()).toBe(getUntitledSheetName());
     expect(historyTab.getFirstSheetFirstCalcName()).toBe('testname');
     expect(historyTab.getFirstSheetNumberOfCalcs()).toBe(1);
   });
