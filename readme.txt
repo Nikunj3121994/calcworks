@@ -271,9 +271,6 @@ Roadmap
 
 Issues
 ============
-- foutmedling: calcgems needs to be updated
-- de puntjes op de sheet tab zitten teveel naar rechts
-- 3 x 1,1 ronde niet mooi af
 - is wel zo'n goed om sheet.numberDisplayOption apart te nemen?
 
 

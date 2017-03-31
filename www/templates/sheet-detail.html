@@ -39,8 +39,7 @@ The Sheets service returns an array of sheet data
                             <resolve-sheet sheet="sheet" index="$index" number-display-option="numberDisplayOption"></resolve-sheet>
                        </span>
                        <span class="col col-10">
-                            <!-- button-dark toegevoegd om de button zichtbaar te krijgen, lijkt een ionic bug -->
-                            <button class="button button-clear button-dark ion-ios-more" ng-click="openCalcMenuPopover($event, calc)"></button>
+                            <button class="button cg-btn-col-more ion-ios-more" ng-click="openCalcMenuPopover($event, calc)"></button>
                        </span>
                   </span>
                   <span ng-if="sheet.displayOptions.showGraphBar" class="row rowBar">
@@ -64,8 +63,7 @@ The Sheets service returns an array of sheet data
                            {{calc.result|toFixedDecimals:sheet.numberDisplayOption}}
                        </span>
                        <span class="col col-10">
-                            <!-- button-dark toegevoegd om de button zichtbaar te krijgen, lijkt een ionic bug -->
-                            <button class="button button-clear button-dark ion-ios-more" ng-click="openCalcMenuPopover($event, calc)"></button>
+                            <button class="button cg-btn-col-more ion-ios-more" ng-click="openCalcMenuPopover($event, calc)"></button>
                        </span>
                   </span>
                   <span ng-if="sheet.displayOptions.showGraphBar" class="row rowBar">
@@ -90,7 +88,7 @@ The Sheets service returns an array of sheet data
                            {{calc.result|toFixedDecimals:sheet.numberDisplayOption}}
                        </span>
                        <span class="col col-10">
-                            <button class="button button-clear button-dark ion-ios-more"  ng-click="openCalcMenuPopover($event, calc)"></button>
+                            <button class="button cg-btn-col-more ion-ios-more"  ng-click="openCalcMenuPopover($event, calc)"></button>
                        </span>
                   </span>
                    <span ng-if="sheet.displayOptions.showGraphBar" class="row rowBar">

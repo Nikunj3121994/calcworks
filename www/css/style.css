@@ -255,6 +255,14 @@ em,i {
     background-color: lightgrey;
 }
 
+/* there is not sufficient horz space for this button, by making the text-align left, it looks oke */
+.cg-btn-col-more {
+    border-color: transparent;
+    background: none;
+    box-shadow: none;
+    color: #444;
+    text-align: left;
+}
 
 /* favorite icon color when selected */
 .favoriteOn {
