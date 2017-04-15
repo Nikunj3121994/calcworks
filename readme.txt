@@ -148,11 +148,11 @@ $ ionic serve
 (gebruik 'c' om de logs te zien)
 
 Opvragen welke devices er zijn (dit is een shell script):
-$ platforms/ios/cordova/lib/list-emulator-images
+$ ios-sim showdevicetypes
 
-Ionic op specifiek device runnen (de = gaf een probleem bij versie 1.2.17) :
-$ ionic emulate ios --target="iPhone-5s, 10.2"  (laatste kan natuurlijk veranderen)
-$ ionic emulate ios --target="iPhone-6s"
+Ionic op specifiek device runnen
+*** NOTE: de = gaf een probleem bij versie 1.2.17 ***
+$ ionic emulate ios --target="iPhone-7"
 $ ionic emulate ios --target="iPad-Air"
 $ ionic emulate ios --target="iPad-Pro"
 
