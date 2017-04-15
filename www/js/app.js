@@ -8,15 +8,19 @@ angular.module('calcworks', ['ionic', 'calcworks.services', 'calcworks.controlle
 
 .run(function($ionicPlatform, $rootScope, $ionicLoading) {
 
-    $rootScope.nrOfDecimals = 2;
-
     // we need to add these functions as global functions for the directives
-    $rootScope.convertNumberForRendering = function(number) {
-        return convertNumberForRendering(number, $rootScope.nrOfDecimals);
+    // options defined in exprUtil, optional parameter
+    $rootScope.convertNumberForRendering = function(number, options) {
+        return convertNumberForRendering(number, options);
     };
 
-    $rootScope.getExprItemForRendering = function(exprItem, displayCalculationName) {
-        return getExprItemForRendering(exprItem, $rootScope.nrOfDecimals, displayCalculationName);
+    // exprItem is required, other params are optional
+    $rootScope.getExprItemForRendering = function(exprItem, numberDisplayOption, displayCalculationName) {
+        var ndo = numberDisplayOption;
+        if (!ndo) {
+            ndo = { minimumFractionDigits: null };
+        }
+        return getExprItemForRendering(exprItem, ndo, displayCalculationName);
     };
 
     $rootScope.showWaitingIcon = function() {

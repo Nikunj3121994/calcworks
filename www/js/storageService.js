@@ -20,15 +20,12 @@ angular.module('calcworks.services')
                     // it seems that undefined is returned as string
                     if (value && value != 'undefined') {
                         var sheet = this._jsonToSheet(value);
-                        // verify valid and in the future we can update the object if it is from an older version
-                        if (sheet.version === '1.0') {
-                            // if a sheet is no longer 'useful' we delete it
-                            if (this._usefulSheet(sheet, expireDate)) {
-                                this._insertSheet(sheet, sheets);
-                            } else {
-                                //console.log("remove sheet " + key);
-                                $window.localStorage.removeItem(key);
-                            }
+                        // if a sheet is no longer 'useful' we delete it
+                        if (this._usefulSheet(sheet, expireDate)) {
+                            this._insertSheet(sheet, sheets);
+                        } else {
+                            //console.log("remove sheet " + key);
+                            $window.localStorage.removeItem(key);
                         }
                     }
                 }

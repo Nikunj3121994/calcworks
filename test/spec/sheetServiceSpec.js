@@ -37,6 +37,16 @@ describe('Test sheetService', function () {
     });
 
 
+    it('verify find sheet', function() {
+        var sheet1 = sheetService.getActiveSheet();
+        var found = sheetService.findSheetById(sheet1.id);
+        expect(found).toEqual(sheet1);
+
+        var found = sheetService.findSheetById(123);
+        expect(found).toBeNull();
+    });
+
+
     it('verify activate old sheet', function() {
         sheetService.getActiveSheet().name = 'sheet1';
         expect(sheetService.getActiveSheet().name).toBe('sheet1');
@@ -65,27 +75,47 @@ describe('Test sheetService', function () {
         storageService.loadSheets = function() { return [oldSheet]; };
         sheetService._test_init();
         var sheet1 = sheetService.getActiveSheet();
-        expect(sheet1.name).toBe('Untitled Sheet');
+        var d = new Date();
+        var expectedName = 'Untitled Sheet, ' + getNameOfMonth(d.getMonth()) + ' ' + d.getDay()
+        expect(sheet1.name).toBe(expectedName);
         expect(sheetService.getSheets().length).toEqual(2);
-        expect(sheetService.getSheets()[0].name).toEqual('Untitled Sheet');
+        expect(sheetService.getSheets()[0].name).toEqual(expectedName);
     });
 
 
     it('delete Active sheet', function() {
-        expect(sheetService.getActiveSheet().name).toBe('Untitled Sheet');
+        expect(sheetService.getActiveSheet().name).toContain('Untitled Sheet, ');
         sheetService.getActiveSheet().name = 'sheet1';
         expect(sheetService.getActiveSheet().name).toBe('sheet1');
         sheetService.createNewActiveSheet();
         sheetService.getActiveSheet().name = 'sheet2';
         expect(sheetService.getActiveSheet().name).toBe('sheet2');
+        expect(sheetService.getSheets().length).toBe(2);
 
         // delete de active (sheet2) sheet, de vorige wordt actief
         sheetService.deleteSheet(sheetService.getActiveSheet().id);
         expect(sheetService.getActiveSheet().name).toBe('sheet1');
+        expect(sheetService.getSheets().length).toBe(1);
 
         sheetService.deleteSheet(sheetService.getActiveSheet().id);
         // er zijn geen sheets meer, nu wordt een nieuwe aangemaakt
-        expect(sheetService.getActiveSheet().name).toBe('Untitled Sheet');
+        expect(sheetService.getActiveSheet().name).toContain('Untitled Sheet, ');
+        expect(sheetService.getSheets().length).toBe(1);
+    });
+
+    it('delete non active sheet', function() {
+        sheetService.getActiveSheet().name = 'sheet1';
+        var sheet2 = sheetService.createNewActiveSheet();
+        sheet2.name = 'sheet2';
+        sheetService.createNewActiveSheet();
+        sheetService.getActiveSheet().name = 'sheet3';
+
+        expect(sheetService.getSheets().length).toBe(3);
+        expect(sheetService.getActiveSheet().name).toBe('sheet3');
+
+        sheetService.deleteSheet(sheet2.id);
+        expect(sheetService.getActiveSheet().name).toBe('sheet3');
+        expect(sheetService.getSheets().length).toBe(2);
     });
 
     it('delete all sheets', function() {
@@ -121,7 +151,7 @@ describe('Test sheetService', function () {
         expect(arg[0].length).toEqual(3);
         // test ook dat sheets idd alleen een nieuwe active sheet heeft
         expect(sheetService.getSheets().length).toEqual(1);
-        expect(sheetService.getSheets()[0].name).toEqual('Untitled Sheet');
+        expect(sheetService.getSheets()[0].name).toContain('Untitled Sheet, ');
 
         // test zonder favorites
         sheet2.favorite = false;
@@ -135,7 +165,7 @@ describe('Test sheetService', function () {
         expect(arg[0].length).toEqual(3);
         // test ook dat sheets idd leeg is
         expect(sheetService.getSheets().length).toEqual(1);
-        expect(sheetService.getSheets()[0].name).toEqual('Untitled Sheet');
+        expect(sheetService.getSheets()[0].name).toContain('Untitled Sheet, ');
 
     });
 

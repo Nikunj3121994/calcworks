@@ -2,6 +2,8 @@
 
 // a sheet has a name and contains an array of calculations
 var Sheet = function(par, name, calculations) {
+    // version 1.0 - start version
+    // version 1.1 - added numberDisplayOption field and moved hasSum to displayOptions
     if (par === null) throw 'undefined parameter for Sheet constructor';
     if (typeof(par) === 'string') {
         //console.log('build from all parameters');
@@ -11,11 +13,15 @@ var Sheet = function(par, name, calculations) {
         this.createdTimestamp = new Date();
         this.updatedTimestamp = this.createdTimestamp;
         this.favorite = false;
-        this.hasSum = false;  // waarom deze flag? je kan toch naar undefined waarde kijken van .sum
         this.inputCalculation = undefined;
         this.outputCalculation = undefined;
         this.sum = undefined;
         this.max = undefined;
+        this.numberDisplayOption = {}; // fields: minimumFractionDigits: 0 or 2
+        // fields: style enum, showGraphBar bool, showSum bool
+        // style: ext (extended), expr (expression), (cond) condensed
+        // if style is not set then the view will display extended
+        this.displayOptions = {};
     } else {
         // reconstruct object from json
         this.id = par.id;
@@ -24,14 +30,27 @@ var Sheet = function(par, name, calculations) {
         this.createdTimestamp = new Date(par.createdTimestamp);
         this.updatedTimestamp = new Date(par.updatedTimestamp);
         this.favorite = par.favorite;
-        this.hasSum = par.hasSum;
         this.sum = par.sum;
         this.max = par.max;
         this.inputCalculation = par.inputCalculation;
+        // added field numberDisplayOption
         this.outputCalculation = par.outputCalculation;
+        if (par.numberDisplayOption) {
+            this.numberDisplayOption = par.numberDisplayOption;
+        } else {
+            this.numberDisplayOption = {};
+        }
+        if (par.displayOptions) {
+            this.displayOptions = par.displayOptions;
+        } else {
+            this.displayOptions = {};
+            if (par.hasSum) {
+                this.displayOptions.showSum = true;
+            }
+        }
     }
+    this.version = '1.1'; // we can look at this value when we reconstruct from json
     this.__type = 'Sheet';
-    this.version = '1.0'; // we will use this for versioning and potential updating of storage format
 };
 
 Sheet.prototype.defaultName = 'Untitled Sheet';

@@ -2,13 +2,26 @@
     <ion-header-bar>
         <h1 class="title">Select a calculation</h1>
     </ion-header-bar>
+    <ion-header-bar class="bar-subheader bar-stable">
+        <label class="item item-input item-select">
+            <span class="input-label">
+                Sheet:
+            </span>
+            <select ng-model="data.selectedSheet" ng-options="sheet as sheet.name for sheet in data.availableSheets | orderBy:['!favorite','updatedTimestamp']">
+            </select>
+        </label>
+    </ion-header-bar>
+
     <ion-content>
+
         <ion-list>
-            <ion-item ng-repeat="calc in sheet.calculations | filter:allowedCalcFilter track by $index " ng-click="clickSelectCalculation(calc)">
-                <div class="listVarName"> {{calc.name}} </div>
-                <div class="listResolvedExpression" > <resolve-expression calculation="calc"></resolve-expression> </div>
+            <ion-item ng-repeat="calc in data.selectedSheet.calculations | filter:allowedCalcFilter track by $index " ng-click="clickSelectCalculation(calc)">
+                <span class="listCalcName"> {{calc.name}} </span>
+                <span class="listCalcResult">{{calc.result|toFixedDecimals:data.selectedSheet.numberDisplayOption}}</span>
+                <span class="listResolvedExpression" > <resolve-expression calculation="calc" number-display-option="data.selectedSheet.numberDisplayOption" show-result="false"></resolve-expression> </span>
             </ion-item>
         </ion-list>
+
     </ion-content>
     <ion-footer-bar class="bar bar-light">
         <div class="buttons">

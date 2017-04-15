@@ -108,13 +108,14 @@ function getDecimalSeparator() {
 var decimalSeparatorChar = getDecimalSeparator();
 var thousandsSeparatorChar =  (decimalSeparatorChar==='.') ? ',' : '.';
 
-
+// This function localises numberStr
 // deze functie behoudt de decimal separator, trailing zero's e.d. zodat ie in het inpput display panel getoond kan worden
 // numberStr is een getal als string met us decimal separator
 // result is een localised getal (thousand and decimal seps) as string
-function convertNumberForDisplay(numberStr) {
+// deze functie zou eigenlijk localiseDisplayNumberStr moeten heten
+function localiseDisplayNumberStr(numberStr) {
     // je kan hier niet toLocaleString gebruiken omdat je dan trailing zero's e.d. kan kwijt raken
-    var parts = numberStr.split('.');   // numberStr is not localised
+    var parts = numberStr.split('.');   // find decimal separator, note that numberStr is not localised
     var integerPart = parts[0];
     var fractionPart = parts.length > 1 ? decimalSeparatorChar + parts[1] : '';
     var rgx = /(\d+)(\d{3})/;
@@ -125,28 +126,67 @@ function convertNumberForDisplay(numberStr) {
 }
 
 
+// this function is to round the result such that rounding errors like .9999999999 or .0000000003 are removed
+// there are about 14 digits after the decimal digit
+// we only use 10 digits so toFixed can do its rounding
+// toFixed is not completely correct, sometimes there are trailing zero's, these are removed by the reg-exp
+function convertDisplayNumberToString(number) {
+    // do not combine this with above function so we can unit test without localised and thousand separator
+    return number.toFixed(10).replace(/\.?0*$/,'');
+}
+
+
 // public
 function containsPeriodChar(numberStr) {
     return numberStr.indexOf('.') >= 0;
 }
 
 
-// deze functie geeft number als string localised terug zodat ie getoond kan worden
+// deze functie geeft number (float) als string localised terug zodat ie getoond kan worden
 // deze functie kan overal gebruikt worden voor display/rendering doeleiden, behalve de input display
-function convertNumberForRendering(number, nrOfDecimals) {
-    if (number===null) {
+// options is null - meaning that the required number of digits is shown up to max 2. E.g.:  0 ,  0.1  ,  0.23
+// this is the same as minimumFractionDigits: 0, maximumFractionDigits=2
+// or options.minimumFractionDigits = 2 - meaning that always 2 digits are shown. E.g. 0.00 , 0.10  , 0.23
+// this is the same as minimumFractionDigits: 2, maximumFractionDigits=2
+// similar to Intl.NumberFormat
+function convertNumberForRendering(number, options) {
+    if (number === null) {
         return ''; // result is not known
     } else if (isNaN(number) || !isFinite(number)) {
         return 'error';
     } else {
-        return (+number.toFixed(nrOfDecimals)).toLocaleString();
+        if (options == null || !options.minimumFractionDigits) {
+                return (+number.toFixed(2)).toLocaleString();
+            } else {
+                if (options.minimumFractionDigits && options.minimumFractionDigits !==2) throw Error('invalid argument options: ' + JSON.stringify(options));
+                return convertNumberToAmountStr(number);
+            }
     }
+}
+
+// internal use only, use convertNumberForRendering instead
+function convertNumberToAmountStr(number) {
+    // problem is that locale parameter in toLocaleString () call is unknown
+    // so this is a big workaround
+    var integerPart = Math.floor(number);
+    var temp1 = integerPart.toLocaleString();
+    var temp2;
+    if (Number.isInteger(number)) {
+        temp2 = '00';
+    } else {
+        var fractionPart = number % 1;
+        // default to US locale and drop the '0.' sub string
+        temp2 = fractionPart.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).slice(2);
+    }
+    return temp1 + decimalSeparatorChar + temp2;
 }
 
 
 // testen ontbreken
-// geeft de waarde voor een calcName en anders de literal zelf terug
-function getExprItemForRendering(exprItem, nrOfDecimals, displayCalculationName) {
+// geeft de waarde voor een calcName en anders de literal zelf terug depending on displayCalculationName
+// numberDisplayOption are explained in convertNumberForRendering
+// all parameters are required
+function getExprItemForRendering(exprItem, numberDisplayOption, displayCalculationName) {
     if (exprItem === undefined  || exprItem === null) {
         throw new Error('assertion error, empty exprItem');
     } else if (isBinaryOperator(exprItem) || isBracket(exprItem)) {
@@ -155,12 +195,12 @@ function getExprItemForRendering(exprItem, nrOfDecimals, displayCalculationName)
         if (displayCalculationName) {
             return exprItem.name;
         } else {
-            return convertNumberForRendering(exprItem.result, nrOfDecimals);
+            return convertNumberForRendering(exprItem.result, numberDisplayOption);
         }
     } else if (exprItem === '_') {
         return '-';  // unaire min
     } else {
-        return convertNumberForRendering(exprItem, nrOfDecimals);
+        return convertNumberForRendering(exprItem, numberDisplayOption);
     }
 }
 
@@ -185,3 +225,11 @@ function calcDayBeforeAtMidnight(today) {
     return yesterday;
 }
 
+// Safari does not support ECMAScript Internationalization API
+// monthIndex is zero based
+function getNameOfMonth(monthIndex) {
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    return monthNames[monthIndex];
+}

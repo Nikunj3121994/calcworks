@@ -35,7 +35,7 @@
                             </ion-scroll>
                             <!--geen spaties tussen de span elements hieronder !! -->
                             <!--de spans zijn nodig om hide/show flikker te beteugelen-->
-                        </span><span class="expression-button"><span ng-hide="result === null || editMode">
+                        </span><span class="expression-button"><span ng-hide="!pinIconEnabled()">
                                 <button class="button button-clear button-positive ion-pin rename-calc-button" ng-click="touchRemember()"></button>
                             </span><span ng-show="editMode">
                                 <button class="button button-clear button-assertive ion-close cancel-edit-button" ng-click="cancelEditMode()"></button>

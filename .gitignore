@@ -12,3 +12,7 @@ plugins/
 .idea/workspace.xml
 .idea/misc.xml
 resources/resources.iml
+resources/.DS_Store
+screenshots/.DS_Store
+www/lib/.DS_Store
+www/lib/mathjs/.DS_Store

@@ -3,17 +3,17 @@
 angular.module('calcworks.controllers')
 
 // filter that expects a number (not a string!) and converts it to a string with the localised decimals and thousands separator
+// options is defined in convertNumberForRendering
 .filter('toFixedDecimals', function($log, $rootScope) {
-    return function (input) {
+    return function (input, options) {
         if (input === undefined || input === null) {
             return null;
         } else {
-            return $rootScope.convertNumberForRendering(input);
+            return $rootScope.convertNumberForRendering(input, options);
         }
     };
-
-//toTimestamp zou betere naam zijn
 }).filter('toDate', function($filter) {
+//toTimestamp zou betere naam zijn
 
     function areDaysEqual(day1, day2) {
         return day2.getDate() === day1.getDate() && day2.getMonth() === day1.getMonth() && day2.getFullYear() === day1.getFullYear();

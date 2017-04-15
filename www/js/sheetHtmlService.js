@@ -33,11 +33,11 @@ angular.module('calcworks.services')
                 var expression = calculation.expression;
                 template = template + '<tr>';
                 // we should add the inline width to a *separate* css class
-                template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberForRendering(calculation.result) + '</td>';
+                template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberForRendering(calculation.result, sheet.numberDisplayOption) + '</td>';
                 template = template + '<td class="itemExpr">  &nbsp;=&nbsp;  </td>';
                 var arrayLength = expression.length;
                 for (var i = 0; i < arrayLength; i++) {
-                    template = template + '<td class="itemExpr">' + $rootScope.getExprItemForRendering(expression[i]) + '</td>';
+                    template = template + '<td class="itemExpr">' + $rootScope.getExprItemForRendering(expression[i], sheet.numberDisplayOption) + '</td>';
                 }
                 template = template + '</tr>';
                 // second row
@@ -54,9 +54,9 @@ angular.module('calcworks.services')
                 template = template + '</tr>';
             }
             template = template + '</table>';
-            if (sheet.hasSum) {
+            if (sheet.displayOptions.showSum) {
                 template = template + '<tr>';
-                template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberForRendering(sheet.sum) + '</td>';
+                template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberForRendering(sheet.sum, sheet.numberDisplayOption) + '</td>';
                 template = template + '</tr>';
                 template = template + '<tr>';
                 template = template + '<td class="calcNameExpr">Sum</td>';

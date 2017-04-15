@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe('Test directives', function () {
+describe('Test resolve-expression directive', function () {
     var element, scope, compile, httpBackend;
 
     beforeEach(module('calcworks'));
@@ -39,6 +39,25 @@ describe('Test directives', function () {
         expect(spanElement.eq(1).text()).toBe('+');
         expect(spanElement.eq(2).text()).toBe('3');
         expect(spanElement.eq(3).text()).toBe(' = 5');
+    });
+
+    it('verify directive with decimals', function () {
+        scope.numberDisplayOption = { minimumFractionDigits: 2};
+        element = angular.element(
+            '<resolve-expression calculation="calculation" number-display-option="numberDisplayOption"></resolve-expression>');
+        var expression = [2, "+", 3];
+        scope.calculation = new Calculation('id', 'name', expression);
+        scope.calculation.result = 5;
+        scope.sheet = new Sheet('id', 'name', [scope.calculation]);
+        compile(element)(scope);
+        mockBackEnd();
+        scope.$digest();
+        var spanElement = element.find('span');
+        expect(spanElement.length).toBe(4);
+        expect(spanElement.eq(0).text()).toBe('2.00');
+        expect(spanElement.eq(1).text()).toBe('+');
+        expect(spanElement.eq(2).text()).toBe('3.00');
+        expect(spanElement.eq(3).text()).toBe(' = 5.00');
     });
 
     it('verify directive', function () {

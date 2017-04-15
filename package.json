@@ -19,7 +19,8 @@
     "shelljs": "^0.7.0"
   },
   "cordovaPlugins": [
-    "cordova-plugin-email-composer@0.8.3"
+    "cordova-plugin-email-composer@0.8.3",
+    "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [
     "ios",

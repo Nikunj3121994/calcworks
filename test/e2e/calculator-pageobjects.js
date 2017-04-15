@@ -120,7 +120,7 @@ var CalculatorTab = function() {
 
     this.recall = function(calcName) {
         btnRecall.click();
-        element.all(by.css('.listVarName')).each(function(elem, index) {
+        element.all(by.css('.listCalcName')).each(function(elem, index) {
             elem.getText().then(function(name) {
                 //console.log(name);
                 if (name.trim() === calcName) {

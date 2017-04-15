@@ -26,7 +26,7 @@ angular.module('calcworks.controllers')
     var state = $stateParams;  // dit moeten we in app.js in de rootscope stoppen
     // actions are for the calculation, commands for the sheet to avoid confusion between the two
     var calcActionHistory;   // history of actions for current calculations, needed for undo of an expression, first is most recent
-    var sheetCommandHistory = [];   // history of commans in the context of current sheet; clear, delete, recall, etc
+    var sheetCommandHistory = [];   // history of commands in the context of current sheet; clear, delete, recall, etc
 
     var resetDataMode = function() {
         $state.get('tab.calculator').data.mode = 'normal';
@@ -207,6 +207,12 @@ angular.module('calcworks.controllers')
         selectCalculationDialog.showSelectCalculationDialog($scope.sheet, notAllowedCalc, $scope.processSelectedCalculation);
     };
 
+    $scope.pinIconEnabled = function() {
+        return calcActionHistory.length == 0
+        && sheetCommandHistory.length > 0 && (sheetCommandHistory[0].id == 'equals' || sheetCommandHistory[0].id == 'remember')
+            && !$scope.editMode;
+    }
+
     $scope.touchRemember = function() {
         addCommandToSheetHistory('remember');
         renameDialogs.showRenameCalculationDialog($scope.sheet.getMostRecentCalculation(), $scope.sheet);
@@ -327,7 +333,9 @@ angular.module('calcworks.controllers')
 
 
     // hier een scope functie van gemaakt om te kunnen testen
-    $scope.processSelectedCalculation = function(calc) {
+    // dit is de callback vanuit showSelectCalculationDialog
+    // sheet is an optional parameter, if undefined then calc must be contained within activeSheet
+    $scope.processSelectedCalculation = function(calc, sheet) {
         var number = calc.result;
         if ($scope.plusMinusTyped) {
             number = -number;
@@ -335,7 +343,17 @@ angular.module('calcworks.controllers')
         $scope.display = number.toString();
         $scope.operatorStr = '';
         // state overgang
-        selectedCalc = calc;  // zet vlag
+        // set flag that selection has been made
+        if (sheet && sheet !== $scope.sheet) {
+            // calc comes from a different sheet, so we need to make a copy. A reference would not work
+            // because the containing sheet can be deleted one day
+            // NOTE: this is very tricky, because for the very first time a calculation occurs within an expression
+            // but is not a calculation defined on its own within a sheet
+            // Note that we want to copy the calculation, not just its value, because its name can be meaningful
+            selectedCalc = calc.copy();
+        } else {
+            selectedCalc = calc;
+        }
         $scope.numberEnteringState = false;  // er is niet een getal ingetikt
         // les geleerd: je kan niet hier (makkelijk) al de calc toevoegen aan de expressie omdat je plus/min nog niet kan
         // verwerken. Je kan de calc pas toevoegen aan de expressie bij de operator of equals
@@ -416,6 +434,8 @@ angular.module('calcworks.controllers')
             // verify whether equal has just been executed
             if ($scope.numberEnteringState || $scope.currentCalc.expression.length > 0) {
                 if (selectedCalc) {
+                    // hier moeten we kijken of de selectedCalc uit een andere sheet komt, zo ja dan moeten we een clone maken
+                    // als we dit niet doen dan kan de calc niet meer bestaan als zijn sheet verwijderd wordt
                     calc = selectedCalc;
                 } else {
                     // add the current calc to the sheet
@@ -561,7 +581,7 @@ angular.module('calcworks.controllers')
             // ik vermoed dat dit pad zich niet meer voordoet, alleen in edit mode kan je een cycle voor elkaar krijgen
             result = false;
             miniReset();
-            $scope.currentCalc = $scope.sheet.createNewCalculation();;
+            $scope.currentCalc = $scope.sheet.createNewCalculation();
             var msg = e.message;
             showAlertPopup(msg);
          }
@@ -591,7 +611,7 @@ angular.module('calcworks.controllers')
             // we laten $scope.currentCalc.result op Infinity staan
             $scope.display = '0';
         } else {
-            $scope.display = $scope.currentCalc.result.toString();     // type is string
+            $scope.display = convertDisplayNumberToString($scope.currentCalc.result);     // type is string
         }
         sheetService.saveSheet($scope.sheet);  // deze moet misschien naar de aanroeper, wat netter
     }

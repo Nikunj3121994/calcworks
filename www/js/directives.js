@@ -2,13 +2,17 @@
 
 angular.module('calcworks.controllers')
 
-// zou eigenlijk ook resolveExpression moeten heten, dit is de twee-regel variant
+// zou eigenlijk ook resolveCalculation moeten heten, dit is de twee-regel variant, volgende vorm:
+//
+//     result    =   ...expression...
+//      name               name
 .directive('resolveSheet', function($rootScope) {
     return {
         restrict: 'E',
         scope: {
             sheet: '=',
-            index: '='
+            index: '=',
+            numberDisplayOption: '='
         },
         link: function(scope, element) {
             // we doen een deep watch van de sheet zodat calcNames veranderingen ook gedetecteerd worden
@@ -21,11 +25,11 @@ angular.module('calcworks.controllers')
                     var template = '';
                     template = '<table class="expressionTable">';
                     template = template + '<tr>';
-                    template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberForRendering(calculation.result) + '</td>';
+                    template = template + '<td class="itemExpr" style="width: 100px">' + $rootScope.convertNumberForRendering(calculation.result, scope.sheet.numberDisplayOption) + '</td>';
                     template = template + '<td class="itemExpr">  &nbsp;=&nbsp;  </td>';
                     var arrayLength = expression.length;
                     for (var i = 0; i < arrayLength; i++) {
-                        template = template + '<td class="itemExpr">' + $rootScope.getExprItemForRendering(expression[i]) + '</td>';
+                        template = template + '<td class="itemExpr">' + $rootScope.getExprItemForRendering(expression[i], scope.sheet.numberDisplayOption, false) + '</td>';
                     }
                     template = template + '</tr>';
                     // second row
@@ -56,7 +60,9 @@ angular.module('calcworks.controllers')
         restrict: 'E',
         scope: {
             calculation: '=',
-            displayCalculationName: '=' // optional flag, display calculation name instead of its result
+            displayCalculationName: '=',   // optional flag, display calculation name instead of its result
+            showResult: '=',                // optional flag, display result, default true
+            numberDisplayOption: "="
         },
         link: function(scope, element) {
 
@@ -65,11 +71,13 @@ angular.module('calcworks.controllers')
                     var arrayLength = calculation.expression.length;
                     for (var i = 0; i < arrayLength; i++) {
                         template = template + '<span class="itemExpr">';
-                        template = template + $rootScope.getExprItemForRendering(calculation.expression[i], scope.displayCalculationName);
+                        template = template + $rootScope.getExprItemForRendering(calculation.expression[i], scope.numberDisplayOption, scope.displayCalculationName);
                         template = template + '</span>';
                     }
-                    if (calculation.result !== undefined && calculation.result !== null) {
-                        template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberForRendering(calculation.result) + '</span>';
+                    var showResult = scope.showResult;
+                    if (showResult == undefined) { showResult = true; }
+                    if (calculation.result !== undefined && calculation.result !== null  && showResult) {
+                        template = template + '<span class="itemExpr"> = ' + $rootScope.convertNumberForRendering(calculation.result, scope.numberDisplayOption) + '</span>';
                     }
                     // since we resolve the parameters above there is no need to compile
                     element.html(template);
@@ -97,7 +105,7 @@ angular.module('calcworks.controllers')
                 if (newValue) {
                     // since we resolve the parameters above there is no need to compile
                     // we cannot use string.tolocale function because that would remove dec separator and trailing zero's
-                    element.html(convertNumberForDisplay(scope.numberstr));
+                    element.html(localiseDisplayNumberStr(scope.numberstr));
                 }
             }, false);
         }

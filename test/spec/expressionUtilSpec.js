@@ -17,22 +17,32 @@ describe('Test Expression Utilities', function () {
     });
 
     it('convertNumberForDisplay', function() {
-        expect(convertNumberForDisplay('123')).toEqual('123');
-        expect(convertNumberForDisplay('123.4567')).toEqual('123.4567');
-        expect(convertNumberForDisplay('123456789')).toEqual('123,456,789');
-        expect(convertNumberForDisplay('123456789.01')).toEqual('123,456,789.01');
+        expect(localiseDisplayNumberStr('123')).toEqual('123');
+        expect(localiseDisplayNumberStr('123.4567')).toEqual('123.4567');
+        expect(localiseDisplayNumberStr('123456789')).toEqual('123,456,789');
+        expect(localiseDisplayNumberStr('123456789.01')).toEqual('123,456,789.01');
 
         decimalSeparatorChar = ',';
         thousandsSeparatorChar = '.';
 
-        expect(convertNumberForDisplay('123456789.01')).toEqual('123.456.789,01');
-        expect(convertNumberForDisplay('12345678912345')).toEqual('12.345.678.912.345');
+        expect(localiseDisplayNumberStr('123456789.01')).toEqual('123.456.789,01');
+        expect(localiseDisplayNumberStr('12345678912345')).toEqual('12.345.678.912.345');
 
         // reset
         decimalSeparatorChar = '.';
         thousandsSeparatorChar = ',';
 
     });
+
+    it('convertDisplayNumberToString', function() {
+        expect(convertDisplayNumberToString(5)).toEqual('5');
+        expect(convertDisplayNumberToString(5.1)).toEqual('5.1');
+        expect(convertDisplayNumberToString(5.00001)).toEqual('5.00001');
+        expect(convertDisplayNumberToString(5.9999)).toEqual('5.9999');
+        expect(convertDisplayNumberToString(15.629999999999999)).toEqual('15.63');
+        // some situations still give rounding errors like 1 billion (miljard) + 2.1
+    });
+
 
     it('generateVarName', function () {
         expect(generateCalcName('')).toBe('calc1');
@@ -72,27 +82,63 @@ describe('Test Expression Utilities', function () {
 
     //
     it('convertNumberForRendering', function () {
-        expect(convertNumberForRendering(123, 2)).toEqual('123');
-        expect(convertNumberForRendering(123, 0)).toEqual('123');
-        expect(convertNumberForRendering(1 / 3, 2)).toEqual('0.33');
-        expect(convertNumberForRendering(1 / 3, 3)).toEqual('0.333');
-        expect(convertNumberForRendering('abc', 2)).toEqual('error');
-        expect(convertNumberForRendering(1 / 0, 2)).toEqual('error');
-        expect(convertNumberForRendering(1234, 2)).toEqual('1,234');
-        expect(convertNumberForRendering(1234567, 2)).toEqual('1,234,567');
-        expect(convertNumberForRendering(1234567.34, 2)).toEqual('1,234,567.34');
+        expect(convertNumberForRendering(123)).toEqual('123');
+        expect(convertNumberForRendering(123, null)).toEqual('123');
+        expect(convertNumberForRendering(123, {})).toEqual('123');
+        expect(convertNumberForRendering(123, {minimumFractionDigits : null})).toEqual('123');
+        expect(convertNumberForRendering(1 / 3, {minimumFractionDigits : 2})).toEqual('0.33');
+        expect(convertNumberForRendering(1 / 3, {minimumFractionDigits : null})).toEqual('0.33');
+        expect(convertNumberForRendering('abc')).toEqual('error');
+        expect(convertNumberForRendering('abc', {minimumFractionDigits : 2})).toEqual('error');
+        expect(convertNumberForRendering(1 / 0)).toEqual('error');
+        expect(convertNumberForRendering(1 / 0, {minimumFractionDigits : 2})).toEqual('error');
+        expect(convertNumberForRendering(1234)).toEqual('1,234');
+        expect(convertNumberForRendering(1234, {})).toEqual('1,234');
+        expect(convertNumberForRendering(1234, {minimumFractionDigits : 2})).toEqual('1,234.00');
+        expect(convertNumberForRendering(1234567)).toEqual('1,234,567');
+        expect(convertNumberForRendering(1234567, {minimumFractionDigits : 2})).toEqual('1,234,567.00');
+        expect(convertNumberForRendering(1234567.1)).toEqual('1,234,567.1');
+        expect(convertNumberForRendering(1234567.1, {minimumFractionDigits : 2})).toEqual('1,234,567.10');
+        expect(convertNumberForRendering(1234567.34)).toEqual('1,234,567.34');
+        expect(convertNumberForRendering(1234567.34, {minimumFractionDigits : 2})).toEqual('1,234,567.34');
     });
 
+
+    it('convertNumberToAmountStr', function() {
+        expect(convertNumberToAmountStr(123)).toEqual('123.00');
+        expect(convertNumberToAmountStr(123456789)).toEqual('123,456,789.00');
+        expect(convertNumberToAmountStr(9.5)).toEqual('9.50');
+        expect(convertNumberToAmountStr(9.01)).toEqual('9.01');
+        expect(convertNumberToAmountStr(13.25)).toEqual('13.25');
+        expect(convertNumberToAmountStr(9.013)).toEqual('9.01');
+        expect(convertNumberToAmountStr(9.003)).toEqual('9.00');
+
+        decimalSeparatorChar = ',';
+        thousandsSeparatorChar = '.';
+
+        expect(convertNumberToAmountStr(9)).toEqual('9,00');
+
+        // we cannot test and do not need to test the scenarios below because in these scenarios
+        // localeString will set the decimal separator
+        // expect(convertNumberToAmountStr(9.01)).toEqual('9,01');
+        // expect(convertNumberToAmountStr(5.1)).toEqual('5,10');
+
+        // reset
+        decimalSeparatorChar = '.';
+        thousandsSeparatorChar = ',';
+    });
+
+
     it('getExprItemForRendering', function() {
-        expect(getExprItemForRendering(1, 1)).toEqual('1');
-        expect(getExprItemForRendering(0, 1)).toEqual('0');
-        expect(getExprItemForRendering('(', 1)).toEqual('(');
-        expect(getExprItemForRendering('x', 1)).toEqual('x');
-        expect(getExprItemForRendering('_', 1)).toEqual('-');
+        expect(getExprItemForRendering(1)).toEqual('1');
+        expect(getExprItemForRendering(0)).toEqual('0');
+        expect(getExprItemForRendering('(')).toEqual('(');
+        expect(getExprItemForRendering('x')).toEqual('x');
+        expect(getExprItemForRendering('_')).toEqual('-');
         var calc = new Calculation('id', 'name', '1 + 2');
         calc.result = 3;
-        expect(getExprItemForRendering(calc, 1, false)).toEqual('3');
-        expect(getExprItemForRendering(calc, 1, true)).toEqual('name');
+        expect(getExprItemForRendering(calc, null, false)).toEqual('3');
+        expect(getExprItemForRendering(calc, null, true)).toEqual('name');
     });
 
     it('calcDayBeforeAtMidnight', function() {
@@ -112,6 +158,10 @@ describe('Test Expression Utilities', function () {
 
     })
 
+
+    it('getNameOfMonth', function() {
+        expect(getNameOfMonth(0)).toEqual('January');
+    });
 
 });
 

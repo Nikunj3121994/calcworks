@@ -31,41 +31,18 @@ The Sheets service returns an array of sheet data
                 show-reorder="showReorder"
                 can-swipe="true">
 
-
-          <!--consider ionic's collection-repeat-->
-          <div ng-if="!showCalcCreatedTime">
+          <!-- default, normal / extended style-->
+          <div ng-if="!sheet.displayOptions.style || sheet.displayOptions.style == 'ext'">
               <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id"  >
                    <span class="row rowCalc">
                        <span class="col col-90" ng-click="navigateToCalculator(calc)">
-                            <resolve-sheet sheet="sheet" index="$index"></resolve-sheet>
+                            <resolve-sheet sheet="sheet" index="$index" number-display-option="numberDisplayOption"></resolve-sheet>
                        </span>
                        <span class="col col-10">
-                            <!-- button-dark toegevoegd om de button zichtbaar te krijgen, lijkt een ionic bug -->
-                            <button class="button button-clear button-dark ion-ios-more" ng-click="openCalcMenuPopover($event, calc)"></button>
+                            <button class="button cg-btn-col-more ion-ios-more" ng-click="openCalcMenuPopover($event, calc)"></button>
                        </span>
                   </span>
-                  <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
-                  </ion-delete-button>
-                  <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
-                  </ion-reorder-button>
-              </ion-item>
-          </div>
-
-          <div ng-if="showCalcCreatedTime">
-              <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id">
-                   <span class="row rowCalc">
-                       <span class="col col-30" ng-click="navigateToCalculator(calc)">
-                           {{calc.name}}<br>
-                           <small>{{calc.createdTimestamp|toDate}}</small>
-                       </span>
-                       <span class="col col-60" ng-click="navigateToCalculator(calc)" style="text-align: right">
-                           {{calc.result|toFixedDecimals}}
-                       </span>
-                       <span class="col col-10">
-                            <button class="button button-clear button-dark ion-ios-more"  ng-click="openCalcMenuPopover($event, calc)"></button>
-                       </span>
-                  </span>
-                   <span class="row rowBar">
+                  <span ng-if="sheet.displayOptions.showGraphBar" class="row rowBar">
                        <div ng-style="{'width': '{{calc.result/sheet.max * 100}}%', 'background-color': 'blue'}"></div>
                    </span>
                   <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
@@ -75,14 +52,65 @@ The Sheets service returns an array of sheet data
               </ion-item>
           </div>
 
-          <ion-item ng-if="sheet.hasSum" class="calc-item" style="padding: 0px">
+          <!--expression style-->
+          <div ng-if="sheet.displayOptions.style == 'expr'">
+              <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id"  >
+                   <span class="row rowCalc">
+                       <span class="col col-70" ng-click="navigateToCalculator(calc)" style="text-align: left">
+                           <resolve-expression calculation="calc" display-calculation-name="true" show-result="false"></resolve-expression>
+                       </span>
+                       <span class="col col-20" ng-click="navigateToCalculator(calc)" style="text-align: right">
+                           {{calc.result|toFixedDecimals:sheet.numberDisplayOption}}
+                       </span>
+                       <span class="col col-10">
+                            <button class="button cg-btn-col-more ion-ios-more" ng-click="openCalcMenuPopover($event, calc)"></button>
+                       </span>
+                  </span>
+                  <span ng-if="sheet.displayOptions.showGraphBar" class="row rowBar">
+                       <div ng-style="{'width': '{{calc.result/sheet.max * 100}}%', 'background-color': 'blue'}"></div>
+                   </span>
+                  <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
+                  </ion-delete-button>
+                  <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
+                  </ion-reorder-button>
+              </ion-item>
+          </div>
+
+          <!--condensed report; name : result -->
+          <div ng-if="sheet.displayOptions.style == 'cond'">
+              <ion-item class="item-icon-right item-button-right calc-item" ng-repeat="calc in sheet.calculations track by calc.id">
+                   <span class="row rowCalc">
+                       <span class="col col-30" ng-click="navigateToCalculator(calc)">
+                           {{calc.name}}<br>
+                           <small>{{calc.createdTimestamp|toDate}}</small>
+                       </span>
+                       <span class="col col-60" ng-click="navigateToCalculator(calc)" style="text-align: right">
+                           {{calc.result|toFixedDecimals:sheet.numberDisplayOption}}
+                       </span>
+                       <span class="col col-10">
+                            <button class="button cg-btn-col-more ion-ios-more"  ng-click="openCalcMenuPopover($event, calc)"></button>
+                       </span>
+                  </span>
+                   <span ng-if="sheet.displayOptions.showGraphBar" class="row rowBar">
+                       <div ng-style="{'width': '{{calc.result/sheet.max * 100}}%', 'background-color': 'blue'}"></div>
+                   </span>
+                  <ion-delete-button class="ion-minus-circled" ng-click="deleteCalculation($index)">
+                  </ion-delete-button>
+                  <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
+                  </ion-reorder-button>
+              </ion-item>
+          </div>
+
+          <ion-item ng-if="sheet.displayOptions.showSum" class="calc-item" style="padding: 0px">
                   <span class="row rowSum">
-                      <span class="col col-30">Sum</span>
-                      <span class="col col-70" style="text-align: right">{{sheet.sum|toFixedDecimals}}</span>
+                      <span class="col col-20">Sum</span>
+                      <span class="col col-70" style="text-align: right">{{sheet.sum|toFixedDecimals:sheet.numberDisplayOption}}</span>
+                      <span class="col col-10"></span>
                   </span>
                   <span class="row rowSum">
-                      <span class="col col-30">Max</span>
-                      <span class="col col-70" style="text-align: right">{{sheet.max|toFixedDecimals}}</span>
+                      <span class="col col-20">Max</span>
+                      <span class="col col-70" style="text-align: right">{{sheet.max|toFixedDecimals:sheet.numberDisplayOption}}</span>
+                      <span class="col col-10"></span>
                   </span>
           </ion-item>
 
@@ -90,12 +118,11 @@ The Sheets service returns an array of sheet data
   </ion-content>
 
     <ion-footer-bar align-title="center" class="bar-light">
-        <ion-toggle id="btn-bar-toggle" ng-model="showCalcCreatedTime" style="border:none;" toggle-class="toggle-energized"></ion-toggle>
         <span class="title">
             <button class="button button-clear ion-ios-more" ng-click="showDelete = false; showReorder = false; showActionSheet()"></button>
         </span>
         <div class="buttons">
-            <div class="button button-clear" ng-class="{'button-energized': sheet.hasSum}" ng-click="toggleSum()">Sum</div>
+            <button class="button button-clear ion-ios-settings" style="font-size: x-large;" ng-click="openSheetDisplayOptionsPopover($event)"></button>
         </div>
     </ion-footer-bar>
 </ion-view>

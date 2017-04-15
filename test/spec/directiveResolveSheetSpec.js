@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe('Test directives', function () {
+describe('Test resolve-sheet directive', function () {
     var element, scope, compile, httpBackend;
 
     beforeEach(module('calcworks'));
@@ -24,6 +24,7 @@ describe('Test directives', function () {
         httpBackend.expectGET('templates/tabs.html').respond(200);
     }
 
+
     it('verify directive', function () {
         var calculation = new Calculation('id', 'name', [2, "+", 3]);
         calculation.result = 5;
@@ -38,6 +39,26 @@ describe('Test directives', function () {
         expect(td.eq(2).text()).toBe('2');
         expect(td.eq(3).text()).toBe('+');
         expect(td.eq(4).text()).toBe('3');
+    });
+
+
+    it('verify directive with decimals', function () {
+        element = angular.element(
+            '<resolve-sheet index="0" sheet="sheet"></resolve-sheet>');
+        var calculation = new Calculation('id', 'name', [2, "+", 3]);
+        calculation.result = 5;
+        scope.sheet = new Sheet('id', 'name', [calculation]);
+        scope.index = 0;
+        scope.sheet.numberDisplayOption = { minimumFractionDigits: 2 };
+        compile(element)(scope);
+        mockBackEnd();
+        scope.$digest();
+        var td = element.find('td');
+        expect(td.length).toBe(10);
+        expect(td.eq(0).text()).toBe('5.00');
+        expect(td.eq(2).text()).toBe('2.00');
+        expect(td.eq(3).text()).toBe('+');
+        expect(td.eq(4).text()).toBe('3.00');
     });
 
     it('verify directive with zeros', function () {

@@ -148,11 +148,11 @@ $ ionic serve
 (gebruik 'c' om de logs te zien)
 
 Opvragen welke devices er zijn (dit is een shell script):
-$ platforms/ios/cordova/lib/list-emulator-images
+$ ios-sim showdevicetypes
 
-Ionic op specifiek device runnen (de = gaf een probleem bij versie 1.2.17) :
-$ ionic emulate ios --target="iPhone-5s, 10.2"  (laatste kan natuurlijk veranderen)
-$ ionic emulate ios --target="iPhone-6s"
+Ionic op specifiek device runnen
+*** NOTE: de = gaf een probleem bij versie 1.2.17 ***
+$ ionic emulate ios --target="iPhone-7"
 $ ionic emulate ios --target="iPad-Air"
 $ ionic emulate ios --target="iPad-Pro"
 
@@ -184,7 +184,7 @@ $ webdriver-manager update     (later: ik denk dat dit ook met -g moet)
 Instructies om te runnen:
 
 1) Start de calcworks applicatie zodat er naar port 8100 geluisterd wordt
-$ ionic serve
+$ ionic serve   (is deze nog wel nodig? ik zie dat een nieuwe browser opgestart wordt)
 
 2) nieuwe shell, start selenium/webdriver server:
 $ webdriver-manager start
@@ -249,17 +249,8 @@ controleer of alle console log statements in comment staan
 
 $ ionic build --release    (ivm uglify)
 
-Waarschijnlijk niet meer nodig:
-In xcode moest ik t header path aanpassen om build errors te omzeilen.
- Add this line to your Build Settings -> Header Search Paths:
- "$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include"
- Don't replace the existing line that looks similar, that is still needed to be backwards compatible with Xcode 7 and Xcode 6.4.
-Zie ook het screenshot in de ./screenshots folder
-
 Maak een archive via Product | Archive
-
-Ik kreeg via email een warning mbt push notifications. Dit is een (oud) probleem in Cordova, zou opgelost moeten worden.
-zie http://stackoverflow.com/questions/26168713/cordova-app-that-doesnt-use-push-notifications-missing-push-notification-enti
+(zorg dat je Generic IOS Device geselecteerd hebt in de dropdown in de main menu bar)
 
 
 
@@ -280,23 +271,23 @@ Roadmap
 
 Issues
 ============
+- is wel zo'n goed om sheet.numberDisplayOption apart te nemen?
 
 
 
 Bugs
 -------
 - is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
-- Bij edit wordt bovenste regel niet leeg. Je mist de OK btn.
-- De pin button zou disabled moeten zijn als er niets te onthouden valt.
+- Bij edit calc wordt bovenste regel niet leeg. Je mist de OK btn.
 
 
 Improvements
 --------------
+- zorg ervoor dat je sum en max los van elkaar kan instellen
 - toon ... als er meer dan 2 decimalen zijn en maak het evt mogelijk om erop te klikken
 - toon de expressie visueel duidelijker; de operator precedence zou je moeten visualiseren - meer/minder ruimte tussen. Deelstreep
 - we moeten voor de ipad nog een setting zetten ivm splitscreen
 - gebruik ÷ ipv /
-- a trash icon bij settings
 - moet de button met de . ook niet localised worden?
 - misschien zou de remember btn link bij display moeten, heb je meer ruimte in de eerste panel
 

@@ -2,7 +2,7 @@
   <ion-content>
     <ion-list>
         <!--een href gebruiken maakt de lay-out niet goed, vandaar een ng-click-->
-      <ion-item class="list card" style="padding: 0px"  ng-repeat="sheet in sheets track by $index">
+      <ion-item class="list card" style="padding: 0px"  ng-repeat="sheet in sheets track by sheet.id">
 
           <div class="item item-divider"
                ng-class="{activeSheet: getActiveSheetId() === sheet.id, inactiveSheet: getActiveSheetId() !== sheet.id}"
@@ -17,11 +17,11 @@
           <div ng-click="gotoSheet(sheet)">
               <div class="row"  ng-repeat="calc in sheet.calculations" style="background-color: white">
                   <div class="col sheetsCol" style="text-align: left">{{calc.name}}</div>
-                  <div class="col sheetsCol" style="text-align: right">{{calc.result|toFixedDecimals}}</div>
+                  <div class="col sheetsCol" style="text-align: right">{{calc.result|toFixedDecimals:sheet.numberDisplayOption}}</div>
               </div>
-              <div class="row rowSum" ng-if="sheet.hasSum">
-                  <div class="col sheetsCol" style="text-align: left"></div>
-                  <div class="col sheetsCol" style="text-align: right">Sum: {{sheet.sum|toFixedDecimals}}</div>
+              <div class="row rowSum" ng-if="sheet.displayOptions.showSum">
+                  <div class="col sheetsCol" style="text-align: left">Sum</div>
+                  <div class="col sheetsCol" style="text-align: right">{{sheet.sum|toFixedDecimals:sheet.numberDisplayOption}}</div>
               </div>
           </div>
 
