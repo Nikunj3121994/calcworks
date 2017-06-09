@@ -120,11 +120,11 @@ describe('Test conversionService', function () {
         // verify a new calculation is added to the sheet
         expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
-        expect(rateCalc.name).toBe('US dollar to euro rate');
+        expect(rateCalc.name).toBe('usd to eur rate');
         expect(rateCalc.expression).toEqual([ 0.8103727714748784]);
         expect(rateCalc.result).toBe( 0.8103727714748784);
         expect(convertedCalc.result).toBeNull();
-        expect(convertedCalc.name).toEqual('varname in euro');
+        expect(convertedCalc.name).toEqual('varname in eur');
         expect(convertedCalc.expression).toEqual([calc, 'x', rateCalc ]);
 
         // now we do it for a second time and the rate calculation should be re-used
@@ -150,11 +150,11 @@ describe('Test conversionService', function () {
         httpBackend.flush();
         expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
-        expect(rateCalc.name).toBe('euro to US dollar rate');
+        expect(rateCalc.name).toBe('eur to usd rate');
         expect(rateCalc.expression).toEqual([1.234]);
         expect(rateCalc.result).toBe(1.234);
         expect(convertedCalc.result).toBeNull();
-        expect(convertedCalc.name).toEqual('varname in US dollar');
+        expect(convertedCalc.name).toEqual('varname in usd');
         expect(convertedCalc.expression).toEqual([calc, 'x', rateCalc ]);
 
         // now we do it for a second time and the rate calculation should be re-used
@@ -167,7 +167,7 @@ describe('Test conversionService', function () {
         // httpBackend.flush();
         scope.$digest();
         expect(sheet2.calculations.length).toBe(1);
-        expect(sheet2.calculations[0].name).toBe('euro to US dollar rate');
+        expect(sheet2.calculations[0].name).toBe('eur to usd rate');
         expect(sheet2.calculations[0].expression).toEqual([1.234]);
         expect(sheet2.calculations[0].result).toBe(1.234);
         expect(convertedCalc.expression).toEqual([calc, 'x', rateCalc]);
@@ -183,7 +183,7 @@ describe('Test conversionService', function () {
         httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
         httpBackend.flush();
         expect(sheet2.calculations.length).toBe(2);
-        expect(sheet2.calculations[0].name).toBe('US dollar to euro rate');
+        expect(sheet2.calculations[0].name).toBe('usd to eur rate');
         expect(sheet2.calculations[0].expression).toEqual([ 0.8103727714748784 ]);
         expect(sheet2.calculations[0].result).toBe( 0.8103727714748784);
     });
@@ -202,7 +202,7 @@ describe('Test conversionService', function () {
         expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
         expect(rateCalc.expression).toEqual([0.5]);
-        expect(convertedCalc.name).toEqual('varname in euro');
+        expect(convertedCalc.name).toEqual('varname in eur');
     });
 
 
@@ -222,8 +222,8 @@ describe('Test conversionService', function () {
         expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
         expect(rateCalc.expression).toEqual([1.7]);
-        expect(rateCalc.name).toEqual('euro to UK pound rate');
-        expect(convertedCalc.name).toEqual('varname in UK pound');
+        expect(rateCalc.name).toEqual('eur to gbp rate');
+        expect(convertedCalc.name).toEqual('varname in gbp');
     });
 
 
@@ -243,7 +243,7 @@ describe('Test conversionService', function () {
         expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
         expect(rateCalc.expression).toEqual([0.45454545454545453]);
-        expect(rateCalc.name).toEqual('Swiss franc to euro rate');
+        expect(rateCalc.name).toEqual('chf to eur rate');
     });
 
 
@@ -263,8 +263,8 @@ describe('Test conversionService', function () {
         expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
         expect(rateCalc.expression).toEqual([2.2]);
-        expect(rateCalc.name).toEqual('euro to Swiss franc rate');
-        expect(convertedCalc.name).toEqual('varname in Swiss franc');
+        expect(rateCalc.name).toEqual('eur to chf rate');
+        expect(convertedCalc.name).toEqual('varname in chf');
     });
 
     //      'cny' : 'Chinese yuan renminbi',
@@ -285,7 +285,7 @@ describe('Test conversionService', function () {
         expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
         expect(rateCalc.expression).toEqual([ 0.30303030303030304]);
-        expect(rateCalc.name).toEqual('Chinese yuan renminbi to euro rate');
+        expect(rateCalc.name).toEqual('cny to eur rate');
     });
 
 
@@ -305,8 +305,8 @@ describe('Test conversionService', function () {
         expect(sheet2.calculations.length).toBe(1);
         var rateCalc = sheet2.calculations[0];
         expect(rateCalc.expression).toEqual([2.5]);
-        expect(rateCalc.name).toEqual('euro to Chinese yuan renminbi rate');
-        expect(convertedCalc.name).toEqual('varname in Chinese yuan renminbi');
+        expect(rateCalc.name).toEqual('eur to cny rate');
+        expect(convertedCalc.name).toEqual('varname in cny');
     });
     
     //  'jpy' : 'Japanese yen',
@@ -321,7 +321,7 @@ describe('Test conversionService', function () {
         httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.JPY.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
                 httpBackend.flush();
         expect(sheet.calculations.length).toBe(1);
-        expect(convertedCalc.name).toEqual('varname in Japanese yen');
+        expect(convertedCalc.name).toEqual('varname in jpy');
     });
 
 
@@ -338,7 +338,7 @@ describe('Test conversionService', function () {
         httpBackend.expectGET('https://sdw-wsrest.ecb.europa.eu/service/data/EXR/D.KRW.EUR.SP00.A?lastNObservations=1').respond(200, responseUSD_EUR);
                 httpBackend.flush();
         expect(sheet.calculations.length).toBe(1);
-        expect(convertedCalc.name).toEqual('varname in South Korean won');
+        expect(convertedCalc.name).toEqual('varname in krw');
     });
 
 

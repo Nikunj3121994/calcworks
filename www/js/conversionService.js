@@ -3,10 +3,12 @@
 // for usd-eur conversion see https://sdw-wsrest.ecb.europa.eu/:
 
 // for currency symbols see http://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html
+// converter: https://sdw.ecb.europa.eu/curConverter.do
 
 angular.module('calcworks.services')
     .service('conversionService', function ($http, $q, $rootScope, $ionicPopup) {
 
+    // the values of this map are no longer used, might be useful to generate the UI entries
     var acrCurrency = {
       'eur' : 'euro',
       'usd' : 'US dollar',
@@ -36,7 +38,8 @@ angular.module('calcworks.services')
 
 
     function getRateName(fromCurrency, toCurrency) {
-        return acrCurrency[fromCurrency] + ' to ' + acrCurrency[toCurrency] + ' rate';
+        // using the full currency name is too long, so we use the acronym
+        return fromCurrency + ' to ' + toCurrency + ' rate';
     };
 
 
@@ -58,7 +61,7 @@ angular.module('calcworks.services')
 
         var fromCurrency = operator.substring(0, 3);
         var toCurrency = operator.substring(7);
-        conversionCalc.name = calc.name + ' in ' + acrCurrency[toCurrency];
+        conversionCalc.name = calc.name + ' in ' + toCurrency;
         this.getExchangeRate(sheet, fromCurrency, toCurrency, processExchangeRateResponse);
     };
 

@@ -125,21 +125,21 @@ XCode
 Laadt het project 'calcworks.xcodeproj' in de platforms/ios folder
 Je kan runnen op de iphone door linksboven 'iphone stephan' te kiezen (ipv de emulators)
 
+
 Testen runnen
 -------------
 Karma vanaf de cmd line runnen
 vanuit de *test* folder:
-$ karma start --single-run
+$
 
 Of via de termimal de testen continue runnen:
 $ karma start karma.conf.js --auto-watch
 
-De testen debuggen:
+De testen debuggen:karma start --single-run
 $ karma start karma.conf.js --auto-watch --debug
 Klik dan op de karma DEBUG knop in de page. Open Chrome dev tools en zet een breakpoint en reload de page.
 
 Mbv IntelliJ kan ook, karma plugin installeren en via rechtermuistoets runnen als je op karma file staat
-
 
 
 Ionic runnen
@@ -277,6 +277,9 @@ Issues
 
 Bugs
 -------
+- 56 converteren naar chinese renmibi - past niet op iphone scherm
+- 56 converteren naar chinese renmibi en daarna naar uk pound geeft verkeerde label
+- maak tonen datum een aparte optie
 - is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
 - Bij edit calc wordt bovenste regel niet leeg. Je mist de OK btn.
 
@@ -464,3 +467,9 @@ Onbekende wijziging in de history:
     "ionic-plugin-keyboard",
     "cordova-plugin-splashscreen"
   ],
+
+
+  Git manual
+  ----------
+  info branch:     $ git status
+  nieuwe branch:   $ git checkout -b <naam-branch>
