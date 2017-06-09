@@ -1055,7 +1055,28 @@ describe('Test controller CalculatorCtrl', function () {
         scope.touchEqualsOperator();
         expect(scope.sheet.calculations[0].expression).toEqual([1]);
         expect(scope.sheet.calculations[0].result).toBe(1);
+    });
 
+
+    it('verify processFunctionSelected conversion with second selected calc (bug)', function() {
+        scope.touchDigit(2);
+        scope.touchEqualsOperator();
+        expect(scope.numberEnteringState).toBeFalsy();
+        scope.processFunctionSelected('inch-to-centimeters');
+        mockBackEnd();
+        scope.$digest(); // needed to trigger the then()
+        expect(scope.sheet.calculations.length).toBe(2);
+        expect(scope.sheet.calculations[0].name).toBe('calc1 to centimeters');
+        expect(scope.sheet.calculations[1].name).toBe('calc1');
+        // recall first calculation
+        var calc = scope.sheet.calculations[1];
+        scope.reset();
+        scope.processSelectedCalculation(calc);
+        scope.processFunctionSelected('miles-to-kilometers');
+        mockBackEnd();
+        scope.$digest(); // needed to trigger the then()
+        expect(scope.sheet.calculations.length).toBe(3);
+        expect(scope.sheet.calculations[0].name).toBe('calc1 to kilometers'); // this failed in the past
     });
 
 

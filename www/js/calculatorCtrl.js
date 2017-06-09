@@ -431,23 +431,20 @@ angular.module('calcworks.controllers')
             addCommandToSheetHistory('conversion');
             // first some logic to determine the calculation to do the conversion with
             var calc;
-            // verify whether equal has just been executed
-            if ($scope.numberEnteringState || $scope.currentCalc.expression.length > 0) {
-                if (selectedCalc) {
-                    // hier moeten we kijken of de selectedCalc uit een andere sheet komt, zo ja dan moeten we een clone maken
-                    // als we dit niet doen dan kan de calc niet meer bestaan als zijn sheet verwijderd wordt
-                    calc = selectedCalc;
-                } else {
-                    // add the current calc to the sheet
-                    updateCurrentCalcExpression();
-                    $scope.sheet.addCalculation($scope.currentCalc);
-                    if (!$scope.processCalc()) {
-                        // the calculation gave an error so let's remove the calc
-                        $scope.sheet.deleteCalculation(0);
-                        return; // exit
-                    }
-                    calc = $scope.currentCalc;
+            if (selectedCalc) {
+                // de proccess calc logica houdt er rekening mee of de selectedCalc uit een andere sheet komt
+                calc = selectedCalc;
+            } else if ($scope.numberEnteringState || $scope.currentCalc.expression.length > 0) {
+                // verify whether equal has just been executed
+                // add the current calc to the sheet
+                updateCurrentCalcExpression();
+                $scope.sheet.addCalculation($scope.currentCalc);
+                if (!$scope.processCalc()) {
+                    // the calculation gave an error so let's remove the calc
+                    $scope.sheet.deleteCalculation(0);
+                    return; // exit
                 }
+                calc = $scope.currentCalc;
             } else if ($scope.sheet.calculations.length===0) {
                 // uitzonderingssituatie als er nog geen operand is ingevoerd
                 $scope.currentCalc.expression.push(0);

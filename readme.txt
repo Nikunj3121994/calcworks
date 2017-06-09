@@ -277,7 +277,9 @@ Issues
 
 Bugs
 -------
-- 56 converteren naar chinese renmibi - past niet op iphone scherm
+- new sheet, dan pakt recall nog de vorige sheet
+- recall sorteert niet op reversed date wat ik wel wil
+- lange var names - past niet op iphone scherm
 - 56 converteren naar chinese renmibi en daarna naar uk pound geeft verkeerde label
 - maak tonen datum een aparte optie
 - is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
