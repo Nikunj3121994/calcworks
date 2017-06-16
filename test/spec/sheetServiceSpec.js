@@ -76,7 +76,7 @@ describe('Test sheetService', function () {
         sheetService._test_init();
         var sheet1 = sheetService.getActiveSheet();
         var d = new Date();
-        var expectedName = 'Untitled Sheet, ' + getNameOfMonth(d.getMonth()) + ' ' + d.getDay()
+        var expectedName = 'Untitled Sheet, ' + getNameOfMonth(d.getMonth()) + ' ' + d.getDate();
         expect(sheet1.name).toBe(expectedName);
         expect(sheetService.getSheets().length).toEqual(2);
         expect(sheetService.getSheets()[0].name).toEqual(expectedName);

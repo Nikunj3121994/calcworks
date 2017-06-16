@@ -15,7 +15,7 @@ angular.module('calcworks.services')
         function createSheet() {
             var sheet = new Sheet(generateUUID(), '', []);
             var d = new Date();
-            sheet.name = sheet.defaultName + ', ' + getNameOfMonth(d.getMonth()) + ' ' + d.getDay();
+            sheet.name = sheet.defaultName + ', ' + getNameOfMonth(d.getMonth()) + ' ' + d.getDate();
             return sheet;
         }
 
