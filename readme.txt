@@ -280,8 +280,7 @@ Bugs
 - new sheet, dan pakt recall nog de vorige sheet
 - recall sorteert niet op reversed date wat ik wel wil
 - lange var names - past niet op iphone scherm
-- 56 converteren naar chinese renmibi en daarna naar uk pound geeft verkeerde label
-- maak tonen datum een aparte optie
+- maak tonen datum een aparte optie in de sheet tab
 - is er ook een test die controleert of er na een calculatie of na opstarten geen delete mogelijk is?
 - Bij edit calc wordt bovenste regel niet leeg. Je mist de OK btn.
 
@@ -308,13 +307,7 @@ In de Active Sheet staat de uitkomst van de calculatie links en maar bij Sum en 
 ·         Het schuifje en ‘Sum’ zijn allebei view-achtige functies. Die zouden ook in de (oranje) menubalk kunnen… Allebei als een zelfde soort toggle. Nu is de een een toggle switch (schuifje) en bij de ander verandert de kleur (van de tekst) als hij is ingeschakeld (sum). Ik vind het schuifje niet zo duidelijk; geeft helemaal niet aan wat er gaat gebeuren… misschien een plaatje van een histogram (dat is wat er wordt getoond als hij aan is toch?) gebruiken en dat van kleur laten veranderen? Eventueel zou je voor Sum/Max ook een teken/plaatje kunnen gebruiken, bijvoorbeeld: ∑
 
 
-Opschonen
- branch maken en uitproberen
- zet t project lokaal in een dir calcgems. Evt ook de git repo renamen. Dit stellen we uit tot Ionic 2.
- use the using the controllerAs syntax
- upgrade naar ionic 2
- gebruik de nieuwe checkbox ipv de toggle: <ion-checkbox ng-model="test" ng-checked="test" ng-disabled="test">Disabled Directive</ion-checkbox>
- plaats files mbt feature bij elkaar
+
 
 
 Kleine features
